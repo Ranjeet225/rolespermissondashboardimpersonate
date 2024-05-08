@@ -89,6 +89,14 @@
             "icon": "menu-icon tf-icons fa fa-user-secret",
             "slug": "impersonate",
             "permission":"impersonate.view"
+        },
+        {
+            "url": "/master",
+            "name": "master",
+            "icon": "menu-icon tf-icons fa fa-user",
+            "slug": "master",
+            "permission":"master.view"
         }
+
     ]
   }

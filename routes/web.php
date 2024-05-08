@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function () {
         Route::any('excel-sheet-export', [LeadsManageCotroller::class, 'lead_list_export'])->name('lead_list_export');
         Route::get('manage-lead/{id}', [LeadsManageCotroller::class, 'manage_lead'])->name('manage-lead');
         Route::get('edit-lead/{id}', [LeadsManageCotroller::class, 'edit_lead_data'])->name('edit-lead');
+        Route::get('show-lead/{id}', [LeadsManageCotroller::class, 'show_lead'])->name('view-lead');
+        Route::get('create_student_profile/{id}', [LeadsManageCotroller::class, 'create_student_profile'])->name('create-student-profile');
         Route::get('oel-360/', [LeadsManageCotroller::class, 'oel_360'])->name('oel_360');
         Route::get('lead-details', [LeadsManageCotroller::class, 'lead_details'])->name('lead-details');
         Route::get('apply-360/{id}', [LeadsManageCotroller::class, 'aply_360'])->name('aply-360');

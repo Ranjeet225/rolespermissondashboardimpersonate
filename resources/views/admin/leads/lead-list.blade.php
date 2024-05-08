@@ -173,6 +173,12 @@
     </div>
     <br>
     <div class="row">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="col-md-12">
             @php
                 $users =Auth::user();
@@ -219,11 +225,11 @@
                                         </a><br>
                                         @if(!empty($data->assigned_to))
                                             @if(($users->hasRole('Administrator')) || ($users->hasRole('agent')))
-                                                    @if(!empty($frenchise))
-                                                    Frenchise: {{$frenchise ?? ''}} <br>
-                                                    @endif
-                                                    @if(!empty($user))
-                                                    Sub Agent : {{$user ?? ''}}
+                                                    @if($data->assigned_to == $data->added_by_agent_id)
+                                                       {{$frenchise ?? ''}} <br>
+                                                    @else
+                                                        Frenchise: {{$frenchise ?? ''}} <br>
+                                                        Sub Agent : {{$user ?? ''}}
                                                     @endif
                                             @endif
                                         @endif
@@ -263,9 +269,27 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="{{ route('manage-lead', [$data->id]) }}">
-                                                <i class="fa-solid fa-pencil m-r-5"></i> Manage Lead </a>
+                                                <i class="fa-solid fa-users m-r-5"></i> Manage Lead
+                                            </a>
                                             <a class="dropdown-item" href="{{ route('edit-lead', [$data->id]) }}">
-                                                <i class="fa-solid fa-pencil m-r-5"></i> Edit </a>
+                                                <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('view-lead', [$data->id]) }}">
+                                                <i class="fa-solid fa-eye m-r-5"></i> View
+                                            </a>
+
+                                            @php
+                                                $user =App\Models\User::where('email',$data->email)->first();
+                                            @endphp
+                                            @if($user)
+                                                <a class="dropdown-item" href="{{ route('impersonate', $user) }}">
+                                                    <i class="fa-solid fa-user m-r-5"></i> Login To {{ Str::substr($data->name,0,8)  }}
+                                                </a>
+                                            @else
+                                                <a class="dropdown-item" href="{{ route('create-student-profile', [$data->id]) }}">
+                                                    <i class="fa-solid fa-user m-r-5"></i>Create Profile
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>

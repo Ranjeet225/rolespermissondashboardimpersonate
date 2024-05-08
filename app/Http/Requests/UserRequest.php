@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
             $rules['email'] = 'required|email|max:255|unique:users,email';
         } else {
             $roleId = $this->route('id');
-            $rules['email'] = 'required|email|max:255|unique:users,email,' .$roleId ;
+            $rules['email'] = 'required|email|max:255|unique:users,email,'.$roleId ;
         }
         return $rules;
     }

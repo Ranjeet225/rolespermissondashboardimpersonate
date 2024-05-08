@@ -30,7 +30,18 @@
                         <li class="submenu ">
                             <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}">
                                 <i class="{{ $menu->icon }}"></i>
-                                <span > {{ isset($menu->name) ? __($menu->name) : '' }}</span>
+                                @php
+                                    $user = Auth::user();
+                                @endphp
+                                @if(!($user->hasRole('Administrator')))
+                                    @if ($menu->name == 'Admin-Management')
+                                        <span>{{ ('User-Management') ? __('User-Management') : '' }}</span>
+                                    @else
+                                       <span > {{ isset($menu->name) ? __($menu->name) : '' }}</span>
+                                    @endif
+                                @else
+                                    <span > {{ isset($menu->name) ? __($menu->name) : '' }}</span>
+                                @endif
                                 @if(!isset($menu->url))
                                     <span class="menu-arrow"></span>
                                 @endif

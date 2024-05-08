@@ -193,7 +193,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" role="tabpanel" id="step1" aria-labelledby="step1-tab">
                                 <form class="row g-4"  id ="tab1DataForm">
-                                    <h4>Selected Universty</h4>
+                                    <h4>Selected University</h4>
                                     @if(!empty($university_in_three_sixtee))
                                     <div class="row">
                                         @foreach ($university_in_three_sixtee as $item)
@@ -206,7 +206,7 @@
                                         @endif
                                         <input type="hidden" name="sba_id" class="sba_id" value="{{$leadDetails->id}}">
                                         <br>
-                                        <h4>Select College</h4>
+                                        <h4>Select University</h4>
                                         <div class="alert-college"> </div>
                                         <div class="row">
                                         @foreach ($university as $item)
@@ -752,7 +752,7 @@
             // $('.next').on('click', handleNext);
             $('.previous').on('click', handlePrevious);
             $('.next').on('click', function() {
-                $('.next').addClass('disabled');
+                // $('.next').addClass('disabled');
                 var spinner = this.querySelector('.spinner-grow');
                 spinner.classList.remove('d-none');
                 event.preventDefault();
@@ -852,7 +852,6 @@
                         contentType: false,
                         processData: false,
                         success: function(response) {
-                            $('.next').removeClass('disabled');
                             spinner.classList.add('d-none');
                             if(response.success){
                                 if(response.status !='Rejected'){
@@ -916,7 +915,6 @@
                     type: 'post',
                     data: formData,
                     success: function(response) {
-                        $('.next').removeClass('disabled');
                         spinner.classList.add('d-none');
                         if(response.success){
                             if(response.status !='Rejected'){
@@ -951,7 +949,7 @@
 
                     }
                 });
-                return false; // Moved from previous position
+                return false;
             });
             $('.upload-image').on('click', function(){
                 $('.upload-image').addClass('disabled');

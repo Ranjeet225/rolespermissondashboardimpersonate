@@ -382,7 +382,7 @@
     </div>
     <!-- lead report -->
     <br>
-    <div class="table_heading">
+    {{-- <div class="table_heading">
        <h4 class="up"> Lead Reports</h4>
     </div>
     <div class="row px-3">
@@ -476,7 +476,7 @@
              </div>
           </div>
        </div>
-    </div>
+    </div> --}}
 @endsection
 
 

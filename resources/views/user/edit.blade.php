@@ -26,25 +26,34 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form action="{{url('admin-management/users/update')}}/{{$users->id}}" method="Post">
+          <form action="{{route('users.update',$users->id)}}" method="Post">
             @csrf
             <div class="row">
               <div class="col-md-3">
                 <input type="text" class="form-control formmrgin" maxlength="200" name="name" value="{{$users->name}}" placeholder="Name">
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
 
               <div class="col-md-3">
                 <input type="text" class="form-control formmrgin" maxlength="200" name="email" value="{{$users->email}}" placeholder="Email">
+                @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
               <div class="col-md-3">
                 <input type="tel" class="form-control formmrgin" name="phone_number" value="{{$users->phone_number}}" placeholder="Phone Number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
-                 @error('phone_number')
-                     <span class="text-danger">{{ $message }}</span>
-                 @enderror
-             </div>
+                @error('phone_number')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
 
               <div class="col-md-3">
                 <input type="password" class="form-control formmrgin" name="password" value="{{$users->password}}" placeholder="Enter Password">
+                @error('password')
+                      <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
 
               <div class="col-md-3">
@@ -53,6 +62,9 @@
                   <option value="1" {{($users->status == 1) ? 'Selected' : ''}}>Active</option>
                   <option value="0" {{($users->status == 0) ? 'Selected' : ''}}>Inactive</option>
                 </select>
+                @error('status')
+                      <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
               <div class="col-md-3">
                   @php
@@ -64,6 +76,9 @@
                           <option value="{{ $roleId }}" {{$role == $roleId ? 'selected' : '' }}>{{ $roleName }}</option>
                       @endforeach
                   </select>
+                  @error('role')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
                 <div class="col-md-4 col-sm-6">
                 <button type="submit" class="btn btn-info d-lg-block  formmrgin" name="country_submit" value="1">Update </button>

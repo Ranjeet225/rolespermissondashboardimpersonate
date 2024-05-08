@@ -164,5 +164,8 @@ return [
         'impersonate' => [
             'impersonate.view',
         ],
+        'master' => [
+            'master.view',
+        ],
       ],
 ];

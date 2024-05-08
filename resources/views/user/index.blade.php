@@ -175,12 +175,14 @@
                   <a class="dropdown-item" href="{{url('admin-management/users/edit')}}/{{$user->id}}">
                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                   </a>
+                  @if (!$user->hasRole('Administrator'))
                   <a class="dropdown-item" href="{{ route('impersonate', $user) }}">
                     <i class="fa-solid fa-user m-r-5"></i> Login To Member  {{ $user->name }}
                   </a>
-                  <a class="dropdown-item" href="{{url('admin-management/users/delete')}}/{{$user->id}}">
+                  @endif
+                  {{-- <a class="dropdown-item" href="{{url('admin-management/users/delete')}}/{{$user->id}}">
                     <i class="la la-trash"></i> Delete
-                  </a>
+                  </a> --}}
                 </div>
               </div>
             </td>

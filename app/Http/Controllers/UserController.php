@@ -124,7 +124,6 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-
         $input = $request->only('name', 'email', 'status');
         if($request->missing('status')){
             $input['is_active'] = 0;

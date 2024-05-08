@@ -46,252 +46,152 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Gate;
 use PhpParser\Node\Expr\FuncCall;
 
 class LeadsManageCotroller extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('role_or_permission:dashboard.view', ['only' => ['index']]);
+        view()->share('page_title', 'Dashboard');
+    }
     public function lead_dashboard_data(Request $request)
     {
         $next_leads = '';
         $id = Auth::user()->id;
         $users = DB::table('users')->WHERE('id', $id)->first();
+        $currentDateTime = Carbon::now()->toDateString();
         $user = Auth::user();
-        $roles = $user->roles;
-
-        $page = $request->get('page');
-        if ($page == 1) {
-            $offset = 0;
-        } else {
-            $offset = ((($page - 1) * 12));
-        }
         if ($user->hasRole('Administrator')) {
-            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))
-                ->skip($offset)
-                ->take(12)
-                ->orderBy('next_calling_date', 'asc')
-                ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-                ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-                ->LeftJoin('users as B', 'B.id', 'A.parent_id')
-                ->select(
-                    'student_by_agent.id',
-                    'student_by_agent.name',
-                    'student_by_agent.email',
-                    'student_by_agent.phone_number',
-                    'student_by_agent.next_calling_date',
-                    'student_by_agent.created_at',
-                    'student_by_agent.zip',
-                    'student_by_agent.course',
-                    'student_by_agent.intake',
-                    'student_by_agent.intake_year',
-                    'master_lead_status.name as status_name',
-                    'A.email as assign_email',
-                    'A.admin_type',
-                    'A.parent_id',
-                    'B.email as parent_email'
-                );
-            if (!empty($keywords)) {
-                $next_leads = $next_leads->where(function ($query) use ($keywords) {
-                    $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-                        ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-                });
-            }
-            $next_leads = $next_leads->paginate(10);
-
-            $next_leads_count = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))
-                ->orderBy('next_calling_date', 'asc')
-                ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-                ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-                ->LeftJoin('users as B', 'B.id', 'A.parent_id')
-                ->select('student_by_agent.id');
-            if (!empty($keywords)) {
-                $next_leads_count = $next_leads_count->where(function ($query) use ($keywords) {
-                    $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-                        ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-                });
-            }
-            $next_leads_count = $next_leads_count->count();
+            $next_leads = StudentByAgent::where('next_calling_date', '>=', date('Y-m-d\TH:i:s', strtotime('created_at')))->where('next_calling_date', '>', $currentDateTime)
+                                        ->paginate(12);
         } else if ($user->hasRole('agent') || $user->hasRole('sub_agent') || $user->hasRole('visa')) {
-
-            $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user->id");
-            $commaList = '';
-            foreach ($agents as $agent) {
-                $commaList .= $agent->id . ',';
-            }
-            $user = $commaList . $user->id;
-            //=============
-            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))
-                ->skip($offset)
-                ->take(12)
-                ->orderBy('student_by_agent.next_calling_date', 'asc')
-                ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-                ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-                ->LeftJoin('users as B', 'B.id', 'A.parent_id')
-                ->select(
-                    'student_by_agent.id',
-                    'student_by_agent.name',
-                    'student_by_agent.email',
-                    'student_by_agent.phone_number',
-                    'student_by_agent.next_calling_date',
-                    'student_by_agent.created_at',
-                    'student_by_agent.zip',
-                    'student_by_agent.course',
-                    'student_by_agent.intake',
-                    'student_by_agent.intake_year',
-                    'master_lead_status.name as status_name',
-                    'A.email as assign_email',
-                    'A.admin_type',
-                    'A.parent_id',
-                    'B.email as parent_email'
-                );
-            // $next_leads = $next_leads->where(function ($query) use ($user) {
-            //     $query->where('student_by_agent.added_by', $user->id);
-            // });
-            // $next_leads = $next_leads->where(function ($query) use ($user) {
-            //     $query->where("student_by_agent.added_by IN($user)");
-            // });
-            $next_leads = $next_leads->where(function ($query) use ($user) {
-                $query->orWhereRaw("student_by_agent.assigned_to IN($user)");
-            });
-            if (!empty($keywords)) {
-                $next_leads = $next_leads->where(function ($query) use ($keywords) {
-                    $query->orWHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-                        ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-                });
-            }
-            $next_leads = $next_leads->paginate(10);
+            $next_leads = StudentByAgent::where('next_calling_date', '>=', date('Y-m-d\TH:i:s', strtotime('created_at')))
+                                        ->where('user_id', Auth::user()->id)->where('next_calling_date', '>', $currentDateTime)
+                                        ->paginate(12);
         }
         return $next_leads;
     }
-    public function dashboard_lead_report(Request $request)
-    {
-        $id = Auth::user()->id;
-        $users = DB::table('users')->WHERE('id', $id)->first();
-        $user = Auth::user();
-        $roles = $user->roles;
-        $keywords = $request->get('keywords');
+    // public function dashboard_lead_report(Request $request)
+    // {
+    //     $id = Auth::user()->id;
+    //     $users = DB::table('users')->WHERE('id', $id)->first();
+    //     $user = Auth::user();
+    //     $roles = $user->roles;
+    //     $keywords = $request->get('keywords');
 
-        $page = $request->get('page');
-        if ($page == 1) {
-            $offset = 0;
-        } else {
-            $offset = ((($page - 1) * 12));
-        }
+    //     $page = $request->get('page');
+    //     if ($page == 1) {
+    //         $offset = 0;
+    //     } else {
+    //         $offset = ((($page - 1) * 12));
+    //     }
 
-        if ($user->hasRole('Administrator')) {
-            $lead_reports = StudentByAgent::select(
-                'student_by_agent.id',
-                'student_by_agent.name',
-                'student_by_agent.email',
-                'student_by_agent.phone_number',
-                'student_by_agent.next_calling_date',
-                'student_by_agent.created_at',
-                'student_by_agent.zip',
-                'student_by_agent.course',
-                'student_by_agent.intake',
-                'student_by_agent.intake_year',
-                'master_lead_status.name as status_name',
-                'A.email as assign_email',
-                'A.account_type',
-                'A.parent_id',
-                'B.email as parent_email'
-            )
-            ->skip($offset)
-            ->take(12)
-            ->orderBy('id', 'DESC')
-            ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-            ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-            ->LeftJoin('users as B', 'B.id', 'A.parent_id');
-            if (!empty($keywords)) {
-                $lead_reports = $lead_reports->where(function ($query) use ($keywords) {
-                    $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-                        ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-                });
-            }
-            $lead_reports = $lead_reports->paginate(10);
-            $lead_reports_count = StudentByAgent::select('student_by_agent.id')
-                ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-                ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-                ->LeftJoin('users as B', 'B.id', 'A.parent_id');
-            if (!empty($keywords)) {
-                $lead_reports_count = $lead_reports_count->where(function ($query) use ($keywords) {
-                    $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-                        ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-                });
-            }
-            $lead_reports_count = $lead_reports_count->count();
-        } else if ($user->hasRole('agent') || $user->hasRole('sub_agent') || $user->hasRole('visa')) {
-            $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user->id");
-            $commaList = '';
-            foreach ($agents as $agent) {
-                $commaList .= $agent->id . ',';
-            }
-            $user = $commaList . $user->id;
-            $lead_reports = StudentByAgent::select(
-                'student_by_agent.id',
-                'student_by_agent.name',
-                'student_by_agent.email',
-                'student_by_agent.phone_number',
-                'student_by_agent.next_calling_date',
-                'student_by_agent.created_at',
-                'student_by_agent.zip',
-                'student_by_agent.course',
-                'student_by_agent.intake',
-                'student_by_agent.intake_year',
-                'master_lead_status.name as status_name',
-                'A.email as assign_email',
-                'A.account_type',
-                'A.parent_id',
-                'B.email as parent_email'
-            )
-            ->skip($offset)
-            ->take(12)
-            ->orderBy('id', 'DESC')
-            ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-            ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-            ->LeftJoin('users as B', 'B.id', 'A.parent_id');
-            // $lead_reports = $lead_reports->where(function ($query) use ($user) {
-            //     $query->where('student_by_agent.added_by', $user->id);
-            // });
-            $lead_reports = $lead_reports->where(function ($query) use ($user) {
-                $query->orWhereRaw("student_by_agent.assigned_to IN($user)");
-            });
-            if (!empty($keywords)) {
-                $lead_reports = $lead_reports->where(function ($query) use ($keywords) {
-                    $query->orWHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-                        ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-                        ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-                });
-            }
-            $lead_reports = $lead_reports->paginate(10);
-        }
-        return $lead_reports;
-        // return view('admin.leads.dashboard',compact('lead_reports'));
-    }
+    //     if ($user->hasRole('Administrator')) {
+    //         $lead_reports = StudentByAgent::select(
+    //             'student_by_agent.id',
+    //             'student_by_agent.name',
+    //             'student_by_agent.email',
+    //             'student_by_agent.phone_number',
+    //             'student_by_agent.next_calling_date',
+    //             'student_by_agent.created_at',
+    //             'student_by_agent.zip',
+    //             'student_by_agent.course',
+    //             'student_by_agent.intake',
+    //             'student_by_agent.intake_year',
+    //             'master_lead_status.name as status_name',
+    //             'A.email as assign_email',
+    //             'A.account_type',
+    //             'A.parent_id',
+    //             'B.email as parent_email'
+    //         )
+    //         ->skip($offset)
+    //         ->take(12)
+    //         ->orderBy('id', 'DESC')
+    //         ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
+    //         ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
+    //         ->LeftJoin('users as B', 'B.id', 'A.parent_id');
+    //         if (!empty($keywords)) {
+    //             $lead_reports = $lead_reports->where(function ($query) use ($keywords) {
+    //                 $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
+    //             });
+    //         }
+    //         $lead_reports = $lead_reports->paginate(10);
+    //         $lead_reports_count = StudentByAgent::select('student_by_agent.id')
+    //             ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
+    //             ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
+    //             ->LeftJoin('users as B', 'B.id', 'A.parent_id');
+    //         if (!empty($keywords)) {
+    //             $lead_reports_count = $lead_reports_count->where(function ($query) use ($keywords) {
+    //                 $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
+    //             });
+    //         }
+    //         $lead_reports_count = $lead_reports_count->count();
+    //     } else if ($user->hasRole('agent') || $user->hasRole('sub_agent') || $user->hasRole('visa')) {
+    //         $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user->id");
+    //         $commaList = '';
+    //         foreach ($agents as $agent) {
+    //             $commaList .= $agent->id . ',';
+    //         }
+    //         $user = $commaList . $user->id;
+    //         $lead_reports = StudentByAgent::select(
+    //             'student_by_agent.id',
+    //             'student_by_agent.name',
+    //             'student_by_agent.email',
+    //             'student_by_agent.phone_number',
+    //             'student_by_agent.next_calling_date',
+    //             'student_by_agent.created_at',
+    //             'student_by_agent.zip',
+    //             'student_by_agent.course',
+    //             'student_by_agent.intake',
+    //             'student_by_agent.intake_year',
+    //             'master_lead_status.name as status_name',
+    //             'A.email as assign_email',
+    //             'A.account_type',
+    //             'A.parent_id',
+    //             'B.email as parent_email'
+    //         )
+    //         ->skip($offset)
+    //         ->take(12)
+    //         ->orderBy('id', 'DESC')
+    //         ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
+    //         ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
+    //         ->LeftJoin('users as B', 'B.id', 'A.parent_id');
+    //         // $lead_reports = $lead_reports->where(function ($query) use ($user) {
+    //         //     $query->where('student_by_agent.added_by', $user->id);
+    //         // });
+    //         $lead_reports = $lead_reports->where(function ($query) use ($user) {
+    //             $query->orWhereRaw("student_by_agent.assigned_to IN($user)");
+    //         });
+    //         if (!empty($keywords)) {
+    //             $lead_reports = $lead_reports->where(function ($query) use ($keywords) {
+    //                 $query->orWHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
+    //                     ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
+    //             });
+    //         }
+    //         $lead_reports = $lead_reports->paginate(10);
+    //     }
+    //     return $lead_reports;
+    //     // return view('admin.leads.dashboard',compact('lead_reports'));
+    // }
     public function leadsDashboard(Request $request)
     {
 
@@ -305,10 +205,10 @@ class LeadsManageCotroller extends Controller
             $total_leads = StudentByAgent::count();
         } else if ($user_type == 'agent') {
             $total_leads = StudentByAgent::where(function ($q) use ($user_ids) {
-                return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
+                return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->count();
         } else if ($user_type == 'sub_agent' || $user_type == 'visa') {
-            $total_leads = StudentByAgent::where("assigned_to", $user_ids)->count();
+            $total_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->count();
         }
         // Cold Lead
         $lead_status_id = MasterLeadStatus::where("name", "Cold")->first()->id;
@@ -317,10 +217,10 @@ class LeadsManageCotroller extends Controller
             $total_cold_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
             $total_cold_leads = StudentByAgent::where(function ($q) use ($user_ids) {
-                return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
+                return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_cold_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_cold_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Hot Lead
         $lead_status_id = MasterLeadStatus::where("name", "Hot")->first()->id;
@@ -329,10 +229,10 @@ class LeadsManageCotroller extends Controller
             $total_hot_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
             $total_hot_leads = StudentByAgent::where(function ($q) use ($user_ids) {
-                return $q->where("added_by_agent_id", $user_ids)->orWhere("assigned_to", $user_ids);
+                return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere("assigned_to", $user_ids);
             })->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_hot_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_hot_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Future Lead
         $lead_status_id = MasterLeadStatus::where("name", "Future Lead")->first()->id;
@@ -341,10 +241,10 @@ class LeadsManageCotroller extends Controller
             $total_future_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
             $total_future_leads = StudentByAgent::where(function ($q) use ($user_ids) {
-                return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
+                return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_future_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_future_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // New Lead
         $lead_status_id = MasterLeadStatus::where("name", "New")->first()->id;
@@ -366,7 +266,7 @@ class LeadsManageCotroller extends Controller
              $total_new_leads = $query;
              */
             $total_new_leads = StudentByAgent::where('lead_status', $lead_status_id)
-                ->whereRaw("assigned_to IN($user)")
+                ->whereRaw("assigned_to IN($user)")->orwhere('user_id',$user_ids)
                 ->where('added_by_agent_id', $user_ids)
                 ->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
@@ -382,7 +282,7 @@ class LeadsManageCotroller extends Controller
                 return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_not_useful_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_not_useful_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Warm Lead
         $lead_status_id = MasterLeadStatus::where("name", "Warm")->first()->id;
@@ -391,11 +291,11 @@ class LeadsManageCotroller extends Controller
             $total_warm_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
             $total_warm_leads = StudentByAgent::where(function ($q) use ($user_ids) {
-                return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
+                return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })
                 ->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_warm_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_warm_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Closed Leads
         $lead_status_id = MasterLeadStatus::where("name", "Closed")->first()->id;
@@ -404,10 +304,10 @@ class LeadsManageCotroller extends Controller
             $total_closed_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
             $total_closed_leads = StudentByAgent::where(function ($q) use ($user_ids) {
-                return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
+                return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_closed_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_closed_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
 
         // Total Assigned Leads --
@@ -417,26 +317,25 @@ class LeadsManageCotroller extends Controller
         } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
             $total_assigned_leads = StudentByAgent::where("assigned_to", $user_ids)->count();
         }
-
         // Total non-allocated Leads --
         $total_non_allocated_leads = 0;
         if ($user_type == 'Administrator') {
             $total_non_allocated_leads = StudentByAgent::whereNull("assigned_to")->count();
         } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_non_allocated_leads = StudentByAgent::where("added_by_agent_id", $user_ids)->whereNull('assigned_to')->count();
+            $total_non_allocated_leads = StudentByAgent::where('user_id',$user_ids)->whereNull('assigned_to')->count();
         }
 
         // Leads by next calling date --
         $next_leads = [];
         if ($user_type == 'Administrator') {
-            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))->orderBy('next_calling_date', 'asc')->paginate(10, ['*'], 'upcoming_lead_page');
+            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))->orwhere('user_id',$user_ids)->orderBy('next_calling_date', 'asc')->paginate(10, ['*'], 'upcoming_lead_page');
         } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
-            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))->where(function ($sub_query) use ($user_ids) {
+            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))->orwhere('user_id',$user_ids)->where(function ($sub_query) use ($user_ids) {
                 return $sub_query->where('added_by', $user_ids)->orWhere("assigned_to", $user_ids);
             })->orderBy('next_calling_date', 'asc')->paginate(10, ['*'], 'upcoming_lead_page');
         }
         $next_leads = $this->lead_dashboard_data($request);
-        $leads_report = $this->dashboard_lead_report($request);
+        // $leads_report = $this->dashboard_lead_report($request);
         $data = array(
             "total_leads" => $total_leads,
             "total_cold_leads" => $total_cold_leads,
@@ -449,7 +348,7 @@ class LeadsManageCotroller extends Controller
             "total_assigned_leads" => $total_assigned_leads,
             "total_non_allocated_leads" => $total_non_allocated_leads
         );
-        return view('admin.leads.dashboard', compact('data', 'next_leads', 'leads_report'));
+        return view('admin.leads.dashboard', compact('data', 'next_leads'));
     }
 
 
@@ -477,16 +376,30 @@ class LeadsManageCotroller extends Controller
 
     public function add_lead_data(Request $request)
     {
+        $users= Auth::user();
         if ($request->tab1) {
-            $validator = Validator::make($request->all(), [
-                'first_name' => 'required',
-                'email' => 'required|unique:student_by_agent,email|max:225',
-                'phone_number' => 'required',
-            ]);
+            if($request->id){
+                $validator = Validator::make($request->all(), [
+                    'first_name' => 'required',
+                    'email' => 'required|unique:student_by_agent,email,'.$request->id,
+                    'phone_number' => 'required',
+                ]);
+            }else{
+                $validator = Validator::make($request->all(), [
+                    'first_name' => 'required',
+                    'email' => 'required|unique:student_by_agent,email|max:223',
+                    'phone_number' => 'required',
+                ]);
+            }
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
             }
             $user_id = Auth::user()->id;
+            if(!($users->hasRole('Administrator')))
+            {
+                $assined_user = Auth::user()->id;
+            }
+
             $StudentAgent = StudentByAgent::updateOrCreate(
                 ['id' => $request->id],
                 [
@@ -500,6 +413,7 @@ class LeadsManageCotroller extends Controller
                     "phone_number" => $request->phone_number,
                     "phone_number_one" => $request->phone_number1 ?? '',
                     "dob" => $request->dob ?? '',
+                    "assigned_to"=>$assined_user ?? null
                 ]
             );
             $data = [
@@ -614,6 +528,7 @@ class LeadsManageCotroller extends Controller
         $studentData = StudentByAgent::where('id', $id)->first();
         // dd($studentData);
         return view('admin.leads.edit_lead', compact('studentData', 'preproLabel', 'castes', 'interested', 'subjects', 'countries', 'lead_status', 'source', 'progLabel'));
+
     }
 
 
@@ -623,10 +538,10 @@ class LeadsManageCotroller extends Controller
         $user = Auth::user();
         $user_id = $user->id;
         if (($user->hasRole('agent'))) {
-            $lead_list->where('assigned_to',$user->id)->orwhere('added_by_agent_id',$user->id);
+            $lead_list->where('assigned_to',$user->id)->orwhere('user_id',$user->id)->orwhere('added_by_agent_id',$user->id);
         }
         if (($user->hasRole('sub_agent'))) {
-            $lead_list->where('assigned_to',$user->id);
+            $lead_list->where('assigned_to',$user->id)->orwhere('user_id',$user->id);
         }
         if ($request->name) {
             $lead_list->where('name', 'LIKE', '%' . $request->name . '%');
@@ -713,11 +628,12 @@ class LeadsManageCotroller extends Controller
     {
         $studentData = StudentByAgent::query();
         $user = Auth::user();
-        if (!($user->hasRole('Administrator'))) {
-            $userid = Auth::user()->id;
-            $studentData->where('assigned_to',$user->id)->orwhere('added_by_agent_id',$user->id);
+        if (($user->hasRole('agent'))) {
+            $studentData->where('assigned_to',$user->id)->orwhere('user_id',$user->id)->orwhere('added_by_agent_id',$user->id);
         }
-
+        if (($user->hasRole('sub_agent'))) {
+            $studentData->where('assigned_to',$user->id)->orwhere('user_id',$user->id);
+        }
         $studentData =$studentData->get();
         return view('admin.leads.oel-360', compact('studentData'));
     }
@@ -1253,7 +1169,7 @@ class LeadsManageCotroller extends Controller
             $leads_name = 'Total Non-Allocated Leads';
         }
 
-        $leads_data = $leads->paginate(12);
+        $leads_data = $leads->orwhere('user_id',$user_id)->paginate(12);
         $leads_data = [
             'leads' => $leads_data,
             'leads_name' => $leads_name,
@@ -1267,7 +1183,7 @@ class LeadsManageCotroller extends Controller
         $agent = User::query();
         $user = Auth::user();
         if ($user->hasRole('Administrator')) {
-            $agent->where('admin_type','agent')->where('status',1);
+            $agent->where('admin_type','agent')->where('is_active',1);
         }elseif($user->hasRole('agent')){
             $agent->where('added_by',$user->id)->where('admin_type','sub_agent')->where('is_active',1);
         }
@@ -1320,5 +1236,43 @@ class LeadsManageCotroller extends Controller
             $data = "Please Select leads";
         }
         return response()->json($data);
+    }
+
+
+    public function create_student_profile(Request $request,$id)
+    {
+        $student_agent =StudentByAgent::where('id',$id)->first();
+        $input['is_active'] = 1;
+        $input['name'] = $student_agent->name;
+        $input['password'] = Hash::make($student_agent->name);
+        $input['admin_type'] = 'student';
+        $input['email'] = $student_agent->email;
+        $input['phone_number'] = $student_agent->phone_number;
+        $input['added_by'] = Auth::user()->id;
+        $userInserted = DB::table('users')->insert($input);
+        if ($userInserted) {
+            $user = User::where('email', $student_agent->email)->first();
+            $role = Role::where('name','student')->first();
+            if ($role) {
+                $user->assignRole([$role->id]);
+            }
+        }
+        return redirect()->route('leads-filter')->with('success', 'User Profile Created Successfully');
+    }
+
+    public function show_lead($id)
+    {
+        $user = auth()->user();
+        $castes = Caste::where("status", 1)->get();
+        $subjects = Subject::where("status", 1)->get();
+        $countries = Country::all();
+        $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
+        $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
+        $progLabel = EducationLevel::All();
+        $preproLabel = Fieldsofstudytype::All();
+        $interested = Intrested::WHERE('is_deleted', '0')->get();
+        $studentData = StudentByAgent::with('caste_data','state','assigned_to_user','added_by_user','country','lead_status_data','source','subject')->where('id', $id)->first();
+        return view('admin.leads.show_lead', compact('studentData', 'preproLabel', 'castes', 'interested', 'subjects', 'countries', 'lead_status', 'source', 'progLabel'));
+
     }
 }
