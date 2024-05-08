@@ -1,0 +1,94 @@
+{
+    "menu": [
+        {
+            "url": "/dashboard",
+            "name": "Dashboard",
+            "icon": "menu-icon tf-icons la la-dashboard",
+            "slug": "dashboard",
+            "permission":"dashboard.view"
+        },
+        {
+            "name": "Manage Leads",
+            "icon": "menu-icon tf-icons la la-user-secret",
+            "slug": "admin",
+            "permission":["leads_dashboard.view","add_leads.view","bulk_upload.view","pending_lead.view","assigned_lead.view","latest_updated_leads.view","oel_360.view","leads_lists.view"],
+            "submenu": [
+                {
+                    "url": "/admin/leads-dashboard",
+                    "name": "Leads Dashboard",
+                    "slug": "admin-leads-dashboard",
+                    "permission":"leads_dashboard.view"
+                },
+                {
+                    "url": "/admin/add-leads",
+                    "name": "Add Leads",
+                    "slug": "admin-add-leads",
+                    "permission":"add_leads.view"
+                },
+                {
+                    "url": "/admin/leads-lists",
+                    "name": "Leads List",
+                    "slug": "admin-leads-lists",
+                    "permission":"leads_lists.view"
+                },
+                {
+                    "url": "/admin/bulk-upload",
+                    "name": "Bulk Upload",
+                    "slug": "admin-bulk-upload",
+                    "permission":"bulk_upload.view"
+                },
+                {
+                    "url": "/admin/pending-lead",
+                    "name": "Pending Lead",
+                    "slug": "admin-pending-lead",
+                    "permission":"pending_lead.view"
+                },
+                {
+                    "url": "/admin/assigned-lead",
+                    "name": "Assigned Lead",
+                    "slug": "admin-assigned-lead",
+                    "permission":"assigned_lead.view"
+                },
+                {
+                    "url": "/admin/latest-updated-lead",
+                    "name": "Latest Updated leads",
+                    "slug": "admin-latest-updated-lead",
+                    "permission":"latest_updated_leads.view"
+                },
+                {
+                    "url": "/admin/oel-360",
+                    "name": "oel 360",
+                    "slug": "admin-oel-360",
+                    "permission":"oel_360.view"
+                }
+            ]
+        },
+        {
+            "name": "Admin-Management",
+            "icon": "menu-icon tf-icons la la-users",
+            "slug": "admin-management",
+            "permission":["admin_user.view","role_permissions.view","student.view"],
+            "submenu": [
+                {
+                    "url": "/admin-management/users",
+                    "name": "Admin User",
+                    "slug": "admin-management-users",
+                    "permission":"admin_user.view"
+                },
+                {
+                    "url": "/admin-management/roles-permissions",
+                    "name": "Roles Permissions",
+                    "slug": "admin-management-roles-permissions",
+                    "permission": "role_permissions.view"
+                }
+            ]
+        },
+        {
+            "url": "/revert-to-admin",
+            "name": "Back to Admin login",
+            "icon": "menu-icon tf-icons fa fa-user-secret",
+            "slug": "impersonate",
+            "permission":"impersonate.view"
+        }
+    ]
+  }
