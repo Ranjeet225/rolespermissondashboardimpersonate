@@ -47,7 +47,6 @@
               <th>Name</th>
               <th>Phone</th>
               <th> Email</th>
-              <th> Course</th>
               <th> Intake</th>
               <th> IntakeYear </th>
               <th> AllocatedFranchise </th>
@@ -76,7 +75,6 @@
                     </a>
                 </td>
                 <td>{{$item->email}}</td>
-                <td>{{$item->course}}</td>
                 <td>{{$item->intake}}</td>
                 <td>{{$item->intake_year}}</td>
                 <td></td>

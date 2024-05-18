@@ -3,20 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Currency;
-use App\StudentScholorship;
 
 class University extends Model
 {
     protected $table = "universities";
-    protected $fillable = ['country_id', 'state', 'university_name', 'university_location', 'city',
-    	'zip', 'phone_number', 'email', 'website', 'logo', 'type_of_university', 'founded_in', 'total_students', 'international_students', 'size_of_campus', 'male_female_ratio', 'faculty_student_ratio',
-    	'yearly_hostel_expense_amount', 'yearly_hostel_expense_currencies', 'financial_aid',
-    	'placement', 'accomodation', 'accomodation_details', 'website2', 'application_cost',
-    	'application_cost_currencies', 'fafsa_code', 'notes', 'added_by_name', 'added_on_date',
-        'locationlat', 'locationlng', 'brochure', 'banner', 'thumbnail', 'details', 'user_id',
-        'is_approved', 'add_course_payment_status', 'status', 'is_deleted'
-    ];
+
+    // protected $fillable = ['country_id', 'state', 'university_name', 'university_location', 'city',
+    // 	'zip', 'phone_number', 'email', 'website', 'logo', 'type_of_university', 'founded_in', 'total_students', 'international_students', 'size_of_campus', 'male_female_ratio', 'faculty_student_ratio',
+    // 	'yearly_hostel_expense_amount', 'yearly_hostel_expense_currencies', 'financial_aid',
+    // 	'placement', 'accomodation', 'accomodation_details', 'website2', 'application_cost',
+    // 	'application_cost_currencies', 'fafsa_code', 'notes', 'added_by_name', 'added_on_date',
+    //     'locationlat', 'locationlng', 'brochure', 'banner', 'thumbnail', 'details', 'user_id',
+    //     'is_approved', 'add_course_payment_status', 'status', 'is_deleted'
+    // ];
+    protected $guarded =[];
 
     public function country()
     {

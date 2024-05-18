@@ -156,8 +156,13 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                                <select  name="province_id" id="province_id" id="lead-fm" class="form-control province_id">
-                                    <option value="">-State/Provision -</option>
+                                @php
+                                $state =DB::table('province')->where('id',$studentData->province_id)->first();
+                                @endphp
+                                <select  name="province_id" id="lead-fm" class="form-control province_id" required>
+                                        @if(!empty($studentData->province_id))
+                                        <option value="{{$studentData->province_id}}">{{$state->name}}</option>
+                                        @endif
                                 </select>
                                <label for="lead-source" class="form-label">State/Provision </label>
                             </div>
@@ -441,7 +446,7 @@
                 }
             });
         }
-        fetchStates($('.country').val());
+        // fetchStates($('.country').val());
         $('.country').change(function(){
             var country_id = $(this).val();
             fetchStates(country_id);
@@ -559,7 +564,7 @@
                     $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
                     setTimeout(() => {
                         location.reload();
-                    }, 2000);
+                    }, 1000);
                 },
                 error: function(xhr) {
                     var response = JSON.parse(xhr.responseText);

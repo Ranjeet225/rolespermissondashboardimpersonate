@@ -25,7 +25,7 @@
           <div class="col-md-9">
             <ol class="breadcrumb text-muted mb-0">
               <li class="breadcrumb-item">
-                <a href="#"> Home</a>
+                 Home
               </li>
               <li class="breadcrumb-item text-muted"> Users</li>
             </ol>
@@ -117,13 +117,13 @@
           @foreach ($users as  $user)
           <tr>
             <td>
-              <a href="#">{{$i}}</a>
+              <td>{{ $loop->index + (($users->currentPage() - 1) * $users->perPage()) + 1 }}</td>
             </td>
             <td>
-              <a href="#">{{ucfirst($user->name)}}</a>
+              {{ucfirst($user->name)}}
             </td>
             <td>
-              <a href="#">{{$user->email}}</a>
+              {{$user->email}}
             </td>
             <td>
                 @foreach ($user->roles as $role)

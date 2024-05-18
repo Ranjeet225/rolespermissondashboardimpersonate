@@ -12,7 +12,11 @@
         width: 99%;
         text-align: center;
     }
+    .dropdown-menu{
+        min-width: 900px !important;
+    }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 @endsection
@@ -22,80 +26,10 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Oel 360</h4>
+                    <h4 class="card-title mb-0">{{$studentDetails->first_name}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="wizard">
-                        {{-- <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="College / Universities ">
-                                <a class="nav-link active rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1"
-                                    aria-selected="true"> 1  </a>
-                                    <br>
-
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Courses">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2"
-                                    aria-selected="false"> 2 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Application Status">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3"
-                                    aria-selected="false"> 3 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Offer Detail">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
-                                    aria-selected="false"> 4 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Visa Application">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step5" id="step5-tab" data-bs-toggle="tab" role="tab" aria-controls="step5"
-                                    aria-selected="false"> 5 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Visa Status">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step6" id="step6-tab" data-bs-toggle="tab" role="tab" aria-controls="step6"
-                                    aria-selected="false"> 6 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step7" id="step7-tab" data-bs-toggle="tab" role="tab" aria-controls="step7"
-                                    aria-selected="false"> 7 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step8" id="step8-tab" data-bs-toggle="tab" role="tab"
-                                    aria-controls="step8" aria-selected="false"> 8 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step9" id="step9-tab" data-bs-toggle="tab" role="tab"
-                                    aria-controls="step9" aria-selected="false"> 9 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step10" id="step10-tab" data-bs-toggle="tab" role="tab"
-                                    aria-controls="step10" aria-selected="false"> 10 </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
-                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step11" id="step11-tab" data-bs-toggle="tab" role="tab"
-                                    aria-controls="step11" aria-selected="false"> 11 </a>
-                            </li>
-                        </ul> --}}
                         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title=" Universities ">
@@ -209,12 +143,14 @@
                                         <h4>Select University</h4>
                                         <div class="alert-college"> </div>
                                         <div class="row">
-                                        @foreach ($university as $item)
-                                            <div class="col-md-4">
-                                                <input class="form-check-input college-checkbox" name="college" type="checkbox" value="{{$item->id}}" id="college{{$loop->iteration}}">
-                                                <label class="form-check-label" for="college{{$loop->iteration}}">{{$item->university_name}}</label>
+                                            <div class="col-lg-12">
+                                                <div id="selectedValues"></div>
+                                                <select id="universitySelect" class="selectpicker college-checkbox" name="college" multiple data-live-search="true">
+                                                    @foreach($university as $item)
+                                                        <option class="un" value="{{ $item->id }}">{{ $item->university_name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        @endforeach
                                         </div>
                                     <br>
                                     <div class="d-flex">
@@ -237,20 +173,26 @@
                                             @foreach ($course_in_three_sixtee as $item)
                                                 <div class="col-md-4">
                                                     <input class="form-check-input course-checkbox" name="course" type="checkbox" value="{{$item->id}}" checked id="course{{$loop->iteration}}">
-                                                    <label class="form-check-label" for="course{{$loop->iteration}}">{{$item->tag_name}}</label>
+                                                    <label class="form-check-label" for="course{{$loop->iteration}}">{{$item->subject_name}}</label>
                                                 </div>
                                             @endforeach
                                         @endif
                                     </div>
                                     <input type="hidden" name="sba_id" class="sba_id" value="{{$leadDetails->id}}">
                                     <h4>Select Course</h4>
-                                    <div class="row">
-                                        @foreach ($course as $item)
+                                    <div class="row mb-2">
+                                        <div id="courseValues"></div>
+                                        <select id="courseSelect" class="selectpicker course-checkbox" name="course" multiple data-live-search="true">
+                                            @foreach($course as $item)
+                                                <option class="un" value="{{ $item->id }}">{{Str::ucfirst($item->subject_name) }}</option>
+                                            @endforeach
+                                        </select>
+                                        {{-- @foreach ($course as $item)
                                             <div class="col-md-4">
                                                 <input class="form-check-input course-checkbox" name="course" type="checkbox" value="{{$item->id}}" id="course{{$loop->iteration}}">
                                                 <label class="form-check-label" for="course{{$loop->iteration}}">{{$item->tag_name}}</label>
                                             </div>
-                                        @endforeach
+                                        @endforeach --}}
                                         </div>
                                 </form>
 
@@ -1045,7 +987,31 @@
                 $('.remarks').hide();
                 $('.visa-data').hide();
             });
-
+            $('#universitySelect').change(function(){
+                $('#selectedValues').empty();
+                $('#universitySelect option:selected').each(function(){
+                    var value = $(this).val();
+                    var text = $(this).text();
+                    $('#selectedValues').append('<input type="checkbox" class="universityCheckbox college-checkbox" value="' + value + '" checked> ' + text + '<br>');
+                });
+                $('#universitySelect option:not(:selected)').each(function(){
+                    var value = $(this).val();
+                    $('.universityCheckbox[value="' + value + '"]').remove();
+                });
+            });
+            $('#courseSelect').change(function(){
+                $('#courseValues').empty();
+                $('#courseSelect option:selected').each(function(){
+                    var value = $(this).val();
+                    var text = $(this).text();
+                    $('#courseValues').append('<input type="checkbox" class="courseCheckbox course-checkbox" value="' + value + '" checked> ' + text + '<br>');
+                });
+                $('#courseSelect option:not(:selected)').each(function(){
+                    var value = $(this).val();
+                    $('.universityCheckbox[value="' + value + '"]').remove();
+                });
+            });
           });
     </script>
+
 @endsection

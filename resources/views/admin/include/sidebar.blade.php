@@ -11,7 +11,15 @@
                         $permissionCondition = eval("return auth()->user()->can('".$menu->permission."');");
                     }
                 @endphp
+                @php
+                    $user = Auth::user();
+                @endphp
                 @if($permissionCondition)
+                    @if(!($user->hasRole('student')))
+                        @if($menu->permission== 'my_profile.view' || $menu->permission == 'my_profile.update')
+                            @continue
+                        @endif
+                    @endif
                     @if($menu->permission== 'impersonate.view')
                         @continue
                     @endif
@@ -30,9 +38,7 @@
                         <li class="submenu ">
                             <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}">
                                 <i class="{{ $menu->icon }}"></i>
-                                @php
-                                    $user = Auth::user();
-                                @endphp
+
                                 @if(!($user->hasRole('Administrator')))
                                     @if ($menu->name == 'Admin-Management')
                                         <span>{{ ('User-Management') ? __('User-Management') : '' }}</span>

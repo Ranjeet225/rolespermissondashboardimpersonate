@@ -221,6 +221,10 @@ class UserController extends Controller
 
     public function updateUserStatus(Request $request)
     {
+        $userrole =User::where('id',$request->id)->first();
+        if($userrole->admin_type == 'agent' || $userrole->admin_type == 'sub_agent'){
+            DB::table('agents')->where('email', $userrole->email)->update(['is_active' => $request->status]);
+        }
         $Id = $request->input('id');
         DB::table('users')->where('id', $Id)->update(['is_active' => $request->status]);
         return response()->json(['message' => 'Status updated successfully']);
@@ -229,6 +233,10 @@ class UserController extends Controller
     public function approveUserStatus(Request $request)
     {
         $Id = $request->userId;
+        $userrole =User::where('id',$Id)->first();
+        if($userrole->admin_type == 'agent' || $userrole->admin_type == 'sub_agent'){
+            DB::table('agents')->where('email', $userrole->email)->update(['is_approve' => $request->selectedValue]);
+        }
         DB::table('users')->where('id', $Id)->update(['status' => $request->selectedValue]);
         return response()->json(['message' => 'Status updated successfully']);
     }

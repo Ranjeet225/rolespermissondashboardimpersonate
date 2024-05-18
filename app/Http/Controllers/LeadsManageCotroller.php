@@ -489,6 +489,33 @@ class LeadsManageCotroller extends Controller
                 $userInserted = DB::table('users')->insert($input);
                 if ($userInserted) {
                     $user = User::where('email', $studentAgent->email)->first();
+                    if (!isset($studentAgent->dob) || empty($studentAgent->dob)) {
+                        $dob = null;
+                    } else {
+                        $dob = $studentAgent->dob;
+                    }
+                    if (!isset($studentAgent->preferred_country_id) || empty($studentAgent->preferred_country_id)) {
+                        $preferred_country_id = null;
+                    } else {
+                        $preferred_country_id = $studentAgent->preferred_country_id;
+                    }
+                    $student_data = [
+                         'user_id'=>$user->id,
+                         'first_name'=> $studentAgent->name ?? null,
+                         'middle_name'=>$studentAgent->middle_name ?? null,
+                         'last_name'=>$studentAgent->last_name ?? null,
+                         'country_id'=>$studentAgent->country_id ?? null,
+                         'gender' =>$studentAgent->gender ?? null,
+                         'dob' =>$dob,
+                         'province_id'=>$studentAgent->province_id ?? null,
+                         'zip'=>$studentAgent->zip ?? null,
+                         'email'=>$studentAgent->email ?? null,
+                         'phone_number'=>$studentAgent->phone_number ?? null,
+                         'country_preference_completed'=>$preferred_country_id,
+                         'pref_subjects'=>$studentAgent->subject ?? null,
+                         'added_by'=>Auth::user()->id,
+                    ];
+                    DB::table('student')->insert($student_data);
                     $role = Role::where('name','student')->first();
                     if ($role) {
                         $user->assignRole([$role->id]);
@@ -626,7 +653,7 @@ class LeadsManageCotroller extends Controller
 
     public function oel_360(Request $request)
     {
-        $studentData = StudentByAgent::query();
+        $studentData = Student::query();
         $user = Auth::user();
         if (($user->hasRole('agent'))) {
             $studentData->where('assigned_to',$user->id)->orwhere('user_id',$user->id)->orwhere('added_by_agent_id',$user->id);
@@ -634,7 +661,7 @@ class LeadsManageCotroller extends Controller
         if (($user->hasRole('sub_agent'))) {
             $studentData->where('assigned_to',$user->id)->orwhere('user_id',$user->id);
         }
-        $studentData =$studentData->get();
+        $studentData =$studentData->where('status_threesixty',1)->get();
         return view('admin.leads.oel-360', compact('studentData'));
     }
 
@@ -645,28 +672,38 @@ class LeadsManageCotroller extends Controller
         return response()->json($leadDetails);
     }
 
-    public function aply_360($id)
+    public function aply_360($id = null)
     {
-        // dd($id);
+        if($id == null){
+            $id=Auth::user()->id;
+            $studentDetails = Student::where('user_id',$id)->first();
+            $id =$studentDetails->id;
+        }else{
+            $studentDetails = Student::where('id',$id)->first();
+        }
         $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->where('id', $id)->first();
-        $university = University::where('country_id', $leadDetails->country_id)->get();
-        $course = DB::table('course_tags')->get();
+        $university = University::where('country_id', $studentDetails->country_id)->get();
+        $course = DB::table('subjects')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
-        $agent = DB::table('agents')->get();
         if (!empty($threesixtee)) {
+            $agent = DB::table('agents')->get();
             $university_id = explode(',', $threesixtee->college);
-            $course_id = explode(',', $threesixtee->courses);
+            $three_course_id = explode(',', $threesixtee->courses);
+            $student_course_id = explode(',', $studentDetails->pref_subjects);
+            $course_id = array_unique(array_merge($three_course_id, $student_course_id));
             $university_in_three_sixtee = University::wherein('id', $university_id)->get();
-            $course_in_three_sixtee = DB::table('course_tags')->wherein('id', $course_id)->get();
+            $course_in_three_sixtee = DB::table('subjects')->wherein('id', $course_id)->get();
             $table_three_sixtee_image = DB::table('tbl_three_sixtee_image')->where('image_type', 'offer')->where('sba_id', $id)->get();
         } else {
+
+            $agent = DB::table('agents')->get();
             $university_id = '';
             $course_id = '';
             $university_in_three_sixtee = '';
             $course_in_three_sixtee = '';
             $table_three_sixtee_image = '';
         }
-        return view('admin.leads.apply_oel_360', compact('leadDetails', 'agent', 'table_three_sixtee_image', 'university', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
+        return view('admin.leads.apply_oel_360', compact('leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
     }
 
 
@@ -1183,9 +1220,9 @@ class LeadsManageCotroller extends Controller
         $agent = User::query();
         $user = Auth::user();
         if ($user->hasRole('Administrator')) {
-            $agent->where('admin_type','agent')->where('is_active',1);
+            $agent->where('admin_type','agent')->where('is_active',1)->where('status',1);
         }elseif($user->hasRole('agent')){
-            $agent->where('added_by',$user->id)->where('admin_type','sub_agent')->where('is_active',1);
+            $agent->where('added_by',$user->id)->where('admin_type','sub_agent')->where('is_active',1)->where('status',1);
         }
          $agentData =$agent->get();
          return response()->json($agentData);
@@ -1253,6 +1290,28 @@ class LeadsManageCotroller extends Controller
         if ($userInserted) {
             $user = User::where('email', $student_agent->email)->first();
             $role = Role::where('name','student')->first();
+            if (!isset($student_agent->dob) || empty($student_agent->dob)) {
+                $dob = null;
+            } else {
+                $dob = $student_agent->dob;
+            }
+            $student_data = [
+                    'user_id'=>$user->id,
+                    'first_name'=> $student_agent->name ?? null,
+                    'middle_name'=>$student_agent->middle_name ?? null,
+                    'last_name'=>$student_agent->last_name ?? null,
+                    'country_id'=>$student_agent->country_id ?? null,
+                    'gender' =>$student_agent->gender ?? null,
+                    'dob' =>$dob,
+                    'province_id'=>$student_agent->province_id ?? null,
+                    'zip'=>$student_agent->zip ?? null,
+                    'email'=>$student_agent->email ?? null,
+                    'phone_number'=>$student_agent->phone_number ?? null,
+                    'country_preference_completed'=>$student_agent->preferred_country_id ?? null,
+                    'pref_subjects'=>$student_agent->subject ?? null,
+                    'added_by'=>Auth::user()->id,
+            ];
+            DB::table('student')->insert($student_data);
             if ($role) {
                 $user->assignRole([$role->id]);
             }

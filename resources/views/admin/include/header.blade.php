@@ -1,4 +1,5 @@
-      <!-- Header -->
+
+<!-- Header -->
       <div class="header">
         <!-- Logo -->
         <div class="header-left">
@@ -63,18 +64,21 @@
           <!-- /Flag -->
           <!-- Notifications -->
           <li class="nav-item dropdown">
+            @inject('carbon', 'Carbon\Carbon')
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
               <i class="fa-regular fa-bell"></i>
-              <span class="badge rounded-pill">3</span>
+              <span class="badge rounded-pill">
+                {{ $count = App\Models\University::whereDate('updated_at', '<', $carbon::now()->subMonths(3))->count() }}
+              </span>
             </a>
             <div class="dropdown-menu notifications">
               <div class="topnav-dropdown-header">
                 <span class="notification-title">Notifications</span>
-                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                <a href="{{ route('update-university') }}" class="clear-noti"> View all </a>
               </div>
 
               <div class="topnav-dropdown-footer">
-                <a href="#">View all Notifications</a>
+                <a href="#"> {{ $count }} Old Universities </a>
               </div>
             </div>
           </li>

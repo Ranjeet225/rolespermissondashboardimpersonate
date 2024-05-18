@@ -44,7 +44,7 @@ class LoginRequest extends FormRequest
 
         $credentials = $this->only('email', 'password');
         $user = User::where('email', $credentials['email'])->first();
-        if ($user && $user->is_active !== '1') {
+        if ($user && $user->is_active != 1) {
             throw ValidationException::withMessages([
                 'email' => trans('Account Not Found'),
             ]);

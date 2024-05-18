@@ -64,6 +64,220 @@
             ]
         },
         {
+            "url": "/revert-to-admin",
+            "name": "Back to Admin login",
+            "icon": "menu-icon tf-icons fa fa-user-secret",
+            "slug": "impersonate",
+            "permission":"impersonate.view"
+        },
+        {
+            "name": "Franchise",
+            "icon": "menu-icon tf-icons las la-tachometer-alt",
+            "slug": "franchise",
+            "permission":["franchise.view","manage_oel_presentation.view","manage_oel_agreement_letter.view","manage_oel_pincode.view"],
+            "submenu": [
+                {
+                    "url": "/franchise/franchise-list",
+                    "name": "Franchise List",
+                    "slug": "franchise-franchise",
+                    "permission":"franchise.view"
+                },
+                {
+                    "url": "/franchise/manage-oel-presentation",
+                    "name": "Manage OEL Presentation",
+                    "slug": "franchise-manage-oel-presentation",
+                    "permission": "manage_oel_presentation.view"
+                },
+                {
+                    "url": "/franchise/manage-oel-agreement-letter",
+                    "name": "Manage OEL Agreement Letter",
+                    "slug": "franchise-manage-oel-agreement",
+                    "permission": "manage_oel_agreement_letter.view"
+                },
+                {
+                    "url": "/admin-management/pincode",
+                    "name": "Assign OEL Pincode",
+                    "slug": "admin-management-pincode",
+                    "permission": "manage_oel_pincode.view"
+                }
+            ]
+        },
+        {
+            "name": "Student",
+            "icon": "menu-icon tf-icons fas fa-user-graduate",
+            "slug": "student",
+            "permission":["student.view"],
+            "submenu": [
+                {
+                    "url": "/admin/student-list",
+                    "name": "Student List",
+                    "slug": "admin-student-list",
+                    "permission":"student.view"
+                }
+            ]
+        },
+        {
+        "name": "Universities",
+        "icon": "menu-icon tf-icons las la-university",
+        "slug": "universities",
+        "permission":["approve_university.view","manage_university.view","un_approve_university.view","oel_review.view","oel_type.view"],
+        "submenu": [
+                {
+                    "url": "/admin/approved-university",
+                    "name": "Approve University",
+                    "slug": "admin-approved-university",
+                    "permission":"approve_university.view"
+                },
+                {
+                    "url": "/admin/manage-university",
+                    "name": "Manage University",
+                    "slug": "admin-manage-university",
+                    "permission":"manage_university.view"
+                },
+                {
+                    "url": "/admin/un-approve-university",
+                    "name": "Un Approve University",
+                    "slug": "admin-un-approve-university",
+                    "permission":"un_approve_university.view"
+                },
+                {
+                    "url": "/admin/updation-manage-university",
+                    "name": "Updation Manage University",
+                    "slug": "admin-updation-manage-university",
+                    "permission":"updation-manage-university.view"
+                },
+                {
+                    "url": "/admin/oel-review",
+                    "name": "Oel Review",
+                    "slug": "admin-oel-review",
+                    "permission":"oel_review.view"
+                },
+                {
+                    "url": "/admin/oel-type",
+                    "name": "Oel Review",
+                    "slug": "admin-oel-type",
+                    "permission":"oel_type.view"
+                }
+            ]
+        },
+        {
+            "url": "/student/programs",
+            "name": "programs",
+            "icon": "menu-icon tf-icons lab la-product-hunt",
+            "slug": "programs",
+            "permission":"programs.view"
+        },
+        {
+            "url": "/student/my-profile",
+            "name": "My Profile",
+            "icon": "menu-icon tf-icons la la-user",
+            "slug": "my-profile",
+            "permission":"my_profile.view"
+        },
+        {
+            "url": "/student/edit-profile",
+            "name": "Edit Profile",
+            "icon": "menu-icon tf-icons la la-user",
+            "slug": "edit-profile",
+            "permission":"my_profile.update"
+        },
+        {
+            "url": "/student/applied-program",
+            "name": "Applied Programs",
+            "icon": "menu-icon tf-icons lab la-product-hunt",
+            "slug": "applied-program",
+            "permission":"applied_program.view"
+        },
+        {
+            "name": "Master Data",
+            "icon": "menu-icon tf-icons las la-tachometer-alt",
+            "slug": "master-data",
+            "permission":["specializations.view","source.view","interest.view","country.view","state.view","visa.view","faq.view","visa_service.view"],
+            "submenu": [
+                {
+                    "url": "master/specializations",
+                    "name": "Specializations",
+                    "slug": "master-specializations",
+                    "permission":"specializations.view"
+                },
+                {
+                    "url": "/master/source",
+                    "name": "Source",
+                    "slug": "master-source",
+                    "permission":"source.view"
+                },
+                {
+                    "url": "/master/interest",
+                    "name": "Interest",
+                    "slug": "master-interest",
+                    "permission":"interest.view"
+                },
+                {
+                    "url": "/master/country",
+                    "name": "Country",
+                    "slug": "master-country",
+                    "permission":"country.view"
+                },
+                {
+                    "url": "/master/state",
+                    "name": "State",
+                    "slug": "master-state",
+                    "permission":"state.view"
+                },
+                {
+                    "url": "/master/visa-type",
+                    "name": "Visa Type",
+                    "slug": "master-visa-type",
+                    "permission":"visa.view"
+                },
+                {
+                    "url": "/master/faq",
+                    "name": "FAQs",
+                    "slug": "master-faq",
+                    "permission":"faq.view"
+                },
+                {
+                    "url": "/master/visa-service",
+                    "name": "Visa Service",
+                    "slug": "master-visa-service",
+                    "permission":"visa_service.view"
+                }
+            ]
+        },
+        {
+            "name": "CMS",
+            "icon": "menu-icon tf-icons las la-tachometer-alt",
+            "slug": "cms",
+            "permission":["testimonial.view","blogs.view","messages.view"],
+            "submenu": [
+                {
+                    "url": "/testimonial",
+                    "name": "Testimonial",
+                    "slug": "applied-program",
+                    "permission":"testimonial.view"
+                },
+                {
+                    "url": "/blogs",
+                    "name": "Blogs",
+                    "slug": "blogs",
+                    "permission":"blogs.view"
+                },
+                {
+                    "url": "/messages",
+                    "name": "Messages",
+                    "slug": "message",
+                    "permission":"messages.view"
+                }
+            ]
+        },
+        {
+            "url": "admin/apply-oel-360",
+            "name": "oel 360",
+            "icon": "menu-icon tf-icons las la-tachometer-alt",
+            "slug": "admin-apply-oel-360",
+            "permission":"  "
+        },
+        {
             "name": "Admin-Management",
             "icon": "menu-icon tf-icons la la-users",
             "slug": "admin-management",
@@ -82,21 +296,6 @@
                     "permission": "role_permissions.view"
                 }
             ]
-        },
-        {
-            "url": "/revert-to-admin",
-            "name": "Back to Admin login",
-            "icon": "menu-icon tf-icons fa fa-user-secret",
-            "slug": "impersonate",
-            "permission":"impersonate.view"
-        },
-        {
-            "url": "/master",
-            "name": "master",
-            "icon": "menu-icon tf-icons fa fa-user",
-            "slug": "master",
-            "permission":"master.view"
         }
-
     ]
   }

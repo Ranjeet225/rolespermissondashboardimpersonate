@@ -207,7 +207,7 @@
                     </thead>
                     <tbody id="lead-list">
                         @php
-                            $i = 1;
+                            $i = ($lead_list->currentPage()-1)* $lead_list->perPage()+1;
                         @endphp
                         @foreach ($lead_list as $data)
                             <tr>
@@ -238,6 +238,9 @@
                                 <td>
                                     <a href="#">{{ $i }}</a>
                                 </td>
+                                @php
+                                    $i++;
+                                @endphp
                                 <td>
                                     <a href="#">{{ $data->created_at }}</a>
                                 </td>
@@ -259,7 +262,6 @@
                                     @endphp
                                     {{ $formattedDate }}
                                 </td>
-                                {{-- <td>{{ DateTime::createFromFormat('m', $data->intake)->format('F') }}</td> --}}
                                 <td>{{ $data->intake_year }}</td>
                                 <td class="text-end">
                                     <div class="dropdown dropdown-action">
@@ -294,9 +296,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            @php
-                                $i++;
-                            @endphp
                         @endforeach
                     </tbody>
                 </table>
@@ -342,7 +341,7 @@
                   </div>
                </div>
             </div>
-         </div>
+        </div>
       </div>
 @endsection
 @section('scripts')
