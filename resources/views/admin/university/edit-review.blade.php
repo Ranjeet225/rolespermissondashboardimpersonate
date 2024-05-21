@@ -9,7 +9,7 @@
               <li class="breadcrumb-item">
                 <a href="index.php"> Home</a>
               </li>
-              <li class="breadcrumb-item text-muted">Create OEL Review  </li>
+              <li class="breadcrumb-item text-muted">Edit OEL Review  </li>
             </ol>
           </div>
           <div class="col-md-2">
@@ -30,44 +30,34 @@
         <div class="card-group">
           <div class="card">
             <div class="card-body myform">
-              <form action="{{route('store-oel-review')}}" method="post">
+              <form action="{{route('update-oel-review', $review->id)}}" method="post">
                 @csrf
+                @method('post')
                 <div class="row">
                   <div class="col-md-12">
                       <label class="control-label">School ID<span class="required_mark">*</span></label>
-                    <input type="number" class="form-control formmrgin" name="school_id" value="{{old('school_id')}}" placeholder="School Id">
-                    @error('school_id')
-                    <span class="text-danger"> {{$message}}</span>
-                    @enderror
+                    <input type="number" class="form-control formmrgin" name="school_id" value="{{$review->school_id}}" placeholder="School Id">
                   </div>
                   <div class="col-md-12">
                       <label class="control-label">Heading<span class="required_mark">*</span></label>
-                    <input type="text" class="form-control formmrgin" name="heading" value="{{old('heading')}}" placeholder="Enter heading">
-                    @error('heading')
-                    <span class="text-danger"> {{$message}}</span>
-                    @enderror
+                    <input type="text" class="form-control formmrgin" name="heading" value="{{$review->heading}}" placeholder="Enter heading">
                   </div>
                   <div class="col-md-12 col-sm-12">
                       <label class="control-label">Details<span class="required_mark">*</span></label>
-                      <textarea  class="form-control" name="details" placeholder="Enter details"></textarea>
-                    @error('details')
-                    <span class="text-danger"> {{$message}}</span>
-                    @enderror
-                </div>
-                <br>
-                <br>
-                  <div class="col-md-12 col-sm-12 mt-3">
-                        <select name="status" class="form-control">
-                            <option value="">- Select Status -</option>
-                            <option value="1">Published</option>
-                            <option value="0">Unpublished</option>
-                        </select>
-                     @error('status')
-                     <span class="text-danger"> {{$message}}</span>
-                     @enderror
+                      <textarea  class="form-control" name="details" placeholder="Enter details">{{$review->details}}</textarea>
                  </div>
-                 <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-info d-lg-block formmrgin w-25" name="country_submit" value="1">Search</button>
+                 <div class="col-md-12 col-sm-12 mt-3">
+                    <select name="status" class="form-control" value="{{$review->status}}">
+                        <option value="">- Select Status -</option>
+                        <option value="1" {{$review->status == 1 ? 'selected' : ''}}>Published</option>
+                        <option value="0" {{$review->status == 0 ? 'selected' : ''}}>Unpublished</option>
+                    </select>
+                 @error('status')
+                 <span class="text-danger"> {{$message}}</span>
+                 @enderror
+             </div>
+                     <div class="col-md-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-info d-lg-block formmrgin w-25" name="country_submit" value="1">Update</button>
                   </div>
                 </div>
               </form>

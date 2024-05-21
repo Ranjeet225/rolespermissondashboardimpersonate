@@ -392,6 +392,10 @@
 @section('scripts')
 <script src="{{asset('assets/js/jquery-3.7.1.js')}}"></script>
 <script>
+// sorry for rubbish coding in this  page
+// sorry for rubbish coding in this  page
+// sorry for rubbish coding in this  page
+
     $(document).ready(function(){
         function fetchStates(country_id) {
             $('.province_id').empty();

@@ -9,12 +9,12 @@
               <li class="breadcrumb-item">
                 <a href="index.php"> Home</a>
               </li>
-              <li class="breadcrumb-item text-muted"> OEL Review  </li>
+              <li class="breadcrumb-item text-muted"> OEL Type  </li>
             </ol>
           </div>
           <div class="col-md-2">
-            <a href="{{ route('add-review') }}" class="btn add-btn">
-                <i class="las la-plus"></i>Add Review </a>
+            <a href="{{ route('add-type') }}" class="btn add-btn">
+                <i class="las la-plus"></i>Add Type </a>
           </div>
         </div>
       </div>
@@ -59,41 +59,29 @@
               <thead>
                 <tr>
                   <th>S.N</th>
-                  <th>School ID </th>
-                  {{-- <th> School </th> --}}
-                  <th> Review Heading</th>
-                  <th> Status</th>
-                  <th> Details</th>
+                  <th>Name</th>
                   <th> Edit</th>
                   <th> Delete</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($reviews as $key=>$review)
+                @foreach ($data as $key=>$type)
                 <tr>
-                  <td>{{(($reviews->currentPage()-1)*$reviews->perPage())+($key+1)}}</td> {{-- new line --}}
-                  <td>{{$review->school_id}}</td>
-                  {{-- <td>{{$review->school}}</td> --}}
-                  <td>{{$review->heading}}</td>
-                  @if($review->status == 1)
-                    <td><span class="badge bg-success">Active</span></td>
-                  @else
-                    <td><span class="badge bg-danger">Inactive</span></td>
-                  @endif
-                  <td>{{$review->details}}</td>
-                  <td><a href="{{route('edit-review')}}/{{$review->id}}"><i class="fa-solid fa-pen"></i></a></td>
-                  <td>  <a href="{{route('delete-review')}}/{{$review->id}}"><i class="fa-solid fa-trash"></i></a></td>
+                  <td>{{ $loop->index + 1 + ($data->currentPage() - 1) * $data->perPage() }}</td>
+                  <td>{{$type->name}}</td>
+                  <td><a href="{{route('edit-type')}}/{{$type->id}}"><i class="fa-solid fa-pen"></i></a></td>
+                  <td>  <a href="{{route('delete-type')}}/{{$type->id}}"><i class="fa-solid fa-trash"></i></a></td>
                 </tr>
                 @endforeach
               </tbody>
             </table>
-            {{$reviews->links()}}
+            {{$data->links()}}
           </div>
         </div>
 
     </div>
 @endsection
-@section('scripts')
+{{-- @section('scripts')
 <script src="{{asset('assets/js/jquery-3.7.1.js')}}"></script>
 
-@endsection
+@endsection --}}

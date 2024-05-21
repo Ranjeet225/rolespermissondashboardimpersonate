@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\SchoolReview;
+use App\Models\SchoolType;
 use App\Models\University;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -443,6 +445,99 @@ class UniversityController extends Controller
         return view('admin.university.updation-university',compact('oldUniversities'));
     }
 
+
+    public function oel_review()
+    {
+        $reviews = SchoolReview::paginate(12);
+        return view('admin.university.oel-review', compact('reviews'));
+    }
+
+    public function add_review(){
+        return view('admin.university.create-review');
+    }
+
+    public function store_oel_review(Request $request){
+        $this->validate($request, [
+            'school_id' => 'required|numeric',
+            'heading' => 'required',
+            'details' => 'required',
+            'status'=>'required'
+        ]);
+        SchoolReview::create([
+            'school_id' => $request->school_id,
+            'heading' => $request->heading,
+            'details' => $request->details,
+            'status' => $request->status,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->route('oel-review')->with('success','Review Added Successfully');
+    }
+
+    public function edit_oel_review($id){
+        $review = SchoolReview::findOrFail($id);
+        return view('admin.university.edit-review', compact('review'));
+    }
+
+    public function update_oel_review(Request $request, $id){
+        $review = SchoolReview::findOrFail($id);
+        $review->update([
+            'school_id' => $request->school_id,
+            'heading' => $request->heading,
+            'details' => $request->details,
+            'status' => $request->status,
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->route('oel-review')->with('success','Review Updated Successfully');
+    }
+
+    public function delete_oel_review($id){
+        $review = SchoolReview::findOrFail($id);
+        $review->delete();
+        return redirect()->route('oel-review')->with('success','Review Deleted Successfully');
+    }
+
+    public function oel_type(){
+        $data = SchoolType::paginate(12);
+        return view('admin.university.oel-type', compact('data'));
+    }
+
+    public function add_type(){
+        return view('admin.university.create-type');
+    }
+
+    public function store_oel_type(Request $request){
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+        SchoolType::create([
+            'name' => $request->name,
+            'active' => '1',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->route('oel-type')->with('success','Type Added Successfully');
+    }
+
+    public function edit_oel_type($id){
+        $data = SchoolType::findOrFail($id);
+        return view('admin.university.edit-type', compact('data'));
+    }
+
+    public function update_oel_type(Request $request, $id){
+        $data = SchoolType::findOrFail($id);
+        $data->update([
+            'name' => $request->name,
+            'updated_at' => Carbon::now(),
+        ]);
+        return redirect()->route('oel-type')->with('success','Type Updated Successfully');
+    }
+
+    public function delete_oel_type($id){
+        $data = SchoolType::findOrFail($id);
+        $data->delete();
+        return redirect()->route('oel-type')->with('success','Type Deleted Successfully');
+    }
 
 
 }

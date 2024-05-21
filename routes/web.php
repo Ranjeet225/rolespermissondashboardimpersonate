@@ -7,20 +7,20 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrenchiseController;
 use App\Http\Controllers\LeadsManageCotroller;
+use App\Http\Controllers\OtherMasterDataController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
+use App\Models\EducationLevel;
+use App\Models\Program;
 use App\Models\University;
 use Maatwebsite\Excel\Row;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
+in this project some name of model or function and table name is wrong because
+this project make with refrence with another project har project are working
+
+so sorry for repeat this mistake because i am not makeing new table just i am using exiting database
 */
 
 // Route::get('/', function () {
@@ -112,6 +112,148 @@ Route::middleware('auth')->group(function () {
         Route::get("un-approve-university",[UniversityController::class,'manage_university'])->name('unapproved-university');
         Route::get("view-details-university",[UniversityController::class,'view_university'])->name('view-university');
         Route::get("updation-manage-university",[UniversityController::class,'update_university'])->name('update-university');
+
+        // oel-review
+        Route::get('oel-review',[UniversityController::class,'oel_review'])->name('oel-review');
+        Route::get('add-review',[UniversityController::class,'add_review'])->name('add-review');
+        Route::post('store-oel-review',[UniversityController::class,'store_oel_review'])->name('store-oel-review');
+        Route::get('edit-review/{id?}',[UniversityController::class,'edit_oel_review'])->name('edit-review');
+        Route::post('update-oel-review/{id?}',[UniversityController::class,'update_oel_review'])->name('update-oel-review');
+        Route::get('delete-review/{id?}',[UniversityController::class,'delete_oel_review'])->name('delete-review');
+
+
+        // oel type
+        Route::get('oel-type',[UniversityController::class,'oel_type'])->name('oel-type');
+        Route::get('add-type',[UniversityController::class,'add_type'])->name('add-type');
+        Route::post('store-oel-type',[UniversityController::class,'store_oel_type'])->name('store-oel-type');
+        Route::get('edit-type/{id?}',[UniversityController::class,'edit_oel_type'])->name('edit-type');
+        Route::post('update-oel-type/{id?}',[UniversityController::class,'update_oel_type'])->name('update-oel-type');
+        Route::get('delete-type/{id?}',[UniversityController::class,'delete_oel_type'])->name('delete-type');
+
+        // program module
+        Route::get('manage-program',[ProgramController::class,'manage_program'])->name('manage-program');
+        Route::get('add-program',[ProgramController::class,'add_program'])->name('add-program');
+        Route::post('store-program',[ProgramController::class,'store_program'])->name('store-program');
+        Route::get('edit-program/{id}',[ProgramController::class,'edit_program'])->name('edit-program');
+        Route::Post('update-program/{id}',[ProgramController::class,'update_program'])->name('update-program');
+        Route::post('req_score_prog_add', [ProgramController::class, 'req_score_prog_add'])->name('req-score-prog-add');
+        Route::get('req_score_prog', [ProgramController::class, 'fetch_req_score_prog'])->name('fetch-req-score-prog');
+        Route::post('update_program_commission', [ProgramController::class, 'update_program_commission'])->name('update-program-commission');
+        Route::get('delete-score-program',[ProgramController::class,'delete_score_program'])->name('delete-score-program');
+        Route::get('program-filter',[ProgramController::class,'manage_program'])->name('program-filter');
+        Route::get('approve-program',[ProgramController::class,'approve_program'])->name('approve-program');
+        Route::get('view-program/{id}',[ProgramController::class,'view_program'])->name('view-program');
+
+        Route::get('approve-program-filter',[ProgramController::class,'approve_program'])->name('approve-program-filter');
+        Route::get('program-level-details',[ProgramController::class,'program_level_details'])->name('program-level-details');
+        Route::get('edit-program-level/{id?}',[ProgramController::class,'edit_program_level'])->name('edit-program-level');
+        Route::get('delete-program-level/{id?}',[ProgramController::class,'delete_program_level'])->name('delete-program-level');
+        Route::post('update-home-program-level/{id?}',[ProgramController::class,'update_program_level'])->name('update-home-program-level');
+        Route::get('create-new-program-level',[ProgramController::class,'create_program_level'])->name('create-new-program-level');
+        Route::post('store-program-level',[ProgramController::class,'store_program_level'])->name('store-program-level');
+
+        // EducationLevel
+        Route::get('education-level',[ProgramController::class,'education_level'])->name('education-level');
+        Route::get('education-level-filter',[ProgramController::class,'education_level'])->name('education-level-filter');
+        Route::get('edit-education-level/{id?}',[ProgramController::class,'education_level_edit'])->name('edit-education-level');
+        Route::get('delete-education-level/{id?}',[ProgramController::class,'education_level_delete'])->name('delete-education-level');
+        Route::post('update-education-level/{id?}',[ProgramController::class,'education_level_update'])->name('update-education-level');
+        Route::get('create-new-education-level',[ProgramController::class,'education_level_create'])->name('create-new-education-level');
+        Route::post('store-education-level',[ProgramController::class,'education_level_store'])->name('store-education-level');
+        // Program level
+
+        Route::get('program-level',[ProgramController::class,'program_level'])->name('program-level');
+        Route::get('program-level-filter',[ProgramController::class,'program_level'])->name('program-level-filter');
+        Route::get('edit-program-level/{id?}',[ProgramController::class,'program_level_edit'])->name('edit-program-level');
+        Route::get('delete-program-level/{id?}',[ProgramController::class,'program_level_delete'])->name('delete-program-level');
+        Route::post('update-program-level/{id?}',[ProgramController::class,'program_level_update'])->name('update-program-level');
+        Route::get('create-new-program-level',[ProgramController::class,'program_level_create'])->name('create-new-program-level');
+        Route::post('store-program-level',[ProgramController::class,'program_level_store'])->name('store-program-level');
+
+        // grading scheme
+        Route::get('grading-scheme',[ProgramController::class,'grading_scheme'])->name('grading-scheme');
+        Route::get('grading-scheme-filter',[ProgramController::class,'grading_scheme'])->name('grading-scheme-filter');
+        Route::get('create-new-grading-scheme',[ProgramController::class,'grading_scheme_create'])->name('create-new-grading-scheme');
+        Route::get('edit-grading-scheme/{id?}',[ProgramController::class,'grading_scheme_edit'])->name('edit-grading-scheme');
+        Route::get('delete-grading-scheme/{id?}',[ProgramController::class,'grading_scheme_delete'])->name('delete-grading-scheme');
+        Route::post('update-grading-scheme/{id?}',[ProgramController::class,'grading_scheme_update'])->name('update-grading-scheme');
+        Route::post('store-grading-scheme',[ProgramController::class,'grading_scheme_store'])->name('store-grading-scheme');
+
+        // exam
+        Route::get('exams',[ProgramController::class,'exam'])->name('exam');
+        Route::get('exam-filter',[ProgramController::class,'exam'])->name('exam-filter');
+        Route::get('create-new-exam',[ProgramController::class,'exam_create'])->name('create-exam');
+        Route::get('edit-exam/{id?}',[ProgramController::class,'exam_edit'])->name('edit-exam');
+        Route::get('delete-exam/{id?}',[ProgramController::class,'exam_delete'])->name('delete-exam');
+        Route::post('update-exam/{id?}',[ProgramController::class,'exam_update'])->name('update-exam');
+        Route::post('store-exam',[ProgramController::class,'exam_store'])->name('store-exam');
+        Route::get('delete-exam/{id?}',[ProgramController::class,'exam_delete'])->name('delete-exam');
+        // field-of-study
+        Route::get('field-of-study-types',[ProgramController::class,'field_of_study'])->name('field-of-study');
+        Route::get('field-of-study-filter',[ProgramController::class,'field_of_study'])->name('field-of-study-filter');
+        Route::get('create-field-of-study',[ProgramController::class,'field_of_study_create'])->name('create-field-of-study');
+        Route::get('edit-field-of-study/{id?}',[ProgramController::class,'field_of_study_edit'])->name('edit-field-of-study');
+        Route::get('delete-field-of-study/{id?}',[ProgramController::class,'field_of_study_delete'])->name('delete-field-of-study');
+        Route::post('update-field-of-study/{id?}',[ProgramController::class,'field_of_study_update'])->name('update-field-of-study');
+        Route::post('store-field-of-study',[ProgramController::class,'field_of_study_store'])->name('store-field-of-study');
+        Route::get('delete-field-of-study/{id?}',[ProgramController::class,'field_of_study_delete'])->name('delete-field-of-study');
+
+        // subjects
+        Route::get('subjects',[ProgramController::class,'subjects'])->name('subject');
+        Route::get('subject-filter',[ProgramController::class,'subjects'])->name('subjects-filter');
+        Route::get('create-subject',[ProgramController::class,'subjects_create'])->name('create-subjects');
+        Route::get('edit-subject/{id?}',[ProgramController::class,'subjects_edit'])->name('edit-subject');
+        Route::get('delete-subject/{id?}',[ProgramController::class,'subjects_delete'])->name('delete-subject');
+        Route::post('update-subject/{id?}',[ProgramController::class,'subjects_update'])->name('update-subject');
+        Route::post('store-subject',[ProgramController::class,'subjects_store'])->name('store-subject');
+        Route::get('delete-subject/{id?}',[ProgramController::class,'subject_delete'])->name('delete-subject');
+
+        // specilization(
+        Route::get('specializations',[OtherMasterDataController::class,'specializations'])->name('specilization');
+        Route::get('specilization-filter',[OtherMasterDataController::class,'specializations'])->name('specilization-filter');
+        Route::get('create-specilization',[OtherMasterDataController::class,'specializations_create'])->name('create-specilization');
+        Route::get('edit-specilization/{id?}',[OtherMasterDataController::class,'specializations_edit'])->name('edit-specilization');
+        Route::get('delete-specilization/{id?}',[OtherMasterDataController::class,'specializations_delete'])->name('delete-specilization');
+        Route::post('update-specilization/{id?}',[OtherMasterDataController::class,'specializations_update'])->name('update-specilization');
+        Route::post('store-specilization',[OtherMasterDataController::class,'specializations_store'])->name('store-specilization');
+        Route::get('delete-specilization/{id?}',[OtherMasterDataController::class,'specializations_delete'])->name('delete-specilization');
+        // source   (
+        Route::get('source',[OtherMasterDataController::class,'source'])->name('source');
+        Route::get('source-filter',[OtherMasterDataController::class,'source'])->name('source-filter');
+        Route::get('create-source',[OtherMasterDataController::class,'source_create'])->name('create-source');
+        Route::get('edit-source/{id?}',[OtherMasterDataController::class,'source_edit'])->name('edit-source');
+        Route::get('delete-source/{id?}',[OtherMasterDataController::class,'source_delete'])->name('delete-source');
+        Route::post('update-source/{id?}',[OtherMasterDataController::class,'source_update'])->name('update-source');
+        Route::post('store-source',[OtherMasterDataController::class,'source_store'])->name('store-source');
+        Route::get('delete-source/{id?}',[OtherMasterDataController::class,'source_delete'])->name('delete-source');
+        // interested
+        Route::get('interested',[OtherMasterDataController::class,'interested'])->name('interested');
+        Route::get('interested-filter',[OtherMasterDataController::class,'interested'])->name('interested-filter');
+        Route::get('create-interested',[OtherMasterDataController::class,'interested_create'])->name('create-interested');
+        Route::get('edit-interested/{id?}',[OtherMasterDataController::class,'interested_edit'])->name('edit-interested');
+        Route::get('delete-interested/{id?}',[OtherMasterDataController::class,'interested_delete'])->name('delete-interested');
+        Route::post('update-interested/{id?}',[OtherMasterDataController::class,'interested_update'])->name('update-interested');
+        Route::post('store-interested',[OtherMasterDataController::class,'interested_store'])->name('store-interested');
+        Route::get('delete-interested/{id?}',[OtherMasterDataController::class,'interested_delete'])->name('delete-interested');
+
+           // country
+        Route::get('country',[OtherMasterDataController::class,'country'])->name('country');
+        Route::get('country-filter',[OtherMasterDataController::class,'country'])->name('country-filter');
+        Route::get('create-country',[OtherMasterDataController::class,'country_create'])->name('create-country');
+        Route::get('edit-country/{id?}',[OtherMasterDataController::class,'country_edit'])->name('edit-country');
+        Route::get('delete-country/{id?}',[OtherMasterDataController::class,'country_delete'])->name('delete-country');
+        Route::post('update-country/{id?}',[OtherMasterDataController::class,'country_update'])->name('update-country');
+        Route::post('store-country',[OtherMasterDataController::class,'country_store'])->name('store-country');
+        Route::get('delete-country/{id?}',[OtherMasterDataController::class,'country_delete'])->name('delete-country');
+          // provience
+        Route::get('province',[OtherMasterDataController::class,'province'])->name('province');
+        Route::get('province-filter',[OtherMasterDataController::class,'province'])->name('provience-filter');
+        Route::get('create-province',[OtherMasterDataController::class,'province_create'])->name('create-province');
+        Route::get('edit-province/{id?}',[OtherMasterDataController::class,'province_edit'])->name('edit-province');
+        Route::get('delete-province/{id?}',[OtherMasterDataController::class,'province_delete'])->name('delete-province');
+        Route::post('update-province/{id?}',[OtherMasterDataController::class,'province_update'])->name('update-province');
+        Route::post('store-province',[OtherMasterDataController::class,'province_store'])->name('store-province');
+        Route::get('delete-province/{id?}',[OtherMasterDataController::class,'province_delete'])->name('delete-province');
 
     });
     Route::prefix('franchise')->group(function () {

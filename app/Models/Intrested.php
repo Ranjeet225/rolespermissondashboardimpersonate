@@ -8,4 +8,6 @@ class Intrested extends Model
 {
      protected $table ='intrested';
      protected $primaryKey ='id';
+
+     protected $guarded =[];
 }

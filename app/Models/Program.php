@@ -42,7 +42,7 @@ class Program extends Model
 
     public function educationLevel()
     {
-        return $this->belongsTo(EducationLevel::class, 'education_level_id');
+        return $this->belongsTo(EducationLevel::class,'subject_id','id');
     }
 
     public function currency_data()
@@ -50,14 +50,14 @@ class Program extends Model
         return $this->belongsTo(Currency::class, 'currency');
     }
 
-    public function programMiscFee()
+    public function sbuject()
     {
-        return $this->hasMany(ProgramMiscFee::class, 'program_id');
+        return $this->hasMany(Subject::class, '	subject_id');
     }
 
-    public function programFeesSchedule()
+    public function ProgramCategory()
     {
-        return $this->hasMany(ProgramFeesSchedule::class, 'program_id');
+        return $this->hasMany(ProgramCategory::class,'id', 'prog_category');
     }
 
     public function programEnglishRequired()
