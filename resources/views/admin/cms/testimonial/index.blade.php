@@ -4,19 +4,16 @@
     <div class="card card-buttons">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <ol class="breadcrumb text-muted mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.php"> Home</a>
-                        </li>
-                        <li class="breadcrumb-item text-muted">
-                            Manage Provience
+                            <a href="{{route('testimonial')}}"> Testimonial</a>
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ route('create-province') }}" class="btn add-btn">
-                        <i class="las la-plus"></i>Create New Provience</a>
+                <div class="col-md-3">
+                    <a href="{{ route('create-testimonial') }}" class="btn add-btn">
+                        <i class="las la-plus"></i>Create Testimonial</a>
                 </div>
             </div>
         </div>
@@ -27,27 +24,18 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('province-filter')}}" method="get" class="d-flex justify-content-between">
-            <div class="col-md-3">
+          <form id="eudcation" action="{{route('testimonial-filter')}}" method="get" class="d-flex justify-content-between">
+            <div class="col-md-8">
                 <div class="form-floating ">
-                    <select class="form-control sidfrm" name="country_id">
-                        @foreach ($country as $item)
-                           <option value="{{$item->id}}">{{$item->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-floating ">
-                    <input id="lead-total_credits" name="name" type="text" class="form-control sidfrm" placeholder="NAME" >
-                    <label for="lead-total_credits" class="form-label">NAME</label>
+                    <input  name="name" type="text" class="form-control sidfrm" placeholder="Name" >
+                    <label  class="form-label">Name</label>
                 </div>
             </div>
             <div class="col-md-2">
               <button type="submit" class="btn btn-info px-5 mx-2 float-end" id="submit" value="1">Search</button>
             </div>
             <div class="col-md-2 float-start">
-                <a href="{{route('province')}}" class="btn btn-info px-5 mx-2">
+                <a href="{{route('testimonial')}}" class="btn btn-info px-5 mx-2">
                     Reset
                 </a>
             </div>
@@ -69,19 +57,26 @@
                 <thead>
                     <tr>
                         <th>S.N</th>
-                        <th>Province Name</th>
-                        <th>Country Name</th>
+                        <th>Profile Picture</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Location</th>
+                        <th>Status</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    @foreach ($province as $item)
+                    @foreach ($testimonial as $item)
                     <tr>
-                        <td>{{ $loop->index + (($province->currentPage() - 1) * $province->perPage()) + 1 }}</td>
+                        <td>{{ $loop->index + (($testimonial->currentPage() - 1) * $testimonial->perPage()) + 1 }}</td>
+                        <td><img src="{{asset('imagesapi/'.$item->profile_picture)}}" width="100" alt=""></td>
                         <td class="text-wrap">{{ $item->name }}</td>
-                        <td class="text-wrap">{{ $item->country->name }}</td>
-                        <td><a  href="{{route('edit-province',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        {{-- <td><a href="{{route('delete-province',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        <td class="text-wrap">{{ $item->designation }}</td>
+                        <td class="text-wrap">{{ $item->location }}</td>
+                        <td>{{ $item->status == 1 ? 'Publish' : 'UnPublish' }}</td>
+                        <td><a  href="{{route('edit-testimonial',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a href="{{route('delete-testimonial',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -89,11 +84,11 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                        {{$province->links()}}
+                        {{$testimonial->links()}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-  @endsection
+@endsection

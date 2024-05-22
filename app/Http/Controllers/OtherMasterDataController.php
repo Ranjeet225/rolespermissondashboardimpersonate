@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\EducationLane;
+use App\Models\Faq;
 use App\Models\Intrested;
 use App\Models\Province;
 use App\Models\Source;
 use App\Models\Specialisations;
+use App\Models\VasService;
+use App\Models\VisaType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 class OtherMasterDataController extends Controller
@@ -273,7 +277,8 @@ class OtherMasterDataController extends Controller
      public function province_edit($id)
      {
          $province = Province::find($id);
-         return view('admin.othermaster.province.edit', compact('province'));
+         $country =Country::get();
+         return view('admin.othermaster.province.edit', compact('province','country'));
      }
      public function province_update(Request $request, $id)
      {
@@ -291,5 +296,200 @@ class OtherMasterDataController extends Controller
              ->with('success', 'province deleted successfully');
      }
 
+    //  visa type
+       public function visa_type(Request $request)
+       {
+           $visa_type=VisaType::when($request->name, function ($query) use ($request) {
+                          $query->where('name', 'like', '%'.$request->name.'%');
+                      })
+           ->paginate(12);
+           return view('admin.othermaster.visa-type.index',compact('visa_type'));
+       }
+       public function visa_type_create()
+       {
+           return view('admin.othermaster.visa-type.create');
+       }
+       public function visa_type_store(Request $request)
+       {
+           $request->validate([
+               'name' => 'required|max:233',
+           ]);
+           $input = $request->except('_token');
+           VisaType::create($input);
+           return redirect()->route('visa-type')
+               ->with('success', 'Visa Type created successfully.');
+       }
+       public function visa_type_edit($id)
+       {
+           $visa_type = VisaType::find($id);
+           return view('admin.othermaster.visa-type.edit', compact('visa_type'));
+       }
+       public function visa_type_update(Request $request, $id)
+       {
+           $input = $request->except('_token');
+           $visa_type = VisaType::find($id);
+           $visa_type->update($input);
+           return redirect()->route('visa-type')
+               ->with('success', 'Visa Type updated successfully');
+       }
+       public function visa_type_delete(Request $request)
+       {
+           $visa_type = VisaType::find($request->id);
+           $visa_type->delete();
+           return redirect()->route('visa-type')
+               ->with('success', 'Visa Type deleted successfully');
+       }
 
+    //    faq
+    public function faq(Request $request)
+    {
+        $faq=Faq::when($request->faq_question, function ($query) use ($request) {
+                       $query->where('faq_question', 'like', '%'.$request->faq_question.'%');
+                   })
+        ->paginate(12);
+        return view('admin.othermaster.faq.index',compact('faq'));
+    }
+    public function faq_create()
+    {
+        return view('admin.othermaster.faq.create');
+    }
+    public function faq_store(Request $request)
+    {
+        $request->validate([
+            'faq_question' => 'required',
+            'faq_answer' => 'required',
+            'status'=>'required'
+        ]);
+        $input = $request->except('_token');
+        Faq::create($input);
+        return redirect()->route('faq')
+            ->with('success', 'Faq created successfully.');
+    }
+    public function faq_edit($id)
+    {
+        $faq = Faq::find($id);
+        return view('admin.othermaster.faq.edit', compact('faq'));
+    }
+    public function faq_update(Request $request, $id)
+    {
+        $input = $request->except('_token');
+        $faq = Faq::find($id);
+        $faq->update($input);
+        return redirect()->route('faq')
+            ->with('success', 'faq updated successfully');
+    }
+    public function faq_delete(Request $request)
+    {
+        $faq = Faq::find($request->id);
+        $faq->delete();
+        return redirect()->route('faq')
+            ->with('success', 'Faq deleted successfully');
+    }
+      //    vas service
+      public function vas_service(Request $request)
+      {
+          $vas_service=VasService::when($request->title, function ($query) use ($request) {
+                         $query->where('title', 'like', '%'.$request->title.'%');
+                     })
+          ->paginate(12);
+          return view('admin.othermaster.vas-services.index',compact('vas_service'));
+      }
+      public function vas_service_create()
+      {
+          return view('admin.othermaster.vas-services.create');
+      }
+      public function vas_service_store(Request $request)
+      {
+          $request->validate([
+              'title' => 'required',
+              'icon_file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+              'content' => 'required',
+              'order' => 'required',
+          ]);
+          $input = $request->except('_token');
+          if ($request->hasFile('icon_file')) {
+              $image = $request->file('icon_file');
+              $name = time().'.'.$image->getClientOriginalExtension();
+              $destinationPath = public_path('/imagesapi');
+              $image->move($destinationPath, $name);
+              $input['icon_file'] = $name;
+          }
+          VasService::create($input);
+          return redirect()->route('vas-service')
+              ->with('success', 'Vas Services created successfully.');
+      }
+      public function vas_service_edit($id)
+      {
+          $vas_service = VasService::findOrFail($id);
+          return view('admin.othermaster.vas-services.edit', compact('vas_service'));
+      }
+      public function vas_service_update(Request $request, $id)
+      {
+          $input = $request->except('_token');
+          $vas_service = VasService::find($id);
+          if ($request->hasFile('icon_file')) {
+              $image = $request->file('icon_file');
+              $name = time().'.'.$image->getClientOriginalExtension();
+              $destinationPath = public_path('/imagesapi');
+              $image->move($destinationPath, $name);
+              $input['icon_file'] = $name;
+          }
+          $vas_service->update($input);
+          return redirect()->route('vas-service')
+              ->with('success', 'Vas Services updated successfully.');
+      }
+      public function vas_service_delete(Request $request)
+      {
+          $vas_service = VasService::find($request->id);
+          $vas_service->delete();
+          return redirect()->route('vas-service')
+              ->with('success', 'Vas Services deleted successfully');
+      }
+
+
+      public function education_lane(Request $request)
+      {
+          $education_lane=EducationLane::when($request->name, function ($query) use ($request) {
+                         $query->where('name', 'like', '%'.$request->name.'%');
+                     })
+          ->paginate(12);
+          return view('admin.othermaster.education-lane.index',compact('education_lane'));
+      }
+      public function education_lane_create()
+      {
+          return view('admin.othermaster.education-lane.create');
+      }
+      public function education_lane_store(Request $request)
+      {
+          $request->validate([
+              'name' => 'required',
+              'details' => 'required',
+          ]);
+          $input = $request->except('_token');
+          EducationLane::create($input);
+          return redirect()->route('education-lane')
+              ->with('success', 'Education lane created successfully.');
+      }
+      public function education_lane_edit($id)
+      {
+          $education_lane = EducationLane::find($id);
+          return view('admin.othermaster.education-lane.edit', compact('education_lane'));
+      }
+      public function education_lane_update(Request $request, $id)
+      {
+          $input = $request->except('_token');
+          $education_lane = EducationLane::find($id);
+          $education_lane->update($input);
+          return redirect()->route('education-lane')
+              ->with('success', 'Education updated successfully');
+      }
+      public function education_lane_delete(Request $request)
+      {
+      {
+          $education_lane = EducationLane::find($request->id);
+          $education_lane->delete();
+          return redirect()->route('education-lane')
+              ->with('success', 'Education lane deleted successfully');
+      }
+    }
 }

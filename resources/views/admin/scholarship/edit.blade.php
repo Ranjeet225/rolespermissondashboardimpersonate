@@ -5,7 +5,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0"> Province</h4>
+                    <h4 class="card-title mb-0"> Country</h4>
                 </div>
                 <div class="card-body">
                     <div class="wizard">
@@ -14,30 +14,29 @@
                                 aria-labelledby="step1-tab">
                                 <div class="mb-4">
                                     <h3>
-                                        Edit Province</h3>
+                                        Edit Country</h3>
                                 </div>
                                 @if (session('success'))
                                     <div class="alert alert-success">
                                         {{ session('success') }}
                                     </div>
                                 @endif
-                                <form class="row g-4" action="{{ route('update-province',$province->id) }}" method="POST"
+                                <form class="row g-4" action="{{ route('update-country',$country->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('post')
-                                    <div class="col-md-8">
-                                        <div class="form-floating ">
-                                            <select class="form-control sidfrm" name="country_id">
-                                                @foreach ($country as $item)
-                                                   <option value="{{$item->id}}" {{$item->id == $province->country_id ? 'selected' : ''}}>{{$item->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="col-12">
-                                        <label>Enter Province </label>
-                                        <input type="text" class="form-control sidfrm" name="name" placeholder="+91" value="{{$province->name}}">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control sidfrm" name="name" value="{{$country->name}}">
                                         @error('name')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Enter Country Code</label>
+                                        <input type="text" class="form-control sidfrm" name="country_code" placeholder="+91" value="{{$country->country_code}}">
+                                        @error('country_code')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CmsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use App\Models\EducationLevel;
 use App\Models\Program;
+use App\Models\Student;
 use App\Models\University;
 use Maatwebsite\Excel\Row;
 
@@ -86,6 +88,41 @@ Route::middleware('auth')->group(function () {
         // Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise']);
         Route::get("student-list",[StudentController::class,'student_list'])->name('student-list');
 
+        // student registration fees 
+        Route::get('student-registration-fees',[StudentController::class,'student_registration_fees'])->name('student-registration-fees');
+        Route::get('student-registration-fees-filter',[StudentController::class,'student_registration_fees'])->name('student-registration-fees-filter');
+        Route::get('create-student-registration-fees',[StudentController::class,'student_registration_fees_create'])->name('create-student-registration-fees');
+        Route::post('store-student-registration-fees',[StudentController::class,'student_registration_fees_store'])->name('store-student-registration-fees');
+        Route::get('edit-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_edit'])->name('edit-student-registration-fees');
+        Route::post('update-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_update'])->name('update-student-registration-fees');
+        Route::get('delete-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_destroy'])->name('delete-student-registration-fees');
+
+        // student question 
+        Route::get('student-apply-question',[StudentController::class,'student_question'])->name('student-question');
+        Route::get('student-question-filter',[StudentController::class,'student_question'])->name('student-question-filter');
+        Route::get('create-student-question',[StudentController::class,'student_question_create'])->name('create-student-question');
+        Route::post('store-student-question',[StudentController::class,'student_question_store'])->name('store-student-question');
+        Route::get('edit-student-question/{id?}',[StudentController::class,'student_question_edit'])->name('edit-student-question');
+        Route::post('update-student-question/{id?}',[StudentController::class,'student_question_update'])->name('update-student-question');
+        Route::get('delete-student-question/{id?}',[StudentController::class,'student_question_destroy'])->name('delete-student-question');
+
+        // Student assistance 
+        Route::get('student-assistance',[StudentController::class,'student_assistance'])->name('student-assistance');
+        Route::get('student-assistance-filter',[StudentController::class,'student_assistance'])->name('student-assistance-filter');
+        Route::get('create-student-assistance',[StudentController::class,'student_assistance_create'])->name('create-student-assistance');
+        Route::post('store-student-assistance',[StudentController::class,'student_assistance_store'])->name('store-student-assistance');
+        Route::get('edit-student-assistance/{id?}',[StudentController::class,'student_assistance_edit'])->name('edit-student-assistance');
+        Route::post('update-student-assistance/{id?}',[StudentController::class,'student_assistance_update'])->name('update-student-assistance');
+        Route::get('delete-student-assistance/{id?}',[StudentController::class,'student_assistance_destroy'])->name('delete-student-assistance');
+
+        // Student guide
+        Route::get('popular-student-guide',[StudentController::class,'student_guide'])->name('student-guide');
+        Route::get('student-guide-filter',[StudentController::class,'student_guide'])->name('student-guide-filter');
+        Route::get('create-student-guide',[StudentController::class,'student_guide_create'])->name('create-student-guide');
+        Route::post('store-student-guide',[StudentController::class,'student_guide_store'])->name('store-student-guide');
+        Route::get('edit-student-guide/{id?}',[StudentController::class,'student_guide_edit'])->name('edit-student-guide');
+        Route::post('update-student-guide/{id?}',[StudentController::class,'student_guide_update'])->name('update-student-guide');
+        Route::get('delete-student-guide/{id?}',[StudentController::class,'student_guide_destroy'])->name('delete-student-guide');
         // university
         Route::get("manage-university",[UniversityController::class,'manage_university'])->name('manage-university');
         Route::get("filter-university",[UniversityController::class,'manage_university'])->name('filter-university');
@@ -247,13 +284,78 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-country/{id?}',[OtherMasterDataController::class,'country_delete'])->name('delete-country');
           // provience
         Route::get('province',[OtherMasterDataController::class,'province'])->name('province');
-        Route::get('province-filter',[OtherMasterDataController::class,'province'])->name('provience-filter');
+        Route::get('province-filter',[OtherMasterDataController::class,'province'])->name('province-filter');
         Route::get('create-province',[OtherMasterDataController::class,'province_create'])->name('create-province');
         Route::get('edit-province/{id?}',[OtherMasterDataController::class,'province_edit'])->name('edit-province');
         Route::get('delete-province/{id?}',[OtherMasterDataController::class,'province_delete'])->name('delete-province');
         Route::post('update-province/{id?}',[OtherMasterDataController::class,'province_update'])->name('update-province');
         Route::post('store-province',[OtherMasterDataController::class,'province_store'])->name('store-province');
         Route::get('delete-province/{id?}',[OtherMasterDataController::class,'province_delete'])->name('delete-province');
+        // visa-type
+        Route::get('visa-type',[OtherMasterDataController::class,'visa_type'])->name('visa-type');
+        Route::get('visa-type-filter',[OtherMasterDataController::class,'visa_type'])->name('visa-type-filter');
+        Route::get('create-visa-type',[OtherMasterDataController::class,'visa_type_create'])->name('create-visa-type');
+        Route::get('edit-visa-type/{id?}',[OtherMasterDataController::class,'visa_type_edit'])->name('edit-visa-type');
+        Route::get('delete-visa-type/{id?}',[OtherMasterDataController::class,'visa_type_delete'])->name('delete-visa-type');
+        Route::post('update-visa-type/{id?}',[OtherMasterDataController::class,'visa_type_update'])->name('update-visa-type');
+        Route::post('store-visa-type',[OtherMasterDataController::class,'visa_type_store'])->name('store-visa-type');
+        Route::get('delete-visa-type/{id?}',[OtherMasterDataController::class,'visa_type_delete'])->name('delete-visa-type');
+        // faq
+        Route::get('faqs',[OtherMasterDataController::class,'faq'])->name('faq');
+        Route::get('faq-filter',[OtherMasterDataController::class,'faq'])->name('faq-filter');
+        Route::get('create-faq',[OtherMasterDataController::class,'faq_create'])->name('create-faq');
+        Route::get('edit-faq/{id?}',[OtherMasterDataController::class,'faq_edit'])->name('edit-faq');
+        Route::get('delete-faq/{id?}',[OtherMasterDataController::class,'faq_delete'])->name('delete-faq');
+        Route::post('update-faq/{id?}',[OtherMasterDataController::class,'faq_update'])->name('update-faq');
+        Route::post('store-faq',[OtherMasterDataController::class,'faq_store'])->name('store-faq');
+        Route::get('delete-faq/{id?}',[OtherMasterDataController::class,'faq_delete'])->name('delete-faq');
+        // vas-service
+        Route::get('vas-services',[OtherMasterDataController::class,'vas_service'])->name('vas-service');
+        Route::get('vas-service-filter',[OtherMasterDataController::class,'vas_service'])->name('vas-service-filter');
+        Route::get('create-vas-service',[OtherMasterDataController::class,'vas_service_create'])->name('create-vas-service');
+        Route::get('edit-vas-service/{id?}',[OtherMasterDataController::class,'vas_service_edit'])->name('edit-vas-service');
+        Route::get('delete-vas-service/{id?}',[OtherMasterDataController::class,'vas_service_delete'])->name('delete-vas-service');
+        Route::post('update-vas-service/{id?}',[OtherMasterDataController::class,'vas_service_update'])->name('update-vas-service');
+        Route::post('store-vas-service',[OtherMasterDataController::class,'vas_service_store'])->name('store-vas-service');
+        Route::get('delete-vas-service/{id?}',[OtherMasterDataController::class,'vas_service_delete'])->name('delete-vas-service');
+
+
+        // Education Lane
+        Route::get('education-lane',[OtherMasterDataController::class,'education_lane'])->name('education-lane');
+        Route::get('education-lane-filter',[OtherMasterDataController::class,'education_lane'])->name('education-lane-filter');
+        Route::get('create-education-lane',[OtherMasterDataController::class,'education_lane_create'])->name('create-education-lane');
+        Route::get('edit-education-lane/{id?}',[OtherMasterDataController::class,'education_lane_edit'])->name('edit-education-lane');
+        Route::get('delete-education-lane/{id?}',[OtherMasterDataController::class,'education_lane_delete'])->name('delete-education-lane');
+        Route::post('update-education-lane/{id?}',[OtherMasterDataController::class,'education_lane_update'])->name('update-education-lane');
+        Route::post('store-education-lane',[OtherMasterDataController::class,'education_lane_store'])->name('store-education-lane');
+        Route::get('delete-education-lane/{id?}',[OtherMasterDataController::class,'education_lane_delete'])->name('delete-education-lane');
+
+        // scholorship
+        Route::get('scholorship/{id?}',[StudentController::class,'scholorship'])->name('scholorship');
+        Route::get('scholorship-filter',[StudentController::class,'scholorship'])->name('scholorship-filter');
+        Route::get('create-scholorship',[StudentController::class,'scholorship_create'])->name('create-scholorship');
+        Route::get('edit-scholorship/{id?}',[StudentController::class,'scholorship_edit'])->name('edit-scholorship');
+        Route::get('delete-scholorship/{id?}',[StudentController::class,'scholorship_delete'])->name('delete-scholorship');
+        Route::post('update-scholorship/{id?}',[StudentController::class,'scholorship_update'])->name('update-scholorship');
+        Route::post('store-scholorship',[StudentController::class,'scholorship_store'])->name('store-scholorship');
+
+             // Blogs
+        Route::get('blogs/{id?}',[CmsController::class,'blogs'])->name('blogs');
+        Route::get('blogs-filter',[CmsController::class,'blogs'])->name('blogs-filter');
+        Route::get('create-blogs',[CmsController::class,'blogs_create'])->name('create-blogs');
+        Route::get('edit-blogs/{id?}',[CmsController::class,'blogs_edit'])->name('edit-blogs');
+        Route::get('delete-blogs/{id?}',[CmsController::class,'blogs_delete'])->name('delete-blogs');
+        Route::post('update-blogs/{id?}',[CmsController::class,'blogs_update'])->name('update-blogs');
+        Route::post('store-blogs',[CmsController::class,'blogs_store'])->name('store-blogs');
+
+        // testimonial 
+        Route::get('testimonial/{id?}',[CmsController::class,'testimonial'])->name('testimonial');
+        Route::get('testimonial-filter',[CmsController::class,'testimonial'])->name('testimonial-filter');
+        Route::get('create-testimonial',[CmsController::class,'testimonial_create'])->name('create-testimonial');
+        Route::get('edit-testimonial/{id?}',[CmsController::class,'testimonial_edit'])->name('edit-testimonial');
+        Route::get('delete-testimonial/{id?}',[CmsController::class,'testimonial_delete'])->name('delete-testimonial');
+        Route::post('update-testimonial/{id?}',[CmsController::class,'testimonial_update'])->name('update-testimonial');
+        Route::post('store-testimonial',[CmsController::class,'testimonial_store'])->name('store-testimonial');
 
     });
     Route::prefix('franchise')->group(function () {

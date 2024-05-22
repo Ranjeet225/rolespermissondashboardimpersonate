@@ -103,6 +103,56 @@
             ]
         },
         {
+            "name": "Student",
+            "icon": "menu-icon tf-icons fas fa-user-graduate",
+            "slug": "student",
+            "permission":["student.view","student_registration_fees,view","student_apply_question.view","student_assistance.view","student_assistance.view","student_enquiry_log.view","popular_student_guide.view","find_program_log.view"],
+            "submenu": [
+                {
+                    "url": "/admin/student-list",
+                    "name": "Student List",
+                    "slug": "admin-student-list",
+                    "permission":"student.view"
+                },
+                {
+                    "url": "/admin/student-registration-fees",
+                    "name": "Student Registration Fees",
+                    "slug": "admin-student-registration-fees",
+                    "permission":"student_registration_fees.view"
+                },
+                {
+                    "url": "/admin/student-apply-question",
+                    "name": "Student Apply Questions",
+                    "slug": "admin-student-apply-question",
+                    "permission":"student_apply_question.view"
+                },
+                {
+                    "url": "/admin/student-assistance",
+                    "name": "Student Assistance",
+                    "slug": "admin-student-assistance",
+                    "permission":"student_assistance.view"
+                },
+                {
+                    "url": "/admin/student-enquiry-log",
+                    "name": "Student Enquiry Log",
+                    "slug": "admin-student-enquiry-log",
+                    "permission":"student_enquiry_log.view"
+                },
+                {
+                    "url": "/admin/popular-student-guide",
+                    "name": "Popular Student Guide (Home Page) ",
+                    "slug": "admin-popular-student-guide",
+                    "permission":"popular_student_guide.view"
+                },
+                 {
+                    "url": "/admin/find-program-log",
+                    "name": "Find Program Log",
+                    "slug": "admin-popular-student-guide",
+                    "permission":"find_program_log.view"
+                }
+            ]
+        },
+        {
             "name": "Programs",
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
@@ -218,7 +268,7 @@
             "name": "Scholorship ",
             "icon": "menu-icon tf-icons la la-user",
             "slug": "scholorship ",
-            "permission":"scholorship .view"
+            "permission":"scholorship.view"
         },
         {
             "name": "Other Master Data",
@@ -264,13 +314,13 @@
                     "permission":"visa_type.view"
                 },
                 {
-                    "url": "/admin/faq's",
+                    "url": "/admin/faqs",
                     "name": "FAQs",
                     "slug": "admin-faq",
                     "permission":"faq.view"
                 },
                 {
-                    "url": "/admin/visa-services",
+                    "url": "/admin/vas-services",
                     "name": "Vas Services",
                     "slug": "admin-vas-services",
                     "permission":"vas_services.view"
@@ -280,29 +330,10 @@
                     "name": "Education Lane (Home Page)",
                     "slug": "admin-education-lane",
                     "permission":"education_lane.view"
-                },
-                {
-                    "url": "/admin/manage-blogs",
-                    "name": "Manage Blogs",
-                    "slug": "manage-manage-blogs",
-                    "permission":"manage_blogs.view"
                 }
             ]
             },
-        {
-            "name": "Student",
-            "icon": "menu-icon tf-icons fas fa-user-graduate",
-            "slug": "student",
-            "permission":["student.view"],
-            "submenu": [
-                {
-                    "url": "/admin/student-list",
-                    "name": "Student List",
-                    "slug": "admin-student-list",
-                    "permission":"student.view"
-                }
-            ]
-        },
+
         {
             "url": "/student/my-profile",
             "name": "My Profile",
@@ -387,21 +418,21 @@
             "permission":["testimonial.view","blogs.view","messages.view"],
             "submenu": [
                 {
-                    "url": "/testimonial",
+                    "url": "admin/testimonial",
                     "name": "Testimonial",
-                    "slug": "applied-program",
+                    "slug": "admin-testimonial",
                     "permission":"testimonial.view"
                 },
                 {
-                    "url": "/blogs",
+                    "url": "admin/blogs",
                     "name": "Blogs",
-                    "slug": "blogs",
+                    "slug": "admin-blogs",
                     "permission":"blogs.view"
                 },
                 {
-                    "url": "/messages",
+                    "url": "admin/messages",
                     "name": "Messages",
-                    "slug": "message",
+                    "slug": "admin-message",
                     "permission":"messages.view"
                 }
             ]

@@ -388,5 +388,41 @@ return [
             'vas_services.update',
             'vas_services.delete',
         ],
+        'student_registration_fees' => [
+            'student_registration_fees.create',
+            'student_registration_fees.view',
+            'student_registration_fees.update',
+            'student_registration_fees.delete',
+        ],
+        'student_apply_question' => [
+            'student_apply_question.create',
+            'student_apply_question.view',
+            'student_apply_question.update',
+            'student_apply_question.delete',
+        ],
+        'student_assistance' => [
+            'student_assistance.create',
+            'student_assistance.view',
+            'student_assistance.update',
+            'student_assistance.delete',
+        ],
+        'student_enquiry_log' => [
+            'student_enquiry_log.create',
+            'student_enquiry_log.view',
+            'student_enquiry_log.update',
+            'student_enquiry_log.delete',
+        ],
+        'popular_student_guide' => [
+            'popular_student_guide.create',
+            'popular_student_guide.view',
+            'popular_student_guide.update',
+            'popular_student_guide.delete',
+        ],
+        'find_program_log' => [
+            'find_program_log.create',
+            'find_program_log.view',
+            'find_program_log.update',
+            'find_program_log.delete',
+        ],
       ],
 ];

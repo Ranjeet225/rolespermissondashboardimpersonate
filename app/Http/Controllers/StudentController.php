@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\EducationHistory;
 use App\Models\EducationLevel;
+use App\Models\PopularStudentGuide;
+use App\Models\Program;
 use App\Models\SchoolAttended;
+use App\Models\Scholarship;
 use App\Models\Student;
+use App\Models\StudentApplyQuestions;
+use App\Models\StudentAssistance;
 use App\Models\StudentAttendence;
 use App\Models\StudentByAgent;
+use App\Models\StudentRegistrationFees;
 use App\Models\Subject;
+use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -373,19 +380,270 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function scholorship(Request $request)
     {
-        //
+        return view('admin.scholarship.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function scholorship_create(Request $request)
     {
-        //
+        $university =University::get();
+        $program=Program::get();
+        return view('admin.scholarship.create',compact('university','program'));
     }
-}
+    public function scholorship_store(Request $request)
+    {
+        $request->validate([
+            'scholorship_name'=>'required|max:222',
+            'college_university_name'=>'required|max:222',
+            'program_id'=>'required|max:222',
+            'scholorship_type'=>'required|max:222',
+            'offered_by'=>'required|max:222',
+            'application_dead_line'=>'required|max:222',
+            'no_of_scholorship'=>'required|max:222',
+            'scholorship_amount'=>'required|max:222',
+            'leavel_of_study'=>'required|max:222',
+            'organization'=>'required|max:222',
+            'renewability'=>'required|max:222',
+            'international_student_eligibility'=>'required',
+        ]);
+        Scholarship::create($request->except('_token'));
+        return redirect()->route('scholorship.index')->with('success', 'Scholarship created successfully');
+    }
+    
+    public function scholorship_edit($id)
+    {
+        $scholarship = Scholarship::findOrFail($id);
+        $universities = University::get();
+        $programs = Program::get();
+        return view('admin.scholarship.edit', compact('scholarship', 'universities', 'programs'));
+    }
+    
+    public function scholorship_update(Request $request, $id)
+    {
+        $scholarship = Scholarship::findOrFail($id);
+        $scholarship->update($request->all());
+        return redirect()->route('scholorship.index')->with('success', 'Scholarship updated successfully');
+    }
+    
+    public function scholorship_destroy($id)
+    {
+        $scholarship = Scholarship::findOrFail($id);
+        $scholarship->delete();
+        return redirect()->route('scholorship.index')->with('success', 'Scholarship deleted successfully');
+    }
+
+
+
+    // student registration fees 
+
+    public function student_registration_fees(Request $request)
+    {
+        if ($request->has('fees_type')) {
+            $student_registraion_fees = StudentRegistrationFees::where('fees_type', 'like', '%' . $request->fees_type . '%')->paginate(12);
+        } else {
+            $student_registraion_fees = StudentRegistrationFees::paginate(12);
+        }
+        return view('admin.student.student-registraion-fees.index', compact('student_registraion_fees'));
+    }
+
+    public function student_registration_fees_create()
+    {
+        return view('admin.student.student-registraion-fees.create');
+    }
+
+    public function student_registration_fees_store(Request $request)
+    {
+        $request->validate([
+            'fees_type' => 'required|max:222',
+            'fees_amount' => 'required|max:222',
+        ]);
+        StudentRegistrationFees::create($request->all());
+        return redirect()->route('student-registration-fees')->with('success', 'Student registration fees created successfully');
+    }
+
+    public function student_registration_fees_edit($id)
+    {
+        $student_registraion_fees = StudentRegistrationFees::findOrFail($id);
+        return view('admin.student.student-registraion-fees.edit', compact('student_registraion_fees'));
+    }
+
+    public function student_registration_fees_update(Request $request, $id)
+    {
+        $student_registraion_fees = StudentRegistrationFees::findOrFail($id);
+        $student_registraion_fees->update($request->all());
+        return redirect()->route('student-registration-fees')->with('success', 'Student registration fees updated successfully');
+    }
+
+    public function student_registration_fees_destroy($id)
+    {
+        $student_registraion_fees = StudentRegistrationFees::findOrFail($id);
+        $student_registraion_fees->delete();
+        return redirect()->route('student-registration-fees')->with('success', 'Student registration fees deleted successfully');
+    }
+
+    // Question 
+     public function student_question(Request $request)
+     {
+         if ($request->has('question')) {
+             $student_question = StudentApplyQuestions::where('question', 'like', '%' . $request->question . '%')->paginate(12);
+         } else {
+             $student_question = StudentApplyQuestions::paginate(12);
+         }
+         return view('admin.student.student-apply-question.index', compact('student_question'));
+     }
+ 
+     public function student_question_create()
+     {
+         return view('admin.student.student-apply-question.create');
+     }
+ 
+     public function student_question_store(Request $request)
+     {
+         $request->validate([
+             'question' => 'required',
+         ]);
+         StudentApplyQuestions::create($request->except('_token') + ['user_id' => Auth::user()->id]);
+         return redirect()->route('student-question')->with('success', 'Student Apply Question created successfully');
+     }
+ 
+     public function student_question_edit($id)
+     {
+         $student_question = StudentApplyQuestions::findOrFail($id);
+         return view('admin.student.student-apply-question.edit', compact('student_question'));
+     }
+ 
+     public function student_question_update(Request $request, $id)
+     {
+         $student_question = StudentApplyQuestions::findOrFail($id);
+         $student_question->update($request->all());
+         return redirect()->route('student-question')->with('success', 'Student Question  updated successfully');
+     }
+ 
+     public function student_question_destroy($id)
+     {
+         $student_question = StudentApplyQuestions::findOrFail($id);
+         $student_question->delete();
+         return redirect()->route('student-question')->with('success', 'Student Question deleted successfully');
+     }
+ 
+
+    //  student assistance  
+     public function student_assistance(Request $request)
+     {
+         if ($request->has('title')) {
+             $student_assistance = StudentAssistance::where('title', 'like', '%' . $request->title . '%')->paginate(12);
+         } else {
+             $student_assistance = StudentAssistance::paginate(12);
+         }
+         return view('admin.student.student-assistance.index', compact('student_assistance'));
+     }
+     public function student_assistance_create()
+     {
+         return view('admin.student.student-assistance.create');
+     }
+     public function student_assistance_store(Request $request)
+     {
+         $request->validate([
+             'title' => 'required',
+         ]);
+         StudentAssistance::create($request->except('_token'));
+         return redirect()->route('student-assistance')->with('success', 'Student Assistance created successfully');
+     }
+     public function student_assistance_edit($id)
+     {
+         $student_assistance = StudentAssistance::findOrFail($id);
+         return view('admin.student.student-assistance.edit', compact('student_assistance'));
+     }
+     public function student_assistance_update(Request $request, $id)
+     {
+         $student_assistance = StudentAssistance::findOrFail($id);
+         $student_assistance->update($request->except('_token'));
+         return redirect()->route('student-assistance')->with('success', 'Student Assistance  updated successfully');
+     }
+     public function student_assistance_destroy($id)
+     {
+         $student_assistance = StudentAssistance::findOrFail($id);
+         $student_assistance->delete();
+         return redirect()->route('student-assistance')->with('success', 'Student Assistance deleted successfully');
+     }
+
+    //  student guide 
+    public function student_guide(Request $request)
+    {
+        if ($request->has('title')) {
+            $student_guide = PopularStudentGuide::where('title', 'like', '%' . $request->title . '%')->paginate(12);
+        } else {
+            $student_guide = PopularStudentGuide::paginate(12);
+        }
+        return view('admin.student.student-guide.index', compact('student_guide'));
+    }
+    public function student_guide_create()
+    {
+        return view('admin.student.student-guide.create');
+    }
+    public function student_guide_store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'text' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'doc_file' => 'mimes:pdf,doc,docx|max:2048',
+        ]);
+        $data = $request->except('_token');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/imagesapi/');
+            $image->move($destinationPath, $name);
+            $data['image'] = $name;
+        }
+        if ($request->hasFile('doc_url')) {
+            $doc_file = $request->file('doc_url');
+            $name = time() . '.' . $doc_file->getClientOriginalExtension();
+            $destinationPath = public_path('/imagesapi/');
+            $doc_file->move($destinationPath, $name);
+            $data['doc_url'] = $name;
+        }
+        PopularStudentGuide::create($data);
+        return redirect()->route('student-guide')->with('success', 'Student Guide created successfully');
+    }
+    public function student_guide_edit($id)
+    {
+        $studentGuide = PopularStudentGuide::findOrFail($id);
+        return view('admin.student.student-guide.edit', compact('studentGuide'));
+    }
+    public function student_guide_update(Request $request, $id)
+    {
+        $student_guide = PopularStudentGuide::findOrFail($id);
+        $data = $request->except('_token');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/imagesapi/');
+            $image->move($destinationPath, $name);
+            $data['image'] = $name;
+        }else{
+            $data['image'] = $student_guide->image;
+        }
+        if ($request->hasFile('doc_url')) {
+            $doc_file = $request->file('doc_url');
+            $name = time() . '.' . $doc_file->getClientOriginalExtension();
+            $destinationPath = public_path('/imagesapi/');
+            $doc_file->move($destinationPath, $name);
+            $data['doc_url'] = $name;
+        }else{
+            $data['doc_url'] = $student_guide->doc_url;
+        }
+        $student_guide->update($data);
+        return redirect()->route('student-guide')->with('success', 'Student Guide updated successfully');
+    }
+    public function student_guide_destroy($id)
+    {
+        $student_guide = PopularStudentGuide::findOrFail($id);
+        $student_guide->delete();
+        return redirect()->route('student-guide')->with('success', 'Student Guide deleted successfully');
+    }
+ 
+
+}   

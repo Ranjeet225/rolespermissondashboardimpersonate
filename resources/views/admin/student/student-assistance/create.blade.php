@@ -5,7 +5,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0"> Province</h4>
+                    <h4 class="card-title mb-0"> Manage  Student Assistance</h4>
                 </div>
                 <div class="card-body">
                     <div class="wizard">
@@ -14,30 +14,20 @@
                                 aria-labelledby="step1-tab">
                                 <div class="mb-4">
                                     <h3>
-                                        Edit Province</h3>
+                                        Add  Student Assistance</h3>
                                 </div>
                                 @if (session('success'))
                                     <div class="alert alert-success">
                                         {{ session('success') }}
                                     </div>
                                 @endif
-                                <form class="row g-4" action="{{ route('update-province',$province->id) }}" method="POST"
+                                <form class="row g-4" action="{{ route('store-student-assistance') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    @method('post')
-                                    <div class="col-md-8">
-                                        <div class="form-floating ">
-                                            <select class="form-control sidfrm" name="country_id">
-                                                @foreach ($country as $item)
-                                                   <option value="{{$item->id}}" {{$item->id == $province->country_id ? 'selected' : ''}}>{{$item->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="col-12">
-                                        <label>Enter Province </label>
-                                        <input type="text" class="form-control sidfrm" name="name" placeholder="+91" value="{{$province->name}}">
-                                        @error('name')
+                                        <label>Title </label>
+                                        <input type="text" name="title" class="form-control sidfrm" placeholder="Enter Title " />
+                                        @error('title')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -52,4 +42,18 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        ['#summernote1', '#summernote2', '#summernote4','#summernote3','#summernote5'].forEach(function(id) {
+            $(id).summernote({
+                placeholder: ' Write Here',
+                tabsize: 2,
+                height: 100
+            });
+        });
+    </script>
 @endsection
