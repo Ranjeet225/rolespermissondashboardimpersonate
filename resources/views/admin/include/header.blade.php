@@ -65,12 +65,25 @@
           <!-- Notifications -->
           <li class="nav-item dropdown">
             @inject('carbon', 'Carbon\Carbon')
-            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-              <i class="fa-regular fa-bell"></i>
-              <span class="badge rounded-pill">
-                {{ $count = App\Models\University::whereDate('updated_at', '<', $carbon::now()->subMonths(3))->count() }}
-              </span>
-            </a>
+            @php
+                $user = Auth::user();
+            @endphp
+           @if(($user->hasRole('Administrator')))
+              <a href="{{ route('update-university') }}" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <i class="fa-regular fa-bell"></i>
+                <span class="badge rounded-pill">
+                   {{ $count = App\Models\University::whereDate('updated_at', '<', $carbon::now()->subMonths(3))->count() }}
+
+                </span>
+              </a>
+            @else
+              <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <i class="fa-regular fa-bell"></i>
+                <span class="badge rounded-pill">
+                  {{ $count = App\Models\University::whereDate('updated_at', '<', $carbon::now()->subMonths(3))->where('user_id', auth()->user()->id)->count() }}
+                </span>
+              </a>
+            @endif
             <div class="dropdown-menu notifications">
               <div class="topnav-dropdown-header">
                 <span class="notification-title">Notifications</span>

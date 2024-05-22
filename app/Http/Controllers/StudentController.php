@@ -380,62 +380,83 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function scholorship(Request $request)
+    public function scholarship(Request $request)
     {
-        return view('admin.scholarship.index');
+        if ($request->heading) {
+            $scholarship = Scholarship::where('heading', 'like', '%' . $request->heading . '%')->paginate(12);
+        } else {
+            $scholarship = Scholarship::paginate(12);
+        }
+
+        return view('admin.scholarship.index', compact('scholarship'));
     }
 
-    public function scholorship_create(Request $request)
+    public function scholarship_create(Request $request)
     {
         $university =University::get();
         $program=Program::get();
         return view('admin.scholarship.create',compact('university','program'));
     }
-    public function scholorship_store(Request $request)
+    public function scholarship_store(Request $request)
     {
         $request->validate([
-            'scholorship_name'=>'required|max:222',
-            'college_university_name'=>'required|max:222',
-            'program_id'=>'required|max:222',
-            'scholorship_type'=>'required|max:222',
+            'heading'=>'required|max:222',
+            'universty_id'=>'required|max:222',
+            'course_id'=>'required|max:222',
+            'scholarship_type'=>'required|max:222',
             'offered_by'=>'required|max:222',
             'application_dead_line'=>'required|max:222',
-            'no_of_scholorship'=>'required|max:222',
-            'scholorship_amount'=>'required|max:222',
-            'leavel_of_study'=>'required|max:222',
+            'no_of_scholarship'=>'required|max:222',
+            'scholarship_amount'=>'required|max:222',
+            'level_of_study'=>'required|max:222',
             'organization'=>'required|max:222',
             'renewability'=>'required|max:222',
             'international_student_eligibility'=>'required',
         ]);
         Scholarship::create($request->except('_token'));
-        return redirect()->route('scholorship.index')->with('success', 'Scholarship created successfully');
+        return redirect()->route('scholarship')->with('success', 'Scholarship created successfully');
     }
-    
-    public function scholorship_edit($id)
+
+    public function scholarship_edit($id)
     {
         $scholarship = Scholarship::findOrFail($id);
-        $universities = University::get();
-        $programs = Program::get();
-        return view('admin.scholarship.edit', compact('scholarship', 'universities', 'programs'));
+        $university = University::get();
+        $program = Program::get();
+        return view('admin.scholarship.edit', compact('scholarship', 'university', 'program'));
     }
-    
-    public function scholorship_update(Request $request, $id)
+
+    public function scholarship_update(Request $request, $id)
     {
+
+        $request->validate([
+            'heading'=>'required|max:222',
+            'universty_id'=>'required|max:222',
+            'course_id'=>'required|max:222',
+            'scholarship_type'=>'required|max:222',
+            'offered_by'=>'required|max:222',
+            'application_dead_line'=>'required|max:222',
+            'no_of_scholarship'=>'required|max:222',
+            'scholarship_amount'=>'required|max:222',
+            'level_of_study'=>'required|max:222',
+            'organization'=>'required|max:222',
+            'renewability'=>'required|max:222',
+            'international_student_eligibility'=>'required',
+        ]);
         $scholarship = Scholarship::findOrFail($id);
-        $scholarship->update($request->all());
-        return redirect()->route('scholorship.index')->with('success', 'Scholarship updated successfully');
+        $scholarship->update($request->except('_token'));
+        return redirect()->route('scholarship')->with('success', 'Scholarship updated successfully');
     }
-    
-    public function scholorship_destroy($id)
+
+    public function scholarship_delete($id)
     {
         $scholarship = Scholarship::findOrFail($id);
         $scholarship->delete();
-        return redirect()->route('scholorship.index')->with('success', 'Scholarship deleted successfully');
+        return redirect()->route('scholarship')->with('success', 'Scholarship deleted successfully');
     }
 
 
 
-    // student registration fees 
+    // student registration fees
 
     public function student_registration_fees(Request $request)
     {
@@ -482,7 +503,7 @@ class StudentController extends Controller
         return redirect()->route('student-registration-fees')->with('success', 'Student registration fees deleted successfully');
     }
 
-    // Question 
+    // Question
      public function student_question(Request $request)
      {
          if ($request->has('question')) {
@@ -492,12 +513,12 @@ class StudentController extends Controller
          }
          return view('admin.student.student-apply-question.index', compact('student_question'));
      }
- 
+
      public function student_question_create()
      {
          return view('admin.student.student-apply-question.create');
      }
- 
+
      public function student_question_store(Request $request)
      {
          $request->validate([
@@ -506,29 +527,29 @@ class StudentController extends Controller
          StudentApplyQuestions::create($request->except('_token') + ['user_id' => Auth::user()->id]);
          return redirect()->route('student-question')->with('success', 'Student Apply Question created successfully');
      }
- 
+
      public function student_question_edit($id)
      {
          $student_question = StudentApplyQuestions::findOrFail($id);
          return view('admin.student.student-apply-question.edit', compact('student_question'));
      }
- 
+
      public function student_question_update(Request $request, $id)
      {
          $student_question = StudentApplyQuestions::findOrFail($id);
          $student_question->update($request->all());
          return redirect()->route('student-question')->with('success', 'Student Question  updated successfully');
      }
- 
+
      public function student_question_destroy($id)
      {
          $student_question = StudentApplyQuestions::findOrFail($id);
          $student_question->delete();
          return redirect()->route('student-question')->with('success', 'Student Question deleted successfully');
      }
- 
 
-    //  student assistance  
+
+    //  student assistance
      public function student_assistance(Request $request)
      {
          if ($request->has('title')) {
@@ -568,7 +589,7 @@ class StudentController extends Controller
          return redirect()->route('student-assistance')->with('success', 'Student Assistance deleted successfully');
      }
 
-    //  student guide 
+    //  student guide
     public function student_guide(Request $request)
     {
         if ($request->has('title')) {
@@ -644,6 +665,6 @@ class StudentController extends Controller
         $student_guide->delete();
         return redirect()->route('student-guide')->with('success', 'Student Guide deleted successfully');
     }
- 
 
-}   
+
+}

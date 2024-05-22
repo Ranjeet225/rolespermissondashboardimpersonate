@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
         // Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise']);
         Route::get("student-list",[StudentController::class,'student_list'])->name('student-list');
 
-        // student registration fees 
+        // student registration fees
         Route::get('student-registration-fees',[StudentController::class,'student_registration_fees'])->name('student-registration-fees');
         Route::get('student-registration-fees-filter',[StudentController::class,'student_registration_fees'])->name('student-registration-fees-filter');
         Route::get('create-student-registration-fees',[StudentController::class,'student_registration_fees_create'])->name('create-student-registration-fees');
@@ -97,7 +97,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_update'])->name('update-student-registration-fees');
         Route::get('delete-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_destroy'])->name('delete-student-registration-fees');
 
-        // student question 
+        // student question
         Route::get('student-apply-question',[StudentController::class,'student_question'])->name('student-question');
         Route::get('student-question-filter',[StudentController::class,'student_question'])->name('student-question-filter');
         Route::get('create-student-question',[StudentController::class,'student_question_create'])->name('create-student-question');
@@ -106,7 +106,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update-student-question/{id?}',[StudentController::class,'student_question_update'])->name('update-student-question');
         Route::get('delete-student-question/{id?}',[StudentController::class,'student_question_destroy'])->name('delete-student-question');
 
-        // Student assistance 
+        // Student assistance
         Route::get('student-assistance',[StudentController::class,'student_assistance'])->name('student-assistance');
         Route::get('student-assistance-filter',[StudentController::class,'student_assistance'])->name('student-assistance-filter');
         Route::get('create-student-assistance',[StudentController::class,'student_assistance_create'])->name('create-student-assistance');
@@ -331,13 +331,13 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-education-lane/{id?}',[OtherMasterDataController::class,'education_lane_delete'])->name('delete-education-lane');
 
         // scholorship
-        Route::get('scholorship/{id?}',[StudentController::class,'scholorship'])->name('scholorship');
-        Route::get('scholorship-filter',[StudentController::class,'scholorship'])->name('scholorship-filter');
-        Route::get('create-scholorship',[StudentController::class,'scholorship_create'])->name('create-scholorship');
-        Route::get('edit-scholorship/{id?}',[StudentController::class,'scholorship_edit'])->name('edit-scholorship');
-        Route::get('delete-scholorship/{id?}',[StudentController::class,'scholorship_delete'])->name('delete-scholorship');
-        Route::post('update-scholorship/{id?}',[StudentController::class,'scholorship_update'])->name('update-scholorship');
-        Route::post('store-scholorship',[StudentController::class,'scholorship_store'])->name('store-scholorship');
+        Route::get('scholarship/{id?}',[StudentController::class,'scholarship'])->name('scholarship');
+        Route::get('scholarship-filter',[StudentController::class,'scholarship'])->name('scholarship-filter');
+        Route::get('create-scholorship',[StudentController::class,'scholarship_create'])->name('create-scholarship');
+        Route::get('edit-scholarship/{id?}',[StudentController::class,'scholarship_edit'])->name('edit-scholarship');
+        Route::get('delete-scholarship/{id?}',[StudentController::class,'scholarship_delete'])->name('delete-scholarship');
+        Route::post('update-scholarship/{id?}',[StudentController::class,'scholarship_update'])->name('update-scholarship');
+        Route::post('store-scholarship',[StudentController::class,'scholarship_store'])->name('store-scholarship');
 
              // Blogs
         Route::get('blogs/{id?}',[CmsController::class,'blogs'])->name('blogs');
@@ -348,7 +348,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update-blogs/{id?}',[CmsController::class,'blogs_update'])->name('update-blogs');
         Route::post('store-blogs',[CmsController::class,'blogs_store'])->name('store-blogs');
 
-        // testimonial 
+        // testimonial
         Route::get('testimonial/{id?}',[CmsController::class,'testimonial'])->name('testimonial');
         Route::get('testimonial-filter',[CmsController::class,'testimonial'])->name('testimonial-filter');
         Route::get('create-testimonial',[CmsController::class,'testimonial_create'])->name('create-testimonial');

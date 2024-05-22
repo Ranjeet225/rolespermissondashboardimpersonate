@@ -4,7 +4,7 @@
         <div class="card card-buttons">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <ol class="breadcrumb text-muted mb-0">
                             <li class="breadcrumb-item">
                                 <a href="index.php"> Franchise</a>
@@ -12,7 +12,7 @@
                             <li class="breadcrumb-item text-muted">Franchise List</li>
                         </ol>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <a href="{{ route('frenchise-create') }}" class="btn add-btn">
                             <i class="fa-solid fa-plus"></i>Add New Franchise</a>
                     </div>
@@ -27,19 +27,19 @@
                     <form action="{{ route('frenchise-filter') }}" method="GET">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin" name="name"
+                                <input type="text" class="form-control formmrgin sidfrm" name="name"
                                     value="{{ request()->get('name') }}" placeholder="Search By Name ">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin" name="email"
+                                <input type="text" class="form-control formmrgin sidfrm" name="email"
                                     value="{{ request()->get('email') }}" placeholder="Search By Email">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin" name="phone_number"
+                                <input type="text" class="form-control formmrgin sidfrm" name="phone_number"
                                     value="{{ request()->get('phone') }}" placeholder=" Phone Number">
                             </div>
                             <div class="col-md-4">
-                                <select class="form-control country formmrgin" name="country_id" id="lead-fm">
+                                <select class="form-control country formmrgin sidfrm" name="country_id" id="lead-fm">
                                     <option value="">-- Select Country --</option>
                                     @foreach ($countries as $item)
                                         <option value="{{ $item->id }}"
@@ -50,23 +50,23 @@
                             </div>
 
                             <div class="col-md-4">
-                                <select name="province_id" id="lead-fm" class="form-control province_id  formmrgin">
+                                <select name="province_id" class="form-control province_id sidfrm formmrgin">
                                     <option value="">-State/Provision -</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin" name="zip"
+                                <input type="text" class="form-control formmrgin sidfrm" name="zip"
                                     value="{{ request()->get('zip') }}" placeholder="Pincode">
                             </div>
                             <div class="col-md-4 ">
-                                <select class="form-control" name="status">
+                                <select class="form-control sidfrm" name="status">
                                     <option value="">--Select Status--</option>
                                     <option value ="Active">Active</option>
                                     <option value ="InActive">InActive</option>
                                 </select>
                             </div>
                             <div class="col-md-4 ">
-                                <select class="form-control " name="approvestatus">
+                                <select class="form-control sidfrm" name="approvestatus">
                                     <option value ="">--Select Approval Status--</option>
                                     <option value ="Approve">Approve</option>
                                     <option value ="UnApprove">UnApprove</option>
@@ -74,17 +74,17 @@
                             </div>
 
                             <div class="col-md-4 col-sm-4">
-                                <input type="date" name="from_date" class="form-control formmrgin"
+                                <input type="date" name="from_date" class="form-control formmrgin sidfrm"
                                     value="{{ request()->get('from_date') }}" placeholder="From Date">
                             </div>
 
                             <div class="col-md-4 col-sm-4">
-                                <input type="date" name="to_date" class="form-control formmrgin"
+                                <input type="date" name="to_date" class="form-control formmrgin sidfrm"
                                     value="{{ request()->get('to_date') }}" placeholder="to Date" value="">
                             </div>
                             <div class="row">
                                 <div class="col-md-2 ">
-                                    <a href="{{ route('frenchise-filter') }}" class="btn btn-info d-lg-block  formmrgin">Reset
+                                    <a href="{{ route('frenchise-filter') }}" class="btn btn-info d-lg-block  formmrgin ">Reset
                                     </a>
                                 </div>
                                 <div class="col-md-1 ">
