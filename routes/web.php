@@ -8,15 +8,13 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrenchiseController;
 use App\Http\Controllers\LeadsManageCotroller;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OtherMasterDataController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
-use App\Models\EducationLevel;
-use App\Models\Program;
-use App\Models\Student;
-use App\Models\University;
-use Maatwebsite\Excel\Row;
+
+// URL::forceScheme('https');
 
 /*
 in this project some name of model or function and table name is wrong because
@@ -357,6 +355,8 @@ Route::middleware('auth')->group(function () {
         Route::post('update-testimonial/{id?}',[CmsController::class,'testimonial_update'])->name('update-testimonial');
         Route::post('store-testimonial',[CmsController::class,'testimonial_store'])->name('store-testimonial');
 
+        // message lead
+        Route::get('message-lead',[MessageController::class,'message_lead'])->name('message-lead');
     });
     Route::prefix('franchise')->group(function () {
            // frenchise

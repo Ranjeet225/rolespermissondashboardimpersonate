@@ -64,6 +64,50 @@
             ]
         },
         {
+            "name": "Message",
+            "icon": "menu-icon tf-icons las la-sms",
+            "slug": "message",
+            "permission":["message_lead.view","message_franchise.view","message_student.view","outbox.view","trash.view","sms_template.view"],
+            "submenu": [
+                {
+                    "url": "/admin/message-lead",
+                    "name": "Message Lead",
+                    "slug": "admin-message-lead",
+                    "permission":"message_lead.view"
+                },
+                {
+                    "url": "/admin/message-franchise",
+                    "name": "Message Franchise",
+                    "slug": "admin-message-franchise",
+                    "permission":"message_franchise.view"
+                },
+                {
+                    "url": "/admin/message-student",
+                    "name": "Message Student",
+                    "slug": "admin-message-student",
+                    "permission":"message_student.view"
+                },
+                {
+                    "url": "/admin/outbox",
+                    "name": "OutBox",
+                    "slug": "admin-outbox",
+                    "permission":"outbox.view"
+                },
+                {
+                    "url": "/admin/trash",
+                    "name": "Trash",
+                    "slug": "admin-trash",
+                    "permission":"trash.view"
+                },
+                {
+                    "url": "/admin/sms-template",
+                    "name": "Sms Template",
+                    "slug": "admin-sms-template",
+                    "permission":"sms_template.view"
+                }
+            ]
+        },
+        {
             "url": "/revert-to-admin",
             "name": "Back to Admin login",
             "icon": "menu-icon tf-icons fa fa-user-secret",
@@ -72,7 +116,7 @@
         },
         {
             "name": "Franchise",
-            "icon": "menu-icon tf-icons las la-tachometer-alt",
+            "icon": "menu-icon tf-icons las la-handshake",
             "slug": "franchise",
             "permission":["franchise.view","manage_oel_presentation.view","manage_oel_agreement_letter.view","manage_oel_pincode.view"],
             "submenu": [

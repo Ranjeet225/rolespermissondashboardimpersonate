@@ -559,7 +559,7 @@ class LeadsManageCotroller extends Controller
     }
 
 
-    private function filterLeads($request)
+    public function filterLeads($request)
     {
         $lead_list = StudentByAgent::query();
         $user = Auth::user();

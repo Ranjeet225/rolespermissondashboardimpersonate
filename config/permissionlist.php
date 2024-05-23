@@ -424,5 +424,41 @@ return [
             'find_program_log.update',
             'find_program_log.delete',
         ],
+        'message_lead' => [
+            'message_lead.create',
+            'message_lead.view',
+            'message_lead.update',
+            'message_lead.delete',
+        ],
+        'message_franchise' => [
+            'message_franchise.create',
+            'message_franchise.view',
+            'message_franchise.update',
+            'message_franchise.delete',
+        ],
+        'message_student' => [
+            'message_student.create',
+            'message_student.view',
+            'message_student.update',
+            'message_student.delete',
+        ],
+        'outbox' => [
+            'outbox.create',
+            'outbox.view',
+            'outbox.update',
+            'outbox.delete',
+        ],
+        'trash' => [
+            'trash.create',
+            'trash.view',
+            'trash.update',
+            'trash.delete',
+        ],
+        'sms_template' => [
+            'sms_template.create',
+            'sms_template.view',
+            'sms_template.update',
+            'sms_template.delete',
+        ],
       ],
 ];
