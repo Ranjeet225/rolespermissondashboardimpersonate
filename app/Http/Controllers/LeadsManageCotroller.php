@@ -19,10 +19,8 @@ use App\Models\Subject;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Province;
-use App\Models\Setting;
-use App\Models\Pincode;
-use App\Models\UserFollowUp;
-use App\Models\EducationHistory;
+use Illuminate\Contracts\View\View;
+use App\Models\Payment;
 use App\Models\Source;
 use App\Models\EducationLevel;
 use App\Models\PaymentsLink;
@@ -50,7 +48,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 use PhpParser\Node\Expr\FuncCall;
+use Razorpay\Api\Api;
 
 class LeadsManageCotroller extends Controller
 {
@@ -615,22 +615,66 @@ class LeadsManageCotroller extends Controller
 
     public function manage_lead(Request $request, $id)
     {
-        $studentAgentData = StudentByAgent::with('country')->find($id);
+        $studentAgentData = StudentByAgent::with('country')->findOrFail($id);
         $student_id = $id;
         $masterLeadStatus = MasterLeadStatus::get();
+
         $follow_up_list = DB::table('user_follow_up')
-            ->join('users', 'user_follow_up.user_id', '=', 'users.id')
-            ->where('student_id', $id)
-            ->get();
+                        ->join('users', 'user_follow_up.user_id', '=', 'users.id')
+                        ->where('student_id', $id)
+                        ->select('user_follow_up.*','users.name','users.email')
+                        ->get();
+            // dd($follow_up_list,$id,Auth::user()->id);
         return view('admin.leads.manage-leads', compact('studentAgentData', 'student_id', 'masterLeadStatus', 'follow_up_list'));
     }
 
+    private function generateToken(){
+    	$token = Str::random(60);
+    	$paymentsLink = PaymentsLink::where('token',$token)->first();
+		if($paymentsLink){
+			$token = $this->generateToken();
+		}
+    	return $token;
+    }
+
+    private function uniqidgenrate(){
+        $uniqueId = uniqid() . bin2hex(random_bytes(5));
+    	$paymentsLink = Payment::where('fallowp_unique_id',$uniqueId)->first();
+		if($paymentsLink){
+			$uniqueId = $this->uniqidgenrate();
+		}
+    	return $uniqueId;
+    }
     public function add_user_follow_up(Request $request)
     {
-        if ($request->payment_data == 'payment_form') {
-            $studentEmail = StudentByAgent::where('id', $request->student_id)->select('email')->first();
-            $paymentLink = "https://overseaseducationlane.com/";
-            Mail::to($studentEmail->email)->send(new PaymentLinkEmail($paymentLink));
+        if ($request->paymentMode == 'Online') {
+            $paymentType  = $request->payment_type;
+            $paymentMode  = $request->payment_mode;
+            $amount       = $request->amount;
+            $token 		  = $this->generateToken();
+            $user 	      = User::select('id','email','phone_number')->where('id',$request->student_id)->first();
+            $uniqueId 	  = $this->uniqidgenrate();
+            $studentdata = StudentByAgent::where('id', $request->student_id)->select('email','name')->first();
+            $paymentLinkData = [
+                'token'					=> $token,
+                'user_id'				=> $request->student_id,
+                'email'					=> $studentdata->email,
+                'payment_type'			=> $paymentType,
+                'payment_type_remarks' 	=> "",
+                'payment_mode'  		=> $paymentMode,
+                'payment_mode_remarks' 	=> "",
+                'amount' 				=> $amount,
+                'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
+                'fallowp_unique_id'=> $uniqueId,
+            ];
+            $paymentData =[
+                'name'=>$studentdata->name,
+                'payment_link'=>url('/pay-now/c?token=' . $token),
+                'amount'=>$amount,
+            ];
+            // Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
+            Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
+            PaymentsLink::create($paymentLinkData);
         }
         $data = [
             'student_id' => $request->student_id,
@@ -645,10 +689,117 @@ class LeadsManageCotroller extends Controller
             'comment' => $request->comment ?? '',
             'next_calling_date' => $request->next_calling_date,
             'amount' => $request->amount ?? '',
+            'fallowp_unique_id'=> $uniqueId,
             'created_at' => now(),
         ];
         DB::table('user_follow_up')->insert($data);
         return response()->json(['message' => 'Data inserted Successfulyy']);
+    }
+
+
+    public function payment_view(Request $request)
+    {
+        $token = $request->token;
+        $paymentLink = PaymentsLink::where('token', $token)->first();
+        if (!$paymentLink) {
+            Session::put('error', 'Token Expired');
+            return redirect()->back();
+        }
+        if (!$paymentLink->user_id) {
+            Session::put('error', 'User ID Not Found');
+            return redirect()->back();
+        }
+        $student=StudentByAgent::where('id',$paymentLink->user_id)->select('name','email')->first();
+        $data=[
+            'fallowp_unique_id'=>$paymentLink->fallowp_unique_id,
+            'user_id'=>$paymentLink->user_id,
+            'email'=>$paymentLink->email,
+            'amount'=>$paymentLink->amount,
+            'name'=>$student->name
+        ];
+        return view('admin.leads.payment-view',compact('data'));
+    }
+
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $paymentResponse = $request->input('response', []);
+            if (count($paymentResponse) > 0 && empty($paymentResponse['razorpay_payment_id'])) {
+                Session::put('error', 'No Payment ID Found');
+                return redirect()->back();
+            }
+            $api = new Api(env('RAZORPAY_API_KEY'), env('RAZORPAY_API_SECRET'));
+            try {
+                $payment = $api->payment->fetch($paymentResponse['razorpay_payment_id']);
+                $response = $payment->capture(['amount' => $payment['amount']]);
+                Payment::create([
+                    'payment_id' => $response->id,
+                    'payment_method' => $response->method,
+                    'currency' => $response->currency,
+                    'fallowp_unique_id' =>$request->response['fallowp_unique_id'],
+                    'customer_name'=>$request->response['name'],
+                    'user_id'=>$request->response['user_id'],
+                    'customer_email' => $response->email,
+                    'amount' => $response->amount / 100,
+                    'payment_status' => 'success',
+                    'json_response' => json_encode((array)$response)
+                ]);
+                DB::commit();
+                return response()->json(['success' => true, 'message' => 'Payment successfully recorded']);
+            } catch (\Exception $e) {
+                Payment::create([
+                    'payment_id' => $paymentResponse['razorpay_payment_id'] ?? null,
+                    'payment_method' => $response->method,
+                    'currency' => $response->currency,
+                              'fallowp_unique_id' =>$request->response['fallowp_unique_id'],
+                    'customer_name'=>$request->response['name'],
+                    'user_id'=>$request->response['user_id'],
+                    'customer_email' => $response->email,
+                    'amount' => $response->amount / 100,
+                    'payment_status' => 'failed',
+                    'json_response' => json_encode(['error' => $e->getMessage()])
+                ]);
+                Session::put('error', 'Payment Failed: ' . $e->getMessage());
+                DB::rollBack();
+                return response()->json(['success' => false, 'message' => 'Payment failed to record']);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error('PAYMENT_STORE_ERROR: ' . $th->getMessage());
+            Session::put('error', 'Internal Server Error');
+            return response()->json(['success' => false, 'error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function success(){
+        return view('admin.leads.success');
+    }
+
+
+    public function failure(Request $request){
+        DB::beginTransaction();
+        try {
+            $responseData = $request->input('response', []);
+            $errorData = $responseData['error'] ?? [];
+            Payment::create([
+                'payment_id' => $errorData->id,
+                'payment_method' => $errorData->method,
+                'currency' => $errorData->currency,
+                'fallowp_unique_id'=>$errorData->token,
+                'customer_email' => $errorData->email,
+                'amount' => $errorData->amount ,
+                'status' => 'failed',
+                'json_response' => json_encode((array) $errorData)
+            ]);
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Payment failure recorded']);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error('PAYMENT_FAILURE_ERROR: '.$th->getMessage());
+            return response()->json(['success' => false, 'error' => 'Internal Server Error'], 500);
+        }
     }
 
     public function oel_360(Request $request)

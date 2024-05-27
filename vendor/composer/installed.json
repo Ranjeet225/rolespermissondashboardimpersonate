@@ -1760,17 +1760,17 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.15.3",
-            "version_normalized": "1.15.3.0",
+            "version": "v1.16.0",
+            "version_normalized": "1.16.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "3600b5d17aff52f6100ea4921849deacbbeb8656"
+                "reference": "1b3a3dc5bc6a81ff52828ba7277621f1d49d6d98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/3600b5d17aff52f6100ea4921849deacbbeb8656",
-                "reference": "3600b5d17aff52f6100ea4921849deacbbeb8656",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/1b3a3dc5bc6a81ff52828ba7277621f1d49d6d98",
+                "reference": "1b3a3dc5bc6a81ff52828ba7277621f1d49d6d98",
                 "shasum": ""
             },
             "require": {
@@ -1781,15 +1781,15 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.54.0",
-                "illuminate/view": "^10.48.8",
-                "larastan/larastan": "^2.9.5",
-                "laravel-zero/framework": "^10.3.0",
-                "mockery/mockery": "^1.6.11",
+                "friendsofphp/php-cs-fixer": "^3.57.1",
+                "illuminate/view": "^10.48.10",
+                "larastan/larastan": "^2.9.6",
+                "laravel-zero/framework": "^10.4.0",
+                "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^1.15.1",
                 "pestphp/pest": "^2.34.7"
             },
-            "time": "2024-04-30T15:02:26+00:00",
+            "time": "2024-05-21T18:08:25+00:00",
             "bin": [
                 "builds/pint"
             ],
@@ -1829,17 +1829,17 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.29.1",
-            "version_normalized": "1.29.1.0",
+            "version": "v1.29.2",
+            "version_normalized": "1.29.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "8be4a31150eab3b46af11a2e7b2c4632eefaad7e"
+                "reference": "a8e4e749735ba2f091856eafeb3f99db8cd6b621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/8be4a31150eab3b46af11a2e7b2c4632eefaad7e",
-                "reference": "8be4a31150eab3b46af11a2e7b2c4632eefaad7e",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/a8e4e749735ba2f091856eafeb3f99db8cd6b621",
+                "reference": "a8e4e749735ba2f091856eafeb3f99db8cd6b621",
                 "shasum": ""
             },
             "require": {
@@ -1854,7 +1854,7 @@
                 "orchestra/testbench": "^7.0|^8.0|^9.0",
                 "phpstan/phpstan": "^1.10"
             },
-            "time": "2024-03-20T20:09:31+00:00",
+            "time": "2024-05-16T21:39:11+00:00",
             "bin": [
                 "bin/sail"
             ],
@@ -2290,17 +2290,17 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.27.0",
-            "version_normalized": "3.27.0.0",
+            "version": "3.28.0",
+            "version_normalized": "3.28.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4729745b1ab737908c7d055148c9a6b3e959832f"
+                "reference": "e611adab2b1ae2e3072fa72d62c62f52c2bf1f0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4729745b1ab737908c7d055148c9a6b3e959832f",
-                "reference": "4729745b1ab737908c7d055148c9a6b3e959832f",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/e611adab2b1ae2e3072fa72d62c62f52c2bf1f0c",
+                "reference": "e611adab2b1ae2e3072fa72d62c62f52c2bf1f0c",
                 "shasum": ""
             },
             "require": {
@@ -2324,16 +2324,19 @@
                 "composer/semver": "^3.0",
                 "ext-fileinfo": "*",
                 "ext-ftp": "*",
+                "ext-mongodb": "^1.3",
                 "ext-zip": "*",
                 "friendsofphp/php-cs-fixer": "^3.5",
                 "google/cloud-storage": "^1.23",
+                "guzzlehttp/psr7": "^2.6",
                 "microsoft/azure-storage-blob": "^1.1",
+                "mongodb/mongodb": "^1.2",
                 "phpseclib/phpseclib": "^3.0.36",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.5.11|^10.0",
                 "sabre/dav": "^4.6.0"
             },
-            "time": "2024-04-07T19:17:50+00:00",
+            "time": "2024-05-22T10:09:12+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2367,33 +2370,23 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.27.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.28.0"
             },
-            "funding": [
-                {
-                    "url": "https://ecologi.com/frankdejonge",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/frankdejonge",
-                    "type": "github"
-                }
-            ],
             "install-path": "../league/flysystem"
         },
         {
             "name": "league/flysystem-local",
-            "version": "3.25.1",
-            "version_normalized": "3.25.1.0",
+            "version": "3.28.0",
+            "version_normalized": "3.28.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                "reference": "61a6a90d6e999e4ddd9ce5adb356de0939060b92"
+                "reference": "13f22ea8be526ea58c2ddff9e158ef7c296e4f40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/61a6a90d6e999e4ddd9ce5adb356de0939060b92",
-                "reference": "61a6a90d6e999e4ddd9ce5adb356de0939060b92",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/13f22ea8be526ea58c2ddff9e158ef7c296e4f40",
+                "reference": "13f22ea8be526ea58c2ddff9e158ef7c296e4f40",
                 "shasum": ""
             },
             "require": {
@@ -2402,7 +2395,7 @@
                 "league/mime-type-detection": "^1.0.0",
                 "php": "^8.0.2"
             },
-            "time": "2024-03-15T19:58:44+00:00",
+            "time": "2024-05-06T20:05:52+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2429,18 +2422,8 @@
                 "local"
             ],
             "support": {
-                "source": "https://github.com/thephpleague/flysystem-local/tree/3.25.1"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.28.0"
             },
-            "funding": [
-                {
-                    "url": "https://ecologi.com/frankdejonge",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/frankdejonge",
-                    "type": "github"
-                }
-            ],
             "install-path": "../league/flysystem-local"
         },
         {
@@ -2785,17 +2768,17 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.6.11",
-            "version_normalized": "1.6.11.0",
+            "version": "1.6.12",
+            "version_normalized": "1.6.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "81a161d0b135df89951abd52296adf97deb0723d"
+                "reference": "1f4efdd7d3beafe9807b08156dfcb176d18f1699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/81a161d0b135df89951abd52296adf97deb0723d",
-                "reference": "81a161d0b135df89951abd52296adf97deb0723d",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/1f4efdd7d3beafe9807b08156dfcb176d18f1699",
+                "reference": "1f4efdd7d3beafe9807b08156dfcb176d18f1699",
                 "shasum": ""
             },
             "require": {
@@ -2810,7 +2793,7 @@
                 "phpunit/phpunit": "^8.5 || ^9.6.17",
                 "symplify/easy-coding-standard": "^12.1.14"
             },
-            "time": "2024-03-21T18:34:15+00:00",
+            "time": "2024-05-16T03:13:13+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -5135,6 +5118,237 @@
             "install-path": "../ramsey/uuid"
         },
         {
+            "name": "razorpay/razorpay",
+            "version": "2.9.0",
+            "version_normalized": "2.9.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/razorpay/razorpay-php.git",
+                "reference": "a3d7c2bcb416091edd6a76eb5a7600eaf00ac837"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/razorpay/razorpay-php/zipball/a3d7c2bcb416091edd6a76eb5a7600eaf00ac837",
+                "reference": "a3d7c2bcb416091edd6a76eb5a7600eaf00ac837",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.3",
+                "rmccue/requests": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9",
+                "raveren/kint": "1.*"
+            },
+            "time": "2023-12-18T04:19:46+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "Deprecated.php"
+                ],
+                "psr-4": {
+                    "Razorpay\\Api\\": "src/",
+                    "Razorpay\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abhay Rana",
+                    "email": "nemo@razorpay.com",
+                    "homepage": "https://captnemo.in",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Shashank Kumar",
+                    "email": "shashank@razorpay.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Razorpay PHP Client Library",
+            "homepage": "https://docs.razorpay.com",
+            "keywords": [
+                "api",
+                "client",
+                "php",
+                "razorpay"
+            ],
+            "support": {
+                "email": "contact@razorpay.com",
+                "issues": "https://github.com/Razorpay/razorpay-php/issues",
+                "source": "https://github.com/Razorpay/razorpay-php"
+            },
+            "install-path": "../razorpay/razorpay"
+        },
+        {
+            "name": "rmccue/requests",
+            "version": "v2.0.11",
+            "version_normalized": "2.0.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WordPress/Requests.git",
+                "reference": "31435a468e2357e68df743f2527bda32556a0818"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WordPress/Requests/zipball/31435a468e2357e68df743f2527bda32556a0818",
+                "reference": "31435a468e2357e68df743f2527bda32556a0818",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "php-parallel-lint/php-console-highlighter": "^0.5.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "requests/test-server": "dev-main",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.6",
+                "wp-coding-standards/wpcs": "^2.0",
+                "yoast/phpunit-polyfills": "^1.0.0"
+            },
+            "suggest": {
+                "art4/requests-psr18-adapter": "For using Requests as a PSR-18 HTTP Client",
+                "ext-curl": "For improved performance",
+                "ext-openssl": "For secure transport support",
+                "ext-zlib": "For improved performance when decompressing encoded streams"
+            },
+            "time": "2024-03-25T10:48:46+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "library/Deprecated.php"
+                ],
+                "psr-4": {
+                    "WpOrg\\Requests\\": "src/"
+                },
+                "classmap": [
+                    "library/Requests.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan McCue",
+                    "homepage": "https://rmccue.io/"
+                },
+                {
+                    "name": "Alain Schlesser",
+                    "homepage": "https://github.com/schlessera"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "homepage": "https://github.com/jrfnl"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/WordPress/Requests/graphs/contributors"
+                }
+            ],
+            "description": "A HTTP library written in PHP, for human beings.",
+            "homepage": "https://requests.ryanmccue.info/",
+            "keywords": [
+                "curl",
+                "fsockopen",
+                "http",
+                "idna",
+                "ipv6",
+                "iri",
+                "sockets"
+            ],
+            "support": {
+                "docs": "https://requests.ryanmccue.info/",
+                "issues": "https://github.com/WordPress/Requests/issues",
+                "source": "https://github.com/WordPress/Requests"
+            },
+            "install-path": "../rmccue/requests"
+        },
+        {
+            "name": "s-ichikawa/laravel-sendgrid-driver",
+            "version": "4.0.5",
+            "version_normalized": "4.0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/s-ichikawa/laravel-sendgrid-driver.git",
+                "reference": "5a96a8430c834b3715543bcdfa202890b42f6b5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/s-ichikawa/laravel-sendgrid-driver/zipball/5a96a8430c834b3715543bcdfa202890b42f6b5c",
+                "reference": "5a96a8430c834b3715543bcdfa202890b42f6b5c",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.2",
+                "illuminate/mail": "^9.0||^10.0||^11.0",
+                "illuminate/notifications": "^9.0||^10.0||^11.0",
+                "illuminate/support": "^9.0||^10.0||^11.0"
+            },
+            "require-dev": {
+                "illuminate/container": "^9.0||^10.0||^11.0",
+                "illuminate/filesystem": "^9.0||^10.0||^11.0",
+                "laravel/helpers": "^1.2",
+                "phpunit/phpunit": "^9.5.8||^10.0",
+                "vlucas/phpdotenv": "^5.4.1"
+            },
+            "suggest": {
+                "s-ichikawa/sendgrid-api-builder": "support to build json for sendgrid api"
+            },
+            "time": "2024-03-15T01:27:19+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sichikawa\\LaravelSendgridDriver\\SendgridTransportServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Sichikawa\\LaravelSendgridDriver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "shingo.ichikawa",
+                    "email": "ichikawa.shingo.0829@gmail.com"
+                }
+            ],
+            "description": "This library adds a 'sendgrid' mail driver to Laravel.",
+            "keywords": [
+                "laravel",
+                "sendgrid"
+            ],
+            "support": {
+                "issues": "https://github.com/s-ichikawa/laravel-sendgrid-driver/issues",
+                "source": "https://github.com/s-ichikawa/laravel-sendgrid-driver/tree/4.0.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/s-ichikawa",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../s-ichikawa/laravel-sendgrid-driver"
+        },
+        {
             "name": "sebastian/cli-parser",
             "version": "1.0.2",
             "version_normalized": "1.0.2.0",
@@ -6146,6 +6360,139 @@
             "install-path": "../sebastian/version"
         },
         {
+            "name": "sendgrid/php-http-client",
+            "version": "4.1.1",
+            "version_normalized": "4.1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sendgrid/php-http-client.git",
+                "reference": "ec09bcfccabeb21d69e245a1e1c0e51f2813fc35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sendgrid/php-http-client/zipball/ec09bcfccabeb21d69e245a1e1c0e51f2813fc35",
+                "reference": "ec09bcfccabeb21d69e245a1e1c0e51f2813fc35",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "suggest": {
+                "composer/ca-bundle": "Including this library will ensure that a valid CA bundle is available for secure connections"
+            },
+            "time": "2023-12-14T08:50:59+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "SendGrid\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Bernier",
+                    "email": "mbernier@twilio.com"
+                },
+                {
+                    "name": "Elmer Thomas",
+                    "email": "ethomas@twilio.com"
+                }
+            ],
+            "description": "HTTP REST client, simplified for PHP",
+            "homepage": "http://github.com/sendgrid/php-http-client",
+            "keywords": [
+                "api",
+                "fluent",
+                "http",
+                "rest",
+                "sendgrid"
+            ],
+            "support": {
+                "source": "https://github.com/sendgrid/php-http-client/tree/4.1.1"
+            },
+            "install-path": "../sendgrid/php-http-client"
+        },
+        {
+            "name": "sendgrid/sendgrid",
+            "version": "8.1.2",
+            "version_normalized": "8.1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sendgrid/sendgrid-php.git",
+                "reference": "6700d2cf50df38915fa2d9a03affbca58c48599f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/6700d2cf50df38915fa2d9a03affbca58c48599f",
+                "reference": "6700d2cf50df38915fa2d9a03affbca58c48599f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "php": ">=7.3",
+                "sendgrid/php-http-client": "~4.1",
+                "starkbank/ecdsa": "0.*"
+            },
+            "replace": {
+                "sendgrid/sendgrid-php": "*"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.5",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "3.*",
+                "swaggest/json-diff": "^3.4"
+            },
+            "time": "2024-04-18T11:09:09+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "SendGrid\\Mail\\": "lib/mail/",
+                    "SendGrid\\Stats\\": "lib/stats/",
+                    "SendGrid\\Helper\\": "lib/helper/",
+                    "SendGrid\\Contacts\\": "lib/contacts/",
+                    "SendGrid\\EventWebhook\\": "lib/eventwebhook/"
+                },
+                "classmap": [
+                    "lib/BaseSendGridClientInterface.php",
+                    "lib/SendGrid.php",
+                    "lib/TwilioEmail.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "This library allows you to quickly and easily send emails through Twilio SendGrid using PHP.",
+            "homepage": "http://github.com/sendgrid/sendgrid-php",
+            "keywords": [
+                "email",
+                "grid",
+                "send",
+                "sendgrid",
+                "twilio sendgrid"
+            ],
+            "support": {
+                "source": "https://github.com/sendgrid/sendgrid-php/tree/8.1.2"
+            },
+            "install-path": "../sendgrid/sendgrid"
+        },
+        {
             "name": "spatie/backtrace",
             "version": "1.6.1",
             "version_normalized": "1.6.1.0",
@@ -6213,17 +6560,17 @@
         },
         {
             "name": "spatie/flare-client-php",
-            "version": "1.5.1",
-            "version_normalized": "1.5.1.0",
+            "version": "1.6.0",
+            "version_normalized": "1.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/flare-client-php.git",
-                "reference": "e27977d534eefe04c154c6fd8460217024054c05"
+                "reference": "220a7c8745e9fa427d54099f47147c4b97fe6462"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/flare-client-php/zipball/e27977d534eefe04c154c6fd8460217024054c05",
-                "reference": "e27977d534eefe04c154c6fd8460217024054c05",
+                "url": "https://api.github.com/repos/spatie/flare-client-php/zipball/220a7c8745e9fa427d54099f47147c4b97fe6462",
+                "reference": "220a7c8745e9fa427d54099f47147c4b97fe6462",
                 "shasum": ""
             },
             "require": {
@@ -6243,7 +6590,7 @@
                 "phpstan/phpstan-phpunit": "^1.0",
                 "spatie/phpunit-snapshot-assertions": "^4.0|^5.0"
             },
-            "time": "2024-05-03T15:43:14+00:00",
+            "time": "2024-05-22T09:45:39+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6273,7 +6620,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/flare-client-php/issues",
-                "source": "https://github.com/spatie/flare-client-php/tree/1.5.1"
+                "source": "https://github.com/spatie/flare-client-php/tree/1.6.0"
             },
             "funding": [
                 {
@@ -6546,6 +6893,52 @@
                 }
             ],
             "install-path": "../spatie/laravel-permission"
+        },
+        {
+            "name": "starkbank/ecdsa",
+            "version": "0.0.5",
+            "version_normalized": "0.0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/starkbank/ecdsa-php.git",
+                "reference": "484bedac47bac4012dc73df91da221f0a66845cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/starkbank/ecdsa-php/zipball/484bedac47bac4012dc73df91da221f0a66845cb",
+                "reference": "484bedac47bac4012dc73df91da221f0a66845cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "time": "2021-06-06T22:24:49+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "src/ellipticcurve.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "StarkBank",
+                    "email": "developers@starkbank.com",
+                    "homepage": "https://starkbank.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "fast openSSL-compatible implementation of the Elliptic Curve Digital Signature Algorithm (ECDSA)",
+            "homepage": "https://github.com/starkbank/ecdsa-php",
+            "support": {
+                "issues": "https://github.com/starkbank/ecdsa-php/issues",
+                "source": "https://github.com/starkbank/ecdsa-php/tree/v0.0.5"
+            },
+            "install-path": "../starkbank/ecdsa"
         },
         {
             "name": "symfony/console",
@@ -9047,6 +9440,62 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
             "install-path": "../tijsverkoyen/css-to-inline-styles"
+        },
+        {
+            "name": "twilio/sdk",
+            "version": "8.0.1",
+            "version_normalized": "8.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "161fbeb588f367e35e70a86841406ff6f0810b14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/161fbeb588f367e35e70a86841406ff6f0810b14",
+                "reference": "161fbeb588f367e35e70a86841406ff6f0810b14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
+                "phpunit/phpunit": ">=7.0 < 10"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
+            },
+            "time": "2024-04-18T11:15:50+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "src/Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "https://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "support": {
+                "issues": "https://github.com/twilio/twilio-php/issues",
+                "source": "https://github.com/twilio/twilio-php/tree/8.0.1"
+            },
+            "install-path": "../twilio/sdk"
         },
         {
             "name": "vlucas/phpdotenv",

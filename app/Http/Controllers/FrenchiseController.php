@@ -22,6 +22,13 @@ class FrenchiseController extends Controller
     public function index(Request $request)
     {
         $countries =Country::get();
+        $frenchise = $this->filterfrenchise($request);
+        $frenchise = $frenchise->paginate(12);
+        return view('admin.frenchise.index',compact('countries','frenchise'));
+    }
+
+    public function filterfrenchise($request)
+    {
         $frenchise = Agent::query();
         $user = Auth::user();
         $user_id = $user->id;
@@ -63,10 +70,8 @@ class FrenchiseController extends Controller
                 $frenchise->where("status",0);
             }
         }
-        $frenchise = $frenchise->paginate(12);
-        return view('admin.frenchise.index',compact('countries','frenchise'));
+        return $frenchise;
     }
-
     /**
      * Show the form for creating a new resource.
      *

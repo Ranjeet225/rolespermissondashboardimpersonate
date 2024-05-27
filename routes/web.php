@@ -13,6 +13,8 @@ use App\Http\Controllers\OtherMasterDataController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
+use App\Models\MasterLeadStatus;
+use Maatwebsite\Excel\Row;
 
 // URL::forceScheme('https');
 
@@ -33,6 +35,11 @@ so sorry for repeat this mistake because i am not makeing new table just i am us
 Route::get('/impersonate/{user}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate-users');
 // Route::get('/impersonate/{user}', [UserController::class, 'impersonate'])->name('impersonate')->middleware('auth', 'role:Administrator');
 // Route::get('/revert-to-admin', [UserController::class, 'revertToAdmin'])->name('revert_to_admin')->middleware('auth');
+Route::get('pay-now/{token?}',[LeadsManageCotroller::class,'payment_view']);
+Route::post('payment/create',[LeadsManageCotroller::class,'store'])->name('razorpay.payment.store');
+Route::post('payment/failure',[LeadsManageCotroller::class,'failure'])->name('razorpay.payment.failure');
+Route::get('payment/success',[LeadsManageCotroller::class,'success'])->name('razorpay.payment.succes');
+
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -357,6 +364,31 @@ Route::middleware('auth')->group(function () {
 
         // message lead
         Route::get('message-lead',[MessageController::class,'message_lead'])->name('message-lead');
+        Route::get('message-franchise',[MessageController::class,'message_frenchise'])->name('message-frenchise');
+        Route::get('message-student',[MessageController::class,'message_student'])->name('message-student');
+        Route::get('message-lead',[MessageController::class,'message_lead'])->name('message-lead');
+        Route::post('send-sms',[MessageController::class,'sendSmsToLeadUsers'])->name('send-sms');
+        Route::post('send-email',[MessageController::class,'sendEmailToLeadUsers'])->name('send-email');
+        Route::post('send-sms-frenchise',[MessageController::class,'sendSmsToFrenchise'])->name('send-sms-frenchise');
+        Route::post('send-email-frenchise',[MessageController::class,'sendEmailToFrenchise'])->name('send-email-frenchise');
+        Route::post('send-sms-student',[MessageController::class,'sendSmsToStudent'])->name('send-sms-student');
+        Route::post('send-email-student',[MessageController::class,'sendEmailToStudent'])->name('send-email-student');
+        Route::get('outbox',[MessageController::class,'outbox'])->name('outbox');
+        Route::get('trash',[MessageController::class,'trash'])->name('trash');
+        Route::post('delete-sms',[MessageController::class,'delete_sms'])->name('delete-sms');
+        Route::post('delete-sms-permanent',[MessageController::class,'delete_outbox'])->name('delete-sms-permanent');
+        // sms-template
+
+        Route::get('sms-template/{id?}',[MessageController::class,'sms_template'])->name('sms-template');
+        Route::get('sms-template-filter',[MessageController::class,'sms_template'])->name('sms-template-filter');
+        Route::get('create-sms-template',[MessageController::class,'sms_template_create'])->name('create-sms-template');
+        Route::get('edit-sms-template/{id?}',[MessageController::class,'sms_template_edit'])->name('edit-sms-template');
+        Route::get('delete-sms-template/{id?}',[MessageController::class,'sms_template_delete'])->name('delete-sms-template');
+        Route::post('update-sms-template/{id?}',[MessageController::class,'sms_template_update'])->name('update-sms-template');
+        Route::post('store-sms-template',[MessageController::class,'sms_template_store'])->name('store-sms-template');
+        Route::post('show-lead-sms',[MessageController::class,'show_msg'])->name('show-lead-sms');
+        Route::post('show-lead-email',[MessageController::class,'show_email'])->name('show-lead-email');
+
     });
     Route::prefix('franchise')->group(function () {
            // frenchise

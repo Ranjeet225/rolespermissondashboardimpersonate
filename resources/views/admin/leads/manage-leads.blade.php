@@ -26,7 +26,7 @@
                                 <div class="col-md-12">
                                     <h3 style="margin-bottom: 20px;">Student Details</h3>
                                 </div>
-                                <p><label>Name</label>: {{ $studentAgentData->name }}</p>
+                                <p><label>Name</label>: {{ $studentAgentData->name  ?? null}}</p>
                                 <p><label>Email</label>: {{ $studentAgentData->email }} </p>
                                 <p><label>Address</label>: , {{ $studentAgentData->zip }},
                                     {{ $studentAgentData->country->name }}</p>
@@ -154,7 +154,7 @@
                                 </div>
                                 <div class="row payment-button"  style="display: none">
                                     <div class="col-md-6 col-sm-6">
-                                        <button type="button" value=""  class="btn btn-info d-lg-block m-l-15 btnDiv" >
+                                        <button type="button" value=""  class="btn btn-info d-lg-block m-l-15 btnDiv " id="payment" >
                                             Payment</button>
                                     </div>
                                 </div>
@@ -180,6 +180,7 @@
                             <th>Lead Status	</th>
                             <th>Payment Mode</th>
                             <th>Amount</th>
+                            <th>Payment Status</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -195,11 +196,12 @@
                             <td>{{$item->next_calling_date}}</td>
                             @php
                                 $leadstatus = App\Models\MasterLeadStatus::where('id',$item->status)->first();
+                                $payment_status = App\Models\Payment::where('fallowp_unique_id',$item->fallowp_unique_id)->first();
                             @endphp
-                            <td>{{$leadstatus->name}}</td>
+                            <td>{{$leadstatus->name ?? null }}</td>
                             <td>{{$item->paymentMode}}</td>
                             <td>{{$item->amount}}</td>
-                            <td>{{$item->created_at}}</td>
+                            <td class="text-capitalize">{{$payment_status->payment_status ?? null}}</td>
                         <tr>
                             @php
                                 $i++;
@@ -223,6 +225,7 @@
  <script>
     $(document).ready(function(){
         $('.btnDiv').on('click', function() {
+            $('.btnDiv').addClass('disabled');
             var lead_status = null;
             var paymentType = null;
             var paymentTypeRemarks = null;
@@ -315,6 +318,7 @@
                 },
                 success: function(response) {
                     console.log(response.id);
+                    $('.btnDiv').removeClass('disabled');
                     $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
                     setTimeout(() => {
                         location.reload();

@@ -44,7 +44,9 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
-
+        'sendgrid' => [
+            'transport' => 'sendgrid',
+        ],
         'ses' => [
             'transport' => 'ses',
         ],
@@ -92,8 +94,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'ranjeetmaurya2033@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Ranjee'),
     ],
 
     /*

@@ -12,16 +12,16 @@ use Illuminate\Queue\SerializesModels;
 class PaymentLinkEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $paymentLink;
+    protected $paymentData;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($paymentLink)
+    public function __construct($paymentData)
     {
-        $this->paymentLink = $paymentLink;
+        $this->paymentData = $paymentData;
     }
 
 
@@ -33,8 +33,8 @@ class PaymentLinkEmail extends Mailable
     public function build()
     {
         return $this->view('emails.payment_link')
-            ->with(['paymentLink' => $this->paymentLink]);
+            ->with(['paymentData' => $this->paymentData]);
     }
 
-   
+
 }
