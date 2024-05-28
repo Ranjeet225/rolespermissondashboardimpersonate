@@ -28,29 +28,34 @@
                 <div class="card-header">
                     <h4 class="card-title mb-0">{{$studentDetails->first_name}}</h4>
                 </div>
+                @php
+                    $user=Auth::user();
+                @endphp
                 <div class="card-body">
                     <div class="wizard">
                         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title=" Universities ">
+                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Universities">
                                 <a class="nav-link active rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1"
-                                    aria-selected="true"> 1 </a>
+                                   href="#step1" id="step1-tab" data-bs-toggle="tab"
+                                   role="tab" aria-controls="step1" aria-selected="true">1</a>
                                 <br>
-                                <span class="octicon octicon-light-bulb">Universities </span>
+                                <span class="octicon octicon-light-bulb">Universities</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Courses">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2"
-                                    aria-selected="false"> 2 </a>
+                                    href="#step2" id="step2-tab" data-bs-toggle="tab"  role="tab" aria-controls="step2"
+                                    aria-selected="false" @if(!($user->hasRole('Administrator')) && empty($university_in_three_sixtee)) @disabled(true) @endif
+                                     > 2 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Courses</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Application Status">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3"
+                                    href="#step3" id="step3-tab" data-bs-toggle="tab"
+                                    @if(!($user->hasRole('Administrator')) && empty($course_in_three_sixtee)) @disabled(true) @endif
+                                     role="tab" aria-controls="step3"
                                     aria-selected="false"> 3 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Application Status</span>
@@ -58,7 +63,9 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Offer Detail">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
+                                    href="#step4" id="step4-tab" data-bs-toggle="tab"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->application)) @disabled(true) @endif
+                                     role="tab" aria-controls="step4"
                                     aria-selected="false"> 4 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Offer Detail</span>
@@ -66,7 +73,9 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Visa Application">
                                   <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step5" id="step5-tab" data-bs-toggle="tab" role="tab" aria-controls="step5"
+                                    href="#step5" id="step5-tab" data-bs-toggle="tab"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->joining_date && $threesixtee->offer_amount)) @disabled(true) @endif
+                                     role="tab" aria-controls="step5"
                                     aria-selected="false"> 5
                                   </a>
                                 <br>
@@ -75,7 +84,10 @@
                             <li class="nav-item flex-fill"role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Visa Status">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step6" id="step6-tab" data-bs-toggle="tab" role="tab" aria-controls="step6"
+                                    href="#step6" id="step6-tab"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->visa_document || $threesixtee->visa_agent)) @disabled(true) @endif
+
+                                     data-bs-toggle="tab" role="tab" aria-controls="step6"
                                     aria-selected="false"> 6
                                 </a>
                                 <br>
@@ -84,42 +96,52 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Fees Details">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step7" id="step7-tab" data-bs-toggle="tab" role="tab" aria-controls="step7"
+                                    href="#step7" id="step7-tab"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->visa_application || $threesixtee->visa_no || $threesixtee->visa_exp_date)) @disabled(true) @endif
+                                     data-bs-toggle="tab" role="tab" aria-controls="step7"
                                     aria-selected="false"> 7 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Fees Details</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
+                                data-bs-placement="top" title=" Flight Details">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step8" id="step8-tab" data-bs-toggle="tab" role="tab" aria-controls="step8"
+                                    href="#step8" id="step8-tab"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->fee_payment_mode || $threesixtee->fee_amount || $threesixtee->fee_payment_by)) @disabled(true) @endif
+
+                                     data-bs-toggle="tab" role="tab" aria-controls="step8"
                                     aria-selected="false"> 8
                                 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Flight Details</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
+                                data-bs-placement="top" title="Take Off ">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step9" id="step9-tab" data-bs-toggle="tab" role="tab" aria-controls="step9"
-                                    aria-selected="false"> 9
+                                    aria-selected="false"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->flight_name || $threesixtee->flight_no || $threesixtee->flight_dep_date)) @disabled(true) @endif
+                                     > 9
                                 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Take Off </span>
                             </li>
+
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
+                                data-bs-placement="top" title="Boarding">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step10" id="step10-tab" data-bs-toggle="tab" role="tab" aria-controls="step10"
-                                    aria-selected="false"> 10 </a>
+                                    aria-selected="false"
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->hand_holding || $threesixtee->agent_name)) @disabled(true) @endif
+                                    > 10 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Boarding</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Fees Details">
+                                data-bs-placement="top" title="Done">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step11" id="step11-tab" data-bs-toggle="tab" role="tab" aria-controls="step11"
-                                    aria-selected="false"> 11 </a>
+                                    aria-selected="false" @if(!($user->hasRole('Administrator')) && empty( $threesixtee->hostel || $threesixtee->personal)) @disabled(true) @endif> 11 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Done</span>
                             </li>
@@ -637,18 +659,18 @@
                             </div>
                             <div class="tab-pane fade" role="tabpanel" id="step11" aria-labelledby="step3-tab">
                                 <div class="mb-4">
-                                    <h5> 5Payment Details</h5>
+                                    <h5> </h5>
                                 </div>
                                 <form>
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <div class="col-lg-12 done-alert">
+                                            {{-- <div class="alert alert-warning alert-dismissible fade " role="alert">
                                                 <strong>Done!</strong> Success! 🎉
                                                 You have Successfully Update the Student 360.
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                   <span aria-hidden="true">&times;</span>
                                                 </button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </form>
@@ -863,6 +885,18 @@
                                 handleNext();
                             }else{
                                 return false;
+                            }
+                        }
+                        if(response.success){
+                            if(response.tab10 =='tab10'){
+                                var done =`<div class="alert alert-warning alert-dismissible fade " role="alert">
+                                                <strong>Done!</strong> Success! 🎉
+                                                You have Successfully Update the Student 360.
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>`;
+                                $('.done-alert').html(done)
                             }
                         }
                     },

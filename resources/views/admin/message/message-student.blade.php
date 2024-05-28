@@ -214,7 +214,7 @@
                             <div class="row">
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <select name="template_id" class="form-select sidfrm" id="template_id">
+                                        <select name="template_id" class="form-select " id="template_id">
                                             <option value="">Select Template</option>
                                             @foreach ($smsTemplates as $template)
                                                 <option value="{{ $template->id }}">{{ $template->heading }}</option>
@@ -224,7 +224,7 @@
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating custom_template d-none">
-                                        <textarea name="custom_template" id="custom_template" class="form-control sidfrm" rows="10" placeholder="Enter your custom template"></textarea>
+                                        <textarea name="custom_template" id="custom_template" class="form-control " rows="10" placeholder="Enter your custom template"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -259,19 +259,19 @@
                             <div class="row">
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input name="subject" type="text"  class="form-control sidfrm subject"  value="{{$gmat->subject  ?? null}}" placeholder="Subject" required>
+                                        <input name="subject" type="text"  class="form-control  subject"  value="{{$gmat->subject  ?? null}}" placeholder="Subject" required>
                                         <label for="lead-name" class="form-label">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <textarea name="email_body" class="form-control sidfrm messagebody" id="summernote1" placeholder="Message body" required>{{$gmat->email_body  ?? null}}</textarea>
+                                        <textarea name="email_body" class="form-control  messagebody" id="summernote1" placeholder="Message body" required>{{$gmat->email_body  ?? null}}</textarea>
                                         <label for="lead-name" class="form-label">Message Body</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input type="file" class="form-control attachment" name="attachment" id="attachment sidfrm">
+                                        <input type="file" class="form-control attachment" name="attachment" id="attachment ">
                                         <label for="attachment" class="form-label">Attachment</label>
                                     </div>
                                 </div>

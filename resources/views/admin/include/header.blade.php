@@ -66,13 +66,13 @@
           <li class="nav-item dropdown">
             @inject('carbon', 'Carbon\Carbon')
             @php
-                $user = Auth::user();
+                $user = auth()->user();
             @endphp
            @if(($user->hasRole('Administrator')))
               <a href="{{ route('update-university') }}" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <i class="fa-regular fa-bell"></i>
                 <span class="badge rounded-pill">
-                   {{ $count = App\Models\University::whereDate('updated_at', '<', $carbon::now()->subMonths(3))->count() }}
+                   {{ $count = App\Models\University::whereDate('updated_at', '<', $carbon::now()->subMonths(3))->where('user_id', $user->id)->count() }}
 
                 </span>
               </a>

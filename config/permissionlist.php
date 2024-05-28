@@ -6,7 +6,7 @@ return [
             'dashboard.view',
             'total_member.total_member_view',
             'total_student.total_student_view',
-            'total_school_manager.total_school_manager_view',
+            // 'total_school_manager.total_school_manager_view',
             'total_franchise.total_franchise_view',
             'active_franchise.active_franchise_view',
             'inactive_franchise.inactive_franchise_view',
@@ -93,11 +93,11 @@ return [
             'universities.update',
             'universities.delete',
             'universities.show',
-            "approve_university.view",
-            "manage_university.view",
-            "un_approve_university.view",
-            "oel_review.view",
-            "oel_type.view"
+            "approve_university.approve_university_view",
+            "manage_university.manage_university_view",
+            "un_approve_university.un_approve_university_view",
+            "oel_review.oel_review_view",
+            "oel_type.oel_type_view"
         ],
         'courses' => [
             'courses.create',
@@ -196,27 +196,21 @@ return [
         'admin' => [
             'admin.view',
         ],
-        'universities' => [
-            'universities.create',
-            'universities.view',
-            'universities.update',
-            'universities.delete',
-        ],
         'programs' => [
             'programs.create',
             'programs.view',
             'programs.update',
             'programs.delete',
-            'approve_program.view',
-            'manage_program.view',
-            'program_level_details.view',
-            'education_level.view',
-            'program_level.view',
-            'grading_scheme.view',
-            'exams.view',
-            'field_of_study.view',
-            'subject.view',
-            'manage_recommended_programs.view'
+            'approve_program.approve_program_view',
+            'manage_program.manage_program_view',
+            'program_level_details.program_level_details_view',
+            'education_level.education_level_view',
+            'program_level.program_level_view',
+            'grading_scheme.grading_scheme_view',
+            'exams.exams_view',
+            'field_of_study.field_of_study_view',
+            'subject.subject_view',
+            'manage_recommended_programs.manage_recommended_programs_view'
         ],
         'my_profile' => [
             'my_profile.create',
@@ -307,14 +301,6 @@ return [
             'oel_apply.view',
             'oel_apply.update',
             'oel_apply.delete',
-        ],
-        'universities' => [
-            "approve_university.view",
-            "manage_university.view",
-            "un_approve_university.view",
-            "oel_review.view",
-            "oel_type.view",
-            "updation-manage-university.view",
         ],
         'scholorship' => [
             'scholorship.create',

@@ -20,14 +20,14 @@
                                     <div class="alert alert-success">
                                         {{ session('success') }}
                                     </div>
-                                @endif  
+                                @endif
                                 @if (isset($blogs))
                                 <form class="row g-4" action="{{ route('update-blogs',$blogs->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-12">
                                     <label>Title </label>
-                                    <input type="text" name="title" class="form-control sidfrm" value="{{ $blogs->title }}" />
+                                    <input type="text" name="title" class="form-control " value="{{ $blogs->title }}" />
                                     @error('title')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror

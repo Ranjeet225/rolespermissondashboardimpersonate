@@ -52,27 +52,27 @@
         <div class="card-group">
           <div class="card">
             <div class="card-body myform">
-              <form id="university_filter">
+              <form action="{{route('manage-university')}}" method="get">
                 <div class="row">
                   <div class="col-md-3">
                     <input type="text" class="form-control formmrgin" name="university_name" id="university_name" placeholder="Search By University Name">
                   </div>
                   <div class="col-md-3">
-                    <select name="account_type" class="form-control formmrgin" id="approve">
+                    <select name="account_type" class="form-control formmrgin" id="approve" name="approve">
                       <option value="">-Select Approval-</option>
                       <option value="approve">Approve</option>
                       <option value="unapprove">UnApprove</option>
                     </select>
                   </div>
                   <div class="col-md-3">
-                    <select name="status" class="form-control formmrgin" id="status">
+                    <select name="status" class="form-control formmrgin" id="status" >
                       <option value="">- Active Status-</option>
                       <option value="0">Pending</option>
                       <option value="1" selected="">Active</option>
                     </select>
                   </div>
                   <div class="col-md-3">
-                    <select name="status" class="form-control formmrgin" name="country" id="country">
+                    <select name="country" class="form-control formmrgin" name="country" id="country">
                       <option value="">--Country -- </option>
                       @foreach ($countries as $item)
                            <option value="{{$item->id}}">{{$item->name}}</option>
@@ -80,10 +80,17 @@
                     </select>
                   </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-10 col-sm-10">
+                        <a href="{{route('manage-university')}}">
+                            <button type="button" class="btn mr-3 btn-info d-lg-block float-end  formmrgin px-5" id="submit" value="1">Reset</button>
+                        </a>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                    <button type="submit" class="btn mr-3 btn-info d-lg-block float-end  formmrgin px-5" id="submit" value="1">Search</button>
+                    </div>
+                </div>
               </form>
-              <div class="col-md-12 col-sm-12 ">
-                <button type="button" class="btn mr-3 btn-info d-lg-block float-end  formmrgin px-5" id="submit" value="1">Search</button>
-              </div>
             </div>
           </div>
         </div>
@@ -104,14 +111,38 @@
                             <th> Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-
+                    <tbody >
+                        @foreach ($results as $key => $value)
+                        <tr>
+                            <td>{{ $loop->index + (($results->currentPage() - 1) * $results->perPage()) + 1 }}</td>
+                            <td class="text-wrap">{{ $value->university_name ?? null  }}</td>
+                            <td class="text-wrap">{{ $value->country->name ?? null }}</td>
+                            <td class="text-wrap">{{ $value->province->name ?? null  }}</td>
+                            <td>
+                                <select class="form-control approve" name="approvevalue" data-id="{{ $value->id }}">
+                                    <option value="">--Select--</option>
+                                    <option value="1" {{ $value->is_approved == 1 ? 'selected' : '' }}>Approve</option>
+                                    <option value="0" {{ $value->is_approved == 0 ? 'selected' : '' }}>Unapprove</option>
+                                </select>
+                            </td>
+                            <td class="text-end">
+                                <a class="dropdown-item " href="{{ route('edit-university') }}/{{ $value->id }}" data-item-id="{{ $value->id }}">
+                                    <i class="fa-solid fa-pen "></i>  </a>
+                            </td>
+                            <td class="text-end">
+                                <a class="dropdown-item " href="{{ route('delete-university') }}/{{ $value->id }}" data-item-id="{{ $value->id }}">
+                                    <i class="fa-solid fa-trash "></i>  </a>
+                                {{-- <button class="dropdown-item deleteButton" data-item-id="{{ $value->id }}">
+                                    <i class="fa-solid fa-trash "></i>  </button> --}}
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
                         <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                            <!-- Custom pagination links will be appended here -->
+                            {{$results->links()}}
                         </div>
                     </div>
                 </div>

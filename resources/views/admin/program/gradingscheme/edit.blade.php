@@ -47,7 +47,7 @@
                                     @csrf
                                     <div class="col-12">
                                           <label for=""></label>
-                                          <select class="form-control sidfrm" name="country_id" id="">
+                                          <select class="form-control " name="country_id" id="">
                                             <option value="{{$gradingScheme->country_id}}">
                                               {{$gradingScheme->country->name}}
                                             </option>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label for=""></label>
-                                        <select class="form-control sidfrm" name="education_level_id" id="education_level_id">
+                                        <select class="form-control " name="education_level_id" id="education_level_id">
                                           <option value="{{$gradingScheme->education_level_id}}">
                                             {{$gradingScheme->education_level->name}}
                                           </option>
@@ -75,7 +75,7 @@
                                   </div>
                                     <div class="col-12">
                                         <label>Grade Scheme Name</label>
-                                        <input type="text" class="form-control sidfrm" placeholder="Grade Scheme Name" name="name" value="{{$gradingScheme->name}}">
+                                        <input type="text" class="form-control " placeholder="Grade Scheme Name" name="name" value="{{$gradingScheme->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

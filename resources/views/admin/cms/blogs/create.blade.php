@@ -26,7 +26,7 @@
                                     @csrf
                                     <div class="col-12">
                                         <label>Title </label>
-                                        <input type="text" name="title" class="form-control sidfrm" placeholder="Enter Title " />
+                                        <input type="text" name="title" class="form-control " placeholder="Enter Title " />
                                         @error('title')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

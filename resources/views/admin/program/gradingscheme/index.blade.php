@@ -30,7 +30,7 @@
           <form id="grading-filter" action="{{route('grading-scheme-filter')}}" method="get" class="d-flex">
             <div class="row">
                 <div class="col-4">
-                    <select class="form-control sidfrm" name="country_id" id="">
+                    <select class="form-control " name="country_id" id="">
                     <option value="">---Select Country ---</option>
                     @foreach ($country as $item)
                         <option value="{{$item->id}}">{{$item->name}}</option>
@@ -41,7 +41,7 @@
                     @enderror
                 </div>
                 <div class="col-4">
-                <select class="form-control sidfrm" name="education_level_id" id="education_level_id">
+                <select class="form-control " name="education_level_id" id="education_level_id">
                     <option value="">--- Education Level ---</option>
                     @foreach ($education_level as $item)
                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -52,7 +52,7 @@
                     @enderror
                 </div>
                 <div class="col-4">
-                    <input type="text" class="form-control sidfrm" placeholder="Grade Scheme Name" name="name">
+                    <input type="text" class="form-control " placeholder="Grade Scheme Name" name="name">
                     @error('name')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror

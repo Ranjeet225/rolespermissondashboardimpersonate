@@ -27,7 +27,7 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Question</label>
-                                        <textarea name="question" class="form-control sidfrm" id="" cols="30" rows="10">{{$student_question->question}}</textarea>
+                                        <textarea name="question" class="form-control " id="" cols="30" rows="10">{{$student_question->question}}</textarea>
                                         @error('question')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

@@ -27,7 +27,7 @@
           <form id="eudcation" action="{{route('student-guide-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input  name="title" type="text" class="form-control sidfrm" placeholder="title" >
+                    <input  name="title" type="text" class="form-control " placeholder="title" >
                     <label  class="form-label">title</label>
                 </div>
             </div>

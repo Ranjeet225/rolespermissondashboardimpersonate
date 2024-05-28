@@ -56,7 +56,7 @@ class UserController extends Controller
             $user->where('email', 'LIKE', '%' . $request->email . '%');
         }
         if ($request->roles) {
-            $user->where('admin_type', 'LIKE', '%' . $request->roles . '%');
+            $user->where('admin_type', 'LIKE', $request->roles . '%');
         }
         if ($request->status) {
             $user->where('is_active',$active_Status);

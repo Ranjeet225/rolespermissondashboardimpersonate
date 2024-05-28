@@ -28,7 +28,7 @@
         <div class="card-body myform">
           <form id="program_filter" action="{{route('program-level-details')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-4">
-              <select name="program_level" class="form-control sidfrm">
+              <select name="program_level" class="form-control ">
                  @foreach ($program_level as $item)
                      <option value="{{$item->id}}">{{$item->name}}</option>
                  @endforeach

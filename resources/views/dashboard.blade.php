@@ -41,7 +41,7 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <a href="{{ route('dashboard-data', ['key' => 'total-members']) }}">
+                            <a href="{{url('admin-management/users')}}">
                                 <button type="button" class="btn btn-outline-primary">Read More</button>
                             </a>
                             {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
@@ -70,7 +70,10 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{route('student-list')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -78,7 +81,7 @@
             </div>
         </div>
         @endcan
-        @can('total_school_manager.total_school_manager_view')
+        {{-- @can('total_school_manager.total_school_manager_view')
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
             <div class="card dash-widget">
                 <div class="row">
@@ -103,7 +106,7 @@
 
             </div>
         </div>
-        @endcan
+        @endcan --}}
         @can('total_franchise.total_franchise_view')
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
             <div class="card dash-widget">
@@ -122,7 +125,10 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{route('frenchise.index')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -148,7 +154,9 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{url('franchise/frenchise-filter?status=Active')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -174,7 +182,9 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{url('franchise/frenchise-filter?status=InActive')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -200,7 +210,10 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{url('franchise/frenchise-filter?approvestatus=Approve')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -226,7 +239,10 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{url('franchise/frenchise-filter?approvestatus=UnApprove')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -240,7 +256,7 @@
                 <div class="row">
                     <div clas="col-md-12">
                         <div class="totalno">
-                            <h5>Total Agents</h5>
+                            <h5>Total  Agents</h5>
                         </div>
                     </div>
                     <div clas="col-md-12">
@@ -252,7 +268,19 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                             @php
+                                 $user=Auth::user();
+                             @endphp
+                             @if($user->hasRole('Administrator'))
+                                <a href="{{url('admin-management/users?roles=agent')}}">
+                                    <button type="button" class="btn btn-outline-primary">Read More</button>
+                                </a>
+                            @else
+                                <a href="{{url('admin-management/users?roles=sub_agent')}}">
+                                    <button type="button" class="btn btn-outline-primary">Read More</button>
+                                </a>
+                            @endif
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -265,7 +293,7 @@
                 <div class="row">
                     <div clas="col-md-12">
                         <div class="totalno">
-                            <h5>Total Univesties</h5>
+                            <h5>Total Universities </h5>
                         </div>
                     </div>
                     <div clas="col-md-12">
@@ -277,7 +305,65 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{route('manage-university')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+        @can('total_unapprove_universties.total_unapprove_universties_view')
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5>Total UnApprove Universities </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['total_unapprove_universties'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{route('unapproved-university')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+        @can('total_unapprove_universties.total_unapprove_universties_view')
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5>Total Approve Universities </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['total_approve_universties'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{route('view-approved-university')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -302,7 +388,64 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{route('manage-program')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+        @can('total_unapprove_program.total_unapprove_program_view')
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5> Total UnApprove Programs</h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['total_unapprove_program'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{url('program-filter?approve_status=unapprove')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+        @can('total_unapprove_program.total_unapprove_program_view')
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5> Total Approve Programs</h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['total_approve_program'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{route('approve-program')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -329,61 +472,14 @@
                         <div class="submit-section btnpr">
                             <button type="button" class="btn btn-outline-primary">Read More</button>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
         @endcan
-        @can('total_unapprove_universties.total_unapprove_universties_view')
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-            <div class="card dash-widget">
-                <div class="row">
-                    <div clas="col-md-12">
-                        <div class="totalno">
-                            <h5>Total UnApprove Univesties</h5>
-                        </div>
-                    </div>
-                    <div clas="col-md-12">
-                        <div class="blclr">
-                            <h5>
-                                <i class="la la-user clruser"></i> {{ $data['total_unapprove_universties'] }}
-                            </h5>
-                        </div>
-                    </div>
-                    <div clas="col-md-12">
-                        <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endcan
-        @can('total_unapprove_program.total_unapprove_program_view')
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-            <div class="card dash-widget">
-                <div class="row">
-                    <div clas="col-md-12">
-                        <div class="totalno">
-                            <h5> Total UnApprove Programs</h5>
-                        </div>
-                    </div>
-                    <div clas="col-md-12">
-                        <div class="blclr">
-                            <h5>
-                                <i class="la la-user clruser"></i> {{ $data['total_unapprove_program'] }}
-                            </h5>
-                        </div>
-                    </div>
-                    <div clas="col-md-12">
-                        <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endcan
+
+
         @can('total_unapprove_counceler.total_unapprove_counceler_view')
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
             <div class="card dash-widget">
@@ -452,7 +548,10 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{route('leads-filter')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>
@@ -477,7 +576,10 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                            <a href="{{route('assigned-leads')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
                         </div>
                     </div>
                 </div>

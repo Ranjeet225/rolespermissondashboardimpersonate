@@ -26,14 +26,14 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Subject name </label>
-                                        <input type="text" class="form-control sidfrm" name="subject_name">
+                                        <input type="text" class="form-control " name="subject_name">
                                         @error('subject_name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Status</label>
-                                        <select name="status" class="form-control sidfrm">
+                                        <select name="status" class="form-control ">
                                             <option value="1">Active</option>
                                             <option value="0">InActive</option>
                                         </select>

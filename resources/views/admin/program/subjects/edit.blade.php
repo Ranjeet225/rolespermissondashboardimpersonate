@@ -46,14 +46,14 @@
                                     @csrf
                                     <div class="col-12">
                                         <label>Enter Subjects Name</label>
-                                        <input type="text" class="form-control sidfrm" name="subject_name" value="{{ $subject->subject_name }}">
+                                        <input type="text" class="form-control " name="subject_name" value="{{ $subject->subject_name }}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Status</label>
-                                        <select name="status" class="form-control sidfrm">
+                                        <select name="status" class="form-control ">
                                             <option value="1" {{ $subject->status == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ $subject->status == 0 ? 'selected' : '' }}>InActive</option>
                                         </select>

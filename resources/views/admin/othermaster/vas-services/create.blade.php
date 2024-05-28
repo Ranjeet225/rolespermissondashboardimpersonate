@@ -27,28 +27,28 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Title</label>
-                                        <input type="text" class="form-control sidfrm" name="title">
+                                        <input type="text" class="form-control " name="title">
                                         @error('title')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Icon Image</label>
-                                        <input type="file" class="form-control sidfrm" name="icon_file">
+                                        <input type="file" class="form-control " name="icon_file">
                                         @error('icon_file')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Content</label>
-                                        <textarea class="form-control sidfrm" name="content"></textarea>
+                                        <textarea class="form-control " name="content"></textarea>
                                         @error('content')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Order</label>
-                                        <input type="number" class="form-control sidfrm" name="order">
+                                        <input type="number" class="form-control " name="order">
                                         @error('order')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

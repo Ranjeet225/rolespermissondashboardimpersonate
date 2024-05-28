@@ -25,14 +25,14 @@
                                 @csrf
                                 <div class="col-12">
                                     <label>Name</label>
-                                    <input type="text" class="form-control sidfrm" name="name" value="{{ $education_lane->name }}">
+                                    <input type="text" class="form-control " name="name" value="{{ $education_lane->name }}">
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
                                     <label>Details</label>
-                                    <textarea class="form-control sidfrm" name="details">{!! $education_lane->details !!}</textarea>
+                                    <textarea class="form-control " name="details">{!! $education_lane->details !!}</textarea>
                                     @error('details')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror

@@ -71,6 +71,12 @@ Route::middleware('auth')->group(function () {
         Route::get('add-leads', [LeadsManageCotroller::class, 'create_new_lead'])->name('admin.create_new_lead');
         Route::post('add-leadData-tab', [LeadsManageCotroller::class, 'add_lead_data'])->name('add-leadData-tab');
         Route::match(['get', 'post'], 'leads-lists/{action?}', [LeadsManageCotroller::class, 'lead_list'])->name('leads-filter');
+        Route::get('assigned-lead',[LeadsManageCotroller::class,'assigned_leads'])->name('assigned-leads');
+        Route::get('assigned-leads-filter',[LeadsManageCotroller::class,'assigned_leads'])->name('assigned-leads-filter');
+
+        Route::get('pending-lead',[LeadsManageCotroller::class,'pending_leads'])->name('pending-leads');
+        Route::get('pending-leads-filter',[LeadsManageCotroller::class,'pending_leads'])->name('pending-leads-filter');
+
         Route::any('excel-sheet-export', [LeadsManageCotroller::class, 'lead_list_export'])->name('lead_list_export');
         Route::get('manage-lead/{id}', [LeadsManageCotroller::class, 'manage_lead'])->name('manage-lead');
         Route::get('edit-lead/{id}', [LeadsManageCotroller::class, 'edit_lead_data'])->name('edit-lead');
@@ -132,6 +138,8 @@ Route::middleware('auth')->group(function () {
         Route::get("manage-university",[UniversityController::class,'manage_university'])->name('manage-university');
         Route::get("filter-university",[UniversityController::class,'manage_university'])->name('filter-university');
 
+
+
         Route::get('add-university',[UniversityController::class,'create_university'])->name('add-university');
         Route::post('store-university',[UniversityController::class,'store_university'])->name('store-university');
         Route::post('add-uni-ranking/{id?}', [UniversityController::class, 'add_uni_ranking'])->name('add-university-rank');
@@ -150,8 +158,12 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-university/{id?}', [UniversityController::class, 'delete_university'])->name('delete-university');
 
         Route::post("approve-university",[UniversityController::class,'approve_university'])->name('approve-university');
-        Route::get("approved-university",[UniversityController::class,'manage_university'])->name('approved-university');
-        Route::get("un-approve-university",[UniversityController::class,'manage_university'])->name('unapproved-university');
+
+        Route::get("approved-university",[UniversityController::class,'view_approve_university'])->name('view-approved-university');
+        Route::get("filter-approved-university",[UniversityController::class,'view_approve_university'])->name('filter-approved-university');
+
+        Route::get("un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('unapproved-university');
+        Route::get("filter-un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('filter-unapproved-university');
         Route::get("view-details-university",[UniversityController::class,'view_university'])->name('view-university');
         Route::get("updation-manage-university",[UniversityController::class,'update_university'])->name('update-university');
 

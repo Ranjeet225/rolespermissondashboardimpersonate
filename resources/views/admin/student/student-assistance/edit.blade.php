@@ -27,7 +27,7 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Title </label>
-                                        <input type="text" name="title" class="form-control sidfrm" placeholder="Enter Title " value="{{$student_assistance->title}}" />
+                                        <input type="text" name="title" class="form-control " placeholder="Enter Title " value="{{$student_assistance->title}}" />
                                         @error('title')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

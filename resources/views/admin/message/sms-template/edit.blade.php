@@ -26,7 +26,7 @@
                                     @csrf
                                     <div class="col-12">
                                         <label>Enter Template Name</label>
-                                        <input type="text" class="form-control sidfrm" name="heading"
+                                        <input type="text" class="form-control " name="heading"
                                             value="{{ $sms_template->heading }}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>

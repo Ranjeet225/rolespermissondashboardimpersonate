@@ -26,21 +26,21 @@
                                     @csrf
                                     <div class="col-md-4 col-sm-6">
                                         <label> Name : <span class="required_mark">*</span></label>
-                                        <input type="text" class="form-control sidfrm" name="name" value="{{ old('name') }}" placeholder="Enter Name">
+                                        <input type="text" class="form-control " name="name" value="{{ old('name') }}" placeholder="Enter Name">
                                         @error('name')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 col-sm-6 ">
                                         <label> Designation : <span class="required_mark">*</span></label>
-                                        <input type="text" class="form-control sidfrm" name="designation" value="{{ old('designation') }}" placeholder="Enter Designation">
+                                        <input type="text" class="form-control " name="designation" value="{{ old('designation') }}" placeholder="Enter Designation">
                                         @error('designation')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 col-sm-6 ">
                                         <label> Location : <span class="required_mark">*</span></label>
-                                        <input type="text" class="form-control sidfrm" name="location" value="{{ old('location') }}" placeholder="Enter Location">
+                                        <input type="text" class="form-control " name="location" value="{{ old('location') }}" placeholder="Enter Location">
                                         @error('location')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -48,14 +48,14 @@
                                     <!-- Details -->
                                     <div class="col-md-4 col-sm-4">
                                         <label> Upload profile Picture : <span class="required_mark">*</span></label>
-                                        <input type="file" name="profile_picture" class="form-control sidfrm" accept="image/x-png,image/gif,image/jpeg">
+                                        <input type="file" name="profile_picture" class="form-control " accept="image/x-png,image/gif,image/jpeg">
                                         @error('profile_picture')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 col-sm-4">
                                         <label>Status : <span class="required_mark">*</span></label>
-                                        <select class="form-control sidfrm" name="status">
+                                        <select class="form-control " name="status">
                                             <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Inactive</option>
                                         </select>

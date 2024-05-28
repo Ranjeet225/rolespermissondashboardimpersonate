@@ -26,7 +26,7 @@
                                     @csrf
                                     <div class="col-12">
                                         <label>Fee Type</label>
-                                        <input type="text" class="form-control sidfrm" name="fees_type" >
+                                        <input type="text" class="form-control " name="fees_type" >
                                         @error('fees_type')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -34,7 +34,7 @@
 
                                     <div class="col-12">
                                         <label>Enter Fees Amount</label>
-                                        <input type="number" class="form-control sidfrm" name="fees_amount" placeholder="" >
+                                        <input type="number" class="form-control " name="fees_amount" placeholder="" >
                                         @error('fees_amount')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

@@ -27,7 +27,7 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Name</label>
-                                        <input type="text" class="form-control sidfrm" name="name" value="{{$specialization->name}}">
+                                        <input type="text" class="form-control " name="name" value="{{$specialization->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

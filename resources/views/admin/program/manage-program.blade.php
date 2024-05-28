@@ -136,26 +136,26 @@
                                             <form class="row g-4" id="commission-data">
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission" name="commission" value="{{$item->commission}}" type="number" class="form-control sidfrm" placeholder="Program Commission (In Percentage)" autocomplete="commission" >
+                                                    <input id="usr-commission" name="commission" value="{{$item->commission}}" type="number" class="form-control " placeholder="Program Commission (In Percentage)" autocomplete="commission" >
                                                     <label for="usr-commission" class="form-label">Program Commission (In Percentage)</label>
                                                     <span class="text-danger error-commission"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission_for_program_payment_to_franchise" value="{{$item->commission_for_program_payment_to_franchise}}" name="commission_for_program_payment_to_franchise" type="number" class="form-control sidfrm" placeholder="Commission to Franchise when student pays (In Percentage)" autocomplete="commission_for_program_payment_to_franchise" ><label for="usr-commission_for_program_payment_to_franchise" class="form-label">Commission to Franchise when student pays (In Percentage)</label>
+                                                    <input id="usr-commission_for_program_payment_to_franchise" value="{{$item->commission_for_program_payment_to_franchise}}" name="commission_for_program_payment_to_franchise" type="number" class="form-control " placeholder="Commission to Franchise when student pays (In Percentage)" autocomplete="commission_for_program_payment_to_franchise" ><label for="usr-commission_for_program_payment_to_franchise" class="form-label">Commission to Franchise when student pays (In Percentage)</label>
                                                     <span class="text-danger error-commission_for_program_payment_to_franchise"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission_for_added_program_payment_to_franchise"  value="{{$item->commission_for_added_program_payment_to_franchise}}" name="commission_for_added_program_payment_to_franchise" type="number" class="form-control sidfrm" placeholder="Commission to Franchise for Program/University added (In Percentage)" autocomplete="commission_for_added_program_payment_to_franchise" ><label for="usr-commission_for_added_program_payment_to_franchise" class="form-label">Commission to Franchise for Program/University added (In Percentage)</label>
+                                                    <input id="usr-commission_for_added_program_payment_to_franchise"  value="{{$item->commission_for_added_program_payment_to_franchise}}" name="commission_for_added_program_payment_to_franchise" type="number" class="form-control " placeholder="Commission to Franchise for Program/University added (In Percentage)" autocomplete="commission_for_added_program_payment_to_franchise" ><label for="usr-commission_for_added_program_payment_to_franchise" class="form-label">Commission to Franchise for Program/University added (In Percentage)</label>
                                                     <span class="text-danger error-commission_for_added_program_payment_to_franchise"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission_for_program_payment_to_counselor"  value="{{$item->commission_for_program_payment_to_counselor}}"  name="commission_for_program_payment_to_counselor" type="number" class="form-control sidfrm" placeholder="Commission to Counselor for Program/University added (In Percentage)" autocomplete="commission_for_program_payment_to_counselor" ><label for="usr-commission_for_program_payment_to_counselor" class="form-label">Commission to Counselor for Program/University added (In Percentage)</label>
+                                                    <input id="usr-commission_for_program_payment_to_counselor"  value="{{$item->commission_for_program_payment_to_counselor}}"  name="commission_for_program_payment_to_counselor" type="number" class="form-control " placeholder="Commission to Counselor for Program/University added (In Percentage)" autocomplete="commission_for_program_payment_to_counselor" ><label for="usr-commission_for_program_payment_to_counselor" class="form-label">Commission to Counselor for Program/University added (In Percentage)</label>
                                                     <span class="text-danger error-commission_for_program_payment_to_counselor"></span>
                                                    </div>
                                                 </div>
@@ -200,7 +200,7 @@
                         <form class="row g-4" id="score-data">
                             <div class="col-12">
                                <div class="form-floating">
-                                  <select class="form-control sidfrm" name="type" id="usr-fees_type" placeholder="Type" required>
+                                  <select class="form-control " name="type" id="usr-fees_type" placeholder="Type" required>
                                      <option value="">--- Select Type ---</option>
                                      <option value="TOEFL">TOEFL</option>
                                      <option value="IELTS">IELTS</option>
@@ -213,28 +213,28 @@
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-listening_score" name="listening_score" type="number" class="form-control sidfrm" placeholder="Listening Score" autocomplete="listening_score" required>
+                                <input id="usr-listening_score" name="listening_score" type="number" class="form-control " placeholder="Listening Score" autocomplete="listening_score" required>
                                 <label for="usr-listening_score" class="form-label">Listening Score</label>
                                 <span class="text-danger error-listening_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-writing_score" name="writing_score" type="number" class="form-control sidfrm" placeholder="Writing Score" autocomplete="writing_score" required>
+                                <input id="usr-writing_score" name="writing_score" type="number" class="form-control " placeholder="Writing Score" autocomplete="writing_score" required>
                                 <label for="usr-writing_score" class="form-label">Writing Score</label>
                                 <span class="text-danger error-writing_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-reading_score" name="reading_score" type="number" class="form-control sidfrm" placeholder="Reading Score" autocomplete="reading_score" required>
+                                <input id="usr-reading_score" name="reading_score" type="number" class="form-control " placeholder="Reading Score" autocomplete="reading_score" required>
                                 <label for="usr-reading_score" class="form-label">Reading Score</label>
                                 <span class="text-danger error-reading_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-speaking_score" name="speaking_score" type="number" class="form-control sidfrm" placeholder="Speaking Score" autocomplete="speaking_score" required>
+                                <input id="usr-speaking_score" name="speaking_score" type="number" class="form-control " placeholder="Speaking Score" autocomplete="speaking_score" required>
                                 <label for="usr-speaking_score" class="form-label">Speaking Score</label>
                                 <span class="text-danger error-speaking_score"></span>
                                </div>

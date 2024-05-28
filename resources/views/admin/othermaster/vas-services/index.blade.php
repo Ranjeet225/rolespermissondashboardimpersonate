@@ -30,7 +30,7 @@
           <form id="eudcation" action="{{route('vas-service-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input id="lead-total_credits" name="title" type="text" class="form-control sidfrm" placeholder="NAME" >
+                    <input id="lead-total_credits" name="title" type="text" class="form-control " placeholder="NAME" >
                     <label for="lead-total_credits" class="form-label">Title</label>
                 </div>
             </div>

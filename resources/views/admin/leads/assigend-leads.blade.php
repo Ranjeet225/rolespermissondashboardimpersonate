@@ -9,7 +9,7 @@
                             <li class="breadcrumb-item">
                                 <a href="index.php"> Home</a>
                             </li>
-                            <li class="breadcrumb-item text-muted"> Lead List </li>
+                            <li class="breadcrumb-item text-muted">Assigned Lead List </li>
                         </ol>
                     </div>
 
@@ -25,7 +25,7 @@
         <div class="card-group">
             <div class="card">
                 <div class="card-body myform">
-                    <form action="{{ route('leads-filter') }}" method="GET">
+                    <form action="{{ route('assigned-leads-filter') }}" method="GET">
 
                         <div class="row">
                             <div class="col-md-4">
@@ -152,12 +152,12 @@
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
-                            <div class="col-md-2 ">
+                            {{-- <div class="col-md-2 ">
                                 <button type="submit" class="btn btn-info d-lg-block formmrgin" name="export"
                                     value="export">Export to Excel</button>
-                            </div>
+                            </div> --}}
                             <div class="col-md-2 ">
-                                <a href="{{ route('leads-filter') }}" class="btn btn-info d-lg-block  formmrgin">Reset
+                                <a href="{{ route('assigned-leads') }}" class="btn btn-info d-lg-block  formmrgin">Reset
                                 </a>
                             </div>
                             <div class="col-md-1 ">

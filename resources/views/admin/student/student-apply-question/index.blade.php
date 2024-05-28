@@ -30,7 +30,7 @@
           <form id="eudcation" action="{{route('student-question-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input  name="question" type="text" class="form-control sidfrm" placeholder="Question" >
+                    <input  name="question" type="text" class="form-control " placeholder="Question" >
                     <label  class="form-label">Question</label>
                 </div>
             </div>

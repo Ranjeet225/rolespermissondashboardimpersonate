@@ -26,14 +26,14 @@
                                 @csrf
                                 <div class="col-12">
                                     <label>Title</label>
-                                    <input type="text" class="form-control sidfrm" name="title" value="{{ $vas_service->title }}">
+                                    <input type="text" class="form-control " name="title" value="{{ $vas_service->title }}">
                                     @error('title')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
                                     <label>Icon Image</label>
-                                    <input type="file" class="form-control sidfrm" name="icon_file">
+                                    <input type="file" class="form-control " name="icon_file">
                                     @error('icon_file')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -41,14 +41,14 @@
                                 </div>
                                 <div class="col-12">
                                     <label>Content</label>
-                                    <textarea class="form-control sidfrm" name="content">{!! $vas_service->content !!}</textarea>
+                                    <textarea class="form-control " name="content">{!! $vas_service->content !!}</textarea>
                                     @error('content')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
                                     <label>Order</label>
-                                    <input type="number" class="form-control sidfrm" name="order" value="{{ $vas_service->order }}">
+                                    <input type="number" class="form-control " name="order" value="{{ $vas_service->order }}">
                                     @error('order')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror

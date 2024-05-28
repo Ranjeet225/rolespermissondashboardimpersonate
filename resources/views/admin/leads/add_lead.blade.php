@@ -45,7 +45,7 @@
                    <form  class="row g-4" id="tab1DataForm">
                       <div class="col-4">
                          <div class="form-floating">
-                            <select class="form-control" name="source" id="lead-fm" placeholder="Source">
+                            <select class="form-control" name="source"  placeholder="Source">
                                <option value="">-- Select Source --</option>
                                @foreach ($source as $item)
                                   <option value="{{$item->name}}">{{$item->name}}</option>
@@ -57,10 +57,10 @@
                       </div>
                       <div class="col-4">
                          <div class="form-floating">
-                            <input id="lead-name" name="first_name" type="text" class="form-control" placeholder="First Name" autocomplete="name" >
+                            <input id="lead-name" name="first_name" type="text" class="form-control" placeholder="First Name" autocomplete="name" required>
                             <input id="lead-name" type="hidden" name="tab1"  value="tab1">
                             <input  type="hidden" name="id"  class="uniquevalue" value="">
-                            <label for="lead-name" class="form-label">First Name</label>
+                            <label for="lead-name" class="form-label">First Name <span class="text-danger">*</span></label>
                             <span class="text-danger first_name"></span>
                          </div>
                       </div>
@@ -88,14 +88,14 @@
                       <div class="col-4">
                          <div class="form-floating">
                             <input id="lead-email" name="email" type="email" class="form-control" placeholder="Email" autocomplete="email" value="">
-                            <label for="lead-email" class="form-label">Email</label>
+                            <label for="lead-email" class="form-label">Email <span class="text-danger">*</span></label>
                             <span class="text-danger email"></span>
                          </div>
                       </div>
                       <div class="col-4">
                          <div class="form-floating">
                             <input id="lead-phone_number" name="phone_number" type="number" class="form-control" placeholder="Phone" autocomplete="phone_number" value="">
-                            <label for="lead-phone_number" class="form-label">Phone</label>
+                            <label for="lead-phone_number" class="form-label">Phone <span class="text-danger">*</span></label>
                             <span class="text-danger phone_number"></span>
                          </div>
                       </div>
@@ -108,7 +108,7 @@
                       </div>
                       <div class="col-4">
                          <div class="form-floating">
-                            <input id="lead-fm" name="dob" style="background: f8f9fa !important" type="date" class="form-control" placeholder="Date of Birth" autocomplete="dob" value="">
+                            <input  name="dob" style="background: f8f9fa !important" type="date" class="form-control" placeholder="Date of Birth" autocomplete="dob" value="">
                             <label for="lead-dob" class="form-label">Date of Birth</label>
                             <span class="text-danger dob"></span>
                          </div>
@@ -123,7 +123,7 @@
                       <form class="row g-4"  id="tab2DataForm">
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control"  id="lead-fm" name="cand_working" >
+                               <select class="form-control"   name="cand_working" >
                                   <option value="">-- Select Candidate Working --</option>
                                   <option value="student">Student </option>
                                   <option value="working">Working </option>
@@ -134,7 +134,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="caste" id="lead-fm" >
+                               <select class="form-control" name="caste"  >
                                   <option value="">-- Select Caste --</option>
                                    @foreach ($castes as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -145,7 +145,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control country" name="country_id" id="lead-fm">
+                               <select class="form-control country" name="country_id" >
                                   <option value="">-- Select Country  --</option>
                                     @foreach ($countries as $item)
                                        <option value="{{$item->id}}">{{$item->name}}</option>
@@ -156,7 +156,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                                <select  name="province_id" id="lead-fm" class="form-control province_id">
+                                <select  name="province_id"  class="form-control province_id">
                                     <option value="">-State/Provision -</option>
                                 </select>
                                <label for="lead-source" class="form-label">State/Provision </label>
@@ -184,7 +184,7 @@
                       <form class="row g-4" id="tab3DataForm">
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="program" id="lead-fm" placeholder="Source">
+                               <select class="form-control" name="program"  placeholder="Source">
                                   <option value="">-- Highest Level Program --</option>
                                   @foreach ($progLabel as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -195,7 +195,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="subject" id="lead-fm" placeholder="Source">
+                               <select class="form-control" name="subject"  placeholder="Source">
                                        <option value="">-- Subjects  --</option>
                                     @foreach ($subjects as $item)
                                         <option class="option" value="{{$item->id}}">{{$item->subject_name}}</option>
@@ -206,7 +206,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating" >
-                               <input  name="stream" id="lead-fm"  class="form-control"  value="">
+                               <input  name="stream"   class="form-control"  value="">
                                <label for="stream" class="form-label">Stream</label>
                                <input  type="hidden" name="id"  class="uniquevalue" value="">
                                <input id="lead-name" type="hidden" name="tab3"  value="tab3">
@@ -214,7 +214,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="status_study" id="lead-fm" >
+                               <select class="form-control" name="status_study"  >
                                   <option value="">-- Status Study  --</option>
                                   <option value="completed">Completed </option>
                                   <option value="pursuing">Pursuing</option>
@@ -224,7 +224,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="board_university" id="lead-fm" >
+                               <select class="form-control" name="board_university"  >
                                   <option value="">-- Board University  --</option>
                                   <option value="ICGSE">ICGSE</option>
                                   <option value="CBSE">CBSE</option>
@@ -251,7 +251,7 @@
                         </div>
                          <div class="col-4 programoption" style="display: none;">
                             <div class="form-floating">
-                               <select class="form-control" name="preferred_program_label" id="lead-fm" >
+                               <select class="form-control" name="preferred_program_label"  >
                                   <option value="">--Preferred Program Level  --</option>
                                     @foreach ($preproLabel as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
@@ -262,13 +262,13 @@
                          </div>
                          <div class="col-4 programoption" style="display: none;" >
                             <div class="form-floating">
-                               <input  id="lead-fm" name="course"   style="background: f8f9fa" type="text" class="form-control" placeholder="course">
+                               <input   name="course"   style="background: f8f9fa" type="text" class="form-control" placeholder="course">
                                <label for="course" class="form-label">Course</label>
                             </div>
                          </div>
                          <div class="col-4 programoption" style="display: none;">
                             <div class="form-floating">
-                               <select class="form-control" name="preferred_country_id" id="lead-fm" >
+                               <select class="form-control" name="preferred_country_id"  >
                                   <option value="">-- Country  --</option>
                                     @foreach ($countries as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
@@ -278,8 +278,8 @@
                             </div>
                          </div>
                          <div class="col-4 programoption" style="display: none;" >
-                            <div class="form-floating" id="lead-fm">
-                               <input id="lead-fm"  name="school" type="text" class="form-control" placeholder="Preferred Institute/University"  value="">
+                            <div class="form-floating" >
+                               <input   name="school" type="text" class="form-control" placeholder="Preferred Institute/University"  value="">
                                <label for="course" class="form-label">Preferred Institute/University</label>
                             </div>
                          </div>
@@ -298,7 +298,7 @@
                        <form class="row g-4"  id ="tab4DataForm">
                           <div class="col-4">
                              <div class="form-floating">
-                                <select class="form-control" name="lead_status" id="lead-fm" placeholder="Source">
+                                <select class="form-control" name="lead_status"  placeholder="Source">
                                    <option value="">-- Lead Status --</option>
                                    @foreach ($lead_status as $data)
                                      <option value="{{$data->id}}">{{$data->name}}</option>
@@ -317,13 +317,13 @@
                         </div>
                           <div class="col-4">
                              <div class="form-floating">
-                                <input id="lead-fm" name="interested_in" type="text" class="form-control"  placeholder="interested_in">
+                                <input  name="interested_in" type="text" class="form-control"  placeholder="interested_in">
                                 <label for="interested_in" class="form-label">Interested In</label>
                              </div>
                           </div>
                           <div class="col-4">
                             <div class="form-floating">
-                                <select id="lead-fm" name="intakeMonth" class="form-control"  >
+                                <select  name="intakeMonth" class="form-control"  >
                                     <option value="">Select Month</option>
                                     <option value="01">January</option>
                                     <option value="02">February</option>
@@ -343,7 +343,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-floating">
-                                <select id="lead-fm" name="year" class=" form-control">
+                                <select  name="year" class=" form-control">
                                     <option value="">Select Year</option>
                                     <option value="2022">2022</option>
                                     <option value="2023">2023</option>
@@ -360,7 +360,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-floating">
-                                <select id="lead-fm" name="profile_create" class=" form-control">
+                                <select  name="profile_create" class=" form-control">
                                     <option value="">Profile Create</option>
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
@@ -370,7 +370,7 @@
                         </div>
                           <div class="col-12">
                              <div class="form-floating">
-                                <textarea name="comment" id="lead-fm" class="form-control w-100"  ></textarea>
+                                <textarea name="comment"  class="form-control w-100"  ></textarea>
                                 <label for="lead-dob" class="form-label">Comment</label>
                              </div>
                           </div>

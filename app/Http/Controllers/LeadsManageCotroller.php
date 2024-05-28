@@ -541,6 +541,25 @@ class LeadsManageCotroller extends Controller
         return view('admin.leads.lead-list', compact('lead_list', 'countries', 'lead_status'));
     }
 
+    public function assigned_leads(Request $request)
+    {
+        $lead_list = $this->filterLeads($request);
+        $lead_list = $lead_list->whereNotNULL('assigned_to')->paginate(12);
+        $countries = Country::all();
+        $lead_status = MasterLeadStatus::get();
+        return view('admin.leads.assigend-leads', compact('lead_list', 'countries', 'lead_status'));
+
+    }
+
+    public function pending_leads(Request $request)
+    {
+        $lead_list = $this->filterLeads($request);
+        $lead_list = $lead_list->whereNull('assigned_to')->paginate(12);
+        $countries = Country::all();
+        $lead_status = MasterLeadStatus::get();
+        return view('admin.leads.pending-leads', compact('lead_list', 'countries', 'lead_status'));
+    }
+
     public function edit_lead_data(Request $request, $id)
     {
         $user = auth()->user();
@@ -592,13 +611,13 @@ class LeadsManageCotroller extends Controller
             $lead_list->where('lead_status', 'LIKE', '%' . $request->lead_status . '%');
         }
         if ($request->assigned_status) {
-            if (!($user->hasRole('Administrator'))) {
+            // if (!($user->hasRole('Administrator'))) {
                 if($request->assigned_status == 'allocated'){
-                    $lead_list->where("assigned_to", $user_id)->whereNotNull('assigned_to');
+                    $lead_list->whereNotNull('assigned_to');
                 }elseif($request->assigned_status == 'notallocated'){
-                    $lead_list->where("assigned_to", $user_id)->whereNull('assigned_to');
+                    $lead_list->whereNull('assigned_to');
                 }
-            }
+            // }
         }
         if ($request->intakeMonth) {
             $lead_list->where('intake', $request->intakeMonth);
@@ -830,9 +849,17 @@ class LeadsManageCotroller extends Controller
             $studentDetails = Student::where('user_id',$id)->first();
             $id =$studentDetails->id;
         }else{
-            $studentDetails = Student::where('id',$id)->first();
+            $user=Auth::user();
+            if($user->hasRole('Administrator')){
+                $studentDetails = Student::where('id',$id)->first();
+            }else{
+                $studentDetails = Student::where('id',$id)->where('user_id',Auth::user()->id)->first();
+            }
         }
         $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->where('id', $id)->first();
+        if(empty($leadDetails && $studentDetails)){
+            return view('errors.404');
+        }
         $university = University::where('country_id', $studentDetails->country_id)->get();
         $course = DB::table('subjects')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
@@ -1233,6 +1260,7 @@ class LeadsManageCotroller extends Controller
         }
         $data = [
             'success' => true,
+            'tab10'=>'tab10',
             'status' => $response,
         ];
         return response()->json($data);
@@ -1400,7 +1428,7 @@ class LeadsManageCotroller extends Controller
                             'user_id' => $franchise_user->id,
                             'message' => "A Lead has been assigned to you",
                         ];
-                        // Mail::to($franchise_user->email)->send(new assignLeadsMail($data));
+                        Mail::to($franchise_user->email)->send(new assignLeadsMail($data));
                     }
                     $data = "Franchise Updated Successfully !!!!";
                 }else if($users->hasRole('agent')){
@@ -1413,7 +1441,7 @@ class LeadsManageCotroller extends Controller
                             'user_id' => $franchise_user->id,
                             'message' => "A Lead has been assigned to you",
                         ];
-                        // Mail::to($franchise_user->email)->send(new assignLeadsMail($data));
+                        Mail::to($franchise_user->email)->send(new assignLeadsMail($data));
                     }
                     $data = "Agent Updated Successfully !!!!";
                 } else {

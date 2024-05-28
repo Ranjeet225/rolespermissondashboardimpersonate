@@ -27,7 +27,7 @@
                                     @method('post')
                                     <div class="col-md-8">
                                         <div class="form-floating ">
-                                            <select class="form-control sidfrm" name="country_id">
+                                            <select class="form-control " name="country_id">
                                                 @foreach ($country as $item)
                                                    <option value="{{$item->id}}" {{$item->id == $province->country_id ? 'selected' : ''}}>{{$item->name}}</option>
                                                 @endforeach
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label>Enter Province </label>
-                                        <input type="text" class="form-control sidfrm" name="name" placeholder="+91" value="{{$province->name}}">
+                                        <input type="text" class="form-control " name="name" placeholder="+91" value="{{$province->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

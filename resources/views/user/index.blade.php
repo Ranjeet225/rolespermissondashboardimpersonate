@@ -58,7 +58,7 @@
                 <select name="roles" class="form-control formmrgin">
                   <option value="">--Select Account Type--</option>
                     @foreach ($roles as $role)
-                    <option value="{{$role->id}}" {{ request()->get('roles') == $role->id ? 'selected' : '' }}>{{$role->name}}</option>
+                    <option value="{{$role->name}}" {{ request()->get('roles') == $role->name ? 'selected' : '' }}>{{$role->name}}</option>
                     @endforeach
                 </select>
               </div>
@@ -116,9 +116,7 @@
             @endphp
           @foreach ($users as  $user)
           <tr>
-            <td>
-              <td>{{ $loop->index + (($users->currentPage() - 1) * $users->perPage()) + 1 }}</td>
-            </td>
+            <td>{{ $loop->index + (($users->currentPage() - 1) * $users->perPage()) + 1 }}</td>
             <td>
               {{ucfirst($user->name)}}
             </td>

@@ -27,7 +27,7 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Name</label>
-                                        <input type="text" class="form-control sidfrm" name="name" value="{{$country->name}}">
+                                        <input type="text" class="form-control " name="name" value="{{$country->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -35,7 +35,7 @@
 
                                     <div class="col-12">
                                         <label>Enter Country Code</label>
-                                        <input type="text" class="form-control sidfrm" name="country_code" placeholder="+91" value="{{$country->country_code}}">
+                                        <input type="text" class="form-control " name="country_code" placeholder="+91" value="{{$country->country_code}}">
                                         @error('country_code')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

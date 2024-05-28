@@ -45,7 +45,7 @@
                     @method('post')
                 <div class="col-4">
                     <div class="form-floating">
-                        <select class="form-control sidfrm" name="school_id" id="lead-school_id" placeholder="University / College Name">
+                        <select class="form-control " name="school_id" id="lead-school_id" placeholder="University / College Name">
                            <option value="">-- University / College Name --</option>
                            @foreach ($universities as $item)
                               <option value="{{$item->id}}" {{ $item->id == $program->school_id ? 'selected' : '' }}>{{$item->university_name}}</option>
@@ -59,7 +59,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-floating">
-                       <select class="form-control sidfrm" name="prog_category" id="lead-prog_category" placeholder="Program Category">
+                       <select class="form-control " name="prog_category" id="lead-prog_category" placeholder="Program Category">
                           <option value="">-- Select Program Category --</option>
                           @foreach ($program_category as $item)
                              <option value="{{$item->id}}" {{ $item->id == $program->prog_category ? 'selected' : '' }}>{{$item->name}}</option>
@@ -73,7 +73,7 @@
                  </div>
                  <div class="col-4">
                     <div class="form-floating">
-                        <input id="lead-name" name="name" type="text" class="form-control sidfrm" value="{{ $program->name}}" placeholder="Program / Courses Name" autocomplete="name" >
+                        <input id="lead-name" name="name" type="text" class="form-control " value="{{ $program->name}}" placeholder="Program / Courses Name" autocomplete="name" >
                         <label for="lead-name" class="form-label">Program / Courses Name</label>
                     </div>
                     @error('name')
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-4">
                     <div class="form-floating">
-                         <input id="lead-length" name="length" type="text" class="form-control sidfrm"  value="{{ $program->length }}" placeholder="Program / Courses Duration" autocomplete="length" value="">
+                         <input id="lead-length" name="length" type="text" class="form-control "  value="{{ $program->length }}" placeholder="Program / Courses Duration" autocomplete="length" value="">
                          <label for="lead-length" class="form-label">Program / Courses Duration</label>
                      </div>
                      @error('length')
@@ -91,7 +91,7 @@
                  </div>
                  <div class="col-4">
                     <div class="form-floating">
-                       <select class="form-control sidfrm" name="programType" id="lead-programType" placeholder="Program / Courses Type">
+                       <select class="form-control " name="programType" id="lead-programType" placeholder="Program / Courses Type">
                           <option value="">-- Select programType --</option>
                           <option value="Full Time"  {{ $program->programType == 'Full Time' ? 'selected' : '' }}>Full Time</option>
                           <option value="Part Time"  {{ $program->programType == 'Part Time' ? 'selected' : '' }}>Part Time</option>
@@ -105,7 +105,7 @@
                  </div>
                  <div class="col-4">
                     <div class="form-floating">
-                       <select class="form-control sidfrm " name="programCampus" id="lead-programCampus" placeholder="Courses Campus">
+                       <select class="form-control  " name="programCampus" id="lead-programCampus" placeholder="Courses Campus">
                           <option value="">-- Select programCampus --</option>
                           <option value="Online"  {{ $program->programCampus == 'Online' ? 'selected' : '' }}>Online</option>
                           <option value="Residential" {{ $program->programCampus == 'Residential' ? 'selected' : '' }}>Residential</option>
@@ -119,7 +119,7 @@
                  </div>
                  <div class="col-4">
                     <div class="form-floating">
-                       <select class="form-control sidfrm" name="lang_spec_for_program" id="lead-lang_spec_for_program" placeholder="Language Specification For Program / Courses">
+                       <select class="form-control " name="lang_spec_for_program" id="lead-lang_spec_for_program" placeholder="Language Specification For Program / Courses">
                           <option value="">-- Select Language --</option>
                           <option value="English" {{ $program->lang_spec_for_program == 'English' ? 'selected' : '' }}>English</option>
                           <option value="Hindi" {{ $program->lang_spec_for_program == 'Hindi' ? 'selected' : '' }}>Hindi</option>
@@ -133,7 +133,7 @@
                  </div>
                  <div class="col-4 ">
                     <div class="form-floating">
-                        <select class="form-control sidfrm  selectpicker" name="subject_id_input"
+                        <select class="form-control   selectpicker" name="subject_id_input"
                             id="subject_id_input" multiple placeholder="Education Level">
                             @foreach ($all_subject as $item)
                                 @php
@@ -153,7 +153,7 @@
                 </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control sidfrm" name="fieldsofstudytype" id="lead-fieldsofstudytype" placeholder="Fields Of Study Type (Degree type offered)">
+                          <select class="form-control " name="fieldsofstudytype" id="lead-fieldsofstudytype" placeholder="Fields Of Study Type (Degree type offered)">
                              <option value="">-- Select Fields Of Study Type --</option>
                              @foreach ($filed_of_study as $item)
                              <option value="{{$item->id}}" {{ $program->study_type->id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control sidfrm" name="grading_scheme_id" id="lead-grading_scheme_id" placeholder="Grading Scheme">
+                          <select class="form-control " name="grading_scheme_id" id="lead-grading_scheme_id" placeholder="Grading Scheme">
                              <option>-- Education Lavel --</option>
                              <option value="1" {{ $program->grading_scheme_id == 1 ? 'selected' : '' }}>Primary</option>
                              <option value="2" {{ $program->grading_scheme_id == 2 ? 'selected' : '' }}>Secondary</option>
@@ -182,7 +182,7 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control sidfrm" name="degree_scheme_id" id="lead-degree_scheme_id" placeholder="Degree">
+                          <select class="form-control " name="degree_scheme_id" id="lead-degree_scheme_id" placeholder="Degree">
                              <option value="">-- Select Minimum Level of Education Required --</option>
                              @foreach ($education_level as $item)
                                   <option value="{{$item->id}}" {{ $program->degree_scheme_id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -197,7 +197,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating ">
-                            <input id="lead-total_credits" name="total_credits" type="number" class="form-control sidfrm" placeholder="Total Credits" autocomplete="total_credits" value="{{$program->total_credits}}">
+                            <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{$program->total_credits}}">
                             <label for="lead-total_credits" class="form-label">Total Credits</label>
                         </div>
                         @error('total_credits')
@@ -206,7 +206,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-application_fee" name="application_fee" type="number" class="form-control sidfrm" placeholder="Application Fees in INR" autocomplete="application_fee" value="{{$program->application_fee}}">
+                            <input id="lead-application_fee" name="application_fee" type="number" class="form-control " placeholder="Application Fees in INR" autocomplete="application_fee" value="{{$program->application_fee}}">
                             <label for="lead-application_fee" class="form-label">Application Fees in INR</label>
                         </div>
                         @error('application_fee')
@@ -215,7 +215,7 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                            <input id="lead-application_apply_date" name="application_apply_date" type="date" class="form-control sidfrm" placeholder="Application Apply Date" autocomplete="application_apply_date" value="{{$program->application_apply_date}}">
+                            <input id="lead-application_apply_date" name="application_apply_date" type="date" class="form-control " placeholder="Application Apply Date" autocomplete="application_apply_date" value="{{$program->application_apply_date}}">
                             <label for="lead-application_apply_date" class="form-label">Application Apply Date</label>
                         </div>
                         @error('application_apply_date')
@@ -225,7 +225,7 @@
 
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-application_closing_date" name="application_closing_date" type="date" class="form-control sidfrm" placeholder="Application Closing Date" autocomplete="application_closing_date" value="{{$program->application_closing_date}}">
+                            <input id="lead-application_closing_date" name="application_closing_date" type="date" class="form-control " placeholder="Application Closing Date" autocomplete="application_closing_date" value="{{$program->application_closing_date}}">
                             <label for="lead-application_closing_date" class="form-label">Application Closing Date</label>
                         </div>
                         @error('application_closing_date')
@@ -234,7 +234,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-tution_fee" name="tution_fee" type="number" class="form-control sidfrm" placeholder="Tution Fee" autocomplete="tution_fee" value="{{$program->tution_fee}}">
+                            <input id="lead-tution_fee" name="tution_fee" type="number" class="form-control " placeholder="Tution Fee" autocomplete="tution_fee" value="{{$program->tution_fee}}">
                             <label for="lead-tution_fee" class="form-label">Tution Fee</label>
                         </div>
                         @error('tution_fee')
@@ -243,7 +243,7 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control sidfrm" name="currency" id="lead-currency" placeholder="Currency">
+                          <select class="form-control " name="currency" id="lead-currency" placeholder="Currency">
                              <option value="">-- Currency --</option>
                              @foreach ($currency as $item)
                                 <option value="{{$item->id}}" {{ $program->currency_data->id == $item->id ? 'selected' : '' }}>{{$item->currency}}</option>
@@ -257,7 +257,7 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control sidfrm" name="intake" id="lead-intake" placeholder="Intake">
+                          <select class="form-control " name="intake" id="lead-intake" placeholder="Intake">
                              <option value="">--Select--</option>
                              @foreach (range(1, 12) as $month)
                                 <option value="{{ date('m', mktime(0, 0, 0, $month, 10)) }}" {{ $program->intake == date('m', mktime(0, 0, 0, $month, 10)) ? 'selected' : '' }}>{{ date('F', mktime(0, 0, 0, $month, 10)) }}</option>
@@ -273,7 +273,7 @@
 
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-min_gpa" name="min_gpa" type="number" class="form-control sidfrm" placeholder="Minimum GPA" autocomplete="min_gpa" value="{{$program->min_gpa}}">
+                            <input id="lead-min_gpa" name="min_gpa" type="number" class="form-control " placeholder="Minimum GPA" autocomplete="min_gpa" value="{{$program->min_gpa}}">
                             <label for="lead-min_gpa" class="form-label">Minimum GPA</label>
                         </div>
                         @error('min_gpa')
@@ -282,7 +282,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-tags" name="tags" type="text" class="form-control sidfrm" placeholder="Course Tags" autocomplete="tags" value="{{$program->tags}}">
+                            <input id="lead-tags" name="tags" type="text" class="form-control " placeholder="Course Tags" autocomplete="tags" value="{{$program->tags}}">
                             <label for="lead-tags" class="form-label">Course Tags</label>
                         </div>
                         @error('tags')
@@ -291,7 +291,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-priority" name="priority" type="number" class="form-control sidfrm" placeholder="Priority" autocomplete="priority" value="{{$program->priority}}">
+                            <input id="lead-priority" name="priority" type="number" class="form-control " placeholder="Priority" autocomplete="priority" value="{{$program->priority}}">
                             <label for="lead-priority" class="form-label">Priority</label>
                         </div>
                         @error('priority')
@@ -300,7 +300,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-other_requirements" name="other_requirements" type="text" class="form-control sidfrm" placeholder="Other Requirements (Eligibility Of Program / Courses)" autocomplete="other_requirements" value="{{$program->other_requirements}}">
+                            <input id="lead-other_requirements" name="other_requirements" type="text" class="form-control " placeholder="Other Requirements (Eligibility Of Program / Courses)" autocomplete="other_requirements" value="{{$program->other_requirements}}">
                             <label for="lead-other_requirements" class="form-label">Other Requirements (Eligibility Of Program / Courses)</label>
                         </div>
                         @error('other_requirements')

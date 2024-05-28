@@ -48,14 +48,14 @@
                                     @method('post')
                                     <div class="col-12">
                                         <label>Name</label>
-                                        <input type="text" class="form-control sidfrm" name="name" value="{{$educationlevel->name}}">
+                                        <input type="text" class="form-control " name="name" value="{{$educationlevel->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Order</label>
-                                        <input type="text" name="item_order"  class="form-control sidfrm" value="{{$educationlevel->item_order}}">
+                                        <input type="text" name="item_order"  class="form-control " value="{{$educationlevel->item_order}}">
                                         @error('order')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

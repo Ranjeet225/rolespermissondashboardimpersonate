@@ -39,6 +39,7 @@ use App\Mail\NewLeadAssignedMail;
 use App\Mail\StudentPaymentMail;
 
 use App\Jobs\SendOTPJob;
+use App\Models\Agent;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -88,21 +89,25 @@ class DashboardController extends Controller
             $total_members = User::count();
             $total_student = User::where('admin_type', 'student')->count();
             $total_school_manager = User::where('admin_type', 'school_manager')->count();
-            $total_frenchise = User::where('admin_type', 'agent')->count();
-            $total_active_frenchise = User::where('admin_type', 'agent')->where('is_active', 1)->count();
-            $total_inactive_frenchise = User::where('admin_type', 'agent')->where('is_active', 0)->count();
-            $total_approve_frenchise = User::where('admin_type', 'agent')->where('profile_verify_for_agent', 1)->count();
-            $total_unapprove_frnchise = User::where('admin_type', 'agent')->where('profile_verify_for_agent', 0)->count();
-            $total_agent = User::where('admin_type', 'sub_agent')->count();
+            $total_frenchise = Agent::count();
+            $total_active_frenchise = Agent::where('is_active', 1)->count();
+            $total_inactive_frenchise = Agent::whereNull('is_active')->orwhere('is_active', 0)->count();
+            $total_approve_frenchise = Agent::where('is_approve', 1)->count();
+            $total_unapprove_frnchise = Agent::where('is_approve', 0)->count();
+            $total_agent = User::where('admin_type', 'agent')->count();
         } else {
             $total_members = User::where('added_by', $user_ids)->count();
             $total_student = User::where('admin_type', 'student')->where('added_by', $user_ids)->count();
             $total_school_manager = User::where('admin_type', 'school_manager')->where('added_by', $user_ids)->count();
-            $total_frenchise = User::where('admin_type', 'agent')->where('added_by', $user_ids)->count();
-            $total_active_frenchise = User::where('admin_type', 'agent')->where('is_active', 1)->where('added_by', $user_ids)->count();
-            $total_inactive_frenchise = User::where('admin_type', 'agent')->where('is_active', 0)->where('added_by', $user_ids)->count();
-            $total_approve_frenchise = User::where('admin_type', 'agent')->where('profile_verify_for_agent', 1)->where('added_by', $user_ids)->count();
-            $total_unapprove_frnchise = User::where('admin_type', 'agent')->where('profile_verify_for_agent', 0)->where('added_by', $user_ids)->count();
+            $total_frenchise = Agent::where('user_id', $user_ids)->count();
+            $total_active_frenchise = Agent::where('is_active', 1)->where('user_id', $user_ids)->count();
+            $total_inactive_frenchise = Agent::where('user_id', $user_ids)->where(function ($query) {
+                                            $query->whereNull('is_active')
+                                                ->orWhere('is_active', 0);
+                                         })
+                                        ->count();
+            $total_approve_frenchise = Agent::where('is_approve', 1)->where('user_id', $user_ids)->count();
+            $total_unapprove_frnchise = Agent::where('is_approve', 0)->where('user_id', $user_ids)->count();
             $total_agent = User::where('admin_type', 'sub_agent')->where('added_by', $user_ids)->count();
         }
 
@@ -110,16 +115,28 @@ class DashboardController extends Controller
             $total_university = University::count();
             $total_program = Program::count();
             $total_application = ApplicationsApplied::count();
-            $total_unapprove_universties = University::where('is_approved', 0)->count();
-            $total_unapprove_program = Program::where('is_approved', 0)->count();
+            $total_unapprove_universties = University::where(function ($query) {
+                                            $query->whereNull('is_approved')->orWhere('is_approved',0);
+                                        })->count();
+            $total_approve_universties = University::where('is_approved', 1)->count();
+            $total_unapprove_program = Program::where(function ($query) {
+                                    $query->whereNull('is_approved')->orWhere('is_approved',0);
+                                })->count();
+            $total_approve_program=Program::where('is_approved', 1)->count();
             $total_unapprove_counceler = User::where('admin_type', 'counselor')->where('profile_verify_for_agent', 0)->count();
             $total_approve_counceler = User::where('admin_type', 'counselor')->where('profile_verify_for_agent', 1)->count();
         }else{
             $total_university = University::where('user_id', $user_ids)->count();
             $total_program = Program::where('user_id', $user_ids)->count();
             $total_application = ApplicationsApplied::count();
-            $total_unapprove_universties = University::where('is_approved', 0)->where('user_id', $user_ids)->count();
-            $total_unapprove_program = Program::where('is_approved', 0)->where('user_id', $user_ids)->count();
+            $total_unapprove_universties = University::where(function ($query) {
+                                            $query->whereNull('is_approved')->orWhere('is_approved',0);
+                                        })->where('user_id', $user_ids)->count();
+            $total_approve_universties = University::where('is_approved', 1)->where('user_id', $user_ids)->count();
+            $total_unapprove_program = Program::where(function ($query) {
+                                        $query->whereNull('is_approved')->orWhere('is_approved',0);
+                                    })->where('user_id', $user_ids)->count();
+            $total_approve_program=Program::where('is_approved', 1)->where('user_id', $user_ids)->count();
             $total_unapprove_counceler = User::where('admin_type', 'counselor')->where('added_by', $user_ids)->where('profile_verify_for_agent', 0)->count();
             $total_approve_counceler = User::where('admin_type', 'counselor')->where('added_by', $user_ids)->where('profile_verify_for_agent', 1)->count();
         }
@@ -134,6 +151,7 @@ class DashboardController extends Controller
             "total_active_frenchise" => $total_active_frenchise,
             "total_inactive_frenchise" => $total_inactive_frenchise,
             "total_approve_frenchise" => $total_approve_frenchise,
+            "total_approve_universties"=>$total_approve_universties,
             "total_unapprove_frnchise" => $total_unapprove_frnchise,
             "total_agent" => $total_agent,
             "total_university" => $total_university,
@@ -141,6 +159,7 @@ class DashboardController extends Controller
             "total_application" => $total_application,
             "total_unapprove_universties" => $total_unapprove_universties,
             "total_unapprove_program" => $total_unapprove_program,
+            "total_approve_program" => $total_approve_program,
             "total_unapprove_counceler" => $total_unapprove_counceler,
             "total_approve_counceler" => $total_approve_counceler
         );
@@ -155,11 +174,10 @@ class DashboardController extends Controller
            $total_members = User::paginate(12);
            $dash_name = 'Total Members';
         }
-
-      $dash_data = [
-        'dash' => $total_members,
-        'dash_name' => $dash_name,
-      ];
+        $dash_data = [
+            'dash' => $total_members,
+            'dash_name' => $dash_name,
+        ];
     //   dd($dash_data['dash']);
        return view('dashboard-data', compact('dash_data'));
     }

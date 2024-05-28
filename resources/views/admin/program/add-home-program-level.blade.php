@@ -47,7 +47,7 @@
                                     @method('post')
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <select class="form-control sidfrm" name="program_level_id"
+                                            <select class="form-control " name="program_level_id"
                                                 id="lead-programCampus" placeholder="Courses Campus">
                                                 <option value="">-- Select programLevel--</option>
                                                 @foreach ($program_level as $item)

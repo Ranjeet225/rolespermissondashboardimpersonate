@@ -30,7 +30,7 @@
           <form id="eudcation" action="{{route('faq-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input id="lead-total_credits" name="faq_question" type="text" class="form-control sidfrm" placeholder="NAME" >
+                    <input id="lead-total_credits" name="faq_question" type="text" class="form-control " placeholder="NAME" >
                     <label for="lead-total_credits" class="form-label">FAQ Question</label>
                 </div>
             </div>

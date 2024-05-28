@@ -36,62 +36,125 @@ class UniversityController extends Controller
         $route = Route::currentRouteName();
         $originUrl = url('');
         $currentUrl = URL::current();
-        if (($route == 'approved-university') || ($currentUrl == $originUrl.'/admin/approved-university')) {
-            $results->where('is_approved', 1);
-        }elseif(($route == 'unapproved-university') || ($currentUrl == $originUrl.'/admin/un-approve-university')){
-            $results->where('is_approved', 0);
+        $user =Auth::user();
+        if(!($user->hasRole('Administrator'))){
+            $results->where('user_id', $user->id);
         }
-        if ($request->ajax()) {
-            $search = $request->input('search');
-            $isApproved = null;
-            if (strtolower($search) == 'approve') {
-                $isApproved = 1;
-            } elseif (strtolower($search) == 'unapprove') {
-                $isApproved = 0;
-            }
-            if ($request->has('university_name') && $request->university_name != '') {
-                $results->where('university_name', 'LIKE', "%{$request->university_name}%");
-            }
-            if ($request->has('country') && $request->country != '') {
-                $results->where('country_id', $request->country);
-            }
-            if ($request->has('approve') && $request->approve != '') {
-                $isApproved = $request->approve == 'approve' ? 1 : 0;
-                $results->where('is_approved', $isApproved);
-            }
-            if ($request->has('status') && $request->status != '') {
-                $results->where('status', $request->status);
-            }
-            $results->where(function ($query) use ($search, $isApproved) {
-                if (!is_null($isApproved)) {
-                    $query->orWhere('is_approved', $isApproved);
-                }else{
-                    $query->orWhere('is_approved', 1);
-                }
-                $query->orWhereHas('country', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', "%{$search}%");
-                })
-                ->orWhereHas('province', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', "%{$search}%");
-                });
-            });
-            $results = $results->paginate(12);
-            return response()->json([
-                'data' => $results,
-                'links' => $results->links()->toHtml()
-            ]);
+        if ($request->has('university_name') && $request->university_name != '') {
+            $results->where('university_name', 'LIKE', "%{$request->university_name}%");
         }
-        if($request->routeIs('manage-university')){
-            return view('admin.university.manage-university', compact('countries'));
-        }elseif(($route == 'approved-university') || ($currentUrl == $originUrl.'/admin/approved-university')) {
-            return view('admin.university.approved-university', compact('countries'));
-        }elseif(($route == 'unapproved-university') || ($currentUrl == $originUrl.'/admin/un-approve-university')){
-            return view('admin.university.unapproved-university', compact('countries'));
+        if ($request->has('country') && $request->country != '') {
+            $results->where('country_id', $request->country);
         }
+        if ($request->has('approve') && $request->approve != '') {
+            $isApproved = $request->approve == 'approve' ? 1 : 0;
+            $results->where('is_approved', $isApproved);
+        }
+        if ($request->has('status') && $request->status != '') {
+            $results->where('status', $request->status);
+        }
+        // if ($request->ajax()) {
+        //     $search = $request->input('search');
+        //     $isApproved = null;
+        //     if (strtolower($search) == 'approve') {
+        //         $isApproved = 1;
+        //     } elseif (strtolower($search) == 'unapprove') {
+        //         $isApproved = 0;
+        //     }
+        //     if ($request->has('university_name') && $request->university_name != '') {
+        //         $results->where('university_name', 'LIKE', "%{$request->university_name}%");
+        //     }
+        //     if ($request->has('country') && $request->country != '') {
+        //         $results->where('country_id', $request->country);
+        //     }
+        //     if ($request->has('approve') && $request->approve != '') {
+        //         $isApproved = $request->approve == 'approve' ? 1 : 0;
+        //         $results->where('is_approved', $isApproved);
+        //     }
+        //     if ($request->has('status') && $request->status != '') {
+        //         $results->where('status', $request->status);
+        //     }
+        //     // $results->where(function ($query) use ($search, $isApproved) {
+        //     //         if ($isApproved == 'unapprove') {
+        //     //             $query->orWhere('is_approved', 0);
+        //     //         }
+        //     //         if($isApproved == 'approve'){
+        //     //             $query->orWhere('is_approved', 0);
+        //     //         }
+        //     //         $query->orWhereHas('country', function ($query) use ($search) {
+        //     //             $query->where('name', 'LIKE', "%{$search}%");
+        //     //         })
+        //     //         ->orWhereHas('province', function ($query) use ($search) {
+        //     //             $query->where('name', 'LIKE', "%{$search}%");
+        //     //         });
+        //     //     });
+        //     // });
+        //     $results = $results->paginate(12);
+        //     return response()->json([
+        //         'data' => $results,
+        //         'links' => $results->links()->toHtml()
+        //     ]);
+        // }
+        $results=$results->paginate(12);
+        // if($request->routeIs('manage-university')){
+        return view('admin.university.manage-university', compact('countries','results'));
+        // }elseif(($route == 'approved-university') || ($currentUrl == $originUrl.'/admin/approved-university')) {
+        //     return view('admin.university.approved-university', compact('countries','results'));
+        // }elseif(($route == 'unapproved-university') || ($currentUrl == $originUrl.'/admin/un-approve-university')){
+        //     return view('admin.university.unapproved-university', compact('countries','results'));
+        // }
 
     }
 
+    public function view_approve_university(Request $request)
+    {
+        $countries = Country::all();
+        $results = University::with('country', 'province')->where('is_approved',1);
+        $route = Route::currentRouteName();
+        $originUrl = url('');
+        $currentUrl = URL::current();
+        $user =Auth::user();
+        if(!($user->hasRole('Administrator'))){
+            $results->where('user_id', $user->id);
+        }
+        if ($request->has('university_name') && $request->university_name != '') {
+            $results->where('university_name', 'LIKE', "%{$request->university_name}%");
+        }
+        if ($request->has('country') && $request->country != '') {
+            $results->where('country_id', $request->country);
+        }
+        if ($request->has('status') && $request->status != '') {
+            $results->where('status', $request->status);
+        }
+        $results=$results->paginate(12);
+        return view('admin.university.approved-university', compact('countries','results'));
+    }
 
+    public function view_unapprove_university(Request $request)
+    {
+        $countries = Country::all();
+        $results = University::with('country', 'province')->where(function ($query) {
+                        $query->whereNull('is_approved')->orWhere('is_approved',0);
+                    });
+        $route = Route::currentRouteName();
+        $originUrl = url('');
+        $currentUrl = URL::current();
+        $user =Auth::user();
+        if(!($user->hasRole('Administrator'))){
+            $results->where('user_id', $user->id);
+        }
+        if ($request->has('university_name') && $request->university_name != '') {
+            $results->where('university_name', 'LIKE', "%{$request->university_name}%");
+        }
+        if ($request->has('country') && $request->country != '') {
+            $results->where('country_id', $request->country);
+        }
+        if ($request->has('status') && $request->status != '') {
+            $results->where('status', $request->status);
+        }
+        $results=$results->paginate(12);
+        return view('admin.university.unapproved-university', compact('countries','results'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -118,7 +181,7 @@ class UniversityController extends Controller
             $validator = Validator::make($request->all(), [
                 'university_name' => 'required|max:200',
                 'phone_number' => 'required|max:200',
-                'email'=>'required|email|max:200',
+                'email'=>'required|email|max:200|unique:users,email,'.$request->university_id.',id',
                 'type_of_university' => 'required|max:200',
                 'founded_in' => 'required|max:200',
                 'total_students' => 'required|max:200',

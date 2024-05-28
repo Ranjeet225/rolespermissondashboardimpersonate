@@ -45,7 +45,7 @@
                    <form  class="row g-4" id="tab1DataForm">
                       <div class="col-4">
                          <div class="form-floating">
-                            <select class="form-control" name="source" id="lead-fm" placeholder="Source">
+                            <select class="form-control" name="source"  placeholder="Source">
                                <option value="">-- Select Source --</option>
                                @foreach ($source as $item)
                                  <option value="{{$item->name}}" {{ $item->name == $studentData->source ? 'selected' : '' }}>{{$item->name}}</option>
@@ -108,7 +108,7 @@
                       </div>
                       <div class="col-4">
                          <div class="form-floating">
-                            <input id="lead-fm" name="dob" style="background: f8f9fa !important" type="date" class="form-control" placeholder="Date of Birth" value="{{$studentData->dob}}">
+                            <input  name="dob" style="background: f8f9fa !important" type="date" class="form-control" placeholder="Date of Birth" value="{{$studentData->dob}}">
                             <label for="lead-dob" class="form-label">Date of Birth</label>
                             <span class="text-danger dob"></span>
                          </div>
@@ -123,7 +123,7 @@
                       <form class="row g-4"  id="tab2DataForm">
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control"  id="lead-fm" name="cand_working" placeholder="Source">
+                               <select class="form-control"   name="cand_working" placeholder="Source">
                                   <option value="">-- Select Candidate Working --</option>
                                   <option value="student" {{ "student" == $studentData->cand_working ? 'selected' : '' }}>Student </option>
                                   <option value="working" {{ "working" == $studentData->cand_working ? 'selected' : '' }}>Working </option>
@@ -134,7 +134,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="caste" id="lead-fm" placeholder="Source">
+                               <select class="form-control" name="caste"  placeholder="Source">
                                   <option value="">-- Select Caste --</option>
                                    @foreach ($castes as $item)
                                     <option value="{{$item->id}}" {{ $item->id == $studentData->caste ? 'selected' : '' }}>{{$item->name}}</option>
@@ -145,7 +145,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control country" name="country_id" id="lead-fm">
+                               <select class="form-control country" name="country_id" >
                                   <option value="">-- Select Country  --</option>
                                     @foreach ($countries as $item)
                                        <option value="{{$item->id}}" {{ $item->id == $studentData->country_id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -159,7 +159,7 @@
                                 @php
                                 $state =DB::table('province')->where('id',$studentData->province_id)->first();
                                 @endphp
-                                <select  name="province_id" id="lead-fm" class="form-control province_id" required>
+                                <select  name="province_id"  class="form-control province_id" required>
                                         @if(!empty($studentData->province_id))
                                         <option value="{{$studentData->province_id}}">{{$state->name}}</option>
                                         @endif
@@ -189,7 +189,7 @@
                       <form class="row g-4" id="tab3DataForm">
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="program" id="lead-fm" placeholder="Source">
+                               <select class="form-control" name="program"  placeholder="Source">
                                   <option value="">-- Highest Level Program --</option>
                                   @foreach ($progLabel as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -200,7 +200,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="subject" id="lead-fm" placeholder="Source">
+                               <select class="form-control" name="subject"  placeholder="Source">
                                        <option value="">-- Subjects  --</option>
                                     @foreach ($subjects as $item)
                                         <option class="option" value="{{$item->id}}"  {{ $item->id == $studentData->subject ? 'selected' : '' }}>{{$item->subject_name}}</option>
@@ -211,7 +211,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating" >
-                               <input  name="stream" id="lead-fm"  class="form-control"  value="{{$studentData->stream}}">
+                               <input  name="stream"   class="form-control"  value="{{$studentData->stream}}">
                                <label for="stream" class="form-label">Stream</label>
                                <input  type="hidden" name="id"  class="uniquevalue" value="">
                                <input id="lead-name" type="hidden" name="tab3"  value="tab3">
@@ -219,7 +219,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="status_study" id="lead-fm" >
+                               <select class="form-control" name="status_study"  >
                                   <option value="">-- Status Study  --</option>
                                   <option value="completed" {{ "completed" == $studentData->status_study ? 'selected' : '' }}>Completed </option>
                                   <option value="pursuing" {{ "pursuing" == $studentData->status_study ? 'selected' : '' }}>Pursuing</option>
@@ -229,7 +229,7 @@
                          </div>
                          <div class="col-4">
                             <div class="form-floating">
-                               <select class="form-control" name="board_university" id="lead-fm" >
+                               <select class="form-control" name="board_university"  >
                                   <option value="">-- Board University  --</option>
                                   <option value="ICGSE"  {{ "ICGSE" == $studentData->board ? 'selected' : '' }}>ICGSE</option>
                                   <option value="CBSE"  {{ "CBSE" == $studentData->board ? 'selected' : '' }}>CBSE</option>
@@ -256,7 +256,7 @@
                         </div>
                          <div class="col-4 programoption" style="display: none;">
                             <div class="form-floating">
-                               <select class="form-control" name="preferred_program_label" id="lead-fm" >
+                               <select class="form-control" name="preferred_program_label"  >
                                   <option value="">--Preferred Program Level  --</option>
                                     @foreach ($preproLabel as $item)
                                         <option value="{{$item->id}}" {{ $item->id == $studentData->preferred_program_label ? 'selected' : '' }}>{{$item->name}}</option>
@@ -267,13 +267,13 @@
                          </div>
                          <div class="col-4 programoption" style="display: none;" >
                             <div class="form-floating">
-                               <input  id="lead-fm" name="course"  id="lead-fm" style="background: f8f9fa" type="text" class="form-control"   value="{{$studentData->course}}">
+                               <input   name="course"   style="background: f8f9fa" type="text" class="form-control"   value="{{$studentData->course}}">
                                <label for="course" class="form-label">Course</label>
                             </div>
                          </div>
                          <div class="col-4 programoption" style="display: none;">
                             <div class="form-floating">
-                               <select class="form-control" name="preferred_country_id" id="lead-fm" >
+                               <select class="form-control" name="preferred_country_id"  >
                                   <option value="">-- Country  --</option>
                                     @foreach ($countries as $item)
                                         <option value="{{$item->id}}" {{ $item->id == $studentData->preferred_country_id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -283,8 +283,8 @@
                             </div>
                          </div>
                          <div class="col-4 programoption" style="display: none;" >
-                            <div class="form-floating" id="lead-fm">
-                               <input id="lead-fm"  name="school" type="text" class="form-control" placeholder="Preferred Institute/University"  value="{{$studentData->school}}">
+                            <div class="form-floating" >
+                               <input   name="school" type="text" class="form-control" placeholder="Preferred Institute/University"  value="{{$studentData->school}}">
                                <label for="course" class="form-label">Preferred Institute/University</label>
                             </div>
                          </div>
@@ -303,7 +303,7 @@
                        <form class="row g-4"  id ="tab4DataForm">
                           <div class="col-4">
                              <div class="form-floating">
-                                <select class="form-control" name="lead_status" id="lead-fm" placeholder="Source">
+                                <select class="form-control" name="lead_status"  placeholder="Source">
                                    <option value="">-- Lead Status --</option>
                                    @foreach ($lead_status as $data)
                                      <option value="{{$data->id}}" {{ $item->id == $studentData->lead_status ? 'selected' : '' }}>{{$data->name}}</option>
@@ -322,13 +322,13 @@
                         </div>
                           <div class="col-4">
                              <div class="form-floating">
-                                <input id="lead-fm" name="interested_in" type="text" class="form-control"  value="{{ $studentData->interested_in}}">
+                                <input  name="interested_in" type="text" class="form-control"  value="{{ $studentData->interested_in}}">
                                 <label for="interested_in" class="form-label">Interested In</label>
                              </div>
                           </div>
                           <div class="col-4">
                             <div class="form-floating">
-                                <select id="lead-fm" name="intakeMonth" class="form-control"  >
+                                <select  name="intakeMonth" class="form-control"  >
                                     <option value="">Select Month</option>
                                     <option value="01"  {{ "01" == $studentData->intake ? 'selected' : '' }}>January</option>
                                     <option value="02"  {{ "02" == $studentData->intake ? 'selected' : '' }}>February</option>
@@ -348,7 +348,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-floating">
-                                <select id="lead-fm" name="year" class=" form-control">
+                                <select  name="year" class=" form-control">
                                     <option value="">Select Year</option>
                                     <option value="2022" {{ "2022" == $studentData->intake_year ? 'selected' : '' }}>2022</option>
                                     <option value="2023" {{ "2023" == $studentData->intake_year ? 'selected' : '' }}>2023</option>
@@ -365,7 +365,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-floating">
-                                <select id="lead-fm" name="profile_create" class=" form-control">
+                                <select  name="profile_create" class=" form-control">
                                     <option value="">Profile Create</option>
                                     <option value="no" {{ "no" == $studentData->profile_created ? 'selected' : '' }}>No</option>
                                     <option value="yes" {{ "yes" == $studentData->profile_created ? 'selected' : '' }}>Yes</option>
@@ -375,7 +375,7 @@
                         </div>
                           <div class="col-12">
                              <div class="form-floating">
-                                <textarea name="comment" id="lead-fm" class="form-control w-100"  >{{$studentData->student_comment}}</textarea>
+                                <textarea name="comment"  class="form-control w-100"  >{{$studentData->student_comment}}</textarea>
                                 <label for="lead-dob" class="form-label">Comment</label>
                              </div>
                           </div>

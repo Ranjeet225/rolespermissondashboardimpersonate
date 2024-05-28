@@ -65,14 +65,17 @@ class FrenchiseController extends Controller
         }
         if ($request->status) {
             if($request->status == 'Active'){
-                $frenchise->where("status",1);
+                $frenchise->where("is_active",1);
             }elseif($request->status == 'InActive'){
-                $frenchise->where("status",0);
+                $frenchise->where(function ($query) {
+                    $query->whereNull('is_active')
+                        ->orWhere('is_active', 0);
+                 });
             }
         }
         return $frenchise;
     }
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -387,7 +390,12 @@ class FrenchiseController extends Controller
             $input['name'] = $frenchise->legal_first_name;
             $input['password'] = Hash::make($password);
             $input['zip'] = $frenchise->zip;
-            $input['admin_type'] = 'agent';
+            $user =Auth::user();
+            if($user->hasRole('Administrator')){
+                $input['admin_type'] = 'agent';
+            }else{
+                $input['admin_type'] = 'sub_agent';
+            }
             $input['email'] = $frenchise->email;
             $input['phone_number'] = $frenchise->phone;
             $input['added_by'] = Auth::user()->id;

@@ -27,6 +27,10 @@ class ProgramController extends Controller
                     $query->where('university_name', 'LIKE', "%{$request->univerisity_name}%");
                 }
             });
+        $user=Auth::user();
+        if(!($user->hasRole('Administrator'))){
+            $program->where('user_id',$user->id);
+        }
         if($request->program_name){
             $program->where('name', 'LIKE', "%{$request->program_name}%");
         }
@@ -47,6 +51,10 @@ class ProgramController extends Controller
                 $query->where('university_name', 'LIKE', "%{$request->univerisity_name}%");
             }
         });
+        $user=Auth::user();
+        if(!($user->hasRole('Administrator'))){
+            $program->where('user_id',$user->id);
+        }
         if($request->program_name){
             $program->where('name', 'LIKE', "%{$request->program_name}%");
         }

@@ -50,12 +50,6 @@
                     "permission":"assigned_lead.view"
                 },
                 {
-                    "url": "/admin/latest-updated-lead",
-                    "name": "Latest Updated leads",
-                    "slug": "admin-latest-updated-lead",
-                    "permission":"latest_updated_leads.view"
-                },
-                {
                     "url": "/admin/oel-360",
                     "name": "oel 360",
                     "slug": "admin-oel-360",

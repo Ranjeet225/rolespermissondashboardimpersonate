@@ -120,7 +120,7 @@
                                     <div class="row mt-3">
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <select class="form-control" name="gender" id="lead-fm">
+                                                <select class="form-control" name="gender" >
                                                     <option value="">-- Select Gender --</option>
                                                     <option value="Male"
                                                         {{ ($about_student->gender ?? old('gender')) == 'Male' ? 'selected' : '' }}>
@@ -134,7 +134,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <select class="form-control" name="maritial_status" id="lead-fm">
+                                                <select class="form-control" name="maritial_status" >
                                                     <option value="">-- Maritial Status --</option>
                                                     <option value="Single"
                                                         {{ ($about_student->maritial_status ?? old('maritial_status')) == 'Single' ? 'selected' : '' }}>
@@ -156,7 +156,7 @@
                                     <div class="row mt-3">
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <select class="form-control" name="passport_status" id="lead-fm"
+                                                <select class="form-control" name="passport_status"
                                                     placeholder="Passport Status">
                                                     <option value="">-- Select --</option>
                                                     <option value="I have"
@@ -186,7 +186,7 @@
                                         <div class="col-4">
                                             <div class="form-floating">
                                                 <input name="dob" type="date" class="form-control"
-                                                    value="{{ $about_student->dob ?? old('dob') }}" id="lead-fm">
+                                                    value="{{ $about_student->dob ?? old('dob') }}" >
                                                 <label for="lead-passport-number" class="form-label">Date of Birth</label>
                                                 <span class="text-danger passport-number"></span>
                                             </div>
@@ -195,7 +195,7 @@
                                             <div class="form-floating">
                                                 <input name="first_language" type="text"
                                                     value="{{ $about_student->first_language ?? old('first_language') }}"
-                                                    class="form-control" id="lead-fm">
+                                                    class="form-control" >
                                                 <label for="lead-passport-number" class="form-label">First
                                                     Language</label>
                                                 <span class="text-danger first-language "></span>
@@ -208,7 +208,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <select class="form-control country" name="country_id" id="lead-fm">
+                                                <select class="form-control country" name="country_id" >
                                                     <option value="">-- Select Country --</option>
                                                     @foreach ($countries as $item)
                                                         <option value="{{ $item->id }}"
@@ -226,7 +226,7 @@
                                                         ->where('id', $about_student->province_id)
                                                         ->first();
                                                 @endphp
-                                                <select name="province_id" id="lead-fm"
+                                                <select name="province_id"
                                                     class="form-control province_id" required>
                                                     @if (!empty($about_student->province_id))
                                                         <option value="{{ $about_student->province_id }}"
@@ -241,7 +241,7 @@
                                             <div class="form-floating">
                                                 <input name="city" type="text"
                                                     value="{{ $about_student->city ?? old('city') }}"
-                                                    class="form-control" id="lead-fm">
+                                                    class="form-control" >
                                                 <label for="lead-city" class="form-label">City</label>
                                                 <span class="text-danger city"></span>
                                             </div>
@@ -252,7 +252,7 @@
                                             <div class="form-floating">
                                                 <input name="address" type="text"
                                                     value="{{ $about_student->address ?? old('address') }}"
-                                                    class="form-control" id="lead-fm">
+                                                    class="form-control" >
                                                 <label for="lead-address" class="form-label">Address</label>
                                                 <span class="text-danger address"></span>
                                             </div>
@@ -260,7 +260,7 @@
                                         <div class="col-4">
                                             <div class="form-floating">
                                                 <input name="zip" type="text" class="form-control"
-                                                    value="{{ $about_student->zip ?? old('zip') }}" id="lead-fm">
+                                                    value="{{ $about_student->zip ?? old('zip') }}" >
                                                 <label for="lead-address" class="form-label">Pincode</label>
                                                 <span class="text-danger zip"></span>
                                             </div>
@@ -283,7 +283,7 @@
                                         <div class="col-3">
                                             <div class="form-floating">
                                                 <select class="form-control selected-country" name="country_id"
-                                                    id="lead-fm">
+                                                    >
                                                     <option value="">-- Select Country --</option>
                                                     @foreach ($countries as $item)
                                                         <option value="{{ $item->id }}"  {{ (isset($education_history->country_id)) == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -295,7 +295,7 @@
                                         <div class="col-3">
                                             <div class="form-floating">
                                                 <select class="form-control education_level_id" name="education_level_id"
-                                                    id="lead-fm">
+                                                    >
                                                     <option value="">-- Education Level --</option>
                                                     @foreach ($progLabel as $item)
                                                         <option value="{{ $item->id }}" {{ (isset($education_history->education_level_id)) == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -311,7 +311,7 @@
                                                         ->where('id', $education_history->grading_scheme_id ?? null)
                                                         ->first();
                                                 @endphp
-                                            <select name="grading_scheme_id" id="lead-fm"
+                                            <select name="grading_scheme_id"
                                                 class="form-control grading_scheme_id grading-scheme" required>
                                                 @if (!empty($education_history->grading_scheme_id))
                                                     <option value="{{ $education_history->grading_scheme_id }}"
@@ -322,7 +322,7 @@
                                                 @endif
                                             </select>
                                                 {{-- <select class="form-control  grading-scheme" name="grading_scheme_id"
-                                                    id="lead-fm">
+                                                    >
                                                     <option value="">--Grading Scheme --</option>
                                                 </select> --}}
                                                 <label for="lead-source" class="form-label">Grading Scheme</label>
@@ -331,7 +331,7 @@
                                         <div class="col-3">
                                             <div class="form-floating">
                                                 <input name="grading_average" type="number" class="form-control"
-                                                    id="lead-fm">
+                                                    >
                                                 <input type="hidden" name="tab2" value="tab2">
                                                 <label for="lead-address" class="form-label">Grading Average</label>
                                                 <span class="text-danger grading_average"></span>
@@ -521,7 +521,7 @@
                                     <br>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input name="visa_details" value="{{ $about_student->visa_details ?? null }}"  type="text" class="form-control" id="lead-fm">
+                                            <input name="visa_details" value="{{ $about_student->visa_details ?? null }}"  type="text" class="form-control" >
                                             <label for="lead-address" class="form-label">Visa Details</label>
                                             <span class="text-danger grading_average"></span>
                                         </div>
@@ -529,7 +529,7 @@
                                     <br>
                                     <div class="col-12 mb-3">
                                         <div class="form-floating">
-                                            <select class="form-control sidfrm selectpicker" name="subject_input"
+                                            <select class="form-control  selectpicker" name="subject_input"
                                                 id="lead-subject_input" multiple placeholder="Education Level">
                                                 @foreach ($all_subject as $item)
                                                     @php
@@ -560,7 +560,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-floating">
-                                                <select class="form-control sidfrm" name="visa_document_type" id="lead-visa_document_type" placeholder="Document Type">
+                                                <select class="form-control " name="visa_document_type" id="lead-visa_document_type" placeholder="Document Type">
                                                     <option value="">--Select--</option>
                                                     <option value="10th Mark sheet and Certificate">10th Mark sheet and Certificate</option>
                                                     <option value="12th/Equivalant Mark sheet and Certficate">12th/Equivalant Mark sheet and Certficate</option>
@@ -582,7 +582,7 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-floating">
-                                                <input type="file" multiple class="form-control sidfrm" name ="document[]" id="lead-document" placeholder="Document">
+                                                <input type="file" multiple class="form-control " name ="document[]" id="lead-document" placeholder="Document">
                                                 <input type="hidden" name="tab5" value="tab5">
                                                 <label for="lead-address" class="form-label">Document</label>
                                             </div>
@@ -659,7 +659,7 @@
                         <form id="myForm">
                             <div class="col-12 ">
                                 <div class="form-floating">
-                                    <select class="form-control sidfrm" name="education_level_id"
+                                    <select class="form-control " name="education_level_id"
                                         id="lead-education_level_id" placeholder="Education Level">
                                         @foreach ($progLabel as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -670,44 +670,44 @@
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="name" type="text"
-                                        class="form-control sidfrm" placeholder="Institute Name" autocomplete="name"
+                                        class="form-control " placeholder="Institute Name" autocomplete="name"
                                         value=""><label for="lead-name" class="form-label">Institute Name</label>
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="primary_language" type="text"
-                                        class="form-control sidfrm" placeholder="Primary Language for Instruction"
+                                        class="form-control " placeholder="Primary Language for Instruction"
                                         autocomplete="primary_language" value=""><label for="lead-primary_language"
                                         class="form-label">Primary Language for Instruction</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="attended_from" type="date"
-                                        class="form-control sidfrm" placeholder="Attended Institute From"
+                                        class="form-control " placeholder="Attended Institute From"
                                         autocomplete="attended_from" value=""><label for="lead-attended_from"
                                         class="form-label">Attended Institute From</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="attended_to" type="date"
-                                        class="form-control sidfrm" placeholder="Attendend Instutute To"
+                                        class="form-control " placeholder="Attendend Instutute To"
                                         autocomplete="attended_to" value=""><label for="lead-attended_to"
                                         class="form-label">Attendend Instutute To</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="degree_awarded" type="text"
-                                        class="form-control sidfrm" placeholder="Degree Awarded"
+                                        class="form-control " placeholder="Degree Awarded"
                                         autocomplete="degree_awarded" value=""><label for="lead-degree_awarded"
                                         class="form-label">Degree Awarded</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="degree_awarded_on" type="date"
-                                        class="form-control sidfrm" placeholder="Degree Awareded On"
+                                        class="form-control " placeholder="Degree Awareded On"
                                         autocomplete="degree_awarded_on" value=""><label
                                         for="lead-degree_awarded_on" class="form-label">Degree Awareded On</label></div>
                             </div>
                             <h4 class="m-2">School Address</h4>
                             <div class="col-12 mt-2">
                                 <div class="form-floating">
-                                    <select class="form-control country sidfrm" name="country_id">
+                                    <select class="form-control country " name="country_id">
                                         <option value="">-- Select Country --</option>
                                         @foreach ($countries as $item)
                                             <option value="{{ $item->id }}"
@@ -719,23 +719,23 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
-                                <select name="province_id" class="form-control province_id  sidfrm">
+                                <select name="province_id" class="form-control province_id  ">
                                     <option value="">-State/Provision -</option>
                                 </select>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="city" type="text"
-                                        class="form-control sidfrm" placeholder="City/Town" autocomplete="city"
+                                        class="form-control " placeholder="City/Town" autocomplete="city"
                                         value=""><label for="lead-city" class="form-label">City/Town</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="address" type="text"
-                                        class="form-control sidfrm" placeholder="Address" autocomplete="address"
+                                        class="form-control " placeholder="Address" autocomplete="address"
                                         value=""><label for="lead-address" class="form-label">Address</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="postal_zip" type="text"
-                                        class="form-control sidfrm" placeholder="Postal Code/Zip"
+                                        class="form-control " placeholder="Postal Code/Zip"
                                         autocomplete="postal_zip" value=""><label for="lead-postal_zip"
                                         class="form-label">Postal Code/Zip</label></div>
                             </div>
@@ -767,7 +767,7 @@
                         <form id="greExam">
                             <div class="col-12 mt-2">
                                 <div class="form-floating">
-                                    <input name="date_of_exam" type="date" value="{{ $additional_qualification->date_of_exam ?? \Carbon\Carbon::now()->toDateString() }}" class="form-control sidfrm">
+                                    <input name="date_of_exam" type="date" value="{{ $additional_qualification->date_of_exam ?? \Carbon\Carbon::now()->toDateString() }}" class="form-control ">
                                     <label for="lead-name" class="form-label">Exam Date</label>
                                 </div>
                             </div>
@@ -775,13 +775,13 @@
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
                                         <input type="hidden" name="type" value="GRE">
-                                        <input name="verbal_score" type="number"  class="form-control sidfrm" value="{{$additional_qualification->verbal_score  ?? null}}">
+                                        <input name="verbal_score" type="number"  class="form-control " value="{{$additional_qualification->verbal_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="verbal_rank" type="number"  class="form-control sidfrm" value="{{$additional_qualification->verbal_rank  ?? null}}">
+                                        <input name="verbal_rank" type="number"  class="form-control " value="{{$additional_qualification->verbal_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Rank</label>
                                     </div>
                                 </div>
@@ -789,13 +789,13 @@
                             <div class="row">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_score" type="number"  class="form-control sidfrm" value="{{$additional_qualification->quantitative_score  ?? null}}">
+                                        <input name="quantitative_score" type="number"  class="form-control " value="{{$additional_qualification->quantitative_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_rank" type="number"  class="form-control sidfrm" value="{{$additional_qualification->quantitative_rank  ?? null}}">
+                                        <input name="quantitative_rank" type="number"  class="form-control " value="{{$additional_qualification->quantitative_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Rank</label>
                                     </div>
                                 </div>
@@ -803,13 +803,13 @@
                             <div class="row">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_score" type="number"  class="form-control sidfrm"  value="{{$additional_qualification->writing_score  ?? null}}">
+                                        <input name="writing_score" type="number"  class="form-control "  value="{{$additional_qualification->writing_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_rank" type="number"  class="form-control sidfrm" value="{{$additional_qualification->writing_rank  ?? null}}">
+                                        <input name="writing_rank" type="number"  class="form-control " value="{{$additional_qualification->writing_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Rank</label>
                                     </div>
                                 </div>
@@ -817,13 +817,13 @@
                             <div class="row">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_score" type="number"  class="form-control sidfrm" value="{{$additional_qualification->total_score  ?? null}}">
+                                        <input name="total_score" type="number"  class="form-control " value="{{$additional_qualification->total_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_rank" type="number"  class="form-control sidfrm" value="{{$additional_qualification->total_rank  ?? null}}">
+                                        <input name="total_rank" type="number"  class="form-control " value="{{$additional_qualification->total_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Rank</label>
                                     </div>
                                 </div>
@@ -856,7 +856,7 @@
                         <form id="gmatform">
                             <div class="col-12 mt-2">
                                 <div class="form-floating">
-                                    <input name="date_of_exam" type="date" value="{{ $gmat->date_of_exam ?? \Carbon\Carbon::now()->toDateString() }}" class="form-control sidfrm">
+                                    <input name="date_of_exam" type="date" value="{{ $gmat->date_of_exam ?? \Carbon\Carbon::now()->toDateString() }}" class="form-control ">
                                     <label for="lead-name" class="form-label">Exam Date</label>
                                 </div>
                             </div>
@@ -864,13 +864,13 @@
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
                                         <input type="hidden" name="type" value="GMAT">
-                                        <input name="verbal_score" type="number"  class="form-control sidfrm" value="{{$gmat->verbal_score ?? null}}">
+                                        <input name="verbal_score" type="number"  class="form-control " value="{{$gmat->verbal_score ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="verbal_rank" type="number"  class="form-control sidfrm" value="{{$gmat->verbal_rank  ?? null}}">
+                                        <input name="verbal_rank" type="number"  class="form-control " value="{{$gmat->verbal_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Rank</label>
                                     </div>
                                 </div>
@@ -878,13 +878,13 @@
                             <div class="row">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_score" type="number"  class="form-control sidfrm" value="{{$gmat->quantitative_score  ?? null}}">
+                                        <input name="quantitative_score" type="number"  class="form-control " value="{{$gmat->quantitative_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_rank" type="number"  class="form-control sidfrm" value="{{$gmat->quantitative_rank  ?? null}}">
+                                        <input name="quantitative_rank" type="number"  class="form-control " value="{{$gmat->quantitative_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Rank</label>
                                     </div>
                                 </div>
@@ -892,13 +892,13 @@
                             <div class="row">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_score" type="number"  class="form-control sidfrm"  value="{{$gmat->writing_score  ?? null}}">
+                                        <input name="writing_score" type="number"  class="form-control "  value="{{$gmat->writing_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_rank" type="number"  class="form-control sidfrm" value="{{$gmat->writing_rank  ?? null}}">
+                                        <input name="writing_rank" type="number"  class="form-control " value="{{$gmat->writing_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Rank</label>
                                     </div>
                                 </div>
@@ -906,13 +906,13 @@
                             <div class="row">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_score" type="number"  class="form-control sidfrm" value="{{$gmat->total_score  ?? null}}">
+                                        <input name="total_score" type="number"  class="form-control " value="{{$gmat->total_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_rank" type="number"  class="form-control sidfrm" value="{{$gmat->total_rank  ?? null}}">
+                                        <input name="total_rank" type="number"  class="form-control " value="{{$gmat->total_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Rank</label>
                                     </div>
                                 </div>
@@ -946,7 +946,7 @@
                             <div class="row">
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <select class="form-control sidfrm" name="type" id="lead-type" placeholder="Exam Type">
+                                        <select class="form-control " name="type" id="lead-type" placeholder="Exam Type">
                                             <option value="">--Select--</option>
                                             <option value="TOEFL">TOEFL</option>
                                             <option value="IELTS">IELTS</option>
@@ -958,37 +958,37 @@
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input id="lead-exam_date" name="exam_date" type="date" class="form-control sidfrm" placeholder="Date of Exam" autocomplete="exam_date" value="">
+                                        <input id="lead-exam_date" name="exam_date" type="date" class="form-control " placeholder="Date of Exam" autocomplete="exam_date" value="">
                                         <label for="lead-name" class="form-label">Exam Date</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input id="lead-listening_score" name="listening_score" type="number" class="form-control sidfrm" placeholder="Listening" autocomplete="listening_score" value="">
+                                        <input id="lead-listening_score" name="listening_score" type="number" class="form-control " placeholder="Listening" autocomplete="listening_score" value="">
                                         <label for="lead-name" class="form-label">Listening</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input id="lead-writing_score" name="writing_score" type="number" class="form-control sidfrm" placeholder="Writing" autocomplete="writing_score" value="">
+                                        <input id="lead-writing_score" name="writing_score" type="number" class="form-control " placeholder="Writing" autocomplete="writing_score" value="">
                                         <label for="lead-name" class="form-label">Writing</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input id="lead-reading_score" name="reading_score" type="number" class="form-control sidfrm" placeholder="Reading" autocomplete="reading_score" value="">
+                                        <input id="lead-reading_score" name="reading_score" type="number" class="form-control " placeholder="Reading" autocomplete="reading_score" value="">
                                         <label for="lead-name" class="form-label">Reading</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input id="lead-speaking_score" name="speaking_score" type="number" class="form-control sidfrm" placeholder="Speaking" autocomplete="speaking_score" value="">
+                                        <input id="lead-speaking_score" name="speaking_score" type="number" class="form-control " placeholder="Speaking" autocomplete="speaking_score" value="">
                                         <label for="lead-name" class="form-label">Speaking</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input id="lead-average_score" name="average_score" type="number" class="form-control sidfrm" placeholder="Average" autocomplete="average_score" value="">
+                                        <input id="lead-average_score" name="average_score" type="number" class="form-control " placeholder="Average" autocomplete="average_score" value="">
                                         <label for="lead-name" class="form-label">Average</label>
                                     </div>
                                 </div>

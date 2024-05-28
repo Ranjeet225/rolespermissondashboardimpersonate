@@ -30,7 +30,7 @@
           <form id="eudcation" action="{{route('student-registration-fees-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input  name="fees_type" type="text" class="form-control sidfrm" placeholder="fees type" >
+                    <input  name="fees_type" type="text" class="form-control " placeholder="fees type" >
                     <label for="lead-total_credits" class="form-label">Fees Type</label>
                 </div>
             </div>

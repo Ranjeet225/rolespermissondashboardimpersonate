@@ -30,7 +30,7 @@
           <form id="eudcation" action="{{route('province-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-3">
                 <div class="form-floating ">
-                    <select class="form-control sidfrm" name="country_id">
+                    <select class="form-control " name="country_id">
                         @foreach ($country as $item)
                            <option value="{{$item->id}}">{{$item->name}}</option>
                         @endforeach
@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-floating ">
-                    <input id="lead-total_credits" name="name" type="text" class="form-control sidfrm" placeholder="NAME" >
+                    <input id="lead-total_credits" name="name" type="text" class="form-control " placeholder="NAME" >
                     <label for="lead-total_credits" class="form-label">NAME</label>
                 </div>
             </div>

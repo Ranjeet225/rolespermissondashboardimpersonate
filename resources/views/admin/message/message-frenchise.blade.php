@@ -34,19 +34,19 @@
                     <form action="{{ route('message-frenchise') }}" method="GET">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin sidfrm" name="name"
+                                <input type="text" class="form-control formmrgin " name="name"
                                     value="{{ request()->get('name') }}" placeholder="Search By Name ">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin sidfrm" name="email"
+                                <input type="text" class="form-control formmrgin " name="email"
                                     value="{{ request()->get('email') }}" placeholder="Search By Email">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin sidfrm" name="phone_number"
+                                <input type="text" class="form-control formmrgin " name="phone_number"
                                     value="{{ request()->get('phone') }}" placeholder=" Phone Number">
                             </div>
                             <div class="col-md-4">
-                                <select class="form-control country formmrgin sidfrm" name="country_id" id="lead-fm">
+                                <select class="form-control country formmrgin " name="country_id" >
                                     <option value="">-- Select Country --</option>
                                     @foreach ($countries as $item)
                                         <option value="{{ $item->id }}"
@@ -57,23 +57,23 @@
                             </div>
 
                             <div class="col-md-4">
-                                <select name="province_id" class="form-control province_id sidfrm formmrgin">
+                                <select name="province_id" class="form-control province_id  formmrgin">
                                     <option value="">-State/Provision -</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control formmrgin sidfrm" name="zip"
+                                <input type="text" class="form-control formmrgin " name="zip"
                                     value="{{ request()->get('zip') }}" placeholder="Pincode">
                             </div>
                             <div class="col-md-4 ">
-                                <select class="form-control sidfrm" name="status">
+                                <select class="form-control " name="status">
                                     <option value="">--Select Status--</option>
                                     <option value ="Active">Active</option>
                                     <option value ="InActive">InActive</option>
                                 </select>
                             </div>
                             <div class="col-md-4 ">
-                                <select class="form-control sidfrm" name="approvestatus">
+                                <select class="form-control " name="approvestatus">
                                     <option value ="">--Select Approval Status--</option>
                                     <option value ="Approve">Approve</option>
                                     <option value ="UnApprove">UnApprove</option>
@@ -81,12 +81,12 @@
                             </div>
 
                             <div class="col-md-4 col-sm-4">
-                                <input type="date" name="from_date" class="form-control formmrgin sidfrm"
+                                <input type="date" name="from_date" class="form-control formmrgin "
                                     value="{{ request()->get('from_date') }}" placeholder="From Date">
                             </div>
 
                             <div class="col-md-4 col-sm-4">
-                                <input type="date" name="to_date" class="form-control formmrgin sidfrm"
+                                <input type="date" name="to_date" class="form-control formmrgin "
                                     value="{{ request()->get('to_date') }}" placeholder="to Date" value="">
                             </div>
                             <div class="row">
@@ -274,7 +274,7 @@
                             <div class="row">
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <select name="template_id" class="form-select sidfrm" id="template_id">
+                                        <select name="template_id" class="form-select " id="template_id">
                                             <option value="">Select Template</option>
                                             @foreach ($smsTemplates as $template)
                                                 <option value="{{ $template->id }}">{{ $template->heading }}</option>
@@ -284,7 +284,7 @@
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating custom_template d-none">
-                                        <textarea name="custom_template" id="custom_template" class="form-control sidfrm" rows="10" placeholder="Enter your custom template"></textarea>
+                                        <textarea name="custom_template" id="custom_template" class="form-control " rows="10" placeholder="Enter your custom template"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -319,19 +319,19 @@
                             <div class="row">
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input name="subject" type="text"  class="form-control sidfrm subject"  value="{{$gmat->subject  ?? null}}" placeholder="Subject" required>
+                                        <input name="subject" type="text"  class="form-control  subject"  value="{{$gmat->subject  ?? null}}" placeholder="Subject" required>
                                         <label for="lead-name" class="form-label">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <textarea name="email_body" class="form-control sidfrm messagebody" id="summernote1" placeholder="Message body" required>{{$gmat->email_body  ?? null}}</textarea>
+                                        <textarea name="email_body" class="form-control  messagebody" id="summernote1" placeholder="Message body" required>{{$gmat->email_body  ?? null}}</textarea>
                                         <label for="lead-name" class="form-label">Message Body</label>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <input type="file" class="form-control attachment" name="attachment" id="attachment sidfrm">
+                                        <input type="file" class="form-control attachment" name="attachment" id="attachment ">
                                         <label for="attachment" class="form-label">Attachment</label>
                                     </div>
                                 </div>

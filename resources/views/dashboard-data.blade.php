@@ -22,7 +22,7 @@
     <div class="card card-stretch-full">
       <div class="card-body">
         <div class="card-header  d-flex">
-            <h5 class="card-title">{{ isset($leads_data['leads_name']) ? ucfirst($leads_data['leads_name']) : 'N/A' }}</h5>
+            <h5 class="card-title">{{ isset($dash_data['dash_name']) ? ucfirst($dash_data['dash_name']) : 'N/A' }}</h5>
         </div>
         @if(session('success'))
             <div class="alert alert-success">
@@ -70,7 +70,6 @@
 
                             <a class="dropdown-item" href="{{route('edit-lead',[$data->id])}}">
                               <i class="fa-solid fa-pencil m-r-5"></i> Edit </a>
-
                           </div>
                         </div>
                       </td>

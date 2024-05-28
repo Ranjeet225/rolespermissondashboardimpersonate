@@ -27,7 +27,7 @@
           <form id="eudcation" action="{{route('testimonial-filter')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input  name="name" type="text" class="form-control sidfrm" placeholder="Name" >
+                    <input  name="name" type="text" class="form-control " placeholder="Name" >
                     <label  class="form-label">Name</label>
                 </div>
             </div>
