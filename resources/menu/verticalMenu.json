@@ -394,62 +394,6 @@
             "permission":"applied_program.view"
         },
         {
-            "name": "Master Data",
-            "icon": "menu-icon tf-icons las la-tachometer-alt",
-            "slug": "master-data",
-            "permission":["specializations.view","source.view","interest.view","country.view","state.view","visa.view","faq.view","visa_service.view"],
-            "submenu": [
-                {
-                    "url": "master/specializations",
-                    "name": "Specializations",
-                    "slug": "master-specializations",
-                    "permission":"specializations.view"
-                },
-                {
-                    "url": "/master/source",
-                    "name": "Source",
-                    "slug": "master-source",
-                    "permission":"source.view"
-                },
-                {
-                    "url": "/master/interest",
-                    "name": "Interest",
-                    "slug": "master-interest",
-                    "permission":"interest.view"
-                },
-                {
-                    "url": "/master/country",
-                    "name": "Country",
-                    "slug": "master-country",
-                    "permission":"country.view"
-                },
-                {
-                    "url": "/master/state",
-                    "name": "State",
-                    "slug": "master-state",
-                    "permission":"state.view"
-                },
-                {
-                    "url": "/master/visa-type",
-                    "name": "Visa Type",
-                    "slug": "master-visa-type",
-                    "permission":"visa.view"
-                },
-                {
-                    "url": "/master/faq",
-                    "name": "FAQs",
-                    "slug": "master-faq",
-                    "permission":"faq.view"
-                },
-                {
-                    "url": "/master/visa-service",
-                    "name": "Visa Service",
-                    "slug": "master-visa-service",
-                    "permission":"visa_service.view"
-                }
-            ]
-        },
-        {
             "name": "CMS",
             "icon": "menu-icon tf-icons las la-tachometer-alt",
             "slug": "cms",

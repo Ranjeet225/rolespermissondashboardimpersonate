@@ -477,13 +477,10 @@ class UniversityController extends Controller
                 'status' => true,
                 'message' => 'University deleted successfully',
             ];
+            return redirect()->route('manage-university')->with(['status' => false,'success','University Deleted Successfully']);
         } else {
-            $data = [
-                'status' => false,
-                'message' => 'University not found',
-            ];
+            return redirect()->route('manage-university')->with(['status' => false,'success','University not found']);
         }
-        return redirect()->route('manage-university')->with('success','University Deleted Successfully');
     }
 
 
