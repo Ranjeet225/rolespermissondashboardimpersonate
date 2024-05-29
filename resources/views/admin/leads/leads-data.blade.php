@@ -108,7 +108,7 @@
                   </tbody>
                 </table>
                 <div class="row">
-                  <div class="col-sm-12 col-md-7">
+                  <div class="
                     <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                         {{ $leads_data['leads']->links() }}
                     </div>

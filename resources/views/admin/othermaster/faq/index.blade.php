@@ -15,7 +15,7 @@
                     </ol>
                 </div>
                 <div class="col-md-2">
-                    <a href="{{ route('create-faq') }}" class="btn add-btn">
+                    <a href="{{ route('create-faq') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create FAQ's</a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('faq-filter')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('faq')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
                     <input id="lead-total_credits" name="faq_question" type="text" class="form-control " placeholder="NAME" >

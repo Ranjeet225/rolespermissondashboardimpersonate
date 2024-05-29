@@ -38,34 +38,39 @@
             @csrf
             <div class="row">
               <div class="col-md-3">
-                <input type="text" class="form-control formmrgin" name="name" value="{{ old('name') }}" placeholder="Name">
-                  @error('name')
-                      <span class="text-danger">{{ $message }}</span>
-                  @enderror
+                <label for="name">Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control formmrgin" required name="name" value="{{ old('name') }}" placeholder="Name" required>
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
 
 
               <div class="col-md-3">
-                <input type="text" class="form-control formmrgin" name="email" value="{{old('email')}}" placeholder="Email ">
+                <label for="email">Email<span class="text-danger">*</span></label>
+                <input type="text" class="form-control formmrgin" name="email" required value="{{old('email')}}" placeholder="Email ">
                 @error('email')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
               </div>
                 <div class="col-md-3">
-                    <input type="tel" class="form-control formmrgin" name="phone_number" value="{{ old('phone_number') }}" placeholder="Phone Number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+                    <label for="email">Phone Number<span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control formmrgin" name="phone_number" required  value="{{ old('phone_number') }}" placeholder="Phone Number" pattern="[0-9]{12}" title="Please enter a 10-digit phone number">
                     @error('phone_number')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
               <div class="col-md-3">
-                <input type="password" class="form-control formmrgin" name="password" value="" placeholder="Enter Password">
+                <label for="email">Password<span class="text-danger">*</span></label>
+                <input type="password" class="form-control formmrgin" name="password" required value="" placeholder="Enter Password">
                 @error('password')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
               </div>
 
               <div class="col-md-3">
-                <select class="txt-capital form-select formmrgin"  name="status">
+                <label for="email">Status<span class="text-danger">*</span></label>
+                <select class="txt-capital form-select formmrgin"  name="status" required>
                   <option value="" >Select Status</option>
                   <option value="1" >Active</option>
                   <option value="0" >Inactive</option>
@@ -75,7 +80,8 @@
                 @enderror
               </div>
               <div class="col-md-3">
-                    <select name="role" id="role" class="txt-capital form-select formmrgin">
+                <label for="email">Select Role<span class="text-danger">*</span></label>
+                    <select name="role" id="role" class="txt-capital form-select formmrgin" required>
                         <option value="">Select Role</option>
                         @foreach($role as $roleId => $roleName)
                             <option value="{{ $roleId }}">{{ $roleName }}</option>

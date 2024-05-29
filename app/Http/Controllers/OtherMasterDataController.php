@@ -44,7 +44,7 @@ class OtherMasterDataController extends Controller
         ]);
         $input = $request->except('_token');
         $input['created_by'] = auth()->user()->id;
-
+        $input['updated_by'] = auth()->user()->id;
         Specialisations::create($input);
         return redirect()->route('specilization')
             ->with('success', 'Specialization created successfully.');
@@ -64,6 +64,7 @@ class OtherMasterDataController extends Controller
         $specialization = Specialisations::find($id);
         $specialization->name = $request->name;
         $specialization->status = $request->status;
+        $input['updated_by'] = auth()->user()->id;
         $specialization->save();
         return redirect()->route('specilization')
             ->with('success', 'Specialization updated successfully');
@@ -215,7 +216,7 @@ class OtherMasterDataController extends Controller
      {
          $request->validate([
              'name' => 'required|max:233',
-             'country_code'=>'required'
+             'country_code'=>'required|numeric|max:2552'
          ]);
          $input = $request->except('_token');
          $input['slug'] = Str::slug($request->name);

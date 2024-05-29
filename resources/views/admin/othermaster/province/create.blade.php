@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <label>Enter Province Name</label>
+                                        <label>Enter Province Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>

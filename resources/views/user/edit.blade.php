@@ -30,34 +30,39 @@
             @csrf
             <div class="row">
               <div class="col-md-3">
-                <input type="text" class="form-control formmrgin" maxlength="200" name="name" value="{{$users->name}}" placeholder="Name">
+                <label for="name">Name<span class="text-danger">*</span></label>
+                <input type="text" required class="form-control formmrgin" maxlength="200" name="name" value="{{$users->name}}" placeholder="Name">
                 @error('name')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
               </div>
 
               <div class="col-md-3">
+                <label for="name">Email<span class="text-danger">*</span></label>
                 <input type="text" class="form-control formmrgin" maxlength="200" name="email" value="{{$users->email}}" placeholder="Email">
                 @error('email')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
               </div>
               <div class="col-md-3">
-                <input type="tel" class="form-control formmrgin" name="phone_number" value="{{$users->phone_number}}" placeholder="Phone Number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+                <label for="name">Phone Number<span class="text-danger">*</span></label>
+                <input type="tel" class="form-control formmrgin" required name="phone_number" value="{{$users->phone_number}}" placeholder="Phone Number" pattern="[0-9]{12}" title="Please enter a 10-digit phone number">
                 @error('phone_number')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
 
               <div class="col-md-3">
-                <input type="password" class="form-control formmrgin" name="password" value="{{$users->password}}" placeholder="Enter Password">
+                <label for="name">Password<span class="text-danger">*</span></label>
+                <input type="password" class="form-control formmrgin" required name="password" value="{{$users->password}}" placeholder="Enter Password">
                 @error('password')
                       <span class="text-danger">{{ $message }}</span>
                 @enderror
               </div>
 
               <div class="col-md-3">
-                <select class="txt-capital form-select formmrgin" id="status" name="status">
+                <label for="name">Status<span class="text-danger">*</span></label>
+                <select class="txt-capital form-select formmrgin" id="status" name="status" required>
                   <option value="" >Status</option>
                   <option value="1" {{($users->status == 1) ? 'Selected' : ''}}>Active</option>
                   <option value="0" {{($users->status == 0) ? 'Selected' : ''}}>Inactive</option>
@@ -70,7 +75,8 @@
                   @php
                       $role = (!empty($users->roles) && $users->roles->first()) ? $users->roles->first()->id : null;
                   @endphp
-                  <select name="role" id="role" class="txt-capital form-select formmrgin">
+                    <label for="name">Select Role<span class="text-danger">*</span></label>
+                  <select name="role" id="role" class="txt-capital form-select formmrgin" required>
                       <option value="">Select Role</option>
                       @foreach($roles as $roleId => $roleName)
                           <option value="{{ $roleId }}" {{$role == $roleId ? 'selected' : '' }}>{{ $roleName }}</option>

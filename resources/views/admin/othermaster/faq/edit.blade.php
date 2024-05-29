@@ -25,21 +25,21 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-12">
-                                        <label>FAQ Question</label>
+                                        <label>FAQ Question<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="faq_question" value="{{ $faq->faq_question }}">
                                         @error('faq_question')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>FAQ Answer</label>
+                                        <label>FAQ Answer<span class="text-danger">*</span></label>
                                         <textarea class="form-control " name="faq_answer">{{ $faq->faq_answer }}</textarea>
                                         @error('faq_answer')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Status</label>
+                                        <label>Status<span class="text-danger">*</span></label>
                                         <select name="status" class="form-control ">
                                             <option value="1" {{ $faq->status == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ $faq->status == 0 ? 'selected' : '' }}>Inactive</option>

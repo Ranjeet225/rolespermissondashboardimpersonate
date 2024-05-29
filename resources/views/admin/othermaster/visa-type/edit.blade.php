@@ -26,7 +26,7 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>Enter Visa Type </label>
+                                        <label>Enter Visa Type<span class="text-danger">*</span> </label>
                                         <input type="text" class="form-control " name="name" placeholder="+91" value="{{$visa_type->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>

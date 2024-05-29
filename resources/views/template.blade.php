@@ -28,15 +28,15 @@
   </head>
   <body>
     <!-- Main Wrapper -->
-    <div class="main-wrapper"> 
-    <?php  include 'include/header.php'; ?> 
+    <div class="main-wrapper">
+    <?php  include 'include/header.php'; ?>
     <?php  include 'include/sidebar.php'; ?>
         <!-- Page Wrapper -->
       <div class="page-wrapper">
         <!-- Page Content -->
         <div class="content container-fluid">
         	<?php  include 'include/pageheader.php'; ?>
-         
+
 
           <div class="main-content">
             <div class="row">
@@ -70,7 +70,7 @@
                       <th>  </th>
                        <th>  </th>
                         <th>  </th>
-                     
+
                     </tr>
                   </thead>
                   <tbody>
@@ -90,14 +90,14 @@
                       <td>
                         <a href="#"></a>
                       </td>
-                     
+
                       <td>
                         <a href="#"></a>
                       </td>
                       <td>
                         <a href="#"> </a>
                       </td>
-                      
+
                        <td>
                         <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
                           <span class="badge bg-inverse-success">
@@ -122,14 +122,14 @@
                       <td>
                         <a href="#"></a>
                       </td>
-                     
+
                       <td>
                         <a href="#"></a>
                       </td>
                       <td>
                         <a href="#"> </a>
                       </td>
-                      
+
                        <td>
                         <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
                           <span class="badge bg-inverse-success">
@@ -154,14 +154,14 @@
                       <td>
                         <a href="#"></a>
                       </td>
-                     
+
                       <td>
                         <a href="#"></a>
                       </td>
                       <td>
                         <a href="#"> </a>
                       </td>
-                      
+
                        <td>
                         <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
                           <span class="badge bg-inverse-success">
@@ -186,14 +186,14 @@
                       <td>
                         <a href="#"></a>
                       </td>
-                     
+
                       <td>
                         <a href="#"></a>
                       </td>
                       <td>
                         <a href="#"> </a>
                       </td>
-                      
+
                        <td>
                         <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
                           <span class="badge bg-inverse-success">
@@ -218,14 +218,14 @@
                       <td>
                         <a href="#"></a>
                       </td>
-                     
+
                       <td>
                         <a href="#"></a>
                       </td>
                       <td>
                         <a href="#"> </a>
                       </td>
-                      
+
                        <td>
                         <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
                           <span class="badge bg-inverse-success">
@@ -250,14 +250,14 @@
                       <td>
                         <a href="#"></a>
                       </td>
-                     
+
                       <td>
                         <a href="#"></a>
                       </td>
                       <td>
                         <a href="#"> </a>
                       </td>
-                      
+
                        <td>
                         <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
                           <span class="badge bg-inverse-success">
@@ -265,20 +265,20 @@
                         </a>
                       </td>
                     </tr>
-                     
-                  
-                  
 
-                  
-                  
-                   
+
+
+
+
+
+
                   </tbody>
                 </table>
                 <div class="row">
                   <div class="col-sm-12 col-md-5">
                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div>
                   </div>
-                  <div class="col-sm-12 col-md-7">
+                  <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                       <ul class="pagination">
                         <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">

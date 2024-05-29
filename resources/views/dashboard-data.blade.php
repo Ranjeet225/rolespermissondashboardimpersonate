@@ -78,7 +78,7 @@
                   </tbody>
                 </table>
                 <div class="row">
-                  <div class="col-sm-12 col-md-7">
+                  <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                         {{ $dash_data['dash']->links() }}
                     </div>

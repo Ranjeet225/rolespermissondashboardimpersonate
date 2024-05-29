@@ -52,7 +52,7 @@
                                @endforeach
                             </select>
                             <span class="text-danger source"></span>
-                            <label for="lead-source" class="form-label">Source</label>
+                            <label for="lead-source" class="form-label">Source<span class="text-danger">*</span></label>
                          </div>
                       </div>
                       <div class="col-4">

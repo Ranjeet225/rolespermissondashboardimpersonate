@@ -4,7 +4,7 @@
     <div class="card card-buttons">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <ol class="breadcrumb text-muted mb-0">
                         <li class="breadcrumb-item">
                             <a href="index.php"> Home</a>
@@ -14,8 +14,8 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ route('create-vas-service') }}" class="btn add-btn">
+                <div class="col-md-4">
+                    <a href="{{ route('create-vas-service') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Vas Service's</a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('vas-service-filter')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('vas-service')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
                     <input id="lead-total_credits" name="title" type="text" class="form-control " placeholder="NAME" >

@@ -124,9 +124,10 @@
               {{$user->email}}
             </td>
             <td>
-                @foreach ($user->roles as $role)
+                {{$user->admin_type}}
+                {{-- @foreach ($user->roles as $role)
                     {{ ucfirst($role->name) }}<br>
-                @endforeach
+                @endforeach --}}
             </td>
             {{-- <td>
               @if($user->status ==1)

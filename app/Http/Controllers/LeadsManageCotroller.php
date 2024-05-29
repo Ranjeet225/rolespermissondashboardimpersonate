@@ -61,7 +61,7 @@ class LeadsManageCotroller extends Controller
     }
     public function lead_dashboard_data(Request $request)
     {
-        $next_leads = '';
+        $next_leads = null;
         $id = Auth::user()->id;
         $users = DB::table('users')->WHERE('id', $id)->first();
         $currentDateTime = Carbon::now()->toDateString();
@@ -143,7 +143,7 @@ class LeadsManageCotroller extends Controller
     //         $lead_reports_count = $lead_reports_count->count();
     //     } else if ($user->hasRole('agent') || $user->hasRole('sub_agent') || $user->hasRole('visa')) {
     //         $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user->id");
-    //         $commaList = '';
+    //         $commaList = null;
     //         foreach ($agents as $agent) {
     //             $commaList .= $agent->id . ',';
     //         }
@@ -253,7 +253,7 @@ class LeadsManageCotroller extends Controller
             $total_new_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
             $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user_ids");
-            $commaList = '';
+            $commaList = null;
             foreach ($agents as $agent) {
                 $commaList .= $agent->id . ',';
             }
@@ -383,12 +383,14 @@ class LeadsManageCotroller extends Controller
                     'first_name' => 'required',
                     'email' => 'required|unique:student_by_agent,email,'.$request->id,
                     'phone_number' => 'required',
+                    'source'=>'required',
                 ]);
             }else{
                 $validator = Validator::make($request->all(), [
                     'first_name' => 'required',
                     'email' => 'required|unique:student_by_agent,email|max:223',
                     'phone_number' => 'required',
+                    'source'=>'required',
                 ]);
             }
             if ($validator->fails()) {
@@ -404,15 +406,15 @@ class LeadsManageCotroller extends Controller
                 ['id' => $request->id],
                 [
                     "user_id" => $user_id,
-                    "source" => $request->source ?? '',
+                    "source" => $request->source ?? null,
                     "name" => $request->first_name,
-                    "middle_name" => $request->middle_name ?? '',
-                    "last_name" => $request->last_name ?? '',
-                    "father_name" => $request->father_name ?? '',
+                    "middle_name" => $request->middle_name ?? null,
+                    "last_name" => $request->last_name ?? null,
+                    "father_name" => $request->father_name ?? null,
                     "email" => $request->email,
                     "phone_number" => $request->phone_number,
-                    "phone_number_one" => $request->phone_number1 ?? '',
-                    "dob" => $request->dob ?? '',
+                    "phone_number_one" => $request->phone_number1 ?? null,
+                    "dob" => $request->dob ?? null,
                     "assigned_to"=>$assined_user ?? null
                 ]
             );
@@ -427,7 +429,7 @@ class LeadsManageCotroller extends Controller
         } elseif ($request->tab2 && $request->id) {
             $studentAgent = StudentByAgent::where('id', $request->id)->first();
             $studentAgent->update([
-                "cand_working" => $request->cand_working ?? '',
+                "cand_working" => $request->cand_working ?? null,
                 "caste" => $request->caste,
                 "country_id" => $request->country_id,
                 "province_id" => $request->province_id,
@@ -443,9 +445,9 @@ class LeadsManageCotroller extends Controller
         } elseif ($request->tab3) {
             $studentAgent = StudentByAgent::where('id', $request->id)->first();
             $studentAgent->update([
-                "program_label" => $request->program_label ?? '',
-                "interested" => $request->interested ?? '',
-                "subject" => $request->subject ?? '',
+                "program_label" => $request->program_label ?? null,
+                "interested" => $request->interested ?? null,
+                "subject" => $request->subject ?? null,
                 "preferred_program_label" => $request->preferred_program_label ?? "",
                 "school" => $request->school ?? "",
                 "course" => $request->course ?? "",
@@ -464,13 +466,13 @@ class LeadsManageCotroller extends Controller
         } elseif ($request->tab4) {
             $studentAgent = StudentByAgent::where('id', $request->id)->first();
             $studentAgent->update([
-                "lead_status" => $request->lead_status ?? '',
-                "next_calling_date" => $request->next_calling_date ?? '',
-                "interested_in" => $request->interested_in ?? '',
-                "intake" => $request->intakeMonth ?? '',
-                "intake_year" => $request->year ?? '',
-                "profile_created" => $request->profile_create ?? '',
-                "student_comment" => $request->comment ?? '',
+                "lead_status" => $request->lead_status ?? null,
+                "next_calling_date" => $request->next_calling_date ?? null,
+                "interested_in" => $request->interested_in ?? null,
+                "intake" => $request->intakeMonth ?? null,
+                "intake_year" => $request->year ?? null,
+                "profile_created" => $request->profile_create ?? null,
+                "student_comment" => $request->comment ?? null,
             ]);
             $data = [
                 'student_agent' => $studentAgent,
@@ -602,13 +604,13 @@ class LeadsManageCotroller extends Controller
             $lead_list->where('zip', 'LIKE', '%' . $request->zip . '%');
         }
         if ($request->country_id) {
-            $lead_list->where('country_id', 'LIKE', '%' . $request->country_id . '%');
+            $lead_list->where('country_id',$request->country_id);
         }
         if ($request->province_id) {
-            $lead_list->where('province_id', 'LIKE', '%' . $request->province_id . '%');
+            $lead_list->where('province_id', $request->province_id);
         }
         if ($request->lead_status) {
-            $lead_list->where('lead_status', 'LIKE', '%' . $request->lead_status . '%');
+            $lead_list->where('lead_status', $request->lead_status);
         }
         if ($request->assigned_status) {
             // if (!($user->hasRole('Administrator'))) {
@@ -697,17 +699,17 @@ class LeadsManageCotroller extends Controller
         }
         $data = [
             'student_id' => $request->student_id,
-            'status' => $request->lead_status ?? '',
-            'paymentType' => $request->paymentType ?? '',
-            'paymentTypeRemarks' => $request->paymentTypeRemarks ?? '',
-            'paymentMode' => $request->paymentMode ?? '',
-            'paymentModeRemarks' => $request->paymentModeRemarks ?? '',
-            'intake' => $request->intake ?? '',
-            'intake_year' => $request->intake_year ?? '',
+            'status' => $request->lead_status ?? null,
+            'paymentType' => $request->paymentType ?? null,
+            'paymentTypeRemarks' => $request->paymentTypeRemarks ?? null,
+            'paymentMode' => $request->paymentMode ?? null,
+            'paymentModeRemarks' => $request->paymentModeRemarks ?? null,
+            'intake' => $request->intake ?? null,
+            'intake_year' => $request->intake_year ?? null,
             'user_id' => Auth::user()->id,
-            'comment' => $request->comment ?? '',
+            'comment' => $request->comment ?? null,
             'next_calling_date' => $request->next_calling_date,
-            'amount' => $request->amount ?? '',
+            'amount' => $request->amount ?? null,
             'fallowp_unique_id'=> $uniqueId,
             'created_at' => now(),
         ];
@@ -875,11 +877,11 @@ class LeadsManageCotroller extends Controller
         } else {
 
             $agent = DB::table('agents')->get();
-            $university_id = '';
-            $course_id = '';
-            $university_in_three_sixtee = '';
-            $course_in_three_sixtee = '';
-            $table_three_sixtee_image = '';
+            $university_id = null;
+            $course_id = null;
+            $university_in_three_sixtee = null;
+            $course_in_three_sixtee = null;
+            $table_three_sixtee_image = null;
         }
         return view('admin.leads.apply_oel_360', compact('leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
     }
@@ -1093,7 +1095,7 @@ class LeadsManageCotroller extends Controller
                     'visa_no' => $request->visa_no ?? null,
                     'visa_exp_date' => $request->visa_exp_date ?? null,
                     'remarks' => $request->remarks ?? null,
-                    'visa_application' => $request->visa_application ?? ''
+                    'visa_application' => $request->visa_application ?? null
                 ]);
             } else {
                 DB::table('tbl_three_sixtee')
@@ -1104,7 +1106,7 @@ class LeadsManageCotroller extends Controller
                         'visa_no' => $request->visa_no ?? null,
                         'visa_exp_date' => $request->visa_exp_date ?? null,
                         'remarks' => $request->remarks ?? null,
-                        'visa_application' => $request->visa_application ?? ''
+                        'visa_application' => $request->visa_application ?? null
                     ]);
             }
             $student = StudentByAgent::where('id', $request->sba_id)->select('email', 'name')->first();
@@ -1118,18 +1120,18 @@ class LeadsManageCotroller extends Controller
                 'offer_amount' => $threesixetee->fee_amount,
                 'course_details' => $threesixetee->cource_details,
                 'student' => $student->name,
-                'visa_document' => $threesixetee->visa_document ?? '',
+                'visa_document' => $threesixetee->visa_document ?? null,
                 'visa_apply_date' => $threesixetee->visa_apply_date ?? null,
-                'visa_agent' => $agent ?? '',
-                'visa_manual' => $threesixetee->visa_manual ?? '',
-                'portal_url' => $threesixetee->portal_url ?? '',
-                'portal_email' => $threesixetee->portal_email ?? '',
-                'portal_userid' => $threesixetee->portal_userid ?? '',
-                'portal_password' => $threesixetee->portal_password ?? '',
-                'portal_question' => $threesixetee->portal_question ?? '',
-                'portal_answer' => $threesixetee->portal_answer ?? '',
-                'visa_document_type' => $threesixetee->visa_document_type ?? '',
-                'visa_application' => $threesixetee->visa_application ?? '',
+                'visa_agent' => $agent ?? null,
+                'visa_manual' => $threesixetee->visa_manual ?? null,
+                'portal_url' => $threesixetee->portal_url ?? null,
+                'portal_email' => $threesixetee->portal_email ?? null,
+                'portal_userid' => $threesixetee->portal_userid ?? null,
+                'portal_password' => $threesixetee->portal_password ?? null,
+                'portal_question' => $threesixetee->portal_question ?? null,
+                'portal_answer' => $threesixetee->portal_answer ?? null,
+                'visa_document_type' => $threesixetee->visa_document_type ?? null,
+                'visa_application' => $threesixetee->visa_application ?? null,
                 'visa_no' => $threesixetee->visa_no,
                 'visa_exp_date' => $threesixetee->visa_exp_date,
                 'remarks' => $threesixetee->remarks,

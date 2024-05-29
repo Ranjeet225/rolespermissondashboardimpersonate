@@ -26,14 +26,14 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>Name</label>
+                                        <label>Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name" value="{{$specialization->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Status</label>
+                                        <label>Status<span class="text-danger">*</span></label>
                                         <select class="form-control" name="status" required>
                                             <option value="1" {{ $specialization->status == '1' ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ $specialization->status == '0' ? 'selected' : '' }}>Inactive</option>

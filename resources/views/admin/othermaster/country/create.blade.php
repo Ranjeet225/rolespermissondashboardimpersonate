@@ -26,14 +26,14 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>Enter Country Name</label>
+                                        <label>Enter Country Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Enter Country Code</label>
+                                        <label>Enter Country Code<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="country_code" placeholder="+91">
                                         @error('country_code')
                                             <div class="text-danger">{{ $message }}</div>

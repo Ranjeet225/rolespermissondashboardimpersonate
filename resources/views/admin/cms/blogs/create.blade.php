@@ -25,8 +25,8 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-12">
-                                        <label>Title </label>
-                                        <input type="text" name="title" class="form-control " placeholder="Enter Title " />
+                                        <label>Title <span class="text-danger">*</span> </label>
+                                        <input type="text" name="title" class="form-control " maxlength="200" required placeholder="Enter Title " />
                                         @error('title')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -39,22 +39,22 @@
                                         @enderror
                                     </div> --}}
                                     <div class="col-12">
-                                        <label>Details</label>
-                                        <textarea name="text" class="form-control" id="summernote1" cols="30" ></textarea>
+                                        <label>Details<span class="text-danger">*</span></label>
+                                        <textarea name="text" class="form-control" id="summernote1" required cols="30" ></textarea>
                                         @error('text')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Image</label>
-                                        <input type="file" name="image" class="form-control" />
+                                        <label>Image<span class="text-danger">*</span></label>
+                                        <input type="file" name="image" class="form-control" required />
                                         @error('image')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Status</label>
-                                        <select name="status" class="form-control">
+                                        <label>Status<span class="text-danger">*</span></label>
+                                        <select name="status" class="form-control" required>
                                             <option value="1">Publish</option>
                                             <option value="0">Unpublish</option>
                                         </select>

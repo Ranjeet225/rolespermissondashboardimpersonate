@@ -316,8 +316,8 @@
             ,"faq.view","education_lane.view","manage_blogs.view","vas_services.view"],
             "submenu": [
                 {
-                    "url": "/admin/specializations ",
-                    "name": " Specializations ",
+                    "url": "/admin/specializations",
+                    "name": "Specializations",
                     "slug": "admin-specializations",
                     "permission":"specializations.view"
                 },
@@ -347,7 +347,7 @@
                 },
                 {
                     "url": "/admin/visa-type",
-                    "name": " Visa Type",
+                    "name": "Visa Type",
                     "slug": "admin-visa-type",
                     "permission":"visa_type.view"
                 },

@@ -35,7 +35,7 @@ class UserController extends Controller
         $user = User::query();
         if($request->status == 'Active'){
             $active_Status = 1;
-        }else{
+        }else{  
             $active_Status = 0;
         }
         if($request->approvestatus == 'Approve'){

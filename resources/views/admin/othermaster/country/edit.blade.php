@@ -26,7 +26,7 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>Name</label>
+                                        <label>Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name" value="{{$country->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
@@ -34,7 +34,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label>Enter Country Code</label>
+                                        <label>Enter Country Code<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="country_code" placeholder="+91" value="{{$country->country_code}}">
                                         @error('country_code')
                                             <div class="text-danger">{{ $message }}</div>

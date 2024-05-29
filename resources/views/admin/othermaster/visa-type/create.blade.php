@@ -26,7 +26,7 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>Enter Visa  Name</label>
+                                        <label>Enter Visa  Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>

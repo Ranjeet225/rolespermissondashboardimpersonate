@@ -22,6 +22,7 @@ class CmsController extends Controller
     }
     public function blogs_store(Request $request)
     {
+
         $blog = new Blog();
         $blog->title = $request->title;
         $blog->slug= Str::slug($request->title);
@@ -67,7 +68,7 @@ class CmsController extends Controller
         return redirect()->route('blogs')->with('success','Data Deleted Successfully');
     }
 
-    // testimonial 
+    // testimonial
     public function testimonial(Request $request)
     {
         if ($request->name) {
@@ -100,6 +101,7 @@ class CmsController extends Controller
         $testimonial->testimonial_desc = $request->testimonial_desc;
         $testimonial->status = $request->status;
         $testimonial->created_by = Auth::user()->id;
+        $testimonial->updated_by = Auth::user()->id;
         if ($request->hasFile('profile_picture')) {
             $image = $request->file('profile_picture');
             $name = time() . '.' . $image->getClientOriginalExtension();
@@ -131,6 +133,7 @@ class CmsController extends Controller
         $testimonial->designation= $request->designation;
         $testimonial->location = $request->location;
         $testimonial->testimonial_desc = $request->testimonial_desc;
+        $testimonial->updated_by = Auth::user()->id;
         $testimonial->status = $request->status;
         if ($request->hasFile('profile_picture')) {
             $image = $request->file('profile_picture');

@@ -78,7 +78,7 @@
         <span>404 PAGE</span>
         <p class="p-a">
            . The page you were looking for could not be found</p>
-        <a href='{{url('/')}}' class=" btn btn-primary" >... Back to previous page</a>
+        <a href='{{url()->previous()}}' class=" btn btn-primary" >... Back to previous page</a>
     </div>
 </div>
 @endsection

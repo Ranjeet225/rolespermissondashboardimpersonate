@@ -24,14 +24,14 @@
                                 <form class="row g-4" action="{{ route('update-education-lane', $education_lane->id) }}" method="POST">
                                 @csrf
                                 <div class="col-12">
-                                    <label>Name</label>
+                                    <label>Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control " name="name" value="{{ $education_lane->name }}">
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
-                                    <label>Details</label>
+                                    <label>Details<span class="text-danger">*</span></label>
                                     <textarea class="form-control " name="details">{!! $education_lane->details !!}</textarea>
                                     @error('details')
                                         <div class="text-danger">{{ $message }}</div>

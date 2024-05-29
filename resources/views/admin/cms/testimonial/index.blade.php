@@ -12,7 +12,7 @@
                     </ol>
                 </div>
                 <div class="col-md-3">
-                    <a href="{{ route('create-testimonial') }}" class="btn add-btn">
+                    <a href="{{ route('create-testimonial') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Testimonial</a>
                 </div>
             </div>
@@ -24,7 +24,7 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('testimonial-filter')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('testimonial')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
                     <input  name="name" type="text" class="form-control " placeholder="Name" >

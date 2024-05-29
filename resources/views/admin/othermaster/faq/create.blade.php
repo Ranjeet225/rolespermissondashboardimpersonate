@@ -26,21 +26,21 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>FAQ Question</label>
+                                        <label>FAQ Question<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="faq_question">
                                         @error('faq_question')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>FAQ Answer</label>
+                                        <label>FAQ Answer<span class="text-danger">*</span></label>
                                         <textarea class="form-control " name="faq_answer"></textarea>
                                         @error('faq_answer')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Status</label>
+                                        <label>Status<span class="text-danger">*</span></label>
                                         <select class="form-select " name="status">
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
