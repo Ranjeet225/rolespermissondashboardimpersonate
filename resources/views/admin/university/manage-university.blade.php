@@ -68,7 +68,7 @@
                     <select name="status" class="form-control formmrgin" id="status" >
                       <option value="">- Active Status-</option>
                       <option value="0">Pending</option>
-                      <option value="1" selected="">Active</option>
+                      <option value="1" >Active</option>
                     </select>
                   </div>
                   <div class="col-md-3">

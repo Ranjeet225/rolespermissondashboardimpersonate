@@ -15,7 +15,7 @@
                     </ol>
                 </div>
                 <div class="col-md-4">
-                    <a href="{{ route('create-student-question') }}" class="btn add-btn">
+                    <a href="{{ route('create-student-question') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Student  Apply Question</a>
                 </div>
             </div>

@@ -9,11 +9,11 @@
               <li class="breadcrumb-item">
                 <a href="index.php"> Home</a>
               </li>
-              <li class="breadcrumb-item text-muted"> OEL Type  </li>
+              <li class="breadcrumb-item text-muted">  University Type  </li>
             </ol>
           </div>
           <div class="col-md-2">
-            <a href="{{ route('add-type') }}" class="btn add-btn">
+            <a href="{{ route('add-type') }}" class="btn add-btn flaot-end">
                 <i class="las la-plus"></i>Add Type </a>
           </div>
         </div>
@@ -25,20 +25,25 @@
         <div class="card-group">
           <div class="card">
             <div class="card-body myform">
-              <form action="#" method="GET">
+              <form action="{{route('oel-type')}}" method="GET">
                 <div class="row">
-                  <div class="col-md-3">
-                    <input type="text" class="form-control formmrgin" name="application_id" value="" placeholder=" Search by School Id">
+                  <div class="col-md-8">
+                    <input type="text" class="form-control formmrgin" name="name" value="" placeholder="">
                   </div>
-                  <div class="col-md-3">
+                  {{-- <div class="col-md-4">
                     <select name="status" class="form-control formmrgin">
                       <option value="">- Active Status-</option>
                       <option value="pending">Pending</option>
-                      <option value="Active" selected="">Active</option>
+                      <option value="Active" >Active</option>
                     </select>
+                  </div> --}}
+                  <div class="col-md-2 col-sm-2">
+                    <button type="submit" class="btn btn-info d-lg-block px-5  formmrgin"  value="1">Search</button>
                   </div>
-                  <div class="col-md-3 col-sm-6">
-                    <button type="submit" class="btn btn-info d-lg-block  formmrgin" name="country_submit" value="1">Search</button>
+                  <div class="col-md-2 col-sm-2">
+                    <a href="{{route('oel-type')}}">
+                        <button type="button" class="btn btn-info d-lg-block px-5  formmrgin"  value="1">Reset</button>
+                    </a>
                   </div>
                 </div>
               </form>

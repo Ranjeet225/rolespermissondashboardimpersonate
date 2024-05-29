@@ -14,8 +14,8 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-4 float-end">
-                    <a href="{{ route('create-scholarship') }}" class="btn add-btn">
+                <div class="col-md-4 ">
+                    <a href="{{ route('create-scholarship') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Scholarship</a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('scholarship-filter')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('scholarship')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
                     <input id="lead-total_credits" name="heading" type="text" class="form-control " placeholder="NAME" >

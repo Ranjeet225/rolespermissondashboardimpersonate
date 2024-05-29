@@ -133,9 +133,9 @@
                     "permission": "manage_oel_agreement_letter.view"
                 },
                 {
-                    "url": "/admin-management/pincode",
+                    "url": "/franchise/pincode",
                     "name": "Assign OEL Pincode",
-                    "slug": "admin-management-pincode",
+                    "slug": "franchise-pincode",
                     "permission": "manage_oel_pincode.view"
                 }
             ]
@@ -204,31 +204,31 @@
                 },
                 {
                     "url": "/admin/manage-program",
-                    "name": " Manage Program",
+                    "name": "Manage Program",
                     "slug": "admin-mangee-program",
                     "permission":"manage_program.view"
                 },
                 {
                     "url": "/admin/program-level-details",
-                    "name": "Program Level Details (Home Page) ",
+                    "name": "Program Level Details (Home Page)",
                     "slug": "admin-program-level-details",
                     "permission":"program_level_details.view"
                 },
                 {
                     "url": "/admin/education-level",
-                    "name": " Education Level",
+                    "name": "Education Level",
                     "slug": "admin-education-level",
                     "permission":"education_level.view"
                 },
                 {
                     "url": "/admin/program-level",
-                    "name": " Program Level",
+                    "name": "Program Level",
                     "slug": "admin-program-level",
                     "permission":"program_level.view"
                 },
                 {
                     "url": "/admin/grading-scheme",
-                    "name": " Grading Scheme",
+                    "name": "Grading Scheme",
                     "slug": "admin-grading-scheme",
                     "permission":"grading_scheme.view"
                 },{
@@ -239,13 +239,13 @@
                 },
                 {
                     "url": "/admin/field-of-study-types",
-                    "name": "Fields of study types ",
+                    "name": "Fields of study types",
                     "slug": "admin-field-of-study-types",
                     "permission":"field_of_study.view"
                 },
                 {
                     "url": "/admin/subjects",
-                    "name": " Subjects ",
+                    "name": "Subjects",
                     "slug": "admin-subjects",
                     "permission":"subject.view"
                 },
@@ -294,9 +294,9 @@
                     "permission":"oel_review.view"
                 },
                 {
-                    "url": "/admin/oel-type",
-                    "name": "Oel Type",
-                    "slug": "admin-oel-type",
+                    "url": "/admin/university-type",
+                    "name": "University Type",
+                    "slug": "admin-university-type",
                     "permission":"oel_type.view"
                 }
             ]

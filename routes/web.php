@@ -78,13 +78,13 @@ Route::middleware('auth')->group(function () {
         Route::get('pending-leads-filter',[LeadsManageCotroller::class,'pending_leads'])->name('pending-leads-filter');
 
         Route::any('excel-sheet-export', [LeadsManageCotroller::class, 'lead_list_export'])->name('lead_list_export');
-        Route::get('manage-lead/{id}', [LeadsManageCotroller::class, 'manage_lead'])->name('manage-lead');
-        Route::get('edit-lead/{id}', [LeadsManageCotroller::class, 'edit_lead_data'])->name('edit-lead');
-        Route::get('show-lead/{id}', [LeadsManageCotroller::class, 'show_lead'])->name('view-lead');
+        Route::get('manage-lead/{id?}', [LeadsManageCotroller::class, 'manage_lead'])->name('manage-lead');
+        Route::get('edit-lead/{id?}', [LeadsManageCotroller::class, 'edit_lead_data'])->name('edit-lead');
+        Route::get('show-lead/{id?}', [LeadsManageCotroller::class, 'show_lead'])->name('view-lead');
         Route::get('create_student_profile/{id}', [LeadsManageCotroller::class, 'create_student_profile'])->name('create-student-profile');
         Route::get('oel-360/', [LeadsManageCotroller::class, 'oel_360'])->name('oel_360');
         Route::get('lead-details', [LeadsManageCotroller::class, 'lead_details'])->name('lead-details');
-        Route::get('apply-360/{id}', [LeadsManageCotroller::class, 'aply_360'])->name('apply-360');
+        Route::get('apply-360/{id?}', [LeadsManageCotroller::class, 'aply_360'])->name('apply-360');
         Route::get('apply-oel-360', [LeadsManageCotroller::class, 'aply_360'])->name('apply-oel-360');
         Route::post('aply-lead-360/', [LeadsManageCotroller::class, 'store_lead_360'])->name('store-lead-360');
         Route::get('leads/{key}', [LeadsManageCotroller::class, 'fetch_leads'])->name('fetch-leads');
@@ -160,7 +160,7 @@ Route::middleware('auth')->group(function () {
         Route::post("approve-university",[UniversityController::class,'approve_university'])->name('approve-university');
 
         Route::get("approved-university",[UniversityController::class,'view_approve_university'])->name('view-approved-university');
-        Route::get("filter-approved-university",[UniversityController::class,'view_approve_university'])->name('filter-approved-university');
+        // Route::get("filter-approved-university",[UniversityController::class,'view_approve_university'])->name('filter-approved-university');
 
         Route::get("un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('unapproved-university');
         Route::get("filter-un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('filter-unapproved-university');
@@ -177,7 +177,7 @@ Route::middleware('auth')->group(function () {
 
 
         // oel type
-        Route::get('oel-type',[UniversityController::class,'oel_type'])->name('oel-type');
+        Route::get('university-type',[UniversityController::class,'oel_type'])->name('oel-type');
         Route::get('add-type',[UniversityController::class,'add_type'])->name('add-type');
         Route::post('store-oel-type',[UniversityController::class,'store_oel_type'])->name('store-oel-type');
         Route::get('edit-type/{id?}',[UniversityController::class,'edit_oel_type'])->name('edit-type');
@@ -196,7 +196,7 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-score-program',[ProgramController::class,'delete_score_program'])->name('delete-score-program');
         Route::get('program-filter',[ProgramController::class,'manage_program'])->name('program-filter');
         Route::get('approve-program',[ProgramController::class,'approve_program'])->name('approve-program');
-        Route::get('view-program/{id}',[ProgramController::class,'view_program'])->name('view-program');
+        Route::get('view-program/{id?}',[ProgramController::class,'view_program'])->name('view-program');
 
         Route::get('approve-program-filter',[ProgramController::class,'approve_program'])->name('approve-program-filter');
         Route::get('program-level-details',[ProgramController::class,'program_level_details'])->name('program-level-details');
@@ -208,7 +208,7 @@ Route::middleware('auth')->group(function () {
 
         // EducationLevel
         Route::get('education-level',[ProgramController::class,'education_level'])->name('education-level');
-        Route::get('education-level-filter',[ProgramController::class,'education_level'])->name('education-level-filter');
+        // Route::get('education-level-filter',[ProgramController::class,'education_level'])->name('education-level-filter');
         Route::get('edit-education-level/{id?}',[ProgramController::class,'education_level_edit'])->name('edit-education-level');
         Route::get('delete-education-level/{id?}',[ProgramController::class,'education_level_delete'])->name('delete-education-level');
         Route::post('update-education-level/{id?}',[ProgramController::class,'education_level_update'])->name('update-education-level');
@@ -217,16 +217,16 @@ Route::middleware('auth')->group(function () {
         // Program level
 
         Route::get('program-level',[ProgramController::class,'program_level'])->name('program-level');
-        Route::get('program-level-filter',[ProgramController::class,'program_level'])->name('program-level-filter');
-        Route::get('edit-program-level/{id?}',[ProgramController::class,'program_level_edit'])->name('edit-program-level');
+        // Route::get('program-level-filter',[ProgramController::class,'program_level'])->name('program-level-filter');
+        Route::get('edit-program_level/{id?}',[ProgramController::class,'program_level_edit'])->name('edit-program_level');
         Route::get('delete-program-level/{id?}',[ProgramController::class,'program_level_delete'])->name('delete-program-level');
         Route::post('update-program-level/{id?}',[ProgramController::class,'program_level_update'])->name('update-program-level');
-        Route::get('create-new-program-level',[ProgramController::class,'program_level_create'])->name('create-new-program-level');
+        Route::get('create-new-program_level',[ProgramController::class,'program_level_create'])->name('create-new-program_level');
         Route::post('store-program-level',[ProgramController::class,'program_level_store'])->name('store-program-level');
 
         // grading scheme
         Route::get('grading-scheme',[ProgramController::class,'grading_scheme'])->name('grading-scheme');
-        Route::get('grading-scheme-filter',[ProgramController::class,'grading_scheme'])->name('grading-scheme-filter');
+        // Route::get('grading-scheme-filter',[ProgramController::class,'grading_scheme'])->name('grading-scheme-filter');
         Route::get('create-new-grading-scheme',[ProgramController::class,'grading_scheme_create'])->name('create-new-grading-scheme');
         Route::get('edit-grading-scheme/{id?}',[ProgramController::class,'grading_scheme_edit'])->name('edit-grading-scheme');
         Route::get('delete-grading-scheme/{id?}',[ProgramController::class,'grading_scheme_delete'])->name('delete-grading-scheme');
@@ -235,7 +235,7 @@ Route::middleware('auth')->group(function () {
 
         // exam
         Route::get('exams',[ProgramController::class,'exam'])->name('exam');
-        Route::get('exam-filter',[ProgramController::class,'exam'])->name('exam-filter');
+        // Route::get('exam-filter',[ProgramController::class,'exam'])->name('exam-filter');
         Route::get('create-new-exam',[ProgramController::class,'exam_create'])->name('create-exam');
         Route::get('edit-exam/{id?}',[ProgramController::class,'exam_edit'])->name('edit-exam');
         Route::get('delete-exam/{id?}',[ProgramController::class,'exam_delete'])->name('delete-exam');
@@ -244,7 +244,7 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-exam/{id?}',[ProgramController::class,'exam_delete'])->name('delete-exam');
         // field-of-study
         Route::get('field-of-study-types',[ProgramController::class,'field_of_study'])->name('field-of-study');
-        Route::get('field-of-study-filter',[ProgramController::class,'field_of_study'])->name('field-of-study-filter');
+        // Route::get('field-of-study-filter',[ProgramController::class,'field_of_study'])->name('field-of-study-filter');
         Route::get('create-field-of-study',[ProgramController::class,'field_of_study_create'])->name('create-field-of-study');
         Route::get('edit-field-of-study/{id?}',[ProgramController::class,'field_of_study_edit'])->name('edit-field-of-study');
         Route::get('delete-field-of-study/{id?}',[ProgramController::class,'field_of_study_delete'])->name('delete-field-of-study');
@@ -408,6 +408,7 @@ Route::middleware('auth')->group(function () {
            Route::get("create-franchise",[FrenchiseController::class,'create'])->name('frenchise-create');
            Route::get("edit-franchise/{id?}",[FrenchiseController::class,'edit'])->name('frenchise-edit');
            Route::Post("store-franchise",[FrenchiseController::class,'store'])->name('frenchise-store');
+           Route::get("pincode",[FrenchiseController::class,'pincode'])->name('frenchise-pincode');
            Route::get("manage-oel-presentation",[FrenchiseController::class,'manage_oel_pres'])->name('manage-oel-pres');
            Route::post("manage-oel-presentation",[FrenchiseController::class,'store_manage_oel_pres'])->name('store-manage-oel-pres');
            Route::get("delete-manage-oel-presentation/{id?}",[FrenchiseController::class,'delete_manage_oel_pres'])->name('delete-manage-oel-presentation');

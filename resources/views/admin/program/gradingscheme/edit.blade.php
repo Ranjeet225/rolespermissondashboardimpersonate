@@ -46,7 +46,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-12">
-                                          <label for=""></label>
+                                          <label for="">Select Country<span class="text-danger">*</span></label>
                                           <select class="form-control " name="country_id" id="">
                                             <option value="{{$gradingScheme->country_id}}">
                                               {{$gradingScheme->country->name}}
@@ -60,7 +60,8 @@
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for=""></label>
+                                        <label for="">Education Level<span class="text-danger">*</span></label>
+
                                         <select class="form-control " name="education_level_id" id="education_level_id">
                                           <option value="{{$gradingScheme->education_level_id}}">
                                             {{$gradingScheme->education_level->name}}
@@ -74,7 +75,7 @@
                                       @enderror
                                   </div>
                                     <div class="col-12">
-                                        <label>Grade Scheme Name</label>
+                                        <label>Grade Scheme Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " placeholder="Grade Scheme Name" name="name" value="{{$gradingScheme->name}}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>

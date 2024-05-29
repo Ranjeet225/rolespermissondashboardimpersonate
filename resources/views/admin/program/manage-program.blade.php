@@ -70,7 +70,7 @@
                             <th>S.N</th>
                             <th>ProgramName </th>
                             <th>UniversityName </th>
-                            <th>MinimumLevelOfEducationRequired</th>
+                            {{-- <th>MinimumLevelOfEducationRequired</th> --}}
                             <th>ProgramLevel</th>
                             <th>ApproveStatus</th>
                             <th> </th>
@@ -83,9 +83,9 @@
                         <tr>
                             <td>{{ $loop->index + (($program->currentPage() - 1) * $program->perPage()) + 1 }}</td>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->school->university_name}}</td>
-                            <td>{{$item->educationLevel->name}}</td>
-                            <td>{{$item->educationLevel->name}}</td>
+                            <td>{{$item->school->university_name ?? null}}</td>
+                            <td>{{$item->educationLevel->name ?? null}}</td>
+                            {{-- <td>{{$item->educationLevel->name ?? null}}</td> --}}
                             <td>
                                 @if($item->grading_scheme_id == 1)
                                     Primary

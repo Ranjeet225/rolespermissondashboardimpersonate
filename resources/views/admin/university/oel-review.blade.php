@@ -13,7 +13,7 @@
             </ol>
           </div>
           <div class="col-md-2">
-            <a href="{{ route('add-review') }}" class="btn add-btn">
+            <a href="{{ route('add-review') }}" class="btn add-btn float-end">
                 <i class="las la-plus"></i>Add Review </a>
           </div>
         </div>
@@ -25,20 +25,25 @@
         <div class="card-group">
           <div class="card">
             <div class="card-body myform">
-              <form action="#" method="GET">
+              <form action="{{route('oel-review')}}" method="GET">
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <input type="text" class="form-control formmrgin" name="application_id" value="" placeholder=" Search by School Id">
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <select name="status" class="form-control formmrgin">
                       <option value="">- Active Status-</option>
-                      <option value="pending">Pending</option>
-                      <option value="Active" selected="">Active</option>
+                      <option value="0">Pending</option>
+                      <option value="1" >Active</option>
                     </select>
                   </div>
-                  <div class="col-md-3 col-sm-6">
-                    <button type="submit" class="btn btn-info d-lg-block  formmrgin" name="country_submit" value="1">Search</button>
+                  <div class="col-md-2 col-sm-2">
+                    <button type="submit" class="btn btn-info d-lg-block px-5  formmrgin" >Search</button>
+                  </div>
+                  <div class="col-md-2 col-sm-2">
+                    <a href="{{route('oel-review')}}">
+                        <button type="button" class="btn btn-info d-lg-block px-5  formmrgin" >Reset</button>
+                    </a>
                   </div>
                 </div>
               </form>

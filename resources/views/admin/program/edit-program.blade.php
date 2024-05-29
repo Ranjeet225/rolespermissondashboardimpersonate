@@ -156,7 +156,7 @@
                           <select class="form-control " name="fieldsofstudytype" id="lead-fieldsofstudytype" placeholder="Fields Of Study Type (Degree type offered)">
                              <option value="">-- Select Fields Of Study Type --</option>
                              @foreach ($filed_of_study as $item)
-                             <option value="{{$item->id}}" {{ $program->study_type->id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                             <option value="{{$item->id}}" {{ $program->fieldsofstudytype == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
                             </select>
                           <label for="lead-fieldsofstudytype" class="form-label">Fields Of Study Type (Degree type offered)</label>

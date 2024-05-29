@@ -52,7 +52,7 @@
         <div class="card-group">
           <div class="card">
             <div class="card-body myform">
-              <form action="{{route('filter-unapproved-university')}}" method="GET">
+              <form action="{{route('unapproved-university')}}" method="GET">
                 <div class="row">
                   <div class="col-md-4">
                     <input type="text" class="form-control formmrgin" name="university_name" id="university_name" placeholder="Search By University Name">
@@ -61,7 +61,7 @@
                     <select name="status" class="form-control formmrgin" id="status">
                       <option value="">- Active Status-</option>
                       <option value="0">Pending</option>
-                      <option value="1" selected="">Active</option>
+                      <option value="1" >Active</option>
                     </select>
                   </div>
                   <div class="col-md-4">

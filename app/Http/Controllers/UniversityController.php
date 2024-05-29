@@ -506,9 +506,16 @@ class UniversityController extends Controller
     }
 
 
-    public function oel_review()
+    public function oel_review(Request $request)
     {
-        $reviews = SchoolReview::paginate(12);
+        $reviews = SchoolReview::query();
+        if ($request->application_id) {
+            $reviews = $reviews->where('school_id', $request->application_id);
+        }
+        if (isset($request->status)) {
+            $reviews = $reviews->where('status', $request->status);
+        }
+        $reviews = $reviews->paginate(12);
         return view('admin.university.oel-review', compact('reviews'));
     }
 
@@ -557,8 +564,12 @@ class UniversityController extends Controller
         return redirect()->route('oel-review')->with('success','Review Deleted Successfully');
     }
 
-    public function oel_type(){
-        $data = SchoolType::paginate(12);
+    public function oel_type(Request $request){
+        $name = SchoolType::query();
+        if ($request->name) {
+            $name = $name->where('name', 'like', '%' . $request->name . '%');
+        }
+        $data = $name->paginate(12);
         return view('admin.university.oel-type', compact('data'));
     }
 

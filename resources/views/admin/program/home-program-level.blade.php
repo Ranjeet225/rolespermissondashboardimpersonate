@@ -27,18 +27,18 @@
       <div class="card">
         <div class="card-body myform">
           <form id="program_filter" action="{{route('program-level-details')}}" method="get" class="d-flex justify-content-between">
-            <div class="col-md-4">
+            <div class="col-md-8">
               <select name="program_level" class="form-control ">
                  @foreach ($program_level as $item)
                      <option value="{{$item->id}}">{{$item->name}}</option>
                  @endforeach
               </select>
             </div>
-            <div class="col-md-3 col-sm-3">
-              <button type="submit" class="btn btn-info px-5 mx-2 float-end" id="submit" value="1">Search</button>
+            <div class="col-md-2 col-sm-2">
+              <button type="submit" class="btn btn-info px-5 float-end" id="submit" value="1">Search</button>
             </div>
-            <div class="col-md-3 col-sm-3 float-start">
-                <a href="{{route('program-level-details')}}" class="btn btn-info px-5 mx-2">
+            <div class="col-md-2 col-sm-2 ">
+                <a href="{{route('program-level-details')}}" class="btn btn-info px-5  float-end">
                     Reset
                 </a>
             </div>

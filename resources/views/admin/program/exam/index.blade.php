@@ -4,19 +4,19 @@
     <div class="card card-buttons">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <ol class="breadcrumb text-muted mb-0">
                         <li class="breadcrumb-item">
                             <a href="index.php"> Home</a>
                         </li>
                         <li class="breadcrumb-item text-muted">
-                            Manage Education Level
+                            Manage Exam
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ route('create-new-education-level') }}" class="btn add-btn">
-                        <i class="las la-plus"></i>Create New </a>
+                <div class="col-md-4">
+                    <a href="{{ route('create-exam') }}" class="btn add-btn float-end">
+                        <i class="las la-plus"></i>Create New Exam</a>
                 </div>
             </div>
         </div>
@@ -27,18 +27,18 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('education-level')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('exam')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
-                    <input id="lead-total_credits" name="name" type="text" class="form-control " placeholder="NAME" >
+                    <input id="lead-total_credits" name="name" type="text" class="form-control " placeholder="Enter Exam Name" >
                     <label for="lead-total_credits" class="form-label">NAME</label>
                 </div>
             </div>
-            <div class="col-md-2 col-sm-2">
-              <button type="submit" class="btn btn-info px-5 float-end" id="submit" value="1">Search</button>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-info px-5 mx-2 float-end" id="submit" value="1">Search</button>
             </div>
-            <div class="col-md-2 col-sm-2 ">
-                <a href="{{route('education-level')}}" class="btn btn-info px-5  float-end">
+            <div class="col-md-2 float-start">
+                <a href="{{route('exam')}}" class="btn btn-info px-5 mx-2">
                     Reset
                 </a>
             </div>
@@ -61,18 +61,17 @@
                     <tr>
                         <th>S.N</th>
                         <th>NAME</th>
-                        <th>Order </th>
-                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    @foreach ($educationlevel as $item)
+                    @foreach ($exam as $item)
                     <tr>
-                        <td>{{ $loop->index + (($educationlevel->currentPage() - 1) * $educationlevel->perPage()) + 1 }}</td>
+                        <td>{{ $loop->index + (($exam->currentPage() - 1) * $exam->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
-                        <td class="text-wrap">{{ $item->item_order }}</td>
-                        <td><a  href="{{route('edit-education-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        <td><a  href="{{route('edit-exam',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a href="{{route('delete-exam',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -80,7 +79,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                        {{$educationlevel->links()}}
+                        {{$exam->links()}}
                     </div>
                 </div>
             </div>

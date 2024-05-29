@@ -56,7 +56,7 @@
                                     <div class="col-md-6">
                                         <label>Lead Status<span class="text-danger">*</span></label>
                                         <select name="lead_status" id="lead_status" class="form-control ">
-                                            <option value="" selected="">--Select Lead Status--</option>
+                                            <option value="" >--Select Lead Status--</option>
                                             @foreach ($masterLeadStatus as $data)
                                               <option value="{{$data->id}}">{{$data->name}}</option>
                                             @endforeach

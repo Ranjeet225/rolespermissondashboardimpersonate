@@ -52,7 +52,7 @@
                              @endforeach
                           </select>
 
-                          <label for="lead-school_id" class="form-label">University / College Name</label>
+                          <label for="lead-school_id" class="form-label">University / College Name <span class="text-danger">*</span></label>
                           @error('school_id')
                                   <div class="text-danger">{{ $message }}</div>
                           @enderror
@@ -66,7 +66,7 @@
                                 <option value="{{$item->id}}" {{ old('prog_category') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
                           </select>
-                          <label for="lead-prog_category" class="form-label">Program Category</label>
+                          <label for="lead-prog_category" class="form-label">Program Category <span class="text-danger">*</span></label>
                         </div>
                         @error('prog_category')
                           <div class="text-danger">{{ $message }}</div>
@@ -84,7 +84,7 @@
                                         }
                                     @endphp --}}
                                     {{-- <option value="{{ $item->id }}" {{ $selected }}>{{ $item->subject_name }}</option> --}}
-                                    <option value="{{ $item->id }}">{{ $item->subject_name }}</option>
+                                    <option value="{{ $item->id }}" {{ old('subject_id_input') == $item->id ? 'selected' : '' }}>{{ $item->subject_name }}</option>
                                 @endforeach
                             </select>
                             <label for="lead-education_level_id" class="form-label">-- Program / Courses Subject --</label>
@@ -96,7 +96,7 @@
                     <div class="col-4">
                         <div class="form-floating">
                             <input  name="name" type="text" class="form-control " value="{{ old('name')}}" placeholder="Program / Courses Name" autocomplete="name" >
-                            <label for="lead-name" class="form-label">Program / Courses Name</label>
+                            <label for="lead-name" class="form-label">Program / Courses Name <span class="text-danger">*</span></label>
                         </div>
                         @error('name')
                         <div class="text-danger">{{ $message }}</div>
@@ -105,7 +105,7 @@
                     <div class="col-4">
                        <div class="form-floating">
                             <input id="lead-length" name="length" type="text" class="form-control "  value="{{ old('length')}}" placeholder="Program / Courses Duration" autocomplete="length" value="">
-                            <label for="lead-length" class="form-label">Program / Courses Duration</label>
+                            <label for="lead-length" class="form-label">Program / Courses Duration <span class="text-danger">*</span></label>
                         </div>
                         @error('length')
                         <div class="text-danger">{{ $message }}</div>
@@ -119,7 +119,7 @@
                              <option value="Part Time"  {{ old('programType') == 'Part Time' ? 'selected' : '' }}>Part Time</option>
                              <option value="Correspondence"  {{ old('programType') == 'Correspondence' ? 'selected' : '' }}>Correspondence</option>
                           </select>
-                          <label for="lead-programType" class="form-label">Program / Courses Type</label>
+                          <label for="lead-programType" class="form-label">Program / Courses Type <span class="text-danger">*</span></label>
                         </div>
                         @error('programType')
                         <div class="text-danger">{{ $message }}</div>
@@ -133,7 +133,7 @@
                              <option value="Residential" {{ old('programCampus') == 'Residential' ? 'selected' : '' }}>Residential</option>
                              <option value="NonResidential"  {{ old('programCampus') == 'NonResidential' ? 'selected' : '' }}>NonResidential</option>
                           </select>
-                          <label for="lead-programCampus" class="form-label">Courses Campus</label>
+                          <label for="lead-programCampus" class="form-label">Courses Campus <span class="text-danger">*</span></label>
                           @error('programCampus')
                           <div class="text-danger">{{ $message }}</div>
                       @enderror
@@ -147,7 +147,7 @@
                              <option value="Hindi" {{ old('lang_spec_for_program') == 'Hindi' ? 'selected' : '' }}>Hindi</option>
                              <option value="Other" {{ old('lang_spec_for_program') == 'Other' ? 'selected' : '' }}>Other</option>
                           </select>
-                          <label for="lead-lang_spec_for_program" class="form-label">Language Specification For Program / Courses</label>
+                          <label for="lead-lang_spec_for_program" class="form-label">Language Specification For Program / Courses <span class="text-danger">*</span></label>
                         </div>
                         @error('lang_spec_for_program')
                         <div class="text-danger">{{ $message }}</div>
@@ -162,7 +162,7 @@
                              <option value="{{$item->id}}" {{ old('fieldsofstudytype ') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
                             </select>
-                          <label for="lead-fieldsofstudytype" class="form-label">Fields Of Study Type (Degree type offered)</label>
+                          <label for="lead-fieldsofstudytype" class="form-label">Fields Of Study Type (Degree type offered) <span class="text-danger">*</span></label>
                         </div>
                         @error('fieldsofstudytype')
                           <div class="text-danger">{{ $message }}</div>
@@ -177,7 +177,7 @@
                              <option value="3" {{ old('grading_scheme_id ') == 3 ? 'selected' : '' }}>Graduate</option>
                              <option value="4" {{ old('grading_scheme_id ') == 4 ? 'selected' : '' }}>Undergraduate</option>
                           </select>
-                          <label for="lead-grading_scheme_id" class="form-label">Grading Scheme</label>
+                          <label for="lead-grading_scheme_id" class="form-label">Grading Scheme <span class="text-danger">*</span></label>
                         </div>
                         @error('grading_scheme_id')
                           <div class="text-danger">{{ $message }}</div>
@@ -188,11 +188,11 @@
                           <select class="form-control " name="degree_scheme_id" id="lead-degree_scheme_id" placeholder="Degree">
                              <option value="">-- Select Minimum Level of Education Required --</option>
                              @foreach ($education_level as $item)
-                                  <option value="{{$item->id}}">{{$item->name}}</option>
+                                  <option value="{{$item->id}}" {{ old('degree_scheme_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
 
                           </select>
-                          <label for="lead-degree_scheme_id" class="form-label">Degree</label>
+                          <label for="lead-degree_scheme_id" class="form-label">Degree <span class="text-danger">*</span></label>
                         </div>
                         @error('degree_scheme_id')
                         <div class="text-danger">{{ $message }}</div>
@@ -201,7 +201,7 @@
                     <div class="col-4">
                         <div class="form-floating ">
                             <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{old('total_credits')}}">
-                            <label for="lead-total_credits" class="form-label">Total Credits</label>
+                            <label for="lead-total_credits" class="form-label">Total Credits <span class="text-danger">*</span></label>
                         </div>
                         @error('total_credits')
                             <div class="text-danger">{{ $message }}</div>
@@ -210,7 +210,7 @@
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-application_fee" name="application_fee" type="number" class="form-control " placeholder="Application Fees in INR" autocomplete="application_fee" value="{{old('application_fee')}}">
-                            <label for="lead-application_fee" class="form-label">Application Fees in INR</label>
+                            <label for="lead-application_fee" class="form-label">Application Fees in INR <span class="text-danger">*</span></label>
                         </div>
                         @error('application_fee')
                             <div class="text-danger">{{ $message }}</div>
@@ -219,7 +219,7 @@
                     <div class="col-4">
                        <div class="form-floating">
                             <input id="lead-application_apply_date" name="application_apply_date" type="date" class="form-control " placeholder="Application Apply Date" autocomplete="application_apply_date" value="{{old('application_apply_date')}}">
-                            <label for="lead-application_apply_date" class="form-label">Application Apply Date</label>
+                            <label for="lead-application_apply_date" class="form-label">Application Apply Date <span class="text-danger">*</span></label>
                         </div>
                         @error('application_apply_date')
                             <div class="text-danger">{{ $message }}</div>
@@ -228,7 +228,7 @@
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-application_closing_date" name="application_closing_date" type="date" class="form-control " placeholder="Application Closing Date" autocomplete="application_closing_date" value="{{old('application_closing_date')}}">
-                            <label for="lead-application_closing_date" class="form-label">Application Closing Date</label>
+                            <label for="lead-application_closing_date" class="form-label">Application Closing Date <span class="text-danger">*</span></label>
                         </div>
                         @error('application_closing_date')
                         <div class="text-danger">{{ $message }}</div>
@@ -237,7 +237,7 @@
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-tution_fee" name="tution_fee" type="number" class="form-control " placeholder="Tution Fee" autocomplete="tution_fee" value="{{old('tution_fee')}}">
-                            <label for="lead-tution_fee" class="form-label">Tution Fee</label>
+                            <label for="lead-tution_fee" class="form-label">Tution Fee <span class="text-danger">*</span></label>
                         </div>
                         @error('tution_fee')
                         <div class="text-danger">{{ $message }}</div>
@@ -262,10 +262,10 @@
                           <select class="form-control " name="intake" id="lead-intake" placeholder="Intake">
                              <option value="">--Select--</option>
                              @foreach (range(1, 12) as $month)
-                                <option value="{{ date('m', mktime(0, 0, 0, $month, 10)) }}">{{ date('F', mktime(0, 0, 0, $month, 10)) }}</option>
+                                <option value="{{ date('m', mktime(0, 0, 0, $month, 10)) }}" {{ old('intake') == date('m', mktime(0, 0, 0, $month, 10)) ? 'selected' : '' }}>{{ date('F', mktime(0, 0, 0, $month, 10)) }}</option>
                              @endforeach
                           </select>
-                          <label for="lead-intake" class="form-label">Intake</label>
+                          <label for="lead-intake" class="form-label">Intake <span class="text-danger">*</span></label>
                         </div>
                         @error('intake')
                         <div class="text-danger">{{ $message }}</div>
@@ -274,7 +274,7 @@
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-min_gpa" name="min_gpa" type="number" class="form-control " placeholder="Minimum GPA" autocomplete="min_gpa" value="{{old('min_gpa')}}">
-                            <label for="lead-min_gpa" class="form-label">Minimum GPA</label>
+                            <label for="lead-min_gpa" class="form-label">Minimum GPA <span class="text-danger">*</span></label>
                         </div>
                         @error('min_gpa')
                             <div class="text-danger">{{ $message }}</div>

@@ -48,7 +48,7 @@
                                     @method('post')
 
                                     <div class="col-12">
-                                          <label for=""></label>
+                                          <label for="">Select Country<span class="text-danger">*</span></label>
                                           <select class="form-control " name="country_id" id="">
                                             <option value="">---Select Country ---</option>
                                             @foreach ($country as $item)
@@ -61,6 +61,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label for=""></label>
+                                        <label for="">Education Level<span class="text-danger">*</span></label>
                                         <select class="form-control " name="education_level_id" id="education_level_id">
                                           <option value="">--- Education Level ---</option>
                                           @foreach ($education_level as $item)
@@ -72,7 +73,7 @@
                                       @enderror
                                   </div>
                                     <div class="col-12">
-                                        <label>Grade Scheme Name</label>
+                                        <label>Grade Scheme Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " placeholder="Grade Scheme Name" name="name">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>

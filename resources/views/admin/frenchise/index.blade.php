@@ -13,7 +13,7 @@
                         </ol>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('frenchise-create') }}" class="btn add-btn">
+                        <a href="{{ route('frenchise-create') }}" class="btn add-btn float-end  ">
                             <i class="fa-solid fa-plus"></i>Add New Franchise</a>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-2 ">
-                                    <a href="{{ route('frenchise-filter') }}" class="btn btn-info d-lg-block  formmrgin ">Reset
+                                    <a href="{{ route('frenchise.index') }}" class="btn btn-info d-lg-block  formmrgin ">Reset
                                     </a>
                                 </div>
                                 <div class="col-md-1 ">

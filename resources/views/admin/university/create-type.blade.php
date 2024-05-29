@@ -9,7 +9,7 @@
               <li class="breadcrumb-item">
                 <a href="index.php"> Home</a>
               </li>
-              <li class="breadcrumb-item text-muted">Add OEL Type  </li>
+              <li class="breadcrumb-item text-muted">Add University Type  </li>
             </ol>
           </div>
           <div class="col-md-2">

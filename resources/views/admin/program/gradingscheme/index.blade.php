@@ -15,7 +15,7 @@
                     </ol>
                 </div>
                 <div class="col-md-2">
-                    <a href="{{ route('create-new-grading-scheme') }}" class="btn add-btn">
+                    <a href="{{ route('create-new-grading-scheme') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body ">
-          <form id="grading-filter" action="{{route('grading-scheme-filter')}}" method="get" class="d-flex">
+          <form id="grading-filter" action="{{route('grading-scheme')}}" method="get">
             <div class="row">
                 <div class="col-4">
                     <select class="form-control " name="country_id" id="">
@@ -59,16 +59,17 @@
                 </div>
             </div>
             <br><br>
-           <div class="row pl-4">
-            <div class="col-6">
-              <button type="submit" class="btn btn-info  float-end" id="submit" value="1">Search</button>
-            </div>
-            <div class="col-6">
-                <a href="{{route('grading-scheme')}}" class="btn btn-info float-end">
-                    Reset
-                </a>
-            </div>
-           </div>
+            <div class="row">
+                 <div class="col-8"></div>
+                 <div class="col-2">
+                    <a href="{{route('grading-scheme')}}" class="btn btn-info mx-1 float-end px-4">
+                        Reset
+                    </a>
+                </div>
+                 <div class="col-2">
+                   <button type="submit" class="btn btn-info mx-1 px-4 float-end" id="submit" value="1">Search</button>
+                 </div>
+
           </form>
         </div>
       </div>

@@ -11,7 +11,7 @@
                          <li class="breadcrumb-item">
                             <a href="#"> Welcome</a>
                          </li>
-                         <li class="breadcrumb-item text-muted">Lead Admin</li>
+                         <li class="breadcrumb-item text-muted">Lead Dashboard</li>
                       </ol>
                    </div>
                    <div class="col-md-3">

@@ -15,7 +15,7 @@
                     </ol>
                 </div>
                 <div class="col-md-2">
-                    <a href="{{ route('create-new-program-level') }}" class="btn add-btn">
+                    <a href="{{ route('create-new-program_level') }}" class="btn add-btn">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
             </div>
@@ -27,18 +27,18 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('program-level-filter')}}" method="get" class="d-flex justify-content-between">
-            <div class="col-md-4">
+          <form id="eudcation" action="{{route('program-level')}}" method="get" class="d-flex justify-content-between">
+            <div class="col-md-8">
                 <div class="form-floating ">
                     <input id="lead-total_credits" name="name" type="text" class="form-control " placeholder="NAME" >
                     <label for="lead-total_credits" class="form-label">NAME</label>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-2 col-sm-2">
               <button type="submit" class="btn btn-info px-5 mx-2 float-end" id="submit" value="1">Search</button>
             </div>
-            <div class="col-md-3 col-sm-3 float-start">
-                <a href="{{route('program-level')}}" class="btn btn-info px-5 mx-2">
+            <div class="col-md-2 col-sm-2 ">
+                <a href="{{route('program-level')}}" class="btn btn-info px-5 mx-2 float-end">
                     Reset
                 </a>
             </div>
@@ -71,7 +71,7 @@
                         <td>{{ $loop->index + (($programlevel->currentPage() - 1) * $programlevel->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->orders }}</td>
-                        <td><a  href="{{route('edit-program-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-program_level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
                     </tr>
                     @endforeach

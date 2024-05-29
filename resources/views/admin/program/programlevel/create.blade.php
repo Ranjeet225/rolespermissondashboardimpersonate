@@ -47,14 +47,14 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
-                                        <label>Name</label>
+                                        <label>Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Order</label>
+                                        <label>Order<span class="text-danger">*</span></label>
                                         <input type="text" name="orders"  class="form-control "/>
                                         @error('orders')
                                             <div class="text-danger">{{ $message }}</div>
