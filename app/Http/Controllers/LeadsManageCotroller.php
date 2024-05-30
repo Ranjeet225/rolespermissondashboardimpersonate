@@ -858,7 +858,7 @@ class LeadsManageCotroller extends Controller
                 $studentDetails = Student::where('id',$id)->where('user_id',Auth::user()->id)->first();
             }
         }
-        $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->where('id', $id)->first();
+        $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->orwhere('student_user_id',$id)->first();
         if(empty($leadDetails && $studentDetails)){
             return view('errors.404');
         }

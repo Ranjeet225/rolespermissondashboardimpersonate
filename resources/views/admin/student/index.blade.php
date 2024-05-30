@@ -16,6 +16,66 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body myform">
+                    <form action="{{ route('student-list') }}" method="GET">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control  formmrgin" name="name"
+                                    value="{{ request()->get('name') }}" placeholder="Student Name ">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control  formmrgin" name="email"
+                                    value="{{ request()->get('email') }}" placeholder="Student Email">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control  formmrgin" name="phone_number"
+                                    value="{{ request()->get('phone_number') }}" placeholder="Student Phone Number">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control  formmrgin" name="zip"
+                                    value="{{ request()->get('zip') }}" placeholder="Pincode">
+                            </div>
+                            @php
+                                $countries =App\Models\Country::get();
+                            @endphp
+                            <div class="col-md-4">
+                                <select class="form-control  country formmrgin" name="country_id" >
+                                    <option value="">-- Select Country --</option>
+                                    @foreach ($countries as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ request()->get('country_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <input type="date" name="from_date" class="form-control  formmrgin"
+                                    value="{{ request()->get('from_date') }}" placeholder="From Date">
+                            </div>
+
+                            <div class="col-md-8 col-sm-8">
+                                <input type="date" name="to_date" class="form-control  formmrgin"
+                                    value="{{ request()->get('to_date') }}" placeholder="to Date" value="">
+                            </div>
+                            <div class="col-md-2 ">
+                                <a href="{{ route('student-list') }}" class="btn btn-info d-lg-block  formmrgin">Reset
+                                </a>
+                            </div>
+                            <div class="col-md-1 ">
+                                <button type="submit" value="submit" class="btn btn-info d-lg-block  formmrgin px-4"
+                                    name="submit">Filter </button>
+                            </div>
+                        </div>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
     <div class="row">
         @if (session('success'))

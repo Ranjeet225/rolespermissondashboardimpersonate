@@ -35,7 +35,7 @@ class RolesController extends Controller
 
     public function store(RoleRequest $request)
     {
-      
+
         $role = Role::create(['name' => $request->get('name')]);
         if($request->filled('permissions')){
             $permissions = array_keys(array_filter($request->get('permissions'), function ($value) {

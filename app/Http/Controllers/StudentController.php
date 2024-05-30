@@ -29,13 +29,32 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function student_list()
+    public function student_list(Request $request)
     {
         $user = Auth::user();
+        $query = Student::with('country','province');
+        if ($request->name) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+        if ($request->email) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+        if ($request->phone_number) {
+            $query->where('phone_number', 'like', '%' . $request->phone_number . '%');
+        }
+        if ($request->zip) {
+            $query->where('zip', 'like', '%' . $request->zip . '%');
+        }
+        if ($request->country_id) {
+            $query->where('country_id', $request->country_id);
+        }
+        if ($request->from_date && $request->to_date) {
+            $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        }
         if ($user->hasRole('Administrator')) {
-            $student_profile =Student::with('country','province')->paginate(20);
+            $student_profile = $query->paginate(20);
         } else {
-            $student_profile =Student::with('country','province')->where('added_by', $user->id)->paginate(20);
+            $student_profile = $query->where('added_by', $user->id)->paginate(20);
         }
         return view('admin.student.index', compact('student_profile'));
     }
@@ -85,6 +104,7 @@ class StudentController extends Controller
     public function store_student(Request $request)
     {
        $student_id = Auth::user()->id;
+       $student = Student::where('user_id',$student_id)->first();
        if($request->tab1){
            $student_data =[
                 "first_name" => $request->first_name,
@@ -143,17 +163,18 @@ class StudentController extends Controller
                         ]);
                     }
             }
-            $student_email = Auth::user()->email;
-            DB::table('student_by_agent')
-            ->Where('email', $student_email)
-            ->update([
-                'status_threesixty' => '1'
-            ]);
-            DB::table('student')
-            ->Where('email', $student_email)
-            ->update([
-                'status_threesixty' => '1'
-            ]);
+        $student_email = Auth::user()->email;
+        DB::table('student_by_agent')
+        ->Where('email', $student_email)
+        ->update([
+            'status_threesixty' => '1',
+            'student_user_id'=>$student->id
+        ]);
+        DB::table('student')
+        ->Where('email', $student_email)
+        ->update([
+            'status_threesixty' => '1'
+        ]);
         return response()->json(['status'=>true,'success'=>'Data inserted Successfully']);
        }
 
