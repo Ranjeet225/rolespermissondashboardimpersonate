@@ -527,7 +527,7 @@
                 </form>
                 <div class="d-flex">
                   <a class="btn btn-primary previous me-2">Previous</a>
-                  <a class="btn btn-primary" href="{{route('edit-university',$university->id ?? null )}}" >Save Changes<span
+                  <a class="btn btn-primary" href="{{route('manage-university')}}" >Save Changes<span
                     class="spinner-grow spinner-grow-sm d-none" role="status"
                     aria-hidden="true"></span></a>
                 </div>

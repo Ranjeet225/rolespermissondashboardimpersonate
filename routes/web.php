@@ -204,7 +204,7 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-program-level/{id?}',[ProgramController::class,'delete_program_level'])->name('delete-program-level');
         Route::post('update-home-program-level/{id?}',[ProgramController::class,'update_program_level'])->name('update-home-program-level');
         Route::get('create-new-program-level',[ProgramController::class,'create_program_level'])->name('create-new-program-level');
-        Route::post('store-program-level',[ProgramController::class,'store_program_level'])->name('store-program-level');
+        Route::post('store-program-details',[ProgramController::class,'store_program_level'])->name('store-program-details');
 
         // EducationLevel
         Route::get('education-level',[ProgramController::class,'education_level'])->name('education-level');

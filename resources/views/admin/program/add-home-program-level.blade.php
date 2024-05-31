@@ -41,10 +41,8 @@
                                         {{ session('success') }}
                                     </div>
                                 @endif
-                                <form class="row g-4" action="{{ route('store-program-level') }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form class="row g-4" action="{{ route('store-program-details') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    @method('post')
                                     <div class="col-12">
                                         <div class="form-floating">
                                             <select class="form-control " name="program_level_id"
@@ -67,6 +65,15 @@
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    {{-- <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="images">Images</label>
+                                            <input type="file" class="form-control" name="images" id="images">
+                                            @error('images')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
                                     <div class="col-12"><button type="submit" class="btn btn-info  py-6">Submit</button>
                                     </div>
                                 </form>

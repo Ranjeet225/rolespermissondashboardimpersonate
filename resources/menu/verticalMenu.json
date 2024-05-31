@@ -210,7 +210,7 @@
                 },
                 {
                     "url": "/admin/program-level-details",
-                    "name": "Program Level Details (Home Page)",
+                    "name": "Program Level Details",
                     "slug": "admin-program-level-details",
                     "permission":"program_level_details.view"
                 },

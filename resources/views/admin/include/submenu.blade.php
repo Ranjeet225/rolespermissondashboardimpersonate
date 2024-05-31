@@ -3,7 +3,7 @@
         @foreach ($menu as $submenu)
             @if (isset($submenu->name))
                 @if (auth()->user()->can($submenu->permission))
-                    <li class="menu-item active">
+                    <li class="menu-item ">
                         @php
                             $currentUrl = request()->url();
                             $apply_360 = request()->routeIs('apply-360');
@@ -55,7 +55,7 @@
                             // program details
                             $edit_level_details = request()->routeIs('edit-program-level');
                             $add_level_details = request()->routeIs('create-new-program-level');
-                            $program_level_details = $submenu->name === 'Program Level Details (Home Page)';
+                            $program_level_details = $submenu->name === 'Program Level Details';
 
                             // education level
                             $edit_education_level = request()->routeIs('edit-education-level');
@@ -134,7 +134,7 @@
                             // education lane
                             $add_education_lane = request()->routeIs('create-education-lane');
                             $edit_education_lane = request()->routeIs('edit-education-lane');
-                            $education_lane = $submenu->name === 'Education Lane (Home Page)';
+                            $education_lane = $submenu->name === 'Education Lane';
                             // testimonial
                             $add_testi = request()->routeIs('create-testimonial');
                             $edit_testi = request()->routeIs('edit-testimonial');
