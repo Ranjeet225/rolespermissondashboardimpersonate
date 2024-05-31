@@ -668,13 +668,13 @@ class LeadsManageCotroller extends Controller
     }
     public function add_user_follow_up(Request $request)
     {
+        $uniqueId 	  = $this->uniqidgenrate();
         if ($request->paymentMode == 'Online') {
             $paymentType  = $request->payment_type;
             $paymentMode  = $request->payment_mode;
             $amount       = $request->amount;
             $token 		  = $this->generateToken();
             $user 	      = User::select('id','email','phone_number')->where('id',$request->student_id)->first();
-            $uniqueId 	  = $this->uniqidgenrate();
             $studentdata = StudentByAgent::where('id', $request->student_id)->select('email','name')->first();
             $paymentLinkData = [
                 'token'					=> $token,
@@ -693,8 +693,8 @@ class LeadsManageCotroller extends Controller
                 'payment_link'=>url('/pay-now/c?token=' . $token),
                 'amount'=>$amount,
             ];
-            // Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
-            Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
+            Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
+            // Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
             PaymentsLink::create($paymentLinkData);
         }
         $data = [

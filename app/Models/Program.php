@@ -48,7 +48,7 @@ class Program extends Model
 
     public function currency_data()
     {
-        return $this->belongsTo(Currency::class, 'currency');
+        return $this->belongsTo(Currency::class, 'currency','currency');
     }
 
     public function sbuject()

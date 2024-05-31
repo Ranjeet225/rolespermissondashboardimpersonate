@@ -41,7 +41,7 @@
 
                             // student guide
                             $student_guide = request()->routeIs('student-guide-filter');
-                            $student_guide_menu = $submenu->name === 'Popular Student Guide (Home Page) ';
+                            $student_guide_menu = $submenu->name === 'Popular Student Guide';
                             $create_student_guide = request()->routeIs('create-student-guide');
                             $edit_student_guide = request()->routeIs('edit-student-guide');
 
@@ -151,6 +151,15 @@
                             $add_role = request()->routeIs('roles-permissions.create');
                             $edit_role = request()->routeIs('roles-permissions.edit');
                             $role = $submenu->name === 'Roles Permissions';
+                            // sms template
+                            $add_sms_template = request()->routeIs('create-sms-template');
+                            $edit_sms_template = request()->routeIs('edit-sms-template');
+                            $sms_template = $submenu->name === 'Sms Template';
+                            // student registration
+                            $add_student_assistance= request()->routeIs('create-student-assistance');
+                            $edit_student_assistance= request()->routeIs('edit-student-assistance');
+                            $student_assistance= $submenu->name === 'Student Assistance';
+
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}" ||
                             ($is_sms_template_submenu && $sms_template_filter) || ($frenchise_submenu &&
@@ -162,6 +171,8 @@
                                 ($student_guide_menu && ($student_guide || $create_student_guide || $edit_student_guide)) ||
                                 ($pending_leads_submenu && $pending_leads_filter) ||
                                 ($assi_leads_submenu && $assi_leads_filter) ||
+                                ($sms_template && ($edit_sms_template || $add_sms_template)) ||
+                                ($student_assistance && ($edit_student_assistance || $add_student_assistance)) ||
                                 ($role && ($edit_role || $add_role)) ||
                                 ($user && ($edit_user || $add_user)) ||
                                 ($faq && ($add_faq || $edit_faq)) ||

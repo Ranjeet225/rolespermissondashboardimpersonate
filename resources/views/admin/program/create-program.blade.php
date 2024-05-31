@@ -171,7 +171,7 @@
                     <div class="col-4">
                        <div class="form-floating">
                           <select class="form-control " name="grading_scheme_id" id="lead-grading_scheme_id" placeholder="Grading Scheme">
-                             <option>-- Education Lavel --</option>
+                             <option value="">-- Education Lavel --</option>
                              <option value="1" {{ old('grading_scheme_id ') == 1 ? 'selected' : '' }}>Primary</option>
                              <option value="2" {{ old('grading_scheme_id ') == 2 ? 'selected' : '' }}>Secondary</option>
                              <option value="3" {{ old('grading_scheme_id ') == 3 ? 'selected' : '' }}>Graduate</option>
@@ -248,7 +248,7 @@
                           <select class="form-control " name="currency" id="lead-currency" placeholder="Currency">
                              <option value="EUR">-- Currency --</option>
                              @foreach ($currency as $item)
-                                <option value="{{$item->id}}"  {{ old('currency') == $item->id ? 'selected' : '' }}>{{$item->currency}}</option>
+                                <option value="{{$item->currency}}"  {{ old('currency') == $item->currency ? 'selected' : '' }}>{{$item->currency}}</option>
                              @endforeach
                           </select>
                           <label for="lead-currency" class="form-label">Currency</label>

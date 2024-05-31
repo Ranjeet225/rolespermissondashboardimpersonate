@@ -59,14 +59,14 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-pancard-input" class="form-label" placeholder="University name"> University name </label>
+                        <label for="basicpill-pancard-input" class="form-label" placeholder="University name"> University name <span class="text-danger">*</span><span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="university_name" value="{{$university->university_name ?? null }}" maxlength="200" placeholder="University Name" />
                         <span class="text-danger university_name"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label"> Phone No </label>
+                        <label for="basicpill-vatno-input" class="form-label"> Phone No <span class="text-danger">*</span><span class="text-danger">*</span></label>
                         <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}" >
                         <input type="tel" class="form-control " name="phone_number"  pattern="[0-9]{10}" value="{{$university->phone_number ?? null }}"  placeholder=" Phone no" id="basicpill-vatno-input"/>
                         <span class="text-danger phone_number"></span>
@@ -74,21 +74,21 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="input-block mb-3">
-                          <label for="basicpill-cstno-input" class="form-label"> Email </label>
+                          <label for="basicpill-cstno-input" class="form-label"> Email <span class="text-danger">*</span></label>
                           <input type="email" class="form-control " placeholder="email" name="email" value="{{$university->email ?? null }}" maxlength="255" />
                           <span class="text-danger email"></span>
                         </div>
                       </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-cstno-input" class="form-label"> Website </label>
+                        <label for="basicpill-cstno-input" class="form-label"> Website <span class="text-danger">*</span></label>
                         <input type="url" class="form-control " placeholder="Website" value="{{$university->website ?? null }}" name="website" />
                         <span class="text-danger website"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label">Type of university </label>
+                        <label for="basicpill-servicetax-input" class="form-label">Type of university <span class="text-danger">*</span></label>
                         <select class="form-control " name="type_of_university">
                             <option value="">--University/College Name --</option>
                             @foreach ($college_type as $item)
@@ -100,48 +100,48 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input " class="form-label">Founded In/Establishment Year </label>
+                        <label for="basicpill-servicetax-input " class="form-label">Founded In/Establishment Year <span class="text-danger">*</span></label>
                         <input type="number" class="form-control " maxlength="200" value="{{$university->founded_in ?? null}}" name="founded_in" placeholder="Founded in" />
                         <span class="text-danger founded_in"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label">Total Student </label>
+                        <label for="basicpill-servicetax-input" class="form-label">Total Student <span class="text-danger">*</span></label>
                         <input type="number" class="form-control " placeholder="total student" name="total_students" value="{{$university->total_students ?? null}}" />
                         <span class="text-danger total_students"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label">International Students </label>
+                        <label for="basicpill-servicetax-input" class="form-label">International Students <span class="text-danger">*</span></label>
                         <input type="number" class="form-control "  name ="international_students"  maxlength="200"  value="{{$university->international_students ?? null}}"  placeholder="international student" />
                         <span class="text-danger international_students"></span>
                     </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label">Size of Campus</label>
+                        <label for="basicpill-servicetax-input" class="form-label">Size of Campus<span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="size_of_campus"  value="{{$university->size_of_campus ?? null}}" placeholder="size of campus" maxlength="200"/>
                         <span class="text-danger size_of_campus"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Male female Ratio</label>
+                        <label for="basicpill-servicetax-input" class="form-label"> Male female Ratio<span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="male_female_ratio" value="{{$university->male_female_ratio ?? null}}"  maxlength="200" placeholder="male female ratio" />
                         <span class="text-danger male_female_ratio"></span>
                     </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input"  class="form-label"> Faculty Student Ratio</label>
+                        <label for="basicpill-servicetax-input"  class="form-label"> Faculty Student Ratio<span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="faculty_student_ratio" value="{{$university->faculty_student_ratio ?? null}}" placeholder="Faculty Student Ratio" maxlength="200" />
                         <span class="text-danger faculty_student_ratio"></span>
                     </div>
                     </div>
                     <div class="col-lg-12">
-                        <label for="basicpill-servicetax-input"  class="form-label">Details</label>
+                        <label for="basicpill-servicetax-input"  class="form-label">Details<span class="text-danger">*</span></label>
                         <textarea name="details" id="summernote1" cols="30" rows="10">{!! $university->details ?? null !!}</textarea>
                     </div>
                   </div>
@@ -152,14 +152,14 @@
 
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-pancard-input" class="form-label"> Expense Amount </label>
+                        <label for="basicpill-pancard-input" class="form-label"> Expense Amount <span class="text-danger">*</span></label>
                         <input type="number" class="form-control "  name="expense_amount" maxlength="30" value="{{$university->yearly_hostel_expense_amount ?? null}}" placeholder=" expense_amount" >
                         <span class="text-danger expense_amount"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label"> Expense Currencies </label>
+                        <label for="basicpill-vatno-input" class="form-label"> Expense Currencies <span class="text-danger">*</span></label>
                         <select class="form-control " name="expense_currencies">
                             <option value="">--Expense Currencies</option>
                             @foreach ($currency as $item)
@@ -171,14 +171,14 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-cstno-input" class="form-label"> Student Recruing Financial Aid (%) </label>
+                        <label for="basicpill-cstno-input" class="form-label"> Student Recruing Financial Aid (%) <span class="text-danger">*</span></label>
                         <input type="number" class="form-control " name="financial_aid" value="{{$university->financial_aid ?? null }}" placeholder="Student Recruing Financial Aid (%)" >
                         <span class="text-danger financial_aid"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-cstno-input" class="form-label"> Accomodation</label>
+                        <label for="basicpill-cstno-input" class="form-label"> Accomodation<span class="text-danger">*</span></label>
                         <select class="form-control " name="accomodation" id="lead-accomodation" placeholder="Accomodation">
                             <option value="">-- Accomodation --</option>
                             <option value="Yes"  {{isset($university->accomodation) == 'yes' ? 'selected' : '' }}>Yes</option>
@@ -189,28 +189,28 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label">Accomodation Website</label>
+                        <label for="basicpill-servicetax-input" class="form-label">Accomodation Website<span class="text-danger">*</span></label>
                         <input  name="website2" type="text" class="form-control " value="{{$university->website2 ?? null }}" placeholder="Accomodation Website" autocomplete="website2">
                         <span class="text-danger website2"></span>
                     </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="input-block mb-3">
-                          <label for="basicpill-servicetax-input" class="form-label">Application Cost/Registration Fees</label>
+                          <label for="basicpill-servicetax-input" class="form-label">Application Cost/Registration Fees<span class="text-danger">*</span></label>
                           <input  name="application_cost" type="number" class="form-control " value="{{$university->application_cost ?? null }}" placeholder="Application Cost/Registration Fees" autocomplete="application_cost">
                           <span class="text-danger application_cost"></span>
                         </div>
                       </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                          <label for="lead-fafsa_code" class="form-label">FAFSA Code</label>
+                          <label for="lead-fafsa_code" class="form-label">FAFSA Code<span class="text-danger">*</span></label>
                         <input id="lead-fafsa_code" name="fafsa_code" type="number" class="form-control " placeholder="FAFSA Code" autocomplete="fafsa_code"  value="{{$university->fafsa_code ?? null }}">
                         <span class="text-danger fafsa_code"></span>
                     </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="input-block mb-3">
-                          <label for="basicpill-vatno-input" class="form-label"> Application Cost Currencies </label>
+                          <label for="basicpill-vatno-input" class="form-label"> Application Cost Currencies <span class="text-danger">*</span></label>
                           <select class="form-control " name="application_cost_currencies">
                               <option value="">--Application Cost Currencies --</option>
                               @foreach ($currency as $item)
@@ -221,7 +221,7 @@
                         </div>
                       </div>
                     <div class="col-lg-4">
-                        <label for="basicpill-servicetax-input" class="form-label">--Test Required-- </label>
+                        <label for="basicpill-servicetax-input" class="form-label">--Test Required-- <span class="text-danger">*</span></label>
                         <select class="selectpicker" multiple data-live-search="true" name="testrequired_input[]">
                           <option value="TOFEL" {{isset($university->testrequired) == "TOFEL" ? 'selected' : '' }}> TOFEL</option>
                           <option value="IELTS" {{isset($university->testrequired) == "IELTS" ? 'selected' : '' }}> IELTS</option>
@@ -232,7 +232,7 @@
                       </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                          <label for="lead-added_by_name" class="form-label">Added By Name</label>
+                          <label for="lead-added_by_name" class="form-label">Added By Name<span class="text-danger">*</span></label>
                           <input type="hidden" name="tab1" value="tab1">
                          <input  name="added_by_name" type="text" class="form-control " placeholder="Added By Name" autocomplete="added_by_name" value="{{$university->added_by_name ?? null}}">
                          <span class="text-danger added_by_name"></span>
@@ -240,7 +240,7 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="lead-added_on_date" class="form-label">Added On Date</label>
+                        <label for="lead-added_on_date" class="form-label">Added On Date<span class="text-danger">*</span></label>
                         <input  name="added_on_date" type="datetime-local" class="form-control " placeholder="Added On Date" value="{{$university->added_on_date ?? null}}" autocomplete="added_on_date">
                         <span class="text-danger added_on_date"></span>
                     </div>
@@ -276,7 +276,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-pancard-input" class="form-label" placeholder="Address 1"> Country name </label>
+                        <label for="basicpill-pancard-input" class="form-label" placeholder="Address 1"> Country name <span class="text-danger">*</span></label>
                         <select class="form-control country" name="country_id" >
                             <option value="">-- Select Country  --</option>
                               @foreach ($countries as $item)
@@ -288,7 +288,7 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label">State/Provision</label>
+                        <label for="basicpill-vatno-input" class="form-label">State/Provision<span class="text-danger">*</span></label>
                         <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}">
                         @php
                             $state = DB::table('province')
@@ -309,21 +309,21 @@
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
                         <input type="hidden" name="tab2" value="tab2">
-                        <label for="basicpill-cstno-input" class="form-label"> City</label>
+                        <label for="basicpill-cstno-input" class="form-label"> City<span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="city" value="{{$university->city ?? null}}" placeholder="City" >
                         <span class="text-danger city"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Location </label>
+                        <label for="basicpill-servicetax-input" class="form-label"> Location <span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="university_location" value="{{$university->university_location ?? null}}" placeholder="Location" >
                         <span class="text-danger university_location"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Zip </label>
+                        <label for="basicpill-servicetax-input" class="form-label"> Zip <span class="text-danger">*</span></label>
                         <input type="text" class="form-control " placeholder="Zip" name="zip" value="{{$university->zip ?? null}}">
                         <span class="text-danger zip"></span>
                       </div>
@@ -360,14 +360,14 @@
                   <div class="row">
                     <div class="col-lg-3">
                       <div class="input-block mb-3">
-                        <label for="basicpill-pancard-input" class="form-label" placeholder="Address 1"> Ranking </label>
+                        <label for="basicpill-pancard-input" class="form-label" placeholder="Address 1"> Ranking <span class="text-danger">*</span></label>
                         <input type="Number" class="form-control " placeholder="Number"  name="ranking">
                         <span class="text-danger ranking"></span>
                       </div>
                     </div>
                     <div class="col-lg-3">
                       <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label"> Source of Ranking </label>
+                        <label for="basicpill-vatno-input" class="form-label"> Source of Ranking <span class="text-danger">*</span></label>
                         <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}">
                         <input type="text" class="form-control " placeholder="Source of Ranking" name="from_place" id="basicpill-vatno-input">
                         <span class="text-danger from_place"></span>
@@ -375,14 +375,14 @@
                     </div>
                     <div class="col-lg-3">
                       <div class="input-block mb-3">
-                        <label for="basicpill-cstno-input" class="form-label"> Year</label>
+                        <label for="basicpill-cstno-input" class="form-label"> Year<span class="text-danger">*</span></label>
                         <input type="number" class="form-control " name="year" placeholder="City" >
                         <span class="text-danger year"></span>
                       </div>
                     </div>
                     <div class="col-lg-3">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Type </label>
+                        <label for="basicpill-servicetax-input" class="form-label"> Type <span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="type" placeholder="Type" >
                         <span class="text-danger type"></span>
                       </div>
@@ -428,7 +428,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label"> Name </label>
+                        <label for="basicpill-vatno-input" class="form-label"> Name <span class="text-danger">*</span></label>
                         <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}">
                         <input type="hidden" name="tab4" value="tab4">
                         <input type="text" class="form-control " name="name" placeholder="name" id="basicpill-vatno-input">
@@ -437,14 +437,14 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-cstno-input" class="form-label"> Year</label>
+                        <label for="basicpill-cstno-input" class="form-label"> Year<span class="text-danger">*</span></label>
                         <input type="number" class="form-control " name="year" placeholder="year" >
                         <span class="text-danger year"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Logo </label>
+                        <label for="basicpill-servicetax-input" class="form-label"> Logo <span class="text-danger">*</span></label>
                         <input type="file" class="form-control " name="company_logo">
                         <span class="text-danger company_logo"></span>
                       </div>
@@ -489,14 +489,14 @@
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="input-block mb-3">
-                        <label for="basicpill-namecard-input" class="form-label"> Logo </label>
+                        <label for="basicpill-namecard-input" class="form-label"> Logo <span class="text-danger">*</span></label>
                         <input type="file" class="form-control " id="basicpill-namecard-input" name="logo">
                         <span class="text-danger logo"></span>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="input-block mb-3">
-                        <label for="basicpill-namecard-input" class="form-label"> Thumbnail </label>
+                        <label for="basicpill-namecard-input" class="form-label"> Thumbnail <span class="text-danger">*</span></label>
                         <input type="file" class="form-control " id="basicpill-namecard-input" name="thumbnail">
                         <input type="hidden" name="university_id" class="university_id"  value="{{$university->id ?? null }}">
                         <span class="text-danger thumbnail"></span>
@@ -506,14 +506,14 @@
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="input-block mb-3">
-                        <label for="basicpill-cardno-input" class="form-label"> Banner </label>
+                        <label for="basicpill-cardno-input" class="form-label"> Banner <span class="text-danger">*</span></label>
                         <input type="file" class="form-control " id="basicpill-cardno-input" name="banner">
                         <span class="text-danger banner"></span>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="input-block mb-3">
-                        <label for="basicpill-namecard-input" class="form-label"> images </label>
+                        <label for="basicpill-namecard-input" class="form-label"> images <span class="text-danger">*</span></label>
                         <input type="file" class="form-control " id="basicpill-namecard-input" name="images[]">
                         <span class="text-danger images"></span>
                       </div>

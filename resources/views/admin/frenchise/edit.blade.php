@@ -90,7 +90,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label>Facebook Link: <span class="text-danger">*</span></label>
-                                <input type="url" class="form-control" name="facebook" id="facebook" value="{{ $frenchise->facebook ?? old('facebook')}}" required placeholder="Enter facebook">
+                                <input type="text" class="form-control" name="facebook" id="facebook" value="{{ $frenchise->facebook ?? old('facebook')}}" required placeholder="Enter facebook">
                                 <span class="text-danger error-facebook"></span>
                             </div>
                             <div class="col-md-6">
@@ -149,9 +149,9 @@
                                 <input type="text" class="form-control" name="legal_last_name" value="{{$frenchise->legal_last_name ?? old('legal_last_name')}}" placeholder="Enter Last Name">
 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" >
                             <label>Password :<span class="text-danger">*</span> </label>
-                            <input type="password" class="form-control" name="password"  value="{{$frenchise->password}} ">
+                            <input type="password" class="form-control"  name="password" >
                             <span class="text-danger password"></span>
                             </div>
                             <div class="col-md-6">
@@ -285,8 +285,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Approve Profile: </label>
+                                <input type="hidden" name="franchise_id" class="franchise_id" value="{{ $id ?? null }}">
                                 <select class="form-control" name="is_approve">
-                                    <input type="hidden" name="franchise_id" class="franchise_id" value="{{ $id ?? null }}">
                                 <option value="1" {{ ($frenchise->is_approve ?? old('is_approve')) == 1 ? 'selected' : '' }}>Yes</option>
                                 <option value="0"  {{ ($frenchise->is_approve ?? old('is_approve')) == 0 ? 'selected' : '' }}>NO</option>
                                 </select>

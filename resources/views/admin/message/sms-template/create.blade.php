@@ -28,25 +28,28 @@
                                     <div class="col-12">
                                         <label>Enter Template Name</label>
                                         <input type="text" class="form-control " name="heading">
-                                        @error('name')
+                                        @error('heading')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Enter Template Details</label>
                                         <textarea class="form-control" id="summernote1" name="body" rows="10"></textarea>
-                                        @error('details')
+                                        @error('body')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label>Status</label>
                                         <select class="form-select" name="status">
-                                            <option value="1" {{ $sms_template->status == '1' ? 'selected' : '' }}>
+                                            <option value="1">
                                                 Active</option>
-                                            <option value="0" {{ $sms_template->status == '0' ? 'selected' : '' }}>
+                                            <option value="0">
                                                 Inactive</option>
                                         </select>
+                                        @error('status')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                     <div class="col-12"><button type="submit" class="btn btn-info  py-6">Submit</button>
                                     </div>

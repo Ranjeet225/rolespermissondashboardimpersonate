@@ -74,7 +74,7 @@
                             @php
                                 $user_name=App\Models\User::select('name')->Where('id',$item->user_id)->first();
                             @endphp
-                            <td>{{$user_name->name}}</td>
+                            <td>{{$user_name->name ?? null }}</td>
                             <td>{{$item->name}}</td>
                             <td>{{$item->updated_at}}</td>
                             <td><a class="btn btn-primary" href="{{route('view-program',$item->id)}}">   View Details</a></td>

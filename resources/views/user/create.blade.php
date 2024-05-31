@@ -55,7 +55,7 @@
               </div>
                 <div class="col-md-3">
                     <label for="email">Phone Number<span class="text-danger">*</span></label>
-                    <input type="tel" class="form-control formmrgin" name="phone_number" required  value="{{ old('phone_number') }}" placeholder="Phone Number" pattern="[0-9]{12}" title="Please enter a 10-digit phone number">
+                    <input type="tel" class="form-control formmrgin" name="phone_number" required  value="{{ old('phone_number') }}" placeholder="Phone Number"  title="Please enter phone number">
                     @error('phone_number')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

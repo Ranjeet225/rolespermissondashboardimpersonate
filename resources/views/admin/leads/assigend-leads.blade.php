@@ -249,7 +249,7 @@
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->phone_number }}</td>
                                 <td>{{ $data->email }}</td>
-                                <td>{{ $data->student_comment }}</td>
+                                <td  class="text-wrap">{{ $data->student_comment }}</td>
                                 @php
                                     $interest = App\Models\Intrested::where('is_deleted', '0')->where('id', $data->interested)->first();
                                 @endphp

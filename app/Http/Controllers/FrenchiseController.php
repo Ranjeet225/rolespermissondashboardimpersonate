@@ -36,7 +36,7 @@ class FrenchiseController extends Controller
             $frenchise->where('user_id',$user->id);
         }
         if ($request->name) {
-            $frenchise->where('name', 'LIKE', '%' . $request->name . '%');
+            $frenchise->where('legal_first_name', 'LIKE', '%' . $request->name . '%');
         }
         if ($request->email) {
             $frenchise->where('email', 'LIKE', '%' . $request->email . '%');
@@ -75,7 +75,7 @@ class FrenchiseController extends Controller
         }
         return $frenchise;
     }
-    /** 
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -228,7 +228,7 @@ class FrenchiseController extends Controller
                 $user = User::where('email',$request->email)->first();
                 $validator = Validator::make($request->all(), [
                     'company_name'=>'required|max:200',
-                    'website'=>'required|url|max:300',
+                    'website'=>'required|max:300',
                     'facebook'=>'required|url|max:300',
                     'company_logo'=>'image|mimes:jpeg,png,jpg,gif|max:2048',
                     'business_certificate'=>'mimes:pdf|max:2048',
@@ -238,7 +238,7 @@ class FrenchiseController extends Controller
                 $validator = Validator::make($request->all(), [
                     'company_name'=>'required|max:200',
                     'email'=>'required|unique:users,email',
-                    'website'=>'required|url|max:300',
+                    'website'=>'required|max:300',
                     'facebook'=>'required|url|max:300',
                     'company_logo'=>'image|mimes:jpeg,png,jpg,gif|max:2048',
                     'business_certificate'=>'mimes:pdf|max:2048',
@@ -305,7 +305,6 @@ class FrenchiseController extends Controller
                 'business_name'=>'required|max:300',
                 'legal_first_name'=>'required|max:300',
                 'address'=>'required|max:300',
-                'password'=>'required|max:14',
                 'country_id'=>'required|max:300',
                 'city'=>'required|max:300',
                 'zip'=>'required|max:300',
@@ -323,7 +322,6 @@ class FrenchiseController extends Controller
                 'address' => $request->address ?? '',
                 'country_id' => $request->country_id ?? '',
                 'state' => $request->province_id ?? '',
-                'password' => $request->password ?? '',
                 'city' => $request->city ?? '',
                 'zip' => $request->zip ?? '',
                 'phone' => $request->phone ?? '',
@@ -388,7 +386,7 @@ class FrenchiseController extends Controller
             $input['is_active'] = $request->is_active;
             $input['status'] = $request->is_approve;
             $input['name'] = $frenchise->legal_first_name;
-            $input['password'] = Hash::make($password);
+            $input['password'] = Hash::make($frenchise->password);
             $input['zip'] = $frenchise->zip;
             $user =Auth::user();
             if($user->hasRole('Administrator')){

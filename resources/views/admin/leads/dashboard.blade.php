@@ -296,7 +296,7 @@
                       <th> Course</th>
                       <th> Intake</th>
                       <th> IntakeYear</th>
-                      <th> AllocatedFranchise </th>
+                      {{-- <th> AllocatedFranchise </th> --}}
                       <th> Status </th>
                       <th></th>
                       <th></th>
@@ -321,14 +321,46 @@
                         <td> {{ substr($item->course,0,16)}}</td>
                         <td> {{$item->intake}}</td>
                         <td> {{$item->intake_year}}</td>
-                        <td>
+                        {{-- <td>
                             <span>
                             <b>Franchise:</b> {{$item->parent_email}} <br>
                             <b>Agent:</b>  ade@ekonindia.com
                             </span>
-                        </td>
+                        </td> --}}
                         <td> {{$item->status_name}}</td>
-                        <td>
+                        <td class="text-end">
+                            <div class="dropdown dropdown-action">
+                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{{ route('manage-lead', [$item->id]) }}">
+                                        <i class="fa-solid fa-users m-r-5"></i> Manage Lead
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('edit-lead', [$item->id]) }}">
+                                        <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('view-lead', [$item->id]) }}">
+                                        <i class="fa-solid fa-eye m-r-5"></i> View
+                                    </a>
+
+                                    @php
+                                        $user =App\Models\User::where('email',$item->email)->first();
+                                    @endphp
+                                    @if($user)
+                                        <a class="dropdown-item" href="{{ route('impersonate', $user) }}">
+                                            <i class="fa-solid fa-user m-r-5"></i> Login To {{ Str::substr($item->name,0,8)  }}
+                                        </a>
+                                    @else
+                                        <a class="dropdown-item" href="{{ route('create-student-profile', [$item->id]) }}">
+                                            <i class="fa-solid fa-user m-r-5"></i>Create Profile
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </td>
+                        {{-- <td>
                             <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas1" aria-controls="theme-settings-offcanvas">
                             <span class="badge bg-inverse-success">
                             <i class="la la-money"></i> Reallocated Franchise
@@ -355,14 +387,14 @@
                             <i class="la la-pencil"></i> Edit
                             </span>
                             </a>
-                        </td>
-                        <td>
+                        </td> --}}
+                        {{-- <td>
                             <a href="" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas5" aria-controls="theme-settings-offcanvas">
                             <span class="badge bg-inverse-success">
                             <i class="la la-money"></i> OEL Registration
                             </span>
                             </a>
-                        </td>
+                        </td> --}}
                         </tr>
                         @php
                         $i++;
@@ -403,6 +435,7 @@
                       <th> Status </th>
                       <th></th>
                       <th></th>
+
                    </tr>
                 </thead>
                 <tbody>

@@ -178,7 +178,7 @@
                 },
                 {
                     "url": "/admin/popular-student-guide",
-                    "name": "Popular Student Guide (Home Page) ",
+                    "name": "Popular Student Guide",
                     "slug": "admin-popular-student-guide",
                     "permission":"popular_student_guide.view"
                 },

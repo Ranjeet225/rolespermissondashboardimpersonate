@@ -87,7 +87,7 @@ class DashboardController extends Controller
         // Total Members
         if ($user_type == 'Administrator') {
             $total_members = User::count();
-            $total_student = User::where('admin_type', 'student')->count();
+            $total_student = Student::count();
             $total_school_manager = User::where('admin_type', 'school_manager')->count();
             $total_frenchise = Agent::count();
             $total_active_frenchise = Agent::where('is_active', 1)->count();
@@ -97,7 +97,7 @@ class DashboardController extends Controller
             $total_agent = User::where('admin_type', 'agent')->count();
         } else {
             $total_members = User::where('added_by', $user_ids)->count();
-            $total_student = User::where('admin_type', 'student')->where('added_by', $user_ids)->count();
+            $total_student = Student::where('added_by', $user_ids)->count();
             $total_school_manager = User::where('admin_type', 'school_manager')->where('added_by', $user_ids)->count();
             $total_frenchise = Agent::where('user_id', $user_ids)->count();
             $total_active_frenchise = Agent::where('is_active', 1)->where('user_id', $user_ids)->count();

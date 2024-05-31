@@ -28,7 +28,7 @@
                                         <label>Enter Template Name</label>
                                         <input type="text" class="form-control " name="heading"
                                             value="{{ $sms_template->heading }}">
-                                        @error('name')
+                                        @error('heading')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -37,7 +37,7 @@
                                         <textarea class="form-control" id="summernote1" name="body" rows="10">
                                             {!! $sms_template->body !!}
                                         </textarea>
-                                        @error('details')
+                                        @error('body')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>

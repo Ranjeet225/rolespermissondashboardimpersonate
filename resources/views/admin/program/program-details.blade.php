@@ -52,7 +52,7 @@
                                     <tr>
                                        <th class="txt-oflo">Program Level</th>
                                        <td class="txt-oflo">
-                                          {{$program->educationLevel->name}}
+                                          {{$program->educationLevel->name ?? null }}
                                        </td>
                                     </tr>
                                     <tr>

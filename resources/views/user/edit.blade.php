@@ -46,15 +46,15 @@
               </div>
               <div class="col-md-3">
                 <label for="name">Phone Number<span class="text-danger">*</span></label>
-                <input type="tel" class="form-control formmrgin" required name="phone_number" value="{{$users->phone_number}}" placeholder="Phone Number" pattern="[0-9]{12}" title="Please enter a 10-digit phone number">
+                <input type="tel" class="form-control formmrgin" required name="phone_number" value="{{$users->phone_number}}" placeholder="Phone Number"  title="Please enter  phone number">
                 @error('phone_number')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
 
               <div class="col-md-3">
-                <label for="name">Password<span class="text-danger">*</span></label>
-                <input type="password" class="form-control formmrgin" required name="password" value="{{$users->password}}" placeholder="Enter Password">
+                <label for="name">Password</label>
+                <input type="password" class="form-control formmrgin" name="password"  placeholder="Enter Password">
                 @error('password')
                       <span class="text-danger">{{ $message }}</span>
                 @enderror

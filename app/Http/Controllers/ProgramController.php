@@ -148,7 +148,7 @@ class ProgramController extends Controller
     }
 
     public function edit_program($id){
-        $program = Program::find($id);
+        $program = Program::with('currency_data')->find($id);
         $user = Auth::user();
         if ($user->hasRole('Administrator')) {
             $universities = University::get();
