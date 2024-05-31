@@ -161,10 +161,7 @@
                             $student_assistance= $submenu->name === 'Student Assistance';
 
                         @endphp
-                        <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}" ||
-                            ($is_sms_template_submenu && $sms_template_filter) || ($frenchise_submenu &&
-                            ($frenchise_filter || $frenchise_route))
-                            class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
+                        <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
                                 (($approve_program_filter || $add_program || $edit_program || $program_filter || $view_program) && $program_menu) ||
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
@@ -208,15 +205,7 @@
                             @php
                                 $user = Auth::user();
                             @endphp
-                            @if (!$user->hasRole('Administrator'))
-                                @if ($submenu->name == 'Admin User')
-                                    <div>{{ ' Users ' ? __(' Users  ') : '' }}</div>
-                                @else
-                                    <div>{{ isset($submenu->name) ? __($submenu->name) : '' }}</div>
-                                @endif
-                            @else
-                                <div>{{ isset($submenu->name) ? __($submenu->name) : '' }}</div>
-                            @endif
+                            <div>{{ isset($submenu->name) ? __($submenu->name) : '' }}</div>
                         </a>
                         {{-- submenu --}}
                         @if (isset($submenu->submenu))
