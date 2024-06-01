@@ -194,25 +194,27 @@
             "name": "Programs",
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
-            "permission":["programs.view","proficiency_level.view","approve_program.view","manage_program.view","program_level_details.view","education_level.view","program_level.view","grading_scheme.view","exams.view","field_of_study.view","subject.view","manage_recommended_programs.view"],
+            "permission":["programs.view","proficiency_level.view","approve_program.approve_program_view",
+            "manage_program.manage_program_view","program_level_details.program_level_details_view","education_level.education_level_view",
+            "program_level.program_level_view","grading_scheme.grading_scheme_view","exams.exams_view","field_of_study.field_of_study_view","subject.subject_view","manage_recommended_programs.manage_recommended_programs_view"],
             "submenu": [
                 {
                     "url": "/admin/approve-program",
                     "name": "Approve Program",
                     "slug": "admin-approve-program",
-                    "permission":"approve_program.view"
+                    "permission":"approve_program.approve_program_view"
                 },
                 {
                     "url": "/admin/manage-program",
                     "name": "Manage Program",
                     "slug": "admin-mangee-program",
-                    "permission":"manage_program.view"
+                    "permission":"manage_program.manage_program_view"
                 },
                 {
                     "url": "/admin/program-level-details",
                     "name": "Program Level Details",
                     "slug": "admin-program-level-details",
-                    "permission":"program_level_details.view"
+                    "permission":"program_level_details.program_level_details_view"
                 },
                  {
                     "url": "/admin/eng-proficiency-level",
@@ -236,36 +238,36 @@
                     "url": "/admin/education-level",
                     "name": "Education Level",
                     "slug": "admin-education-level",
-                    "permission":"education_level.view"
+                    "permission":"education_level.program_level_details_view"
                 },
                 {
                     "url": "/admin/program-level",
                     "name": "Program Level",
                     "slug": "admin-program-level",
-                    "permission":"program_level.view"
+                    "permission":"program_level.program_level_view"
                 },
                 {
                     "url": "/admin/grading-scheme",
                     "name": "Grading Scheme",
                     "slug": "admin-grading-scheme",
-                    "permission":"grading_scheme.view"
+                    "permission":"grading_scheme.grading_scheme_view"
                 },{
                     "url": "/admin/exams",
                     "name": "Other Exams",
                     "slug": "admin-exams",
-                    "permission":"exams.view"
+                    "permission":"exams.exams_view"
                 },
                 {
                     "url": "/admin/field-of-study-types",
                     "name": "Degree Type",
                     "slug": "admin-field-of-study-types",
-                    "permission":"field_of_study.view"
+                    "permission":"field_of_study.field_of_study_view"
                 },
                 {
                     "url": "/admin/subjects",
                     "name": "Subjects",
                     "slug": "admin-subjects",
-                    "permission":"subject.view"
+                    "permission":"subject.subject"
                 }
             ]
         },
