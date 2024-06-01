@@ -232,6 +232,13 @@ Route::middleware('auth')->group(function () {
         Route::get('create-new-education-level',[ProgramController::class,'education_level_create'])->name('create-new-education-level');
         Route::post('store-education-level',[ProgramController::class,'education_level_store'])->name('store-education-level');
         // Program level
+        Route::get('program-level',[ProgramController::class,'program_level'])->name('program-level');
+        // Route::get('program-level-filter',[ProgramController::class,'program_level'])->name('program-level-filter');
+        Route::get('edit-program_level/{id?}',[ProgramController::class,'program_level_edit'])->name('edit-program_level');
+        Route::get('delete-program-level/{id?}',[ProgramController::class,'program_level_delete'])->name('delete-program-level');
+        Route::post('update-program-level/{id?}',[ProgramController::class,'program_level_update'])->name('update-program-level');
+        Route::get('create-new-program_level',[ProgramController::class,'program_level_create'])->name('create-new-program_level');
+        Route::post('store-program-level',[ProgramController::class,'program_level_store'])->name('store-program-level');
 
         // PROGRAM DISPLINE
 
