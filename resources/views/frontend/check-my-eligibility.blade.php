@@ -17,35 +17,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon -->
     <link rel="apple-touch-icon" href="apple-touch-icon.html">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('public/home/images/favicon.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/home/images/favicon.png') }}">
     <!-- Bootstrap v4.4.1 css -->
-    <link rel="stylesheet" href="{{ asset('public/home/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/home/css/bootstrap.min.css') }}">
     <!-- font-awesome css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/font-awesome.min.css') }}">
     <!-- animate css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/animate.css') }}">
     <!-- owl.carousel css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/owl.carousel.css') }}">
     <!-- slick css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/slick.css') }}">
     <!-- off canvas css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/off-canvas.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/off-canvas.css') }}">
     <!-- linea-font css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/css/linea-fonts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/linea-fonts.css') }}">
     <!-- flaticon css  -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/fonts/flaticon.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/fonts/flaticon.css') }}">
     <!-- magnific popup css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/magnific-popup.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/magnific-popup.css')}}">
     <!-- Main Menu css -->
-    <link rel="stylesheet" href="{{ asset('public/home/css/rsmenu-main.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/home/css/rsmenu-main.css') }}">
     <!-- spacing css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/rs-spacing.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/rs-spacing.css') }}">
     <!-- style css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/style.css?v=' . time()) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/style.css?v=' . time()) }}">
     <!-- new-style css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/new-style.css?v=' . time()) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/new-style.css?v=' . time()) }}">
     <!-- This stylesheet dynamically changed from style.less -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/home/css/responsive.css?v=' . time()) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/responsive.css?v=' . time()) }}">
 </head>
 
 <body class="home-style2">
@@ -854,51 +854,51 @@
     </style>
     <!-- modernizr js -->
     <script data-cfasync="false"
-        src="{{ asset('public/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
-    <script src="{{ asset('public/home/js/modernizr-2.8.3.min.js') }}"></script>
+        src="{{ asset('frontend/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/modernizr-2.8.3.min.js') }}"></script>
 
 
 
 
 
     <!-- jquery latest version -->
-    <script src="{{ asset('public/home/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('frontend/home/js/jquery.min.js')}}"></script>
 
 
 
 
     <!-- Bootstrap v4.4.1 js -->
-    <script src="{{ asset('public/home/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/bootstrap.min.js') }}"></script>
 
 
 
 
 
     <!-- Menu js -->
-    <script src="{{ asset('public/home/js/rsmenu-main.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/rsmenu-main.js') }}"></script>
     <!-- op nav js -->
-    <script src="{{ asset('public/home/js/jquery.nav.js')}}"></script>
+    <script src="{{ asset('frontend/home/js/jquery.nav.js')}}"></script>
     <!-- Slick js -->
-    <script src="{{ asset('public/home/js/slick.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/slick.min.js') }}"></script>
     <!-- isotope.pkgd.min js -->
-    <script src="{{ asset('public/home/js/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/isotope.pkgd.min.js') }}"></script>
     <!-- imagesloaded.pkgd.min js -->
-    <script src="{{ asset('public/home/js/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/imagesloaded.pkgd.min.js') }}"></script>
     <!-- wow js -->
-    <script src="{{ asset('public/home/js/wow.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/wow.min.js') }}"></script>
     <!-- Skill bar js -->
-    <script src="{{ asset('public/home/js/skill.bars.jquery.js') }}"></script>
-    <script src="{{ asset('public/home/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/skill.bars.jquery.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/jquery.counterup.min.js') }}"></script>
     <!-- counter top js -->
-    <script src="{{ asset('public/home/js/waypoints.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/waypoints.min.js') }}"></script>
     <!-- video js -->
-    <script src="{{ asset('public/home/js/jquery.mb.YTPlayer.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/jquery.mb.YTPlayer.min.js') }}"></script>
     <!-- magnific popup js -->
-    <script src="{{ asset('public/home/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/jquery.magnific-popup.min.js') }}"></script>
     <!-- plugins js -->
-    <script src="{{ asset('public/home/js/plugins.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/plugins.js') }}"></script>
     <!-- contact form js -->
-    <script src="{{ asset('public/home/js/contact.form.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/contact.form.js') }}"></script>
 
 
     <!--Full width header Start-->
@@ -949,10 +949,10 @@
                             <div class="logo-cat-wrap">
                                 <div class="logo-part">
                                     <a class="dark-logo" href="index.htm">
-                                        <img src="{{ asset('public/home/images/oel.png') }}" alt="">
+                                        <img src="{{ asset('frontend/home/images/oel.png') }}" alt="">
                                     </a>
                                     <a class="light-logo" href="index.htm">
-                                        <img src="{{ asset('public/home/images/white-oel.png') }}" alt="">
+                                        <img src="{{ asset('frontend/home/images/white-oel.png') }}" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -1002,7 +1002,7 @@
                                             </li>
                                             <li class="btn-part">
                                                 <a href="student_loan.html"> <img
-                                                        src="{{ asset('public/images/Student(1).png') }}"
+                                                        src="{{ asset('frontend/images/Student(1).png') }}"
                                                         class="rr"> </a>
                                             </li>
                                         </ul>
@@ -1019,7 +1019,7 @@
                                         <div class="dropdown">
 
                                             <div class="profile_circle" id="dropdown_trigger_nav2">
-                                                <img src="{{ asset('public/images/default_profile.jpg') }}"
+                                                <img src="{{ asset('frontend/images/default_profile.jpg') }}"
                                                     alt="">
                                             </div>
 
@@ -1836,7 +1836,7 @@
                         <div class="content-part">
                             <div class="sec-title">
                                 <div class="title-icon md-mb-15">
-                                    <img src="{{ asset('public/home/images/newsletter.png') }}" alt="images">
+                                    <img src="{{ asset('frontend/home/images/newsletter.png') }}" alt="images">
                                 </div>
                                 <h2 class="title mb-0 white-color">Subscribe to Newsletter</h2>
                             </div>
@@ -2011,17 +2011,17 @@
 
     <!-- owl.carousel js -->
     <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="{{ asset('public/home/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/owl.carousel.min.js') }}"></script>
 
     <!-- main js -->
-    <script src="{{ asset('public/home/js/main.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/main.js') }}"></script>
 
 
-    <link rel="stylesheet" href="{{ asset('public/home/css/bootstrap-multiselect.css') }}" type="text/css">
-    <script type="text/javascript" src="{{ asset('public/home/js/bootstrap-multiselect.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('frontend/home/css/bootstrap-multiselect.css') }}" type="text/css">
+    <script type="text/javascript" src="{{ asset('frontend/home/js/bootstrap-multiselect.js') }}"></script>
 
 
-    <script src="{{ asset('public/home/js/popper.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ asset('frontend/home/js/popper.js') }}" crossorigin="anonymous"></script>
 </body>
 <script src="{{ asset('ajax/libs/jquery-validate/1.19.3/jquery.validate.js') }}" type="text/javascript"></script>
 

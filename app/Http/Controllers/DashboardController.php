@@ -55,7 +55,7 @@ class DashboardController extends Controller
     public function index( Request $request)
     {
         $id = Auth::user()->id;
-        $users = DB::table('users')->WHERE('id', $id)->first();
+        $users = User::WHERE('id', $id)->first();
         $user_type = $users->admin_type;
         $user_ids = $users->id;
         $total_leads = 0;
