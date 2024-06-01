@@ -14,6 +14,7 @@ use App\Models\Program;
 use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
 use App\Models\ProgramSubdiscipline;
+use App\Models\ProgramSubLevel;
 use App\Models\Subject;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -277,11 +278,12 @@ class ProgramController extends Controller
     }
 
     public function delete_score_program(Request $request){
-        $deleteScore = DB::table('program_english_required')->where('id', $request->score_id)->delete();
-        if($deleteScore){
+        $score = DB::table('program_english_required')->where('id', $request->score_id)->first();
+        if($score){
+            $deleteScore = DB::table('program_english_required')->where('id', $request->score_id)->delete();
             return response()->json(['status'=>true,'success'=>'Data Deleted Successfully']);
         } else {
-            return response()->json(['status'=>false,'success'=>'Data Not Deleted']);
+            return response()->json(['status'=>false,'success'=>'Data Not Exist']);
         }
     }
 
@@ -310,12 +312,12 @@ class ProgramController extends Controller
         return view('admin.program.home-program-level',compact('home_program','program_level'));
     }
 
-    public function create_program_level(){
+    public function create_program_details(){
         $program_level=ProgramLevel::get();
-        return view('admin.program.add-home-program-level',compact('program_level'));
+        return view('admin.program.add-home-program-details',compact('program_level'));
     }
 
-    public function store_program_level(Request $request){
+    public function store_program_details(Request $request){
         $request->validate([
             'program_level_id' => 'required',
             'description' => 'required',
@@ -325,13 +327,13 @@ class ProgramController extends Controller
         return redirect()->route('program-level-details')->with('success','Data Inserted Successfully');
     }
 
-    public function edit_program_level($id){
+    public function edit_program_details($id){
         $program_level=ProgramLevel::get();
         $home_program=HomeProgramLevel::find($id);
-        return view('admin.program.edit-home-program-level',compact('program_level','home_program'));
+        return view('admin.program.edit-home-program-details',compact('program_level','home_program'));
     }
 
-    public function update_program_level(Request $request,$id){
+    public function update_program_details(Request $request,$id){
         $request->validate([
             'program_level_id' => 'required',
             'description' => 'required',
@@ -344,10 +346,63 @@ class ProgramController extends Controller
         return redirect()->route('program-level-details')->with('success','Data Updated Successfully');
     }
 
-    public function delete_program_level($id){
+    public function delete_program_details($id){
         $delete_program=HomeProgramLevel::find($id);
-        $delete_program->delete();
-        return redirect()->route('program-level-details')->with('success','Data Deleted Successfully');
+        if($delete_program){
+            $delete_program->delete();
+            return redirect()->route('program-level-details')->with('success','Data Deleted Successfully');
+        }
+        return redirect()->route('program-level-details')->with('error','Data not found');
+    }
+
+
+    // program sublevel
+    public function program_sub_level(){
+        $program_sub_level=ProgramSubLevel::with('programLevel')->paginate(12);
+        return view('admin.program.programsublevel.index',compact('program_sub_level'));
+    }
+
+    public function program_sub_level_create(){
+        $program_level=ProgramLevel::paginate(12);
+        return view('admin.program.programsublevel.create',compact('program_level'));
+    }
+
+    public function program_sub_level_store(Request $request){
+        $request->validate([
+            'program_id' => 'required',
+            'orders' => 'required',
+            'name' => 'required',
+        ]);
+
+        ProgramSubLevel::create($request->except('_token'));
+        return redirect()->route('program-sub-level')->with('success','Data Inserted Successfully');
+    }
+
+    public function program_sub_level_edit($id){
+        $program_sub_level=ProgramSubLevel::find($id);
+        $programlevels=ProgramLevel::paginate(12);
+        return view('admin.program.programsublevel.edit',compact('program_sub_level','programlevels'));
+    }
+
+    public function program_sub_level_update(Request $request,$id){
+        $request->validate([
+            'program_id' => 'required',
+            'orders' => 'required',
+            'name' => 'required',
+        ]);
+
+        $programsubdiscipline=ProgramSubLevel::find($id);
+        $programsubdiscipline->update($request->except('_token'));
+        return redirect()->route('program-sub-level')->with('success','Data Updated Successfully');
+    }
+
+    public function delete_program_sub_level($id){
+        $programsubdiscipline=ProgramSubLevel::find($id);
+        if($programsubdiscipline){
+            $programsubdiscipline->delete();
+            return redirect()->route('program-sub-level')->with('success','Data Deleted Successfully');
+        }
+        return redirect()->route('program-sub-level')->with('error','Data not found');
     }
 
 
@@ -356,7 +411,7 @@ class ProgramController extends Controller
 
     public function education_level(Request $request){
         $name = $request->get('name');
-        $educationlevel = EducationLevel::with('programLevel')->when($name, function ($query) use ($name) {
+        $educationlevel = EducationLevel::with('programLevel','program_sublevel')->when($name, function ($query) use ($name) {
             return $query->where('name', 'like', '%' . $name . '%');
         })->paginate(12);
 
@@ -381,7 +436,8 @@ class ProgramController extends Controller
     public function education_level_edit($id){
         $educationlevel=EducationLevel::find($id);
         $programlevels =ProgramLevel::select('name','id')->get();
-        return view('admin.program.educationlevel.edit',compact('educationlevel','programlevels'));
+        $program_sublevels=ProgramSubLevel::get();
+        return view('admin.program.educationlevel.edit',compact('educationlevel','programlevels','program_sublevels'));
     }
 
     public function education_level_update(Request $request,$id){
@@ -395,16 +451,19 @@ class ProgramController extends Controller
             'name' => $request->name,
             'item_order'=>$request->item_order,
             'program_level_id'=>$request->program_level_id,
+            'program_sublevel_id'=>$request->program_sublevel_id,
         ]);
         return redirect()->route('education-level')->with('success','Data Updated Successfully');
     }
 
-    // public function education_level_delete($id){
-    //     $educationlevel=EducationLevel::find($id);
-    //     $educationlevel->delete();
-    //     dd($educationlevel);
-    //     return redirect()->route('education-level')->with('success','Data Deleted Successfully');
-    // }
+    public function education_level_delete($id){
+        if(EducationLevel::find($id)){
+            EducationLevel::find($id)->delete();
+            return redirect()->route('education-level')->with('success','Data Deleted Successfully');
+        }else{
+            return redirect()->route('education-level')->with('error','Data not found');
+        }
+    }
      // educationlevel
 
     public function program_level(Request $request){
@@ -547,8 +606,12 @@ class ProgramController extends Controller
 
     public function exam_delete($id){
         $exam=Exam::find($id);
-        $exam->delete();
-        return redirect()->route('exam')->with('success','Data Deleted Successfully');
+        if($exam){
+            $exam->delete();
+            return redirect()->route('exam')->with('success','Data Deleted Successfully');
+        }else{
+            return redirect()->route('exam')->with('error','Data Not Found');
+        }
     }
 
 
@@ -597,9 +660,12 @@ class ProgramController extends Controller
         return redirect()->route('field-of-study')->with('success','Data Updated Successfully');
     }
     public function field_of_study_delete($id){
-        $fieldofstudy=Fieldsofstudytype::find($id);
-        $fieldofstudy->delete();
-        return redirect()->route('field-of-study')->with('success','Data Deleted Successfully');
+        $fieldofstudy = Fieldsofstudytype::find($id);
+        if($fieldofstudy){
+            $fieldofstudy->delete();
+            return redirect()->route('field-of-study')->with('success','Data Deleted Successfully');
+        }
+        return redirect()->route('field-of-study')->with('error','Data Not Found');
     }
     // subjects
 
@@ -645,9 +711,13 @@ class ProgramController extends Controller
         return redirect()->route('subject')->with('success','Data Updated Successfully');
     }
     public function subjects_delete($id){
-        $subject=Subject::find($id);
-        $subject->delete();
-        return redirect()->route('subject')->with('success','Data Deleted Successfully');
+        $subject = Subject::find($id);
+        if($subject){
+            $subject->delete();
+            return redirect()->route('subject')->with('success','Data Deleted Successfully');
+        } else {
+            return redirect()->route('subject')->with('success','Data not found');
+        }
     }
 
 
@@ -680,8 +750,13 @@ class ProgramController extends Controller
         return redirect()->route('eng-proficiency-level')->with('success','Data Updated Successfully');
     }
     public function eng_proficiency_level_delete($id){
-        EngProficiencyLevel::find($id)->delete();
-        return redirect()->route('eng-proficiency-level')->with('success','Data Deleted Successfully');
+        $eng_level = EngProficiencyLevel::find($id);
+        if($eng_level) {
+            $eng_level->delete();
+            return redirect()->route('eng-proficiency-level')->with('success','Data Deleted Successfully');
+        } else {
+            return redirect()->route('eng-proficiency-level')->with('success','Data not found');
+        }
     }
 
 
@@ -759,8 +834,12 @@ class ProgramController extends Controller
         return redirect()->route('program-subdiscipline')->with('success','Data Updated Successfully');
     }
     public function program_subdiscipline_delete($id){
-        ProgramSubdiscipline::find($id)->delete();
-        return redirect()->route('program-subdiscipline')->with('success','Data Deleted Successfully');
+        $program_subdiscipline=ProgramSubdiscipline::find($id);
+        if($program_subdiscipline){
+            $program_subdiscipline->delete();
+            return redirect()->route('program-subdiscipline')->with('success','Data Deleted Successfully');
+        }
+        return redirect()->route('program-subdiscipline')->with('error','Data not found');
     }
 
 
@@ -776,6 +855,14 @@ class ProgramController extends Controller
         if($request->ajax()){
             $program_subdiscipline=EducationLevel::where('program_level_id',$request->programLevelId)->get();
             return response()->json($program_subdiscipline);
+        }
+    }
+
+    public function get_program_sublevel(Request $request)
+    {
+        if($request->ajax()){
+            $program_level=ProgramSubLevel::where('program_id',$request->program_level_id)->get();
+            return response()->json($program_level);
         }
     }
 

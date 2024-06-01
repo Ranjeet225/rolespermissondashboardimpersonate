@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Fieldsofstudytype;
+use App\Models\ProgramLevel;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -13,8 +14,9 @@ class FrontendController extends Controller
     public function check_eligibility()
     {
          $country =Country::select('name','id')->get();
-         $field_of_study=Fieldsofstudytype::select('name')->where('status',1)->get();
-         return view('frontend.check-my-eligibility',compact('country','field_of_study'));
+         $program_level =ProgramLevel::select('name','id')->get();
+        //  $field_of_study=Fieldsofstudytype::select('name')->where('status',1)->get();
+         return view('frontend.check-my-eligibility',compact('country','program_level'));
     }
 
     public function get_country(Request $request){

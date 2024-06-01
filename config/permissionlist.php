@@ -464,5 +464,11 @@ return [
             'program_subdiscipline.update',
             'program_subdiscipline.delete',
         ],
+        'program_sub_level' => [
+            'program_sub_level.create',
+            'program_sub_level.view',
+            'program_sub_level.update',
+            'program_sub_level.delete',
+        ],
       ],
 ];

@@ -315,8 +315,11 @@ class MessageController extends Controller
     }
 
     public function sms_template_delete($id){
-        SmsTemplate::find($id)->delete();
-        return redirect()->route('sms-template')->with('success','Sms template deleted successfully!');
+        if(SmsTemplate::find($id)){
+            SmsTemplate::find($id)->delete();
+            return redirect()->route('sms-template')->with('success','Sms template deleted successfully!');
+        }
+        return redirect()->route('sms-template')->with('error','Sms template not found!');
     }
 
     public function show_msg(Request $request)

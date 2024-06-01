@@ -476,8 +476,13 @@ class FrenchiseController extends Controller
      */
     public function delete_manage_oel_pres($id)
     {
-        DB::table('oel_presentation_documents')->where('id', $id)->delete();
-        return redirect()->route('manage-oel-pres')->with('success', 'Document deleted successfully.');
+        $document = DB::table('oel_presentation_documents')->where('id', $id)->first();
+        if ($document) {
+            DB::table('oel_presentation_documents')->where('id', $id)->delete();
+            return redirect()->route('manage-oel-pres')->with('success', 'Document deleted successfully.');
+        } else {
+            return redirect()->route('manage-oel-pres')->with('error', 'Document not found.');
+        }
     }
 
     /**

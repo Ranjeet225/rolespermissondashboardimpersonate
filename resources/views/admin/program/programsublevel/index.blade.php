@@ -9,12 +9,13 @@
                         <li class="breadcrumb-item">
                             <a href="index.php"> Home</a>
                         </li>
-                        <li class="breadcrumb-item text-muted">Program Level Details For Home Page
+                        <li class="breadcrumb-item text-muted">
+                            Manage Program Sub Level
                         </li>
                     </ol>
                 </div>
                 <div class="col-md-2">
-                    <a href="{{ route('create-new-program-details') }}" class="btn add-btn">
+                    <a href="{{ route('create-new-program-sub-level') }}" class="btn add-btn">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
             </div>
@@ -26,19 +27,18 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="program_filter" action="{{route('program-level-details')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('program-sub-level')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
-              <select name="program_level" class="form-control ">
-                 @foreach ($program_level as $item)
-                     <option value="{{$item->id}}">{{$item->name}}</option>
-                 @endforeach
-              </select>
+                <div class="form-floating ">
+                    <input id="lead-total_credits" name="name" type="text" class="form-control " placeholder="NAME" >
+                    <label for="lead-total_credits" class="form-label">NAME</label>
+                </div>
             </div>
             <div class="col-md-2 col-sm-2">
               <button type="submit" class="btn btn-info px-5 float-end" id="submit" value="1">Search</button>
             </div>
             <div class="col-md-2 col-sm-2 ">
-                <a href="{{route('program-level-details')}}" class="btn btn-info px-5  float-end">
+                <a href="{{route('program-sub-level')}}" class="btn btn-info px-5  float-end">
                     Reset
                 </a>
             </div>
@@ -60,19 +60,22 @@
                 <thead>
                     <tr>
                         <th>S.N</th>
-                        <th>Program Level</th>
-                        <th>Description </th>
-                        <th>Action</th>
+                        <th>Program Name</th>
+                        <th>NAME</th>
+                        <th>Order </th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    @foreach ($home_program as $item)
+                    @foreach ($program_sub_level as $item)
                     <tr>
-                        <td>{{ $loop->index + (($home_program->currentPage() - 1) * $home_program->perPage()) + 1 }}</td>
-                        <td>{{$item->home_program_levels->name}}</td>
-                        <td class="text-wrap">{!! $item->description !!}</td>
-                        <td><a  href="{{route('edit-program-details',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-program-details',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td>{{ $loop->index + (($program_sub_level->currentPage() - 1) * $program_sub_level->perPage()) + 1 }}</td>
+                        <td class="text-wrap">{{ $item->programLevel->first()?->name ?? null }}</td>
+                        <td class="text-wrap">{{ $item->name }}</td>
+                        <td class="text-wrap">{{ $item->orders }}</td>
+                        <td><a  href="{{route('edit-program-sub-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a href="{{route('delete-program-sub-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -80,7 +83,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                        {{$home_program->links()}}
+                        {{$program_sub_level->links()}}
                     </div>
                 </div>
             </div>

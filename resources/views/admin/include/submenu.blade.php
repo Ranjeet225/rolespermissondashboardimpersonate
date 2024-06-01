@@ -171,6 +171,10 @@
                             $add_program_subdiscipline= request()->routeIs('create-program-subdiscipline');
                             $edit_program_subdiscipline= request()->routeIs('edit-program-subdiscipline');
                             $program_sdiscipline= $submenu->name === 'Program SubDiscipline';
+                            // program subdispline
+                            $add_program_sublevel= request()->routeIs('create-new-program-sub-level');
+                            $edit_program_sublevel= request()->routeIs('edit-program-sub-level');
+                            $program_sublevel= $submenu->name === 'Program Sub Level';
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
@@ -180,6 +184,7 @@
                                 ($pending_leads_submenu && $pending_leads_filter) ||
                                 ($assi_leads_submenu && $assi_leads_filter) ||
                                 ($sms_template && ($edit_sms_template || $add_sms_template)) ||
+                                ($program_sublevel && ($edit_program_sublevel || $add_program_sublevel)) ||
                                 ($program_sdiscipline && ($edit_program_subdiscipline || $add_program_subdiscipline)) ||
                                 ($program_discipline && ($edit_program_discipline || $add_program_discipline)) ||
                                 ($eng_proficiency_level && ($edit_eng_proficiency_level || $add_eng_proficiency_level)) ||

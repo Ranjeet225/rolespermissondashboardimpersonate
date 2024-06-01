@@ -335,8 +335,13 @@ class UniversityController extends Controller
 
     public function delete_uni_ranking($id)
     {
-       $data = DB::table('university_ranking')->where('id',$id)->delete();
-       return redirect()->back()->with('success','University Ranking Deleted Successfully');
+        $record = DB::table('university_ranking')->where('id',$id)->first();
+        if($record){
+            $data = DB::table('university_ranking')->where('id',$id)->delete();
+            return redirect()->back()->with('success','University Ranking Deleted Successfully');
+        }else{
+            return redirect()->back()->with('error','Record Not Found');
+        }
     }
 
     public function add_uni_accerediation(Request $request)
@@ -386,8 +391,13 @@ class UniversityController extends Controller
 
     public function delete_uni_accerediation($id)
     {
-       $data = DB::table('university_accerediations')->where('id',$id)->delete();
-       return redirect()->back()->with('success','University Accerediation Deleted Successfully');
+       $data = DB::table('university_accerediations')->where('id',$id)->first();
+       if($data){
+            DB::table('university_accerediations')->where('id',$id)->delete();
+            return redirect()->back()->with('success','University Accerediation Deleted Successfully');
+       }else{
+            return redirect()->back()->with('error','University Accerediation Not Found');
+       }
     }
 
     public function add_uni_documents(Request $request,$id=null)
@@ -559,9 +569,12 @@ class UniversityController extends Controller
     }
 
     public function delete_oel_review($id){
-        $review = SchoolReview::findOrFail($id);
-        $review->delete();
-        return redirect()->route('oel-review')->with('success','Review Deleted Successfully');
+        if(SchoolReview::find($id)){
+            SchoolReview::find($id)->delete();
+            return redirect()->route('oel-review')->with('success','Review Deleted Successfully');
+        }else{
+            return redirect()->route('oel-review')->with('error','Review Not Found');
+        }
     }
 
     public function oel_type(Request $request){
@@ -605,10 +618,12 @@ class UniversityController extends Controller
     }
 
     public function delete_oel_type($id){
-        $data = SchoolType::findOrFail($id);
-        $data->delete();
-        return redirect()->route('oel-type')->with('success','Type Deleted Successfully');
+        if(SchoolType::find($id)){
+            SchoolType::find($id)->delete();
+            return redirect()->route('oel-type')->with('success','Type Deleted Successfully');
+        }else{
+            return redirect()->route('oel-type')->with('error','Type Not Found');
+        }
     }
-
 
 }

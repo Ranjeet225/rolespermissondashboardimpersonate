@@ -21,4 +21,10 @@ class EducationLevel extends Model
     {
         return $this->hasMany(EducationHistory::class, 'education_level_id');
     }
+
+
+    public function program_sublevel()
+    {
+        return $this->hasOne(ProgramSubLevel::class,'id', 'program_sublevel_id');
+    }
 }

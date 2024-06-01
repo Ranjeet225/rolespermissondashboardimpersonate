@@ -41,7 +41,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                <form class="row g-4"  action="{{route('update-home-program-level',$home_program->id)}}" method="POST" enctype="multipart/form-data">
+                <form class="row g-4"  action="{{route('update-home-program-details',$home_program->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('post')
                     <div class="col-12">

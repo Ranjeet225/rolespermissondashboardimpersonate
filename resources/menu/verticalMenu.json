@@ -194,7 +194,7 @@
             "name": "Programs",
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
-            "permission":["programs.view","proficiency_level.view","approve_program.approve_program_view",
+            "permission":["program_sub_level.view","programs.view","proficiency_level.view","approve_program.approve_program_view",
             "manage_program.manage_program_view","program_level_details.program_level_details_view","education_level.education_level_view",
             "program_level.program_level_view","grading_scheme.grading_scheme_view","exams.exams_view","field_of_study.field_of_study_view","subject.subject_view","manage_recommended_programs.manage_recommended_programs_view"],
             "submenu": [
@@ -235,16 +235,22 @@
                     "permission":"program_subdiscipline.view"
                 },
                 {
-                    "url": "/admin/education-level",
-                    "name": "Education Level",
-                    "slug": "admin-education-level",
-                    "permission":"education_level.program_level_details_view"
-                },
-                {
                     "url": "/admin/program-level",
                     "name": "Program Level",
                     "slug": "admin-program-level",
                     "permission":"program_level.program_level_view"
+                },
+                {
+                    "url": "/admin/program-sub-level",
+                    "name": "Program Sub Level",
+                    "slug": "admin-program-sub-level",
+                    "permission":"program_sub_level.view"
+                },
+                {
+                    "url": "/admin/education-level",
+                    "name": "Education Level",
+                    "slug": "admin-education-level",
+                    "permission":"education_level.education_level_view"
                 },
                 {
                     "url": "/admin/grading-scheme",

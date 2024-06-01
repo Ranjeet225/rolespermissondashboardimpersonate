@@ -241,9 +241,14 @@ class OtherMasterDataController extends Controller
      public function country_delete(Request $request)
      {
          $country = Country::find($request->id);
-         $country->delete();
-         return redirect()->route('country')
-             ->with('success', 'country deleted successfully');
+         if ($country) {
+             $country->delete();
+             return redirect()->route('country')
+                 ->with('success', 'country deleted successfully');
+         } else {
+             return redirect()->route('country')
+                 ->with('error', 'country not found');
+         }
      }
 
     //  province
@@ -292,9 +297,13 @@ class OtherMasterDataController extends Controller
      public function province_delete(Request $request)
      {
          $province = Province::find($request->id);
-         $province->delete();
+         if($province){
+             $province->delete();
+             return redirect()->route('province')
+                 ->with('success', 'province deleted successfully');
+         }
          return redirect()->route('province')
-             ->with('success', 'province deleted successfully');
+             ->with('error', 'province not found');
      }
 
     //  visa type
@@ -335,10 +344,14 @@ class OtherMasterDataController extends Controller
        }
        public function visa_type_delete(Request $request)
        {
-           $visa_type = VisaType::find($request->id);
-           $visa_type->delete();
-           return redirect()->route('visa-type')
-               ->with('success', 'Visa Type deleted successfully');
+           if ($visa_type = VisaType::find($request->id)) {
+               $visa_type->delete();
+               return redirect()->route('visa-type')
+                   ->with('success', 'Visa Type deleted successfully');
+           } else {
+               return redirect()->route('visa-type')
+                   ->with('error', 'Visa Type not found');
+           }
        }
 
     //    faq
@@ -381,10 +394,18 @@ class OtherMasterDataController extends Controller
     }
     public function faq_delete(Request $request)
     {
-        $faq = Faq::find($request->id);
-        $faq->delete();
-        return redirect()->route('faq')
-            ->with('success', 'Faq deleted successfully');
+        if(Faq::find($request->id))
+        {
+            $faq = Faq::find($request->id);
+            $faq->delete();
+            return redirect()->route('faq')
+                ->with('success', 'Faq deleted successfully');
+        }
+        else
+        {
+            return redirect()->route('faq')
+                ->with('error', 'Faq not found');
+        }
     }
       //    vas service
       public function vas_service(Request $request)
@@ -442,9 +463,14 @@ class OtherMasterDataController extends Controller
       public function vas_service_delete(Request $request)
       {
           $vas_service = VasService::find($request->id);
-          $vas_service->delete();
-          return redirect()->route('vas-service')
-              ->with('success', 'Vas Services deleted successfully');
+          if ($vas_service) {
+              $vas_service->delete();
+              return redirect()->route('vas-service')
+                  ->with('success', 'Vas Services deleted successfully');
+          } else {
+              return redirect()->route('vas-service')
+                  ->with('success', 'Vas Services not found');
+          }
       }
 
 
@@ -486,11 +512,14 @@ class OtherMasterDataController extends Controller
       }
       public function education_lane_delete(Request $request)
       {
-      {
           $education_lane = EducationLane::find($request->id);
-          $education_lane->delete();
-          return redirect()->route('education-lane')
-              ->with('success', 'Education lane deleted successfully');
+          if($education_lane){
+              $education_lane->delete();
+              return redirect()->route('education-lane')
+                  ->with('success', 'Education lane deleted successfully');
+          }else{
+              return redirect()->route('education-lane')
+                  ->with('error', 'Education lane not found');
+          }
       }
-    }
 }

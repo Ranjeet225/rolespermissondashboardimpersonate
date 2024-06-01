@@ -345,11 +345,19 @@ class StudentController extends Controller
 
     public function delete_attendended($id)
     {
-        DB::table('school_attended')->where('id',$id)->delete();
-        $data =[
-            'tab2'=>'tab2',
-            'success'=>'Deleted Successfully',
-        ];
+        $schoolAttended = DB::table('school_attended')->where('id', $id)->first();
+        if ($schoolAttended) {
+            DB::table('school_attended')->where('id', $id)->delete();
+            $data = [
+                'tab2' => 'tab2',
+                'success' => 'Deleted Successfully',
+            ];
+        } else {
+            $data = [
+                'tab2' => 'tab2',
+                'error' => 'Id is not exist',
+            ];
+        }
         return redirect()->route('student-edit')->with($data);
     }
 
@@ -379,19 +387,33 @@ class StudentController extends Controller
      */
     public function delete_document($id)
     {
-        DB::table('student_documents')->where('id',$id)->delete();
-        $data =[
-            'success'=>'Deleted Successfully',
-        ];
+        $document = DB::table('student_documents')->where('id', $id)->first();
+        if ($document) {
+            DB::table('student_documents')->where('id', $id)->delete();
+            $data = [
+                'success' => 'Deleted Successfully',
+            ];
+        } else {
+            $data = [
+                'error' => 'Id is not exist',
+            ];
+        }
         return redirect()->route('student-edit')->with($data);
     }
 
     public function delete_test_score($id)
     {
-        DB::table('test_scores')->where('id',$id)->delete();
-        $data =[
-            'success'=>'Deleted Successfully',
-        ];
+        $test_score = DB::table('test_scores')->where('id',$id)->first();
+        if ($test_score) {
+            DB::table('test_scores')->where('id',$id)->delete();
+            $data =[
+                'success'=>'Deleted Successfully',
+            ];
+        } else {
+            $data =[
+                'error'=>'Id is not exist',
+            ];
+        }
         return redirect()->route('student-edit')->with($data);
     }
     /**
@@ -470,9 +492,13 @@ class StudentController extends Controller
 
     public function scholarship_delete($id)
     {
-        $scholarship = Scholarship::findOrFail($id);
-        $scholarship->delete();
-        return redirect()->route('scholarship')->with('success', 'Scholarship deleted successfully');
+        if(Scholarship::find($id)) {
+            $scholarship = Scholarship::findOrFail($id);
+            $scholarship->delete();
+            return redirect()->route('scholarship')->with('success', 'Scholarship deleted successfully');
+        } else {
+            return redirect()->route('scholarship')->with('success', 'Scholarship not deleted successfully');
+        }
     }
 
 
@@ -519,9 +545,11 @@ class StudentController extends Controller
 
     public function student_registration_fees_destroy($id)
     {
-        $student_registraion_fees = StudentRegistrationFees::findOrFail($id);
-        $student_registraion_fees->delete();
-        return redirect()->route('student-registration-fees')->with('success', 'Student registration fees deleted successfully');
+        if (StudentRegistrationFees::find($id)) {
+            StudentRegistrationFees::find($id)->delete();
+            return redirect()->route('student-registration-fees')->with('success', 'Student registration fees deleted successfully');
+        }
+        return redirect()->route('student-registration-fees')->with('error', 'Student registration fees not found');
     }
 
     // Question
@@ -564,9 +592,13 @@ class StudentController extends Controller
 
      public function student_question_destroy($id)
      {
-         $student_question = StudentApplyQuestions::findOrFail($id);
-         $student_question->delete();
-         return redirect()->route('student-question')->with('success', 'Student Question deleted successfully');
+         $student_question = StudentApplyQuestions::find($id);
+         if($student_question){
+             $student_question->delete();
+             return redirect()->route('student-question')->with('success', 'Student Question deleted successfully');
+         }else{
+             return redirect()->route('student-question')->with('error', 'Student Question not found');
+         }
      }
 
 
@@ -605,9 +637,12 @@ class StudentController extends Controller
      }
      public function student_assistance_destroy($id)
      {
-         $student_assistance = StudentAssistance::findOrFail($id);
-         $student_assistance->delete();
-         return redirect()->route('student-assistance')->with('success', 'Student Assistance deleted successfully');
+         if ($student_assistance = StudentAssistance::find($id)) {
+             $student_assistance->delete();
+             return redirect()->route('student-assistance')->with('success', 'Student Assistance deleted successfully');
+         } else {
+             return redirect()->route('student-assistance')->with('error', 'Student Assistance not found');
+         }
      }
 
     //  student guide
@@ -682,10 +717,14 @@ class StudentController extends Controller
     }
     public function student_guide_destroy($id)
     {
-        $student_guide = PopularStudentGuide::findOrFail($id);
-        $student_guide->delete();
-        return redirect()->route('student-guide')->with('success', 'Student Guide deleted successfully');
+        if(PopularStudentGuide::find($id)){
+            $student_guide = PopularStudentGuide::findOrFail($id);
+            $student_guide->delete();
+            return redirect()->route('student-guide')->with('success', 'Student Guide deleted successfully');
+        }
+        return redirect()->route('student-guide')->with('error', 'Student Guide not found');
     }
 
 
+1
 }

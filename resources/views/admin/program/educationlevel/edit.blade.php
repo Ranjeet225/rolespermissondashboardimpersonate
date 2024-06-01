@@ -46,18 +46,31 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('post')
+                                    @if(isset($educationlevel))
                                     <div class="col-12">
                                         <label>Program Level<span class="text-danger">*</span></label>
-                                        <select class="form-control " name="program_level_id" id="program_level_id">
-                                          <option value="">-- Select Program Level --</option>
-                                          @foreach ($programlevels as $item)
-                                             <option value="{{$item->id}}" {{ $educationlevel->program_level_id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
-                                          @endforeach
+                                        <select class="form-control " name="program_level_id" id="program_level_id" onchange="showProgramSubLevel(this.value)">
+                                            @foreach ($programlevels as $item)
+                                                <option value="{{$item->id}}" {{ $educationlevel->program_level_id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                            @endforeach
                                         </select>
-                                      @error('program_level_id')
-                                          <div class="text-danger">{{ $message }}</div>
-                                      @enderror
+                                        @error('program_level_id')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
+                                    <div class="col-12" id="program_sublevel_div">
+                                        <label>Program Sub Level<span class="text-danger">*</span></label>
+                                        <select class="form-control program_sublevel_div" name="program_sublevel_id" id="program_sublevel_id">
+                                            @foreach ($program_sublevels as $item)
+                                                <option value="{{$item->id}}" {{ $educationlevel->program_sublevel_id == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('program_sublevel_id')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endif
+
                                     <div class="col-12">
                                         <label>Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name" value="{{$educationlevel->name}}">

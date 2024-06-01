@@ -1189,12 +1189,9 @@
                             <br>
 
                             <section class="flg">
-
                                 <div class="container">
                                     <div class="row">
-
-
-                                        @foreach ($field_of_study as $item)
+                                        @foreach ($program_level as $item)
                                         <div class="col-md-2 col-6">
                                             <label class="image-checkbox">
                                                 <img class="img-responsive w-50 text-justify-center mx-auto"

@@ -207,29 +207,31 @@ Route::middleware('auth')->group(function () {
 
         Route::get('approve-program-filter',[ProgramController::class,'approve_program'])->name('approve-program-filter');
         Route::get('program-level-details',[ProgramController::class,'program_level_details'])->name('program-level-details');
-        Route::get('edit-program-level/{id?}',[ProgramController::class,'edit_program_level'])->name('edit-program-level');
-        Route::get('delete-program-level/{id?}',[ProgramController::class,'delete_program_level'])->name('delete-program-level');
-        Route::post('update-home-program-level/{id?}',[ProgramController::class,'update_program_level'])->name('update-home-program-level');
-        Route::get('create-new-program-level',[ProgramController::class,'create_program_level'])->name('create-new-program-level');
-        Route::post('store-program-details',[ProgramController::class,'store_program_level'])->name('store-program-details');
+        Route::get('edit-program-details/{id?}',[ProgramController::class,'edit_program_details'])->name('edit-program-details');
+        Route::get('delete-program-details/{id?}',[ProgramController::class,'delete_program_details'])->name('delete-program-details');
+        Route::post('update-home-program-details/{id?}',[ProgramController::class,'update_program_details'])->name('update-home-program-details');
+        Route::get('create-new-program-details',[ProgramController::class,'create_program_details'])->name('create-new-program-details');
+        Route::post('store-program-details',[ProgramController::class,'store_program_details'])->name('store-program-details');
 
+
+        Route::get('program-sub-level',[ProgramController::class,'program_sub_level'])->name('program-sub-level');
+        // Route::get('program-sub-level-filter',[ProgramController::class,'program_sub_level'])->name('program-sub-level-filter');
+        Route::get('edit-program-sub-level/{id?}',[ProgramController::class,'program_sub_level_edit'])->name('edit-program-sub-level');
+        Route::get('delete-program-sub-level/{id?}',[ProgramController::class,'delete_program_sub_level'])->name('delete-program-sub-level');
+        Route::post('update-program-sub-level/{id?}',[ProgramController::class,'program_sub_level_update'])->name('update-program-sub-level');
+        Route::get('create-new-program-sub-level',[ProgramController::class,'program_sub_level_create'])->name('create-new-program-sub-level');
+        Route::post('store-program-sub-level',[ProgramController::class,'program_sub_level_store'])->name('store-program-sub-level');
+
+        Route::post('get-program-sublevel',[ProgramController::class,'get_program_sublevel'])->name('get-program-sublevel');
         // EducationLevel
         Route::get('education-level',[ProgramController::class,'education_level'])->name('education-level');
-        // Route::get('education-level-filter',[ProgramController::class,'education_level'])->name('education-level-filter');
+      //Route::get('education-level-filter',[ProgramController::class,'education_level'])->name('education-level-filter');
         Route::get('edit-education-level/{id?}',[ProgramController::class,'education_level_edit'])->name('edit-education-level');
         Route::get('delete-education-level/{id?}',[ProgramController::class,'education_level_delete'])->name('delete-education-level');
         Route::post('update-education-level/{id?}',[ProgramController::class,'education_level_update'])->name('update-education-level');
         Route::get('create-new-education-level',[ProgramController::class,'education_level_create'])->name('create-new-education-level');
         Route::post('store-education-level',[ProgramController::class,'education_level_store'])->name('store-education-level');
         // Program level
-
-        Route::get('program-level',[ProgramController::class,'program_level'])->name('program-level');
-        // Route::get('program-level-filter',[ProgramController::class,'program_level'])->name('program-level-filter');
-        Route::get('edit-program_level/{id?}',[ProgramController::class,'program_level_edit'])->name('edit-program_level');
-        Route::get('delete-program-level/{id?}',[ProgramController::class,'program_level_delete'])->name('delete-program-level');
-        Route::post('update-program-level/{id?}',[ProgramController::class,'program_level_update'])->name('update-program-level');
-        Route::get('create-new-program_level',[ProgramController::class,'program_level_create'])->name('create-new-program_level');
-        Route::post('store-program-level',[ProgramController::class,'program_level_store'])->name('store-program-level');
 
         // PROGRAM DISPLINE
 
