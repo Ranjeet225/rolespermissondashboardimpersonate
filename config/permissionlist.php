@@ -446,5 +446,23 @@ return [
             'sms_template.update',
             'sms_template.delete',
         ],
+        'proficiency_level' => [
+            'proficiency_level.create',
+            'proficiency_level.view',
+            'proficiency_level.update',
+            'proficiency_level.delete',
+        ],
+        'program_discipline' => [
+            'program_discipline.create',
+            'program_discipline.view',
+            'program_discipline.update',
+            'program_discipline.delete',
+        ],
+        'program_subdiscipline' => [
+            'program_subdiscipline.create',
+            'program_subdiscipline.view',
+            'program_subdiscipline.update',
+            'program_subdiscipline.delete',
+        ],
       ],
 ];

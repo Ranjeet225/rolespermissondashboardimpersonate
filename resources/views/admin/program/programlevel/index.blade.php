@@ -62,7 +62,8 @@
                         <th>S.N</th>
                         <th>NAME</th>
                         <th>Order </th>
-                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -72,7 +73,7 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->orders }}</td>
                         <td><a  href="{{route('edit-program_level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>

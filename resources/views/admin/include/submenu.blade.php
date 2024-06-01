@@ -74,12 +74,12 @@
                             //exam
                             $edit_exam = request()->routeIs('edit-exam');
                             $add_exam = request()->routeIs('create-exam');
-                            $exam = $submenu->name === 'Exams';
+                            $exam = $submenu->name === 'Other Exams';
 
                             //field of study
                             $edit_field_of_study = request()->routeIs('create-field-of-study');
                             $add_field_of_study = request()->routeIs('edit-field-of-study');
-                            $field_of_study = $submenu->name === 'Fields of study types';
+                            $field_of_study = $submenu->name === 'Degree Type';
                             //subject
                             $edit_subjects = request()->routeIs('create-subjects');
                             $add_subjects = request()->routeIs('edit-subject');
@@ -159,7 +159,18 @@
                             $add_student_assistance= request()->routeIs('create-student-assistance');
                             $edit_student_assistance= request()->routeIs('edit-student-assistance');
                             $student_assistance= $submenu->name === 'Student Assistance';
-
+                            // eng-proficiency-level
+                            $add_eng_proficiency_level= request()->routeIs('create-eng-proficiency-level');
+                            $edit_eng_proficiency_level= request()->routeIs('edit-eng-proficiency-level');
+                            $eng_proficiency_level= $submenu->name === 'Eng Proficiency Level';
+                               //program displine
+                            $add_program_discipline= request()->routeIs('create-program-discipline');
+                            $edit_program_discipline= request()->routeIs('edit-program-discipline');
+                            $program_discipline= $submenu->name === 'Program Discipline';
+                                //program subdispline
+                            $add_program_subdiscipline= request()->routeIs('create-program-subdiscipline');
+                            $edit_program_subdiscipline= request()->routeIs('edit-program-subdiscipline');
+                            $program_sdiscipline= $submenu->name === 'Program SubDiscipline';
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
@@ -169,6 +180,9 @@
                                 ($pending_leads_submenu && $pending_leads_filter) ||
                                 ($assi_leads_submenu && $assi_leads_filter) ||
                                 ($sms_template && ($edit_sms_template || $add_sms_template)) ||
+                                ($program_sdiscipline && ($edit_program_subdiscipline || $add_program_subdiscipline)) ||
+                                ($program_discipline && ($edit_program_discipline || $add_program_discipline)) ||
+                                ($eng_proficiency_level && ($edit_eng_proficiency_level || $add_eng_proficiency_level)) ||
                                 ($student_assistance && ($edit_student_assistance || $add_student_assistance)) ||
                                 ($role && ($edit_role || $add_role)) ||
                                 ($user && ($edit_user || $add_user)) ||

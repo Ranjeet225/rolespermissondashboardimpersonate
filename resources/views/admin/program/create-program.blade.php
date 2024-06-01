@@ -40,6 +40,17 @@
                         {{ session('success') }}
                     </div>
                 @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form class="row g-4"  action="{{route('store-program')}}" method="POST">
                     @csrf
                     @method('post')
@@ -60,18 +71,33 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control " name="prog_category" id="lead-prog_category" placeholder="Program Category">
-                             <option value="">-- Select Program Category --</option>
-                             @foreach ($program_category as $item)
-                                <option value="{{$item->id}}" {{ old('prog_category') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                          <select class="form-control program_discipline_select" name="program_discipline" id="program-discipline" placeholder="Program Category">
+                             <option value="">-- Select Program Discipline --</option>
+                             @foreach ($program_discipline as $item)
+                                <option value="{{$item->id}}" {{ old('program_discipline') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
                           </select>
-                          <label for="lead-prog_category" class="form-label">Program Category <span class="text-danger">*</span></label>
+                          <label for="lead-program-discipline" class="form-label">Program discipline <span class="text-danger">*</span></label>
                         </div>
-                        @error('prog_category')
+                        @error('program_discipline')
                           <div class="text-danger">{{ $message }}</div>
                       @enderror
                     </div>
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <select class="form-control program_sub_discipline_select" name="program_subdiscipline" id="lead-program-sub-discipline" placeholder="Program Sub Discipline">
+                                <option value="">-- Select Program Sub Discipline --</option>
+                                {{-- @foreach ($program_subdiscipline as $item)
+                                    <option value="{{$item->id}}" {{ old('program_subdiscipline') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                @endforeach --}}
+                            </select>
+                            <label for="lead-program-sub-discipline" class="form-label">Program sub discipline</label>
+                        </div>
+                        @error('program_subdiscipline')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="col-4 ">
                         <div class="">
                             <select class="form-control  selectpicker" name="subject_id_input"
@@ -171,11 +197,10 @@
                     <div class="col-4">
                        <div class="form-floating">
                           <select class="form-control " name="grading_scheme_id" id="lead-grading_scheme_id" placeholder="Grading Scheme">
-                             <option value="">-- Education Lavel --</option>
-                             <option value="1" {{ old('grading_scheme_id ') == 1 ? 'selected' : '' }}>Primary</option>
-                             <option value="2" {{ old('grading_scheme_id ') == 2 ? 'selected' : '' }}>Secondary</option>
-                             <option value="3" {{ old('grading_scheme_id ') == 3 ? 'selected' : '' }}>Graduate</option>
-                             <option value="4" {{ old('grading_scheme_id ') == 4 ? 'selected' : '' }}>Undergraduate</option>
+                             <option value="">-- Grading Scheme --</option>
+                             @foreach ($grading_scheme as $item)
+                                <option value="{{$item->id}}" {{ old('grading_scheme_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                             @endforeach
                           </select>
                           <label for="lead-grading_scheme_id" class="form-label">Grading Scheme <span class="text-danger">*</span></label>
                         </div>
@@ -185,19 +210,32 @@
                     </div>
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control " name="degree_scheme_id" id="lead-degree_scheme_id" placeholder="Degree">
-                             <option value="">-- Select Minimum Level of Education Required --</option>
-                             @foreach ($education_level as $item)
-                                  <option value="{{$item->id}}" {{ old('degree_scheme_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                          <select class="form-control " name="program_level" id="lead-program-level" placeholder="Degree" onchange="showEducationLevel(this.value)">
+                             <option value="">-- Program level--</option>
+                             @foreach ($program_level as $item)
+                                  <option value="{{$item->id}}" {{ old('program-level') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
-
                           </select>
-                          <label for="lead-degree_scheme_id" class="form-label">Degree <span class="text-danger">*</span></label>
+                          <label for="lead-program-level" class="form-label">Program level <span class="text-danger">*</span></label>
                         </div>
-                        @error('degree_scheme_id')
+                        @error('program-level')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
+
+                    <div class="col-4" id="education-level">
+                        <div class="form-floating">
+                          <select class="form-control " name="education_level" id="lead-education-level" placeholder="Education Level">
+                             <option value="">-- Education Level--</option>
+                          </select>
+                          <label for="lead-education-level" class="form-label">Education Level <span class="text-danger">*</span></label>
+                        </div>
+                        @error('education-level')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    </div>
+
+
                     <div class="col-4">
                         <div class="form-floating ">
                             <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{old('total_credits')}}">
@@ -348,5 +386,55 @@
       tabsize: 2,
       height: 100
     });
+</script>
+<script>
+    $(document).ready(function(){
+        function csrf(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        }
+        $('.program_discipline_select').on('change',function(){
+            var program_discipline_id = $('#program-discipline').val();
+            csrf();
+            $.ajax({
+                type:"GET",
+                url:"{{route('get-program-sub-discipline')}}?program_discipline_id="+program_discipline_id,
+                success:function(res){
+                    if(res){
+                        $(".program_sub_discipline_select").empty();
+                        $(".program_sub_discipline_select").append('<option value="">--Select Program Sub Discipline--</option>');
+                        $.each(res,function(key,value){
+                            $(".program_sub_discipline_select").append('<option value="'+key+'">'+value.name+'</option>');
+                        });
+                    }else{
+                        $(".program_sub_discipline_select").empty();
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function showEducationLevel(programLevelId) {
+        $.ajax({
+            url: "{{route('get-education-level')}}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                programLevelId: programLevelId,
+            },
+            success: function(response) {
+                var educationLevel = $('#lead-education-level');
+                educationLevel.empty();
+                educationLevel.append("<option value=''>-- Education Level--</option>");
+                response.forEach(element => {
+                    educationLevel.append("<option value='"+element.id+"'>"+element.name+"</option>");
+                });
+            }
+        });
+    }
 </script>
 @endsection

@@ -26,6 +26,18 @@
                                     @csrf
                                     @method('post')
                                     <div class="col-12">
+                                        <label>Program Level<span class="text-danger">*</span></label>
+                                        <select class="form-control " name="program_level_id" id="program_level_id">
+                                          <option value="">-- Select Program Level --</option>
+                                          @foreach ($programlevels as $item)
+                                             <option value="{{$item->id}}" >{{$item->name}}</option>
+                                          @endforeach
+                                        </select>
+                                      @error('program_level_id')
+                                          <div class="text-danger">{{ $message }}</div>
+                                      @enderror
+                                    </div>
+                                    <div class="col-12">
                                         <label>Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name">
                                         @error('name')

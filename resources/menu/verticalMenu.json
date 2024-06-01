@@ -194,7 +194,7 @@
             "name": "Programs",
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
-            "permission":["programs.view","approve_program.view","manage_program.view","program_level_details.view","education_level.view","program_level.view","grading_scheme.view","exams.view","field_of_study.view","subject.view","manage_recommended_programs.view"],
+            "permission":["programs.view","proficiency_level.view","approve_program.view","manage_program.view","program_level_details.view","education_level.view","program_level.view","grading_scheme.view","exams.view","field_of_study.view","subject.view","manage_recommended_programs.view"],
             "submenu": [
                 {
                     "url": "/admin/approve-program",
@@ -213,6 +213,24 @@
                     "name": "Program Level Details",
                     "slug": "admin-program-level-details",
                     "permission":"program_level_details.view"
+                },
+                 {
+                    "url": "/admin/eng-proficiency-level",
+                    "name": "Eng Proficiency Level",
+                    "slug": "admin-proficiency-level",
+                    "permission":"proficiency_level.view"
+                },
+                {
+                    "url": "/admin/program-discipline",
+                    "name": "Program Discipline",
+                    "slug": "admin-program-discipline",
+                    "permission":"program_discipline.view"
+                },
+                {
+                    "url": "/admin/program-subdiscipline",
+                    "name": "Program SubDiscipline",
+                    "slug": "admin-program-subdiscipline",
+                    "permission":"program_subdiscipline.view"
                 },
                 {
                     "url": "/admin/education-level",
@@ -233,13 +251,13 @@
                     "permission":"grading_scheme.view"
                 },{
                     "url": "/admin/exams",
-                    "name": "Exams",
+                    "name": "Other Exams",
                     "slug": "admin-exams",
                     "permission":"exams.view"
                 },
                 {
                     "url": "/admin/field-of-study-types",
-                    "name": "Fields of study types",
+                    "name": "Degree Type",
                     "slug": "admin-field-of-study-types",
                     "permission":"field_of_study.view"
                 },
@@ -248,12 +266,6 @@
                     "name": "Subjects",
                     "slug": "admin-subjects",
                     "permission":"subject.view"
-                },
-                {
-                    "url": "/admin/manage-recommended-programs",
-                    "name": " Manage Recommended Programs ",
-                    "slug": "manage-recommended-programs",
-                    "permission":"manage_recommended_programs.view"
                 }
             ]
         },

@@ -60,6 +60,7 @@
                 <thead>
                     <tr>
                         <th>S.N</th>
+                        <th>Program Name</th>
                         <th>NAME</th>
                         <th>Order </th>
                         <th>Action</th>
@@ -69,10 +70,11 @@
                     @foreach ($educationlevel as $item)
                     <tr>
                         <td>{{ $loop->index + (($educationlevel->currentPage() - 1) * $educationlevel->perPage()) + 1 }}</td>
+                        <td class="text-wrap">{{ $item->programLevel->first()?->name ?? null }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->item_order }}</td>
                         <td><a  href="{{route('edit-education-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>

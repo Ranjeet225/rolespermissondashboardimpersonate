@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\EducationLevel;
+use App\Models\EngProficiencyLevel;
 use App\Models\Exam;
 use App\Models\Fieldsofstudytype;
 use App\Models\GradingScheme;
 use App\Models\HomeProgramLevel;
 use App\Models\Program;
+use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
+use App\Models\ProgramSubdiscipline;
 use App\Models\Subject;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -71,12 +74,14 @@ class ProgramController extends Controller
         } else {
             $universities = University::where('user_id', $user->id)->get();
         }
-        $program_category=DB::table('tbl_program_category')->get();
+        // $program_category=DB::table('tbl_program_category')->get();
+        $program_discipline =ProgramDiscipline::select('name','id')->where('status', '1')->get();
         $all_subject = Subject::where('status', '1')->get();
         $filed_of_study =Fieldsofstudytype::where('status', '1')->get();
-        $education_level = EducationLevel::get();
+        $grading_scheme=GradingScheme::select('name','id')->get();
+        $program_level = ProgramLevel::get();
         $currency =Currency::get();
-        return view('admin.program.create-program', compact('universities','program_category','all_subject','filed_of_study','education_level','currency'));
+        return view('admin.program.create-program', compact('universities','program_discipline','grading_scheme','all_subject','filed_of_study','program_level','currency'));
     }
 
 
@@ -84,14 +89,12 @@ class ProgramController extends Controller
     {
         $request->validate([
             'school_id' => 'required|max:200',
-            'prog_category' => 'required|max:200',
             'name' => 'required|max:200',
             'length' => 'required|max:200',
             'programType' => 'required|max:200',
             'programCampus' => 'required|max:200',
             'lang_spec_for_program' => 'required|max:200',
             'fieldsofstudytype' => 'required|max:200',
-            'degree_scheme_id' => 'required|max:200',
             'total_credits' => 'required|max:200',
             'application_fee' => 'required|max:200',
             'application_apply_date' => 'required|max:200',
@@ -100,6 +103,7 @@ class ProgramController extends Controller
             'currency' => 'required|max:200',
             'intake' => 'required|max:200',
             'min_gpa' => 'required|max:200',
+            'program_discipline'=>'required'
         ]);
         $sub_type = gettype($request->subject_id_input);
         if($sub_type == "string"){
@@ -122,15 +126,16 @@ class ProgramController extends Controller
             'subject_id' => $subject_id_input  ?? null,
             'fieldsofstudytype' => $request->fieldsofstudytype  ?? null,
             'description' => $request->details  ?? null,
-            'education_level_id' => $request->education_level_id  ?? null,
-            'program_level_id' => $request->program_level_id ?? null,
             'grading_scheme_id' => $request->grading_scheme_id  ?? null,
             'total_credits' => $request->total_credits  ?? null,
             'application_fee' => $request->application_fee  ?? null,
             'application_apply_date' => $request->application_apply_date  ?? null,
             'application_closing_date' => $request->application_closing_date  ?? null,
             'lang_spec_for_program'=>$request->lang_spec_for_program  ?? null,
-            'degree_scheme_id'=>$request->degree_scheme_id  ?? null,
+            'program_level_id'=>$request->program_level  ?? null,
+            'education_level_id'=>$request->education_level  ?? null,
+            'program_discipline'=>$request->program_discipline ?? null,
+            'program_subdiscipline'=>$request->program_subdiscipline ?? null,
             'tution_fee' => $request->tution_fee  ?? null,
             'currency' => $request->currency  ?? null,
             'intake' => $request->intake  ?? null,
@@ -142,7 +147,6 @@ class ProgramController extends Controller
             'cost_of_living_fee' => '00.00',
             'cost_of_living' => '00.00',
             'is_approved' => '1',
-            'prog_category' => $request->prog_category ?? null,
         ]);
         return redirect()->route('manage-program')->with('success', 'Program Added Successfully');
     }
@@ -155,12 +159,15 @@ class ProgramController extends Controller
         } else {
             $universities = University::where('user_id', $user->id)->get();
         }
+        $program_discipline =ProgramDiscipline::select('name','id')->where('status', '1')->get();
+        $program_subdiscipline =ProgramSubDiscipline::select('name','id')->where('status', '1')->get();
+        $grading_scheme=GradingScheme::select('name','id')->get();
         $program_category=DB::table('tbl_program_category')->get();
         $all_subject = Subject::where('status', '1')->get();
         $filed_of_study =Fieldsofstudytype::where('status', '1')->get();
         $education_level = EducationLevel::get();
         $currency =Currency::get();
-        return view('admin.program.edit-program', compact('universities','program_category','all_subject','filed_of_study','education_level','currency','program'));
+        return view('admin.program.edit-program', compact('grading_scheme','program_discipline','program_subdiscipline','universities','program_category','all_subject','filed_of_study','education_level','currency','program'));
     }
 
     public function view_program($id){
@@ -172,7 +179,6 @@ class ProgramController extends Controller
     public function update_program(Request $request,$id){
         $request->validate([
             'school_id' => 'required|max:200',
-            'prog_category' => 'required|max:200',
             'name' => 'required|max:200',
             'length' => 'required|max:200',
             'programType' => 'required|max:200',
@@ -180,7 +186,7 @@ class ProgramController extends Controller
             'lang_spec_for_program' => 'required|max:200',
             'fieldsofstudytype' => 'required|max:200',
             'grading_scheme_id' => 'required|max:200',
-            'degree_scheme_id' => 'required|max:200',
+            'program-level' => 'required|max:200',
             'total_credits' => 'required|max:200',
             'application_fee' => 'required|max:200',
             'application_apply_date' => 'required|max:200',
@@ -189,6 +195,7 @@ class ProgramController extends Controller
             'currency' => 'required|max:200',
             'intake' => 'required|max:200',
             'min_gpa' => 'required|max:200',
+            'program_discipline'=>'required|max:200'
         ]);
         $sub_type = gettype($request->subject_id_input);
         if($sub_type == "string"){
@@ -211,14 +218,15 @@ class ProgramController extends Controller
             'subject_id' => $subject_id_input  ?? null,
             'fieldsofstudytype' => $request->fieldsofstudytype  ?? null,
             'description' => $request->details  ?? null,
-            'education_level_id' => $request->education_level_id  ?? null,
-            'program_level_id' => $request->program_level_id ?? null,
+            'program_level_id'=>$request->program_level  ?? null,
+            'education_level_id'=>$request->education_level  ?? null,
             'grading_scheme_id' => $request->grading_scheme_id  ?? null,
             'total_credits' => $request->total_credits  ?? null,
-            'degree_scheme_id'=>$request->degree_scheme_id ?? null,
             'application_fee' => $request->application_fee  ?? null,
             'application_apply_date' => $request->application_apply_date  ?? null,
             'application_closing_date' => $request->application_closing_date  ?? null,
+            'program_discipline'=>$request->program_discipline ?? null,
+            'program_subdiscipline'=>$request->program_subdiscipline ?? null,
             'tution_fee' => $request->tution_fee  ?? null,
             'currency' => $request->currency  ?? null,
             'intake' => $request->intake  ?? null,
@@ -230,7 +238,6 @@ class ProgramController extends Controller
             'cost_of_living_fee' => '00.00',
             'cost_of_living' => '00.00',
             'is_approved' => '1',
-            'prog_category' => $request->prog_category ?? null,
         ]);
         return redirect()->route('manage-program')->with('success', 'Program Updated Successfully');
     }
@@ -349,7 +356,7 @@ class ProgramController extends Controller
 
     public function education_level(Request $request){
         $name = $request->get('name');
-        $educationlevel = EducationLevel::when($name, function ($query) use ($name) {
+        $educationlevel = EducationLevel::with('programLevel')->when($name, function ($query) use ($name) {
             return $query->where('name', 'like', '%' . $name . '%');
         })->paginate(12);
 
@@ -357,13 +364,15 @@ class ProgramController extends Controller
     }
 
     public function education_level_create(){
-        return view('admin.program.educationlevel.create');
+        $programlevels =ProgramLevel::select('name','id')->get();
+        return view('admin.program.educationlevel.create',compact('programlevels'));
     }
 
     public function education_level_store(Request $request){
         $request->validate([
             'name' => 'required',
-            'item_order'=>'required|numeric'
+            'item_order'=>'required|numeric',
+            'program_level_id'=>'required',
         ]);
         EducationLevel::create($request->except('_token'));
         return redirect()->route('education-level')->with('success','Data Inserted Successfully');
@@ -371,18 +380,21 @@ class ProgramController extends Controller
 
     public function education_level_edit($id){
         $educationlevel=EducationLevel::find($id);
-        return view('admin.program.educationlevel.edit',compact('educationlevel'));
+        $programlevels =ProgramLevel::select('name','id')->get();
+        return view('admin.program.educationlevel.edit',compact('educationlevel','programlevels'));
     }
 
     public function education_level_update(Request $request,$id){
         $request->validate([
             'name' => 'required',
-            'item_order'=>'required|numeric'
+            'item_order'=>'required|numeric',
+            'program_level_id'=>'required',
         ]);
         $educationlevel=EducationLevel::find($id);
         $educationlevel->update([
             'name' => $request->name,
-            'item_order'=>$request->item_order
+            'item_order'=>$request->item_order,
+            'program_level_id'=>$request->program_level_id,
         ]);
         return redirect()->route('education-level')->with('success','Data Updated Successfully');
     }
@@ -637,4 +649,134 @@ class ProgramController extends Controller
         $subject->delete();
         return redirect()->route('subject')->with('success','Data Deleted Successfully');
     }
+
+
+    public function eng_proficiency_level(){
+        $eng_proficiency_level=EngProficiencyLevel::paginate(12);
+        return view('admin.program.eng_proficiency_level.index', compact('eng_proficiency_level'));
+    }
+    public function eng_proficiency_level_create(){
+        return view('admin.program.eng_proficiency_level.create');
+    }
+    public function eng_proficiency_level_store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'status'=>'required'
+        ]);
+        EngProficiencyLevel::create($request->except('_token'));
+        return redirect()->route('eng-proficiency-level')->with('success','Data Inserted Successfully');
+    }
+    public function eng_proficiency_level_edit($id){
+        $eng_level=EngProficiencyLevel::find($id);
+        return view('admin.program.eng_proficiency_level.edit',compact('eng_level'));
+    }
+    public function eng_proficiency_level_update(Request $request,$id){
+        $request->validate([
+            'name' => 'required',
+            'status'=>'required'
+        ]);
+        $eng_level=EngProficiencyLevel::find($id);
+        $eng_level->update($request->except('_token'));
+        return redirect()->route('eng-proficiency-level')->with('success','Data Updated Successfully');
+    }
+    public function eng_proficiency_level_delete($id){
+        EngProficiencyLevel::find($id)->delete();
+        return redirect()->route('eng-proficiency-level')->with('success','Data Deleted Successfully');
+    }
+
+
+    public function program_discipline(){
+        $program_discipline=ProgramDiscipline::paginate(12);
+        return view('admin.program.program_discipline.index', compact('program_discipline'));
+    }
+    public function program_discipline_create(){
+        return view('admin.program.program_discipline.create');
+    }
+    public function program_discipline_store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'status'=>'required'
+        ]);
+        ProgramDiscipline::create($request->except('_token'));
+        return redirect()->route('program-discipline')->with('success','Data Inserted Successfully');
+    }
+    public function program_discipline_edit($id){
+        $program_discipline=ProgramDiscipline::find($id);
+        return view('admin.program.program_discipline.edit',compact('program_discipline'));
+    }
+    public function program_discipline_update(Request $request,$id){
+        $request->validate([
+            'name' => 'required',
+            'status'=>'required'
+        ]);
+        $program_discipline=ProgramDiscipline::find($id);
+        $program_discipline->update($request->except('_token'));
+        return redirect()->route('program-discipline')->with('success','Data Updated Successfully');
+    }
+    public function program_discipline_delete($id){
+        $program_subdiscipline=ProgramSubdiscipline::where('program_discipline_id',$id)->first();
+        if($program_subdiscipline){
+            return redirect()->route('program-discipline')->with('error','Can Not Delete Subdicipline exit not found');
+        }
+        if(ProgramDiscipline::find($id)){
+            ProgramDiscipline::find($id)->delete();
+            return redirect()->route('program-discipline')->with('success','Data Deleted Successfully');
+        }
+        return redirect()->route('program-discipline')->with('error','Data not found');
+    }
+
+
+    public function program_subdiscipline(){
+        $program_subdiscipline=ProgramSubdiscipline::with('programdiscipline')->paginate(12);
+        return view('admin.program.program_subdiscipline.index', compact('program_subdiscipline'));
+    }
+    public function program_subdiscipline_create(){
+        $program_discipline=ProgramDiscipline::all();
+        return view('admin.program.program_subdiscipline.create',compact('program_discipline'));
+    }
+    public function program_subdiscipline_store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'status'=>'required',
+            'program_discipline_id'=>'required'
+        ]);
+        ProgramSubdiscipline::create($request->except('_token'));
+        return redirect()->route('program-subdiscipline')->with('success','Data Inserted Successfully');
+    }
+    public function program_subdiscipline_edit($id){
+        $program_subdiscipline=ProgramSubdiscipline::find($id);
+        $program_discipline=ProgramDiscipline::all();
+        return view('admin.program.program_subdiscipline.edit',compact('program_subdiscipline','program_discipline'));
+    }
+    public function program_subdiscipline_update(Request $request,$id){
+        $request->validate([
+            'name' => 'required',
+            'status'=>'required',
+            'program_discipline_id'=>'required'
+        ]);
+        $program_subdiscipline=ProgramSubdiscipline::find($id);
+        $program_subdiscipline->update($request->except('_token'));
+        return redirect()->route('program-subdiscipline')->with('success','Data Updated Successfully');
+    }
+    public function program_subdiscipline_delete($id){
+        ProgramSubdiscipline::find($id)->delete();
+        return redirect()->route('program-subdiscipline')->with('success','Data Deleted Successfully');
+    }
+
+
+    public function get_program_sub_discipline(Request $request){
+        if($request->ajax()){
+            $program_subdiscipline=ProgramSubdiscipline::where('status', '1')->where('program_discipline_id',$request->program_discipline_id)->get();
+            return response()->json($program_subdiscipline);
+        }
+    }
+
+    public function get_education_level(Request $request)
+    {
+        if($request->ajax()){
+            $program_subdiscipline=EducationLevel::where('program_level_id',$request->programLevelId)->get();
+            return response()->json($program_subdiscipline);
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrenchiseController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\LeadsManageCotroller;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OtherMasterDataController;
@@ -25,9 +26,13 @@ this project make with refrence with another project har project are working
 so sorry for repeat this mistake because i am not makeing new table just i am using exiting database
 */
 
-// Route::get('/', function () {
-//     return view('dashboard');
+// Route::get('/', function (Coun) {
+//     return view('frontend.check-my-eligibility');
 // });
+
+Route::get('/', [FrontendController::class,'check_eligibility']);
+Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');
+Route::post('/get-item-details',[FrontendController::class,'get_country'])->name('get-item-details');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -41,7 +46,7 @@ Route::post('payment/failure',[LeadsManageCotroller::class,'failure'])->name('ra
 Route::get('payment/success',[LeadsManageCotroller::class,'success'])->name('razorpay.payment.succes');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
+    // Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('dashborad-data/{key}', [DashboardController::class, 'dashboard_data'])->name('dashboard-data');
@@ -187,6 +192,8 @@ Route::middleware('auth')->group(function () {
         // program module
         Route::get('manage-program',[ProgramController::class,'manage_program'])->name('manage-program');
         Route::get('add-program',[ProgramController::class,'add_program'])->name('add-program');
+        Route::get('get-program-sub-discipline',[ProgramController::class,'get_program_sub_discipline'])->name('get-program-sub-discipline');
+        Route::post('get-education-level',[ProgramController::class,'get_education_level'])->name('get-education-level');
         Route::post('store-program',[ProgramController::class,'store_program'])->name('store-program');
         Route::get('edit-program/{id}',[ProgramController::class,'edit_program'])->name('edit-program');
         Route::Post('update-program/{id}',[ProgramController::class,'update_program'])->name('update-program');
@@ -224,6 +231,24 @@ Route::middleware('auth')->group(function () {
         Route::get('create-new-program_level',[ProgramController::class,'program_level_create'])->name('create-new-program_level');
         Route::post('store-program-level',[ProgramController::class,'program_level_store'])->name('store-program-level');
 
+        // PROGRAM DISPLINE
+
+        Route::get('program-discipline',[ProgramController::class,'program_discipline'])->name('program-discipline');
+        Route::get('edit-program-discipline/{id?}',[ProgramController::class,'program_discipline_edit'])->name('edit-program-discipline');
+        Route::get('delete-program-discipline/{id?}',[ProgramController::class,'program_discipline_delete'])->name('delete-program-discipline');
+        Route::post('update-program-discipline/{id?}',[ProgramController::class,'program_discipline_update'])->name('update-program-discipline');
+        Route::get('create-new-program-discipline',[ProgramController::class,'program_discipline_create'])->name('create-program-discipline');
+        Route::post('store-program-discipline',[ProgramController::class,'program_discipline_store'])->name('store-program-discipline');
+
+
+        // PROGRAM SUB DISCIPLINE
+        Route::get('program-subdiscipline',[ProgramController::class,'program_subdiscipline'])->name('program-subdiscipline');
+        Route::get('edit-program-subdiscipline/{id?}',[ProgramController::class,'program_subdiscipline_edit'])->name('edit-program-subdiscipline');
+        Route::get('delete-program-subdiscipline/{id?}',[ProgramController::class,'program_subdiscipline_delete'])->name('delete-program-subdiscipline');
+        Route::post('update-program-subdiscipline/{id?}',[ProgramController::class,'program_subdiscipline_update'])->name('update-program-subdiscipline');
+        Route::get('create-new-program-subdiscipline',[ProgramController::class,'program_subdiscipline_create'])->name('create-program-subdiscipline');
+        Route::post('store-program-subdiscipline',[ProgramController::class,'program_subdiscipline_store'])->name('store-program-subdiscipline');
+
         // grading scheme
         Route::get('grading-scheme',[ProgramController::class,'grading_scheme'])->name('grading-scheme');
         // Route::get('grading-scheme-filter',[ProgramController::class,'grading_scheme'])->name('grading-scheme-filter');
@@ -242,6 +267,16 @@ Route::middleware('auth')->group(function () {
         Route::post('update-exam/{id?}',[ProgramController::class,'exam_update'])->name('update-exam');
         Route::post('store-exam',[ProgramController::class,'exam_store'])->name('store-exam');
         Route::get('delete-exam/{id?}',[ProgramController::class,'exam_delete'])->name('delete-exam');
+
+        // proficiency table
+        Route::get('eng-proficiency-level',[ProgramController::class,'eng_proficiency_level'])->name('eng-proficiency-level');
+        Route::get('create-eng-proficiency-level',[ProgramController::class,'eng_proficiency_level_create'])->name('create-eng-proficiency-level');
+        Route::get('edit-eng-proficiency-level/{id?}',[ProgramController::class,'eng_proficiency_level_edit'])->name('edit-eng-proficiency-level');
+        Route::get('delete-eng-proficiency-level/{id?}',[ProgramController::class,'eng_proficiency_level_delete'])->name('delete-eng-proficiency-level');
+        Route::post('update-eng-proficiency-level/{id?}',[ProgramController::class,'eng_proficiency_level_update'])->name('update-eng-proficiency-level');
+        Route::post('store-eng-proficiency-level',[ProgramController::class,'eng_proficiency_level_store'])->name('store-eng-proficiency-level');
+        Route::get('delete-eng-proficiency-level/{id?}',[ProgramController::class,'eng_proficiency_level_delete'])->name('delete-eng-proficiency-level');
+
         // field-of-study
         Route::get('field-of-study-types',[ProgramController::class,'field_of_study'])->name('field-of-study');
         // Route::get('field-of-study-filter',[ProgramController::class,'field_of_study'])->name('field-of-study-filter');

@@ -45,7 +45,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-12">
-                                        <label>Enter Exam Name</label>
+                                        <label>Enter  Name</label>
                                         <input type="text" class="form-control " name="name" value="{{ $fieldOfStudy->name }}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
