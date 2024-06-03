@@ -17,7 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Models\MasterLeadStatus;
 use Maatwebsite\Excel\Row;
 
-// URL::forceScheme('https');
+URL::forceScheme('https');
 
 /*
 in this project some name of model or function and table name is wrong because
