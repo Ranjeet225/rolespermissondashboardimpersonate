@@ -40,6 +40,7 @@
     <!-- This stylesheet dynamically changed from style.less -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/responsive.css?v=' . time()) }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/custom.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="home-style2">
     <script type="text/javascript" src="{{ asset('v3/polyfill.min.js') }}"></script>

@@ -98,27 +98,21 @@
                         @enderror
                     </div>
 
-                    <div class="col-4 ">
-                        <div class="">
+                    {{-- <div class="col-4 ">
+                        <div class="form-floating">
                             <select class="form-control  selectpicker" name="subject_id_input"
                                 id="subject_id_input" multiple placeholder="Education Level">
                                 @foreach ($all_subject as $item)
-                                    {{-- @php
-                                        $selected = '';
-                                        if ($about_student->pref_subjects !== null && $about_student->pref_subjects !== '') {
-                                            $selected = in_array($item->id, explode(',', $about_student->pref_subjects)) ? 'selected' : '';
-                                        }
-                                    @endphp --}}
-                                    {{-- <option value="{{ $item->id }}" {{ $selected }}>{{ $item->subject_name }}</option> --}}
                                     <option value="{{ $item->id }}" {{ old('subject_id_input') == $item->id ? 'selected' : '' }}>{{ $item->subject_name }}</option>
                                 @endforeach
                             </select>
                             <label for="lead-education_level_id" class="form-label">-- Program / Courses Subject --</label>
+
                         </div>
                         @error('subject_id_input')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-4">
                         <div class="form-floating">
                             <input  name="name" type="text" class="form-control " value="{{ old('name')}}" placeholder="Program / Courses Name" autocomplete="name" >

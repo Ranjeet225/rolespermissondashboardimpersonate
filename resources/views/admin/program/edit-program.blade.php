@@ -155,7 +155,7 @@
                      <div class="text-danger">{{ $message }}</div>
                     @enderror
                  </div>
-                 <div class="col-4 ">
+                 {{-- <div class="col-4 ">
                     <div class="form-floating">
                         <select class="form-control   selectpicker" name="subject_id_input"
                             id="subject_id_input" multiple placeholder="Education Level">
@@ -174,7 +174,7 @@
                     @error('subject_id_input')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                </div>
+                </div> --}}
                     <div class="col-4">
                        <div class="form-floating">
                           <select class="form-control " name="fieldsofstudytype" id="lead-fieldsofstudytype" placeholder="Fields Of Study Type (Degree type offered)">

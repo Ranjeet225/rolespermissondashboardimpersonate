@@ -173,36 +173,28 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-4 col-6">
-                                            <select class="form-control" multiple name="program_displine" id="">
+                                            <select class="form-control" multiple name="program_displine" id="program_displine">
                                                @foreach ($program_discipline as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
-                                                {{-- <label class="image-checkbox">
-                                                    <img class="img-responsive"
-                                                    src="{{asset('assets/degree.png')}}" />
-                                                    <p class="countrypapa"> {{$item->name}}</p>
-                                                    <input type="checkbox" name="program_displine" value="{{$item->id}}" />
-                                                    <i class="fa fa-check hidden"></i>
-                                                </label> --}}
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-4 col-6">
-                                            <ul>
-                                                <li></li>
-                                                <li></li>
-                                                <li></li>
-                                                <li></li>
+                                            <ul class="program_subdiscipline_list">
+
                                             </ul>
+                                            <h4 class="program_discipline_name"></h4>
                                         </div>
                                     </div>
                                 </div>
                             </section>
+
                             <div class="form-group clearfix">
                                 <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
                                 <a href="javascript:;" class="form-wizard-next-btn float-right program-subdiscipline" data-url="{{route('program-subdiscipline-data')}}">Next</a>
                             </div>
                         </fieldset>
-                        <fieldset class="wizard-fieldset">
+                        {{-- <fieldset class="wizard-fieldset">
                             <h2 style="text-align: center;font-weight: 800;margin: 0px">Program SubDiscipline? </h2>
                             <br>
                             <div class="row">
@@ -220,7 +212,7 @@
                                 <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
                                 <a href="javascript:;" class="form-wizard-next-btn float-right">Continue</a>
                             </div>
-                        </fieldset>
+                        </fieldset> --}}
                         <fieldset class="wizard-fieldset">
                             <h2 style="text-align: center;font-weight: 800;margin: 0px"> Which english language test
                                 have you taken OR are planning to take? </h2>
@@ -575,13 +567,20 @@
         </div>
     </div>
     <script>
+        function csrf(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        }
         function ajaxRequest(id) {
             $('#appendImg88').empty();
+            csrf();
             $.ajax({
                 url: '{{ route('get-country-flags') }}',
                 type: 'POST',
                 data: {
-                    '_token': '{{ csrf_token() }}',
                     'country_id': id
                 },
                 success: function(data) {
@@ -599,12 +598,12 @@
             $('input[name="image[]"]').on('change', function() {
                 var item = $(this).val();
                 var url = "{{ route('get-item-details') }}";
+                csrf();
                 $.ajax({
                     url: url,
                     type: "GET",
                     data: {
                         item: item,
-                        _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(data) {
                         console.log(data);
@@ -617,11 +616,11 @@
             $('#program_level:checked').each(function() {
                 selectedOptions.push($(this).val());
             });
+            csrf();
             $.ajax({
                 url: '{{ route('get-program-sublevel') }}',
                 type: 'POST',
                 data: {
-                    '_token': '{{ csrf_token() }}',
                     'program_level_id': selectedOptions
                 },
                 success: function(data) {
@@ -654,11 +653,11 @@
                 var selectedSubLevelId = $(this).attr('data-sublevel-id');
                 selectedProgramSubLevelOptions.push(selectedSubLevelId);
             });
+            csrf();
             $.ajax({
                 url: '{{ route('get-education-level-data') }}',
                 type: 'POST',
                 data: {
-                    '_token': '{{ csrf_token() }}',
                     'program_level_id': selectedProgramLevelOptions,
                     'program_sublevel_id': selectedProgramSubLevelOptions
                 },
@@ -683,39 +682,33 @@
         });
     </script>
     {{-- sub-discipline --}}
-       <script>
-        $(document).on('click', '.program-subdiscipline', function() {
-            var url = $(this).data('url');
-            var program_displine = $('input[name="program_displine"]:checked');
-            var formData = new FormData();
-            formData.append('_token', '{{ csrf_token() }}');
-            program_displine.each(function() {
-                formData.append('program_displine[]', $(this).val());
-            });
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if (data.length > 0) {
-                        $('.program-sub-discipline').empty();
-                        $.each(data, function(index, program_sub_discipline) {
-                            $('.program-sub-discipline').append(`
-                            <li class="nav-item tab-btns">
-                                <a class="nav-link tab-btn" id="prod-overview-tab"
-                                    data-toggle="tab" href="#prod-overview" role="tab"
-                                    data-program-sub-discipline-level-id="${program_sub_discipline.id}"
-                                    aria-controls="prod-overview" aria-selected="true">${program_sub_discipline.name.toUpperCase()}</a>
-                            </li>
-                            `);
-                        });
-                    } else {
-                        $('.program-sub-discipline').empty().append('<li class="nav-item tab-btns"><h4>Not Found</h4></li>');
+        <script>
+            $("#program_displine").on('change',function(){
+                var ids = $(this).val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
-                }
+                });
+                $.ajax({
+                    url: '{{ route('program-subdiscipline-data') }}',
+                    method: 'POST',
+                    data:{program_displine:ids},
+                    success: function(data) {
+                        if (data.length > 0) {
+                            $('.program_subdiscipline_list').empty();
+                            $.each(data, function(index, program_sub_discipline) {
+                                $('.program_subdiscipline_list').append(`
+                                <li class="nav-item tab-btns" data-program-sub-discipline-level-id="${program_sub_discipline.id}">
+                                   ${program_sub_discipline.name.toUpperCase()}
+                                </li>
+                                `);
+                            });
+                        } else {
+                            $('.program_subdiscipline_list').empty().append('<li class="nav-item tab-btns"><h4>Not Found</h4></li>');
+                        }
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 @endsection

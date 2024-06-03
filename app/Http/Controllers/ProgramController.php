@@ -106,16 +106,16 @@ class ProgramController extends Controller
             'min_gpa' => 'required|max:200',
             'program_discipline'=>'required'
         ]);
-        $sub_type = gettype($request->subject_id_input);
-        if($sub_type == "string"){
-            $subject_id_input = $request->subject_id_input;
-        } else {
-            if(isset($request->subject_id_input)){
-                $subject_id_input = implode(",",$request->subject_id_input);
-            } else {
-                $subject_id_input = "";
-            }
-        }
+        // $sub_type = gettype($request->subject_id_input);
+        // if($sub_type == "string"){
+        //     $subject_id_input = $request->subject_id_input;
+        // } else {
+        //     if(isset($request->subject_id_input)){
+        //         $subject_id_input = implode(",",$request->subject_id_input);
+        //     } else {
+        //         $subject_id_input = "";
+        //     }
+        // }
         $programSave = DB::table('program')
         ->insert([
             'user_id' => Auth::user()->id,
@@ -124,7 +124,7 @@ class ProgramController extends Controller
             'length' => $request->length  ?? null,
             'programType' => $request->programType  ?? null,
             'programCampus' => $request->programCampus  ?? null,
-            'subject_id' => $subject_id_input  ?? null,
+            // 'subject_id' => $subject_id_input  ?? null,
             'fieldsofstudytype' => $request->fieldsofstudytype  ?? null,
             'description' => $request->details  ?? null,
             'grading_scheme_id' => $request->grading_scheme_id  ?? null,
@@ -198,16 +198,16 @@ class ProgramController extends Controller
             'min_gpa' => 'required|max:200',
             'program_discipline'=>'required|max:200'
         ]);
-        $sub_type = gettype($request->subject_id_input);
-        if($sub_type == "string"){
-            $subject_id_input = $request->subject_id_input;
-        } else {
-            if(isset($request->subject_id_input)){
-                $subject_id_input = implode(",",$request->subject_id_input);
-            } else {
-                $subject_id_input = "";
-            }
-        }
+        // $sub_type = gettype($request->subject_id_input);
+        // if($sub_type == "string"){
+        //     $subject_id_input = $request->subject_id_input;
+        // } else {
+        //     if(isset($request->subject_id_input)){
+        //         $subject_id_input = implode(",",$request->subject_id_input);
+        //     } else {
+        //         $subject_id_input = "";
+        //     }
+        // }
         $programSave = Program::find($id);
         $programSave->update([
             'user_id' => Auth::user()->id,
@@ -216,7 +216,7 @@ class ProgramController extends Controller
             'length' => $request->length  ?? null,
             'programType' => $request->programType  ?? null,
             'programCampus' => $request->programCampus  ?? null,
-            'subject_id' => $subject_id_input  ?? null,
+            // 'subject_id' => $subject_id_input  ?? null,
             'fieldsofstudytype' => $request->fieldsofstudytype  ?? null,
             'description' => $request->details  ?? null,
             'program_level_id'=>$request->program_level  ?? null,
@@ -865,9 +865,10 @@ class ProgramController extends Controller
     public function get_education_level(Request $request)
     {
         if($request->ajax()){
-            $education_level=EducationLevel::where(function($q) use ($request){
-                if($request->programLevelId){
-                    $q->whereIn('program_level_id',$request->programLevelId);
+            $programLevelId=is_array($request->programLevelId) ? $request->programLevelId : explode(',',$request->programLevelId);
+            $education_level=EducationLevel::where(function($q) use ($programLevelId){
+                if($programLevelId){
+                    $q->whereIn('program_level_id',$programLevelId);
                 }
             })->where(function($q) use ($request){
                 if($request->program_sublevel_id){
@@ -890,7 +891,7 @@ class ProgramController extends Controller
     public function program_subdiscipline_data(Request $request)
     {
         if($request->ajax()){
-            $program_sub_discipline=ProgramSubdiscipline::whereIn('program_discipline_id',$request->program_displine)->get();
+            $program_sub_discipline=ProgramSubdiscipline::where('status',1)->whereIn('program_discipline_id',$request->program_displine)->get();
             return response()->json($program_sub_discipline);
         }
     }

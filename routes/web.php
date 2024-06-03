@@ -35,7 +35,7 @@ Route::post('/get-country-flags',[FrontendController::class,'get_country'])->nam
 Route::post('/get-item-details',[FrontendController::class,'get_country'])->name('get-item-details');
 Route::post('get-program-sublevel',[ProgramController::class,'get_program_sublevel'])->name('get-program-sublevel');
 Route::post('get-education-level-data',[ProgramController::class,'get_education_level'])->name('get-education-level-data');
-Route::Post('program-subdiscipline-data',[ProgramController::class,'program_subdiscipline_data'])->name('program-subdiscipline-data');
+Route::post('program-subdiscipline-data',[ProgramController::class,'program_subdiscipline_data'])->name('program-subdiscipline-data');
 
 
 
