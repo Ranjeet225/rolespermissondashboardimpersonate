@@ -164,7 +164,42 @@
                                 <a href="javascript:;" class="form-wizard-next-btn float-right program-subdiscipline" data-url="{{route('program-subdiscipline-data')}}">Next</a>
                             </div>
                         </fieldset>
-                        <fieldset class="wizard-fieldset">
+                        <fieldset class="wizard-fieldset ">
+                            <h2 style="text-align: center;font-weight: 800;margin: 0px">Program  Discipline?</h2>
+                            <br>
+                            <section class="flg">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4 col-6">
+                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+                                            <select class="js-select2" multiple="multiple"
+                                                name="program_displine" id="program_displine">
+                                                @foreach ($program_discipline as $item)
+                                                    <option value="{{ $item->id }}">
+                                                        {{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div id="showDiv" style="display: none; width: 100%">
+                                                <div class="row" id="appendImg88">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-6">
+                                            <ul class="program_subdiscipline_list">
+
+                                            </ul>
+                                            <h4 class="program_discipline_name"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="col-lg-1 col-md-6">
+                            </div>
+                            <div class="form-group clearfix">
+                                <a href="javascript:;" class="form-wizard-next-btn float-right">Continue</a>
+                            </div>
+                        </fieldset>
+                        {{-- <fieldset class="wizard-fieldset">
                             <h2 style="text-align: center;font-weight: 800;margin: 0px"> Which major do you want to
                                 pursue? </h2>
                                 <h4>Program  Discipline</h4>
@@ -193,7 +228,7 @@
                                 <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
                                 <a href="javascript:;" class="form-wizard-next-btn float-right program-subdiscipline" data-url="{{route('program-subdiscipline-data')}}">Next</a>
                             </div>
-                        </fieldset>
+                        </fieldset> --}}
                         {{-- <fieldset class="wizard-fieldset">
                             <h2 style="text-align: center;font-weight: 800;margin: 0px">Program SubDiscipline? </h2>
                             <br>

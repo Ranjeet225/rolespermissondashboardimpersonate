@@ -178,87 +178,6 @@ class UniversityController extends Controller
     public function store_university(Request $request)
     {
         if($request->tab1){
-            $validator = Validator::make($request->all(), [
-                'university_name' => 'required|max:200',
-                'phone_number' => 'required|max:200',
-                'email'=>'required|email|max:200|unique:users,email,'.$request->university_id.',id',
-                'type_of_university' => 'required|max:200',
-                'founded_in' => 'required|max:200',
-                'total_students' => 'required|max:200',
-                'international_students' => 'required|max:200',
-                'size_of_campus' => 'required|max:200',
-                'male_female_ratio' => 'required|max:200',
-                'faculty_student_ratio' => 'required|max:200',
-                'expense_amount' => 'required|max:200',
-                'expense_currencies' => 'required|max:200',
-                'financial_aid' => 'required|max:200',
-                'accomodation' => 'required|max:200',
-                'website2' => 'required|max:200',
-                'website'=>'required',
-                'application_cost' => 'required',
-                'fafsa_code' => 'required',
-                'added_by_name' => 'required',
-                'added_on_date' => 'required',
-                'testrequired_input'=>'required',
-                'application_cost_currencies'=>'required',
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
-            }
-            $slugs = Str::slug($request->university_name);
-            $id=Auth::user()->id;
-            $tst_type = gettype($request->testrequired_input);
-            if($tst_type == "string"){
-                $testrequired = $request->testrequired_input;
-            } else {
-                if(isset($request->testrequired_input)){
-                    $testrequired = implode(",",$request->testrequired_input);
-                } else {
-                    $testrequired = "";
-                }
-            }
-            $uniSave = University::updateOrCreate(
-                ['id' => $request->university_id],
-                [
-                    'user_id' => $id,
-                    'university_name' => $request->university_name,
-                    'university_slug' => $slugs,
-                    'phone_number' => $request->phone_number,
-                    'email' => $request->email,
-                    'details' => $request->details,
-                    'website' => $request->website,
-                    'type_of_university' => $request->type_of_university,
-                    'founded_in' => $request->founded_in,
-                    'total_students' => $request->total_students,
-                    'international_students' => $request->international_students,
-                    'size_of_campus' => $request->size_of_campus,
-                    'male_female_ratio' => $request->male_female_ratio,
-                    'faculty_student_ratio' => $request->faculty_student_ratio,
-                    'yearly_hostel_expense_amount' => $request->expense_amount,
-                    'yearly_hostel_expense_currencies' => $request->expense_currencies,
-                    'financial_aid' => $request->financial_aid,
-                    'placement' => $request->placement,
-                    'accomodation' => $request->accomodation,
-                    'accomodation_details' => $request->accomodation_details,
-                    'website2' => $request->website2,
-                    'application_cost' => $request->application_cost,
-                    'application_cost_currencies' => $request->application_cost_currencies,
-                    'fafsa_code' => $request->fafsa_code,
-                    'testrequired' => $testrequired,
-                    'added_by_name' => $request->added_by_name,
-                    'notes' => $request->notes,
-                    'added_on_date' => $request->added_on_date,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'status' => 1
-                ]
-            );
-            $data = [
-                'status' => true,
-                'university_id' => $uniSave->id,
-            ];
-            return response()->json($data);
-        }elseif($request->tab2){
-            if($request->university_id){
                 $validator = Validator::make($request->all(), [
                     'country_id' => 'required|max:200',
                     'province_id' => 'required|max:200',
@@ -269,23 +188,102 @@ class UniversityController extends Controller
                 if ($validator->fails()) {
                     return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
                 }
-                $uniSave = DB::table('universities')
-                ->WHERE('id', $request->university_id)
-                ->update([
-                    'country_id' => $request->country_id,
-                    'state' => $request->province_id,
-                    'university_location' => $request->university_location,
-                    'city' => $request->city,
-                    'zip' => $request->zip,
-                    'map_location' => $request->map_location
+                $uniSave = University::updateOrCreate(
+                    ['id' => $request->university_id],
+                    [
+                        'country_id' => $request->country_id,
+                        'state' => $request->province_id,
+                        'university_location' => $request->university_location,
+                        'city' => $request->city,
+                        'zip' => $request->zip,
+                        'map_location' => $request->map_location
+                    ]);
+                $data = [
+                    'status' => true,
+                    'university_id' => $uniSave->id,
+                ];
+                return response()->json($data);
+        }elseif($request->tab2){
+            if($request->university_id){
+                $validator = Validator::make($request->all(), [
+                    'university_name' => 'required|max:200',
+                    'type_of_university' => 'required|max:200',
+                    'founded_in' => 'required|max:200',
+                    'total_students' => 'required|max:200',
+                    'international_students' => 'required|max:200',
+                    'size_of_campus' => 'required|max:200',
+                    'male_female_ratio' => 'required|max:200',
+                    'faculty_student_ratio' => 'required|max:200',
+                    'expense_amount' => 'required|max:200',
+                    'expense_currencies' => 'required|max:200',
+                    'financial_aid' => 'required|max:200',
+                    'accomodation' => 'required|max:200',
+                    'website2' => 'required|max:200',
+                    'website'=>'required',
+                    'application_cost' => 'required',
+                    'fafsa_code' => 'required',
+                    'added_by_name' => 'required',
+                    'added_on_date' => 'required',
+                    'testrequired_input'=>'required',
+                    'application_cost_currencies'=>'required',
                 ]);
+                if ($validator->fails()) {
+                    return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+                }
+                $slugs = Str::slug($request->university_name);
+                $id=Auth::user()->id;
+                $tst_type = gettype($request->testrequired_input);
+                if($tst_type == "string"){
+                    $testrequired = $request->testrequired_input;
+                } else {
+                    if(isset($request->testrequired_input)){
+                        $testrequired = implode(",",$request->testrequired_input);
+                    } else {
+                        $testrequired = "";
+                    }
+                }
+                $uniSave = University::updateOrCreate(
+                    ['id' => $request->university_id],
+                    [
+                        'user_id' => $id,
+                        'university_name' => $request->university_name,
+                        'university_slug' => $slugs,
+                        'phone_number' => $request->phone_number,
+                        'email' => $request->email,
+                        'details' => $request->details,
+                        'website' => $request->website,
+                        'type_of_university' => $request->type_of_university,
+                        'founded_in' => $request->founded_in,
+                        'total_students' => $request->total_students,
+                        'international_students' => $request->international_students,
+                        'size_of_campus' => $request->size_of_campus,
+                        'male_female_ratio' => $request->male_female_ratio,
+                        'faculty_student_ratio' => $request->faculty_student_ratio,
+                        'yearly_hostel_expense_amount' => $request->expense_amount,
+                        'yearly_hostel_expense_currencies' => $request->expense_currencies,
+                        'financial_aid' => $request->financial_aid,
+                        'placement' => $request->placement,
+                        'accomodation' => $request->accomodation,
+                        'accomodation_details' => $request->accomodation_details,
+                        'website2' => $request->website2,
+                        'application_cost' => $request->application_cost,
+                        'application_cost_currencies' => $request->application_cost_currencies,
+                        'fafsa_code' => $request->fafsa_code,
+                        'testrequired' => $testrequired,
+                        'added_by_name' => $request->added_by_name,
+                        'notes' => $request->notes,
+                        'added_on_date' => $request->added_on_date,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'status' => 1
+                    ]
+                );
+                $data = [
+                    'status' => true,
+                    'university_id' => $uniSave->id,
+                ];
             }else{
                 return response()->json(['status' => false, 'errors' => 'Please Create university'], 422);
             }
-            $data = [
-                'status' => true,
-                'university_id' => $request->university_id,
-            ];
             return response()->json($data);
         }
     }

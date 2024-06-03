@@ -28,11 +28,11 @@
         <div class="card-body">
           <div class="wizard">
             <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-              <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Basic ">
+            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Location">
                 <a class="nav-link active rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1" aria-selected="true"> 1 </a>
-              </li>
-              <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Location">
-                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2" aria-selected="false"> 2 </a>
+            </li>
+              <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Basic ">
+                <a class="nav-link  rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2" aria-selected="false"> 2</a>
               </li>
               <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Ranking">
                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3" aria-selected="false"> 3 </a>
@@ -45,7 +45,90 @@
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" role="tabpanel" id="step1" aria-labelledby="step1-tab">
+                <div class="tab-pane fade active show" role="tabpanel" id="step1" aria-labelledby="step1-tab">
+                    <div class="mb-4">
+                      <h3> Location </h3>
+                    </div>
+                    <h2 class="text-danger university_error hr"></h2>
+                    <form>
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="input-block mb-3">
+                            <label for="basicpill-pancard-input" class="form-label" placeholder="Address 1"> Country name <span class="text-danger">*</span></label>
+                            <select class="form-control country" name="country_id" >
+                                <option value="">-- Select Country  --</option>
+                                  @foreach ($countries as $item)
+                                     <option value="{{$item->id}}" {{ ($university->country_id ?? old('country_id')) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                  @endforeach
+                             </select>
+                             <span class="text-danger country_id"></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="input-block mb-3">
+                            <label for="basicpill-vatno-input" class="form-label">State/Provision<span class="text-danger">*</span></label>
+                            @php
+                                $state = DB::table('province')
+                                    ->where('id', $university->state ?? null)
+                                    ->first();
+                            @endphp
+                            <select name="province_id"
+                                class="form-control province_id" required>
+                                @if (!empty($university->state))
+                                    <option value="{{ $university->state }}"
+                                        {{ ($university->state ?? old('province_id')) == $state->id ? 'selected' : '' }}>
+                                        {{ $state->name }}</option>
+                                @endif
+                            </select>
+                            <span class="text-danger province"></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="input-block mb-3">
+                            <input type="hidden" name="tab1" value="tab1">
+                            <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}" >
+                            <label for="basicpill-cstno-input" class="form-label"> City<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control " name="city" value="{{$university->city ?? null}}" placeholder="City" >
+                            <span class="text-danger city"></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="input-block mb-3">
+                            <label for="basicpill-servicetax-input" class="form-label"> Location <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control " name="university_location" value="{{$university->university_location ?? null}}" placeholder="Location" >
+                            <span class="text-danger university_location"></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="input-block mb-3">
+                            <label for="basicpill-servicetax-input" class="form-label"> Zip <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control " placeholder="Zip" name="zip" value="{{$university->zip ?? null}}">
+                            <span class="text-danger zip"></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="input-block mb-3">
+                                <label for="basicpill-servicetax-input" class="form-label">URL</label>
+                                <input type="text" class="form-control  google-iframe-url" name="map_location" placeholder="Enter the Google Maps iframe URL here" value="{{$university->map_location ?? null}}">
+                                <span class="text-danger map_location"></span>
+                              </div>
+                        </div>
+                        <div class="col-lg-8 mt-2">
+                            <div class="input-block mb-3">
+                                <label for="map-iframe" class="form-label">Map</label>
+                                <iframe id="map-iframe" width="75vw" height="200" frameborder="0" style="border:0;width:75vw" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="d-flex">
+                        <a class="btn btn btn-primary next">Next<span
+                            class="spinner-grow spinner-grow-sm d-none" role="status"
+                            aria-hidden="true"></span>
+                        </a>
+                    </div>
+                  </div>
+              <div class="tab-pane fade  " role="tabpanel" id="step2" aria-labelledby="step2-tab">
                 <!--  <div class="col-lg-12"><select class="selectpicker" multiple data-live-search="true"><option> UNIVERSITY OF SOUTHERN CALIFORNIA</option><option> HARVARD UNIVERSITY</option><option> COLUMBIA UNIVERSITY</option><option> STANFORD UNIVERSITY</option><option> UNIVERSITY OF CALIFORNIA UCB</option><option> YALE UNIVERSITY</option></select></div> -->
                 <div class="mb-4">
                   <h3> Add University</h3>
@@ -59,22 +142,22 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-pancard-input" class="form-label" placeholder="University name"> University name <span class="text-danger">*</span><span class="text-danger">*</span></label>
+                        <label for="basicpill-pancard-input" class="form-label" placeholder="University name"> University name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control " name="university_name" value="{{$university->university_name ?? null }}" maxlength="200" placeholder="University Name" />
                         <span class="text-danger university_name"></span>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label"> Phone No <span class="text-danger">*</span><span class="text-danger">*</span></label>
-                        <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}" >
+                        <label for="basicpill-vatno-input" class="form-label"> Phone No</label>
+                        <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}">
                         <input type="tel" class="form-control " name="phone_number"  pattern="[0-9]{10}" value="{{$university->phone_number ?? null }}"  placeholder=" Phone no" id="basicpill-vatno-input"/>
                         <span class="text-danger phone_number"></span>
                     </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="input-block mb-3">
-                          <label for="basicpill-cstno-input" class="form-label"> Email <span class="text-danger">*</span></label>
+                          <label for="basicpill-cstno-input" class="form-label"> Email </label>
                           <input type="email" class="form-control " placeholder="email" name="email" value="{{$university->email ?? null }}" maxlength="255" />
                           <span class="text-danger email"></span>
                         </div>
@@ -233,7 +316,7 @@
                     <div class="col-lg-4">
                       <div class="input-block mb-3">
                           <label for="lead-added_by_name" class="form-label">Added By Name<span class="text-danger">*</span></label>
-                          <input type="hidden" name="tab1" value="tab1">
+                          <input type="hidden" name="tab2" value="tab2">
                          <input  name="added_by_name" type="text" class="form-control " placeholder="Added By Name" autocomplete="added_by_name" value="{{$university->added_by_name ?? null}}">
                          <span class="text-danger added_by_name"></span>
                         </div>
@@ -262,95 +345,14 @@
                 </form>
                 <br>
                 <div class="d-flex">
-                  <a class="btn btn btn-primary next">Next<span
-                    class="spinner-grow spinner-grow-sm d-none" role="status"
-                    aria-hidden="true"></span></a>
-                </div>
-              </div>
-              <div class="tab-pane fade" role="tabpanel" id="step2" aria-labelledby="step2-tab">
-                <div class="mb-4">
-                  <h3> Location </h3>
-                </div>
-                <h2 class="text-danger university_error hr"></h2>
-                <form>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="input-block mb-3">
-                        <label for="basicpill-pancard-input" class="form-label" placeholder="Address 1"> Country name <span class="text-danger">*</span></label>
-                        <select class="form-control country" name="country_id" >
-                            <option value="">-- Select Country  --</option>
-                              @foreach ($countries as $item)
-                                 <option value="{{$item->id}}" {{ ($university->country_id ?? old('country_id')) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
-                              @endforeach
-                         </select>
-                         <span class="text-danger country_id"></span>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="input-block mb-3">
-                        <label for="basicpill-vatno-input" class="form-label">State/Provision<span class="text-danger">*</span></label>
-                        <input type="hidden" name="university_id" class="university_id" value="{{$university->id ?? null }}">
-                        @php
-                            $state = DB::table('province')
-                                ->where('id', $university->state ?? null)
-                                ->first();
-                        @endphp
-                        <select name="province_id"
-                            class="form-control province_id" required>
-                            @if (!empty($university->state))
-                                <option value="{{ $university->state }}"
-                                    {{ ($university->state ?? old('province_id')) == $state->id ? 'selected' : '' }}>
-                                    {{ $state->name }}</option>
-                            @endif
-                        </select>
-                        <span class="text-danger province"></span>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="input-block mb-3">
-                        <input type="hidden" name="tab2" value="tab2">
-                        <label for="basicpill-cstno-input" class="form-label"> City<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control " name="city" value="{{$university->city ?? null}}" placeholder="City" >
-                        <span class="text-danger city"></span>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Location <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control " name="university_location" value="{{$university->university_location ?? null}}" placeholder="Location" >
-                        <span class="text-danger university_location"></span>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="input-block mb-3">
-                        <label for="basicpill-servicetax-input" class="form-label"> Zip <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control " placeholder="Zip" name="zip" value="{{$university->zip ?? null}}">
-                        <span class="text-danger zip"></span>
-                      </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="input-block mb-3">
-                            <label for="basicpill-servicetax-input" class="form-label">URL</label>
-                            <input type="text" class="form-control  google-iframe-url" name="map_location" placeholder="Enter the Google Maps iframe URL here" value="{{$university->map_location ?? null}}">
-                            <span class="text-danger map_location"></span>
-                          </div>
-                    </div>
-                    <div class="col-lg-8 mt-2">
-                        <div class="input-block mb-3">
-                            <label for="map-iframe" class="form-label">Map</label>
-                            <iframe id="map-iframe" width="75vw" height="200" frameborder="0" style="border:0;width:75vw" allowfullscreen></iframe>
-                        </div>
-                    </div>
+                    <a class="btn btn btn-primary previous me-2"> Back</a>
+                    <a class="btn btn btn-primary next">Continue<span
+                      class="spinner-grow spinner-grow-sm d-none" role="status"
+                      aria-hidden="true"></span></a>
                   </div>
-                </form>
-                <div class="d-flex">
-                  <a class="btn btn btn-primary previous me-2"> Back</a>
-                  <a class="btn btn btn-primary next">Continue<span
-                    class="spinner-grow spinner-grow-sm d-none" role="status"
-                    aria-hidden="true"></span></a>
-                </div>
 
               </div>
+
               <div class="tab-pane fade" role="tabpanel" id="step3" aria-labelledby="step3-tab">
                 <div class="mb-4">
                   <h3> University Ranking </h3>
