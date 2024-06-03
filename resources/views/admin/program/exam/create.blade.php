@@ -38,27 +38,12 @@
                                     </div>
                                     <div class="col-12">
                                         <label>Number<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control " name="number">
+                                        <input type="number" class="form-control " name="number" >
                                         @error('number')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                     <div class="col-12">
-+                                        <label>Program Level<span class="text-danger">*</span></label>
-+                                        <input type="text" class="form-control " name="program_level">
-+                                        @error('program_level')
-+                                            <div class="text-danger">{{ $message }}</div>
-+                                        @enderror
-+                                    </div>
-+                                    <div class="col-12">
-+                                        <label>Number<span class="text-danger">*</span></label>
-+                                        <input type="number" class="form-control " name="number">
-+                                        @error('number')
-+                                            <div class="text-danger">{{ $message }}</div>
-+                                        @enderror
-+                                    </div>
-+                                    <div class="col-12">
-<<<<<<<  db1e6d2d-59e4-4b70-b0d8-44e05b589832  >>>>>>>
+                                    <div class="col-12">
                                         <label>Enter Exam Name<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control " name="name">
                                         @error('name')
