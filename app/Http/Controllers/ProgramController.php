@@ -63,7 +63,7 @@ class ProgramController extends Controller
             $program->where('name', 'LIKE', "%{$request->program_name}%");
         }
         $program= $program->paginate(12);
-    return view('admin.program.approve',compact('program'));
+        return view('admin.program.approve',compact('program'));
     }
 
 
@@ -370,7 +370,6 @@ class ProgramController extends Controller
     public function program_sub_level_store(Request $request){
         $request->validate([
             'program_id' => 'required',
-            'orders' => 'required',
             'name' => 'required',
         ]);
 
@@ -387,7 +386,6 @@ class ProgramController extends Controller
     public function program_sub_level_update(Request $request,$id){
         $request->validate([
             'program_id' => 'required',
-            'orders' => 'required',
             'name' => 'required',
         ]);
 
@@ -426,7 +424,6 @@ class ProgramController extends Controller
     public function education_level_store(Request $request){
         $request->validate([
             'name' => 'required',
-            'item_order'=>'required|numeric',
             'program_level_id'=>'required',
         ]);
         EducationLevel::create($request->except('_token'));
@@ -443,13 +440,11 @@ class ProgramController extends Controller
     public function education_level_update(Request $request,$id){
         $request->validate([
             'name' => 'required',
-            'item_order'=>'required|numeric',
             'program_level_id'=>'required',
         ]);
         $educationlevel=EducationLevel::find($id);
         $educationlevel->update([
             'name' => $request->name,
-            'item_order'=>$request->item_order,
             'program_level_id'=>$request->program_level_id,
             'program_sublevel_id'=>$request->program_sublevel_id,
         ]);
@@ -482,7 +477,6 @@ class ProgramController extends Controller
     public function program_level_store(Request $request){
         $request->validate([
             'name' => 'required',
-            'orders'=>'required|numeric'
         ]);
         ProgramLevel::create($request->except('_token'));
         return redirect()->route('program-level')->with('success','Data Inserted Successfully');
@@ -496,7 +490,6 @@ class ProgramController extends Controller
     public function program_level_update(Request $request,$id){
         $request->validate([
             'name' => 'required',
-            'orders'=>'required|numeric'
         ]);
         $programlevel=programLevel::find($id);
         $programlevel->update([
@@ -504,6 +497,15 @@ class ProgramController extends Controller
             'orders'=>$request->orders
         ]);
         return redirect()->route('program-level')->with('success','Data Updated Successfully');
+    }
+
+    public function program_level_delete($id){
+        if(ProgramLevel::find($id)){
+            ProgramLevel::find($id)->delete();
+            return redirect()->route('program-level')->with('success','Data Deleted Successfully');
+        }else{
+            return redirect()->route('program-level')->with('error','Data not found');
+        }
     }
 
     // grading scheme
@@ -568,7 +570,7 @@ class ProgramController extends Controller
 
     public function exam(Request $request){
         $name = $request->get('name');
-        $exam = Exam::when($name, function ($query) use ($name) {
+        $exam = Exam::with('program_level')->when($name, function ($query) use ($name) {
             return $query->where('name', 'like', '%' . $name . '%');
         })->paginate(12);
 
@@ -576,12 +578,15 @@ class ProgramController extends Controller
     }
 
     public function exam_create(){
-        return view('admin.program.exam.create');
+        $programlevels =ProgramLevel::select('name','id')->get();
+        return view('admin.program.exam.create',compact('programlevels'));
     }
 
     public function exam_store(Request $request){
         $request->validate([
             'name' => 'required',
+            'program_level_id'=>'required',
+            'number'=>'required|max:11'
         ]);
         Exam::create($request->except('_token'));
         return redirect()->route('exam')->with('success','Data Inserted Successfully');
@@ -589,16 +594,21 @@ class ProgramController extends Controller
 
     public function exam_edit($id){
         $exam=Exam::find($id);
-        return view('admin.program.exam.edit',compact('exam'));
+        $programlevels =ProgramLevel::select('name','id')->get();
+        return view('admin.program.exam.edit',compact('exam','programlevels'));
     }
 
     public function exam_update(Request $request,$id){
         $request->validate([
             'name' => 'required',
+            'program_level_id'=>'required',
+            'number'=>'required|max:11'
         ]);
         $exam=Exam::find($id);
         $exam->update([
             'name' => $request->name,
+            'program_level_id'=>$request->program_level_id,
+            'number'=>$request->number
         ]);
         return redirect()->route('exam')->with('success','Data Updated Successfully');
     }
@@ -731,6 +741,7 @@ class ProgramController extends Controller
     public function eng_proficiency_level_store(Request $request){
         $request->validate([
             'name' => 'required',
+            'number' => 'required',
             'status'=>'required'
         ]);
         EngProficiencyLevel::create($request->except('_token'));
@@ -743,7 +754,8 @@ class ProgramController extends Controller
     public function eng_proficiency_level_update(Request $request,$id){
         $request->validate([
             'name' => 'required',
-            'status'=>'required'
+            'status'=>'required',
+            'number' => 'required',
         ]);
         $eng_level=EngProficiencyLevel::find($id);
         $eng_level->update($request->except('_token'));
@@ -853,16 +865,33 @@ class ProgramController extends Controller
     public function get_education_level(Request $request)
     {
         if($request->ajax()){
-            $program_subdiscipline=EducationLevel::where('program_level_id',$request->programLevelId)->get();
-            return response()->json($program_subdiscipline);
+            $education_level=EducationLevel::where(function($q) use ($request){
+                if($request->programLevelId){
+                    $q->whereIn('program_level_id',$request->programLevelId);
+                }
+            })->where(function($q) use ($request){
+                if($request->program_sublevel_id){
+                    $q->whereIn('program_sublevel_id',$request->program_sublevel_id);
+                }
+            })->get();
+            return response()->json($education_level);
         }
     }
 
     public function get_program_sublevel(Request $request)
     {
         if($request->ajax()){
-            $program_level=ProgramSubLevel::where('program_id',$request->program_level_id)->get();
-            return response()->json($program_level);
+            $program_level_id=is_array($request->program_level_id) ? $request->program_level_id : explode(',',$request->program_level_id);
+            $program_sub_level=ProgramSubLevel::whereIn('program_id',$program_level_id)->get();
+            return response()->json($program_sub_level);
+        }
+    }
+
+    public function program_subdiscipline_data(Request $request)
+    {
+        if($request->ajax()){
+            $program_sub_discipline=ProgramSubdiscipline::whereIn('program_discipline_id',$request->program_displine)->get();
+            return response()->json($program_sub_discipline);
         }
     }
 

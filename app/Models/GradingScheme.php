@@ -23,7 +23,7 @@ class GradingScheme extends Model
 
     public function educationHistory()
     {
-        return $this->hasMany(EducationHistory::class, 'grading_scheme_id');
+        return $this->hasMany(EducationHistory::class, 'id','grading_scheme_id');
     }
 
 

@@ -100,7 +100,7 @@
                         <td>{{ $loop->index + (($grading_scheme->currentPage() - 1) * $grading_scheme->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->country->name }}</td>
-                        <td class="text-wrap">{{ $item->education_level->name }}</td>
+                        <td class="text-wrap">{{ $item->education_level->name ?? null }}</td>
                         <td><a  href="{{route('edit-grading-scheme',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
                     </tr>

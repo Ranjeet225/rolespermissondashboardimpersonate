@@ -726,5 +726,4 @@ class StudentController extends Controller
     }
 
 
-1
 }

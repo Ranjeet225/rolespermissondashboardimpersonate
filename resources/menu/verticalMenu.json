@@ -281,43 +281,43 @@
         "name": "Universities",
         "icon": "menu-icon tf-icons las la-university",
         "slug": "universities",
-        "permission":["approve_university.view","manage_university.view","un_approve_university.view","oel_review.view","oel_type.view"],
+        "permission":["approve_university.approve_university_view","manage_university.manage_university_view","un_approve_university.un_approve_university_view","updation_manage_university.updation_manage_university_view","oel_review.oel_review_view","oel_type.oel_type_view"],
         "submenu": [
                 {
                     "url": "/admin/approved-university",
                     "name": "Approve University",
                     "slug": "admin-approved-university",
-                    "permission":"approve_university.view"
+                    "permission":"approve_university.approve_university_view"
                 },
                 {
                     "url": "/admin/manage-university",
                     "name": "Manage University",
                     "slug": "admin-manage-university",
-                    "permission":"manage_university.view"
+                    "permission":"manage_university.manage_university_view"
                 },
                 {
                     "url": "/admin/un-approve-university",
                     "name": "Un Approve University",
                     "slug": "admin-un-approve-university",
-                    "permission":"un_approve_university.view"
+                    "permission":"un_approve_university.un_approve_university_view"
                 },
                 {
                     "url": "/admin/updation-manage-university",
                     "name": "Updation Manage University",
                     "slug": "admin-updation-manage-university",
-                    "permission":"updation-manage-university.view"
+                    "permission":"updation_manage_university.updation_manage_university_view"
                 },
                 {
                     "url": "/admin/oel-review",
                     "name": "Oel Review",
                     "slug": "admin-oel-review",
-                    "permission":"oel_review.view"
+                    "permission":"oel_review.oel_review_view"
                 },
                 {
                     "url": "/admin/university-type",
                     "name": "University Type",
                     "slug": "admin-university-type",
-                    "permission":"oel_type.view"
+                    "permission":"oel_type.oel_type_view"
                 }
             ]
         },
@@ -445,7 +445,7 @@
             "name": "oel 360",
             "icon": "menu-icon tf-icons las la-tachometer-alt",
             "slug": "admin-apply-oel-360",
-            "permission":"  "
+            "permission":"oel_apply.view"
         },
         {
             "name": "Admin-Management",

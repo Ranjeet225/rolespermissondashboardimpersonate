@@ -53,13 +53,13 @@
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <label>Order<span class="text-danger">*</span></label>
                                         <input type="number" name="orders"  class="form-control "/>
                                         @error('orders')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     <div class="col-12"><button type="submit" class="btn btn-info  py-6">Submit</button>
                                     </div>
                                 </form>

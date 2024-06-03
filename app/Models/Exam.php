@@ -12,4 +12,8 @@ class Exam extends Model
     protected $table = 'exams';
 
     protected $guarded =[];
+
+    public function program_level(){
+        return $this->hasOne(ProgramLevel::class,'id','program_level_id');
+    }
 }

@@ -52,7 +52,14 @@
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label>Status</label>
+                                        <label>Enter Number<span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control " name="number" value="{{$eng_level->number}}">
+                                        @error('number')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label>Status<span class="text-danger">*</span></label>
                                         <select class="form-control" name="status">
                                             <option value="1" {{ $eng_level->status == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ $eng_level->status == 0 ? 'selected' : '' }}>Inactive</option>

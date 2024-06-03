@@ -60,7 +60,8 @@
                 <thead>
                     <tr>
                         <th>S.N</th>
-                        <th>NAME</th>
+                        <th>Name</th>
+                        <th>Number</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -70,6 +71,7 @@
                     <tr>
                         <td>{{ $loop->index + (($eng_proficiency_level->currentPage() - 1) * $eng_proficiency_level->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
+                        <td class="text-wrap">{{ $item->number }}</td>
                         <td><a  href="{{route('edit-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         <td><a href="{{route('delete-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>

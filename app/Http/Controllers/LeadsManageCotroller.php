@@ -211,7 +211,9 @@ class LeadsManageCotroller extends Controller
             $total_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->count();
         }
         // Cold Lead
-        $lead_status_id = MasterLeadStatus::where("name", "Cold")->first()->id;
+        // $lead_status_id = MasterLeadStatus::where("name", "Cold")->first()->id;
+        $lead_status = MasterLeadStatus::where("name", "Cold")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
         $total_cold_leads = 0;
         if ($user_type == 'Administrator') {
             $total_cold_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
@@ -223,7 +225,9 @@ class LeadsManageCotroller extends Controller
             $total_cold_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Hot Lead
-        $lead_status_id = MasterLeadStatus::where("name", "Hot")->first()->id;
+        // $lead_status_id = MasterLeadStatus::where("name", "Hot")->first()->id;
+            $lead_status = MasterLeadStatus::where("name", "Hot")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
         $total_hot_leads = 0;
         if ($user_type == 'Administrator') {
             $total_hot_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
@@ -235,7 +239,9 @@ class LeadsManageCotroller extends Controller
             $total_hot_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Future Lead
-        $lead_status_id = MasterLeadStatus::where("name", "Future Lead")->first()->id;
+          $lead_status = MasterLeadStatus::where("name", "Future Lead")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_id = MasterLeadStatus::where("name", "Future Lead")->first()->id;
         $total_future_leads = 0;
         if ($user_type == 'Administrator') {
             $total_future_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
@@ -247,7 +253,9 @@ class LeadsManageCotroller extends Controller
             $total_future_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // New Lead
-        $lead_status_id = MasterLeadStatus::where("name", "New")->first()->id;
+            $lead_status = MasterLeadStatus::where("name", "New")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_id = MasterLeadStatus::where("name", "New")->first()->id;
         $total_new_leads = 0;
         if ($user_type == 'Administrator') {
             $total_new_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
@@ -272,8 +280,10 @@ class LeadsManageCotroller extends Controller
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
             $total_new_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
         }
+              $lead_status = MasterLeadStatus::where("name", "Not Useful")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
         // Not Useful Lead
-        $lead_status_id = MasterLeadStatus::where("name", "Not Useful")->first()->id;
+        // $lead_status_id = MasterLeadStatus::where("name", "Not Useful")->first()->id;
         $total_not_useful_leads = 0;
         if ($user_type == 'Administrator') {
             $total_not_useful_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
@@ -285,7 +295,9 @@ class LeadsManageCotroller extends Controller
             $total_not_useful_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Warm Lead
-        $lead_status_id = MasterLeadStatus::where("name", "Warm")->first()->id;
+ $lead_status = MasterLeadStatus::where("name", "Warm")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_id = MasterLeadStatus::where("name", "Warm")->first()->id;
         $total_warm_leads = 0;
         if ($user_type == 'Administrator') {
             $total_warm_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
@@ -298,7 +310,9 @@ class LeadsManageCotroller extends Controller
             $total_warm_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Closed Leads
-        $lead_status_id = MasterLeadStatus::where("name", "Closed")->first()->id;
+         $lead_status = MasterLeadStatus::where("name", "Closed")->first();
+        $lead_status_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_id = MasterLeadStatus::where("name", "Closed")->first()->id;
         $total_closed_leads = 0;
         if ($user_type == 'Administrator') {
             $total_closed_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();

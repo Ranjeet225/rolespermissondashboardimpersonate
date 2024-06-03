@@ -61,7 +61,7 @@
                     <tr>
                         <th>S.N</th>
                         <th>NAME</th>
-                        <th>Order </th>
+                        {{-- <th>Order </th> --}}
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -71,7 +71,7 @@
                     <tr>
                         <td>{{ $loop->index + (($programlevel->currentPage() - 1) * $programlevel->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
-                        <td class="text-wrap">{{ $item->orders }}</td>
+                        {{-- <td class="text-wrap">{{ $item->orders }}</td> --}}
                         <td><a  href="{{route('edit-program_level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         <td><a href="{{route('delete-program-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>

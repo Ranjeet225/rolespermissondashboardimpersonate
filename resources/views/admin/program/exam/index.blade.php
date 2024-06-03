@@ -61,6 +61,8 @@
                     <tr>
                         <th>S.N</th>
                         <th>NAME</th>
+                        <th>Program Level</th>
+                        <th>Number</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -70,6 +72,8 @@
                     <tr>
                         <td>{{ $loop->index + (($exam->currentPage() - 1) * $exam->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
+                        <td >{{$item->program_level->name ?? null}}</td>
+                        <td>{{ $item->number }}</td>
                         <td><a  href="{{route('edit-exam',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         <td><a href="{{route('delete-exam',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                     </tr>

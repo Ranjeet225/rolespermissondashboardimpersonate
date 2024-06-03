@@ -32,7 +32,14 @@
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="status">Status</label>
+                                        <label>Enter Number<span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control " name="number">
+                                        @error('number')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="status">Status<span class="text-danger">*</span></label>
                                         <select class="form-control" id="status" name="status">
                                             <option value="">Select Status</option>
                                             <option value="1">Active</option>

@@ -4,7 +4,7 @@
     <div class="card card-buttons">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <ol class="breadcrumb text-muted mb-0">
                         <li class="breadcrumb-item">
                             <a href="index.php"> Home</a>
@@ -14,7 +14,7 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <a href="{{ route('create-field-of-study') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New </a>
                 </div>

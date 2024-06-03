@@ -45,7 +45,7 @@
                                           <div class="text-danger">{{ $message }}</div>
                                       @enderror
                                     </div>
-                                 
+
 
                                     <div class="col-12">
                                         <label>Name<span class="text-danger">*</span></label>
@@ -54,13 +54,13 @@
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-12">
-                                        <label>Order<span class="text-danger">*</span></label>
+                                    {{-- <div class="col-12"> --}}
+                                        {{-- <label>Order<span class="text-danger">*</span></label>
                                         <input type="number" name="item_order"  class="form-control "/>
                                         @error('order')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     <div class="col-12"><button type="submit" class="btn btn-info  py-6">Submit</button>
                                     </div>
                                 </form>
@@ -86,7 +86,7 @@
                         $(".program_sublevel_div").empty();
                         $(".program_sublevel_div").append('<option value="">--Select Program Sub Discipline--</option>');
                         $.each(res,function(key,value){
-                            $(".program_sublevel_div").append('<option value="'+key+'">'+value.name+'</option>');
+                            $(".program_sublevel_div").append('<option value="'+value.id+'">'+value.name+'</option>');
                         });
                     }else{
                         $(".program_sublevel_div").empty();

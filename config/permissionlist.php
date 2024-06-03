@@ -96,6 +96,7 @@ return [
             "approve_university.approve_university_view",
             "manage_university.manage_university_view",
             "un_approve_university.un_approve_university_view",
+            "updation_manage_university.updation_manage_university_view",
             "oel_review.oel_review_view",
             "oel_type.oel_type_view"
         ],
