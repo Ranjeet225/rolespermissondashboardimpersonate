@@ -139,6 +139,7 @@ class ProgramController extends Controller
             'currency' => $request->currency  ?? null,
             'intake' => $request->intake  ?? null,
             'min_gpa' => $request->min_gpa  ?? null,
+            'other_exam'=>$request->other_exam,
             'other_requirements' => $request->other_requirements  ?? null,
             'extra_notes' => $request->extra_notes  ?? null,
             // 'tags' => $request->tags ?? null,
@@ -159,16 +160,18 @@ class ProgramController extends Controller
             $universities = University::where('user_id', $user->id)->get();
         }
         $program_discipline =ProgramDiscipline::select('name','id')->where('status', '1')->get();
-        $program_subdiscipline =ProgramSubDiscipline::select('name','id')->where('status', '1')->get();
-        $grading_scheme=GradingScheme::select('name','id')->get();
+        $program_subdiscipline =ProgramSubdiscipline::select('name','id')->where('id',$program->program_subdiscipline)->where('status', '1')->get();
+        $country_id=University::where('id',$program->school_id)->value('country_id');
+        $grading_scheme=GradingScheme::select('name','id')->where('id',$program->grading_scheme_id)->get();
         $program_category=DB::table('tbl_program_category')->get();
         $all_subject = Subject::where('status', '1')->get();
         $filed_of_study =Fieldsofstudytype::where('status', '1')->get();
         $program_level = ProgramLevel::get();
-        $program_sublevel = ProgramSubLevel::get();
-        $education_level = EducationLevel::get();
-        $currency =Currency::get();
-        return view('admin.program.edit-program', compact('grading_scheme','program_sublevel','program_level','program_discipline','program_subdiscipline','universities','program_category','all_subject','filed_of_study','education_level','currency','program'));
+        $program_sublevel = ProgramSubLevel::where('id',$program->program_sub_level)->get();
+        $education_level = EducationLevel::where('id',$program->education_level_id)->get();
+        $other_exam = Exam::where('id',$program->other_exam)->get();
+        $currency=Currency::get();
+        return view('admin.program.edit-program', compact('grading_scheme','other_exam','program_sublevel','program_level','program_discipline','program_subdiscipline','universities','program_category','all_subject','filed_of_study','education_level','currency','program'));
     }
 
     public function view_program($id){
@@ -223,6 +226,7 @@ class ProgramController extends Controller
             'grading_scheme_id' => $request->grading_scheme_id,
             'total_credits' => $request->total_credits,
             'application_fee' => $request->application_fee,
+            'other_exam'=>$request->other_exam,
             'application_apply_date' => $request->application_apply_date,
             'application_closing_date' => $request->application_closing_date,
             'program_discipline'=>$request->program_discipline,

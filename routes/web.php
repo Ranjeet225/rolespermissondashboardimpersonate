@@ -17,13 +17,13 @@ use App\Http\Controllers\UniversityController;
 use App\Models\MasterLeadStatus;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 /*
-in this project some name of model or function and table name is wrong because
-this project make with refrence with another project har project are working
+in this project some names of models or functions, and table names are incorrect because
+this project was made with reference to another project. The other project is working.
 
-so sorry for repeat this mistake because i am not makeing new table just i am using exiting database
+So, I apologize for repeating this mistake. I am not creating new tables. I am just using existing databases.
 */
 
 // Route::get('/', function (Coun) {

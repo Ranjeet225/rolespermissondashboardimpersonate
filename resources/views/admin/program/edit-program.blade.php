@@ -55,7 +55,7 @@
                     @method('post')
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control " name="school_id" id="lead-school_id" placeholder="University / College Name">
+                          <select class="form-control " name="school_id" id="school_id" placeholder="University / College Name">
                             <option value="">-- University / College Name --</option>
                             @foreach ($universities as $item)
                                <option value="{{$item->id}}" {{ old('school_id') == $item->id ? 'selected' : ($program->school_id == $item->id ? 'selected' : '') }}>{{$item->university_name}}</option>
@@ -244,7 +244,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-4" id="grading-number-div" style="display: none;">
+                    <div class="col-4" id="grading-number-div" @if(empty($program->grading_number)) style="display: none;" @endif>
                         <div class="form-floating">
                             <input id="lead-grading_number" name="grading_number" type="number" class="form-control " placeholder="Grading Number" autocomplete="grading_number"
                              value="{{old('grading_number', $program->grading_number ?? '')}}" max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')">
@@ -267,6 +267,9 @@
                         <div class="form-floating">
                            <select class="form-control other-exam" name="other_exam" id="other_exam" placeholder="" >
                               <option value="">-- Other Exam --</option>
+                              @foreach ($other_exam as $item)
+                                <option value="{{$item->id}}" {{$program->other_exam == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                              @endforeach
                            </select>
                            <label for="lead-other-exam" class="form-label"> Other Exam <span class="text-danger">*</span></label>
                          </div>

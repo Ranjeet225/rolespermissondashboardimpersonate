@@ -185,7 +185,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-6 ">
-                                            <ul class=" program_subdiscipline_list float-end">
+                                            <ul class="nav-tabs program_subdiscipline_list float-end">
 
                                             </ul>
                                             <h4 class="program_discipline_name"></h4>
@@ -261,41 +261,28 @@
                                 <div class="intro-info-tabs">
                                     <div class="tabcntr">
                                         <ul class="nav nav-tabs intro-tabs tabs-box " id="myTab" role="tablist">
+                                            @foreach ($eng_proficiency_level  as $item)
                                             <li class="nav-item tab-btns">
-                                                <a class="nav-link tab-btn active" id="prod-overview-tab"
-                                                    data-toggle="tab" href="#prod-overview2" role="tab"
-                                                    aria-controls="prod-overview" aria-selected="true"> TOEFL</a>
+                                                <a class="nav-link tab-btn" data-toggle="tab" href="#{{$item->name}}"
+                                                    role="tab" aria-controls="prod-overview"
+                                                    onclick="$('#{{$item->name}}-input').toggle()" onclick="showInputBox('{{$item->name}}')">{{$item->name}}</a>
                                             </li>
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-item tab-btn nav-link" id="description-tab"
-                                                    data-toggle="tab" href="#description2" role="tab"
-                                                    aria-controls="description" aria-selected="false">IELTS</a>
-                                            </li>
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-item tab-btn nav-link" id="description-tab"
-                                                    data-toggle="tab" href="#Undergraduate2" role="tab"
-                                                    aria-controls="description" aria-selected="false">PTE</a>
-                                            </li>
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-item tab-btn nav-link" id="description-tab"
-                                                    data-toggle="tab" href="#Postgraduate2" role="tab"
-                                                    aria-controls="description" aria-selected="false">TEST NOT TAKE
-                                                    YET</a>
-                                            </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <br>
                                     <div class="tab-content tabs-content" id="myTabContent">
                                         <!-- Home Tab -->
-                                        <div class="tab-pane tab" id="prod-overview2" role="tabpanel"
-                                            aria-labelledby="prod-overview-tab">
+                                        @foreach ($eng_proficiency_level  as $item)
+                                        <div class="tab-pane tab" id="{{$item->name}}" role="tabpanel"
+                                            aria-labelledby="prod-overview-tab" >
                                             <div class="content white-bg pt-30">
                                                 <!-- Application Charges -->
                                                 <div class="course-overview">
                                                     <div class="inner-box">
-                                                        <input class="from-control" type="text" id="name"
-                                                            name="name" placeholder="Enter Your Score"
-                                                            value="">
+                                                        <input class="from-control" type="text" id="{{$item->name}}-input"
+                                                            name="{{$item->name}}-input" placeholder="Enter Your Score"
+                                                            value="" style="display:none">
                                                         <br><br>
                                                         <p style="text-align: center;color: red"> PTE score must be in
                                                             between 10-90</p>
@@ -303,56 +290,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endforeach
                                         <!-- Description Tab -->
-                                        <div class="tab-pane tab" id="prod-overview2" role="tabpanel"
-                                            aria-labelledby="prod-overview-tab">
-                                            <div class="content white-bg pt-30">
-                                                <!-- Application Charges -->
-                                                <div class="course-overview">
-                                                    <div class="inner-box">
-                                                        <input class="from-control" type="text" id="name"
-                                                            name="name" placeholder="Enter Your Score"
-                                                            value="">
-                                                        <br><br>
-                                                        <p style="text-align: center;color: red"> PTE score must be in
-                                                            between 10-90</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="tab-pane tab" id="prod-overview2" role="tabpanel"
-                                            aria-labelledby="prod-overview-tab">
-                                            <div class="content white-bg pt-30">
-                                                <!-- Application Charges -->
-                                                <div class="course-overview">
-                                                    <div class="inner-box">
-                                                        <input class="from-control" type="text" id="name"
-                                                            name="name" placeholder="Enter Your Score"
-                                                            value="">
-                                                        <br><br>
-                                                        <p style="text-align: center;color: red"> PTE score must be in
-                                                            between 10-90</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane tab" id="prod-overview2" role="tabpanel"
-                                            aria-labelledby="prod-overview-tab">
-                                            <div class="content white-bg pt-30">
-                                                <!-- Application Charges -->
-                                                <div class="course-overview">
-                                                    <div class="inner-box">
-                                                        <input class="from-control" type="text" id="name"
-                                                            name="name" placeholder="Enter Your Score"
-                                                            value="">
-                                                        <br><br>
-                                                        <p style="text-align: center;color: red"> PTE score must be in
-                                                            between 10-90</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

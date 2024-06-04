@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\EngProficiencyLevel;
 use App\Models\Fieldsofstudytype;
 use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
@@ -19,7 +20,8 @@ class FrontendController extends Controller
          $program_level =ProgramLevel::select('name','id')->get();
          $sub_program_level =ProgramSubLevel::select('name','id','program_id')->get();
          $program_discipline=ProgramDiscipline::select('name','id')->get();
-         return view('frontend.check-my-eligibility',compact('country','program_level','sub_program_level','program_discipline'));
+         $eng_proficiency_level=EngProficiencyLevel::select('name','id')->get();
+         return view('frontend.check-my-eligibility',compact('country','eng_proficiency_level','program_level','sub_program_level','program_discipline'));
     }
 
     public function get_country(Request $request){
