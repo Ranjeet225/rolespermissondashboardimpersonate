@@ -55,7 +55,6 @@
                                 <li><span>5</span></li>
                                 <li><span>6</span></li>
                                 <li><span>7</span></li>
-                                <li><span>8</span></li>
                             </ul>
                         </div>
                         <link rel="stylesheet"
@@ -262,10 +261,10 @@
                                     <div class="tabcntr">
                                         <ul class="nav nav-tabs intro-tabs tabs-box " id="myTab" role="tablist">
                                             @foreach ($eng_proficiency_level  as $item)
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-link tab-btn" data-toggle="tab" href="#{{$item->name}}"
-                                                    role="tab" aria-controls="prod-overview"
-                                                    onclick="$('#{{$item->name}}-input').toggle()" onclick="showInputBox('{{$item->name}}')">{{$item->name}}</a>
+                                            <li class="nav-item tab-btns ">
+                                                <a class="nav-link tab-btn eng_proficiency_level" data-eng="{{$item->id}}" data-toggle="tab" href="#{{$item->name}}"
+                                                    role="tab" aria-controls="prod-overview" id=
+                                                    onclick="$('#{{$item->name}}-input').toggle()" >{{$item->name}}</a>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -280,25 +279,57 @@
                                                 <!-- Application Charges -->
                                                 <div class="course-overview">
                                                     <div class="inner-box">
-                                                        <input class="from-control" type="text" id="{{$item->name}}-input"
+                                                        <input class="from-control" type="text" id="en-input"
                                                             name="{{$item->name}}-input" placeholder="Enter Your Score"
-                                                            value="" style="display:none">
+                                                             oninput="validateScore('{{$item->name}}')">
                                                         <br><br>
-                                                        <p style="text-align: center;color: red"> PTE score must be in
-                                                            between 10-90</p>
+                                                        <p style="text-align: center;color: red" class="msg-{{$item->name}}"></p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         @endforeach
                                         <!-- Description Tab -->
-
                                     </div>
                                 </div>
+                                <script>
+                                    function validateScore(name){
+                                        var score = document.getElementById(name+"-input").value;
+                                        var message = document.querySelector(".msg-"+name);
+                                        if(name=='TOFEL'){
+                                            if(score<0 || score>120){
+                                                message.innerHTML = "TOFEL  score must be in between 0-120";
+                                            }else{
+                                                message.innerHTML = "";
+                                            }
+                                        }else if(name=='IELTS'){
+                                            if(score<0 || score>9){
+                                                message.innerHTML = "IELTS  score must be in between 0-9";
+                                            }else{
+                                                message.innerHTML = "";
+                                            }
+                                        }else if(name=='PTE'){
+                                            if(score<10 || score>90){
+                                                message.innerHTML = "PTE  score must be in between 10-90";
+                                            }else{
+                                                message.innerHTML = "";
+                                            }
+                                        }
+                                        else if(name=='DET'){
+                                            if(score<10 || score>90){
+                                                message.innerHTML = "DTE  score must be in between 10-160";
+                                            }else{
+                                                message.innerHTML = "";
+                                            }
+                                        }else{
+
+                                        }
+                                    }
+                                </script>
                             </div>
                             <div class="col-md-1">
                             </div>
-                            <div class="form-group clearfix">
+                            <div class="form-group">
                                 <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
                                 <a href="javascript:;" class="form-wizard-next-btn float-right">Continue</a>
                             </div>
@@ -314,23 +345,8 @@
                             <div class="col-md-10">
                                 <div class="intro-info-tabs">
                                     <div class="tabcntr">
-                                        <ul class="nav nav-tabs intro-tabs tabs-box " id="myTab" role="tablist">
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-link tab-btn active" id="prod-overview-tab"
-                                                    data-toggle="tab" href="#gre" role="tab"
-                                                    aria-controls="prod-overview" aria-selected="true"> GRE</a>
-                                            </li>
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-item tab-btn nav-link" id="description-tab"
-                                                    data-toggle="tab" href="#gmat" role="tab"
-                                                    aria-controls="description" aria-selected="false">IELTS</a>
-                                            </li>
-                                            <li class="nav-item tab-btns">
-                                                <a class="nav-item tab-btn nav-link" id="description-tab"
-                                                    data-toggle="tab" href="#not" role="tab"
-                                                    aria-controls="description" aria-selected="false">TEST NOT TAKE
-                                                    YET</a>
-                                            </li>
+                                        <ul class="nav nav-tabs other-exam tabs-box " id="myTab" role="tablist">
+
                                         </ul>
                                     </div>
                                     <br>
@@ -408,34 +424,10 @@
                             </div>
                             <div class="form-group clearfix">
                                 <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
-                                <a href="javascript:;" class="form-wizard-next-btn float-right">Continue</a>
+                                <a href="javascript:void(0)" class="form-wizard float-right check-my-eligibility" >Check my Eligibility</a>
                             </div>
                         </fieldset>
-                        <fieldset class="wizard-fieldset">
-                            <h2 style="text-align: center;font-weight: 800;margin: 0px"> Check my Eligible?</h2>
-                                <h4>Check my Eligible</h4>
-                            <br>
-                            <section class="flg">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-4 col-6">
 
-                                        </div>
-                                        <div class="col-md-4 col-6">
-                                            <ul class="program_subdiscipline_list">
-
-                                            </ul>
-                                            <h4 class="program_discipline_name"></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <div class="form-group clearfix">
-                                <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
-                                <a href="javascript:;" class="form-wizard-next-btn float-right program-subdiscipline" ">Check my Eligible</a>
-                            </div>
-                        </fieldset>
                     </form>
                 </div>
             </div>
@@ -537,36 +529,7 @@
             </div>
         </section>
     </div>
-    <div class="rs-newsletter style1 orange-color mt-50 sm-mt-10 mb--90 sm-mb--30">
-        <div class="container">
-            <div class="newsletter-wrap">
-                <div class="row y-middle">
-                    <div class="col-lg-6 col-md-12 md-mb-30">
-                        <div class="content-part">
-                            <div class="sec-title">
-                                <div class="title-icon md-mb-15">
-                                    <img src="{{ asset('frontend/home/images/newsletter.png') }}" alt="images">
-                                </div>
-                                <h2 class="title mb-0 white-color">Subscribe to Newsletter</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <form class="newsletter-form">
-                            <input type="email" name="email" placeholder="Enter Your Email" required=""
-                                id="subscribe_to_email">
-                            <button class="primary newsletter_button" type="button"
-                                onclick="send_subscribe_to_email()">
-                                <span id="newsletter_subs_show_loading" style="display: none;"
-                                    class="spinner-border spinner-border-sm" role="status"
-                                    aria-hidden="true"></span> Submit
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script>
         function csrf(){
             $.ajaxSetup({
@@ -612,6 +575,7 @@
                 });
             });
         }
+
         $('.program-level').click(function() {
             var selectedOptions = [];
             $('#program_level:checked').each(function() {
@@ -631,7 +595,7 @@
                         $.each(data, function(index, program_sub_level) {
                             $('.program-sub-level').append(`
                             <li class="nav-item tab-btns">
-                                <a class="nav-link tab-btn" id="prod-overview-tab"
+                                <a class="nav-link tab-btn program-sub-level-data" id="prod-overview-tab"
                                     data-toggle="tab" href="#prod-overview" role="tab"
                                     data-sublevel-id="${program_sub_level.id}"
                                     aria-controls="prod-overview" aria-selected="true">${program_sub_level.name.toUpperCase()}</a>
@@ -644,6 +608,7 @@
                 }
             });
         });
+
         $('#program-sub-level').click(function() {
             var selectedProgramLevelOptions = [];
             $('#program_level:checked').each(function() {
@@ -668,7 +633,7 @@
                         $.each(data, function(index, education_level) {
                             $('.education-level').append(`
                             <li class="nav-item tab-btns">
-                                <a class="nav-link tab-btn" id="prod-overview-tab"
+                                <a class="nav-link tab-btn data_education_level" id="prod-overview-tab"
                                     data-toggle="tab" href="#prod-overview" role="tab"
                                     data-education-level-id="${education_level.id}"
                                     aria-controls="prod-overview" aria-selected="true">${education_level.name.toUpperCase()}</a>
@@ -700,7 +665,7 @@
                             $.each(data, function(index, program_sub_discipline) {
                                 $('.program_subdiscipline_list').append(`
                                     <li class="nav-item tab-btns">
-                                        <a class="nav-link tab-btn" id="${program_sub_discipline.name}"
+                                        <a class="nav-link tab-btn data-sub-discipline-id" id="${program_sub_discipline.name}"
                                             data-toggle="tab" href="#${program_sub_discipline.name}" role="tab"
                                             data-sub-discipline-id="${program_sub_discipline.id}"
                                             aria-controls="prod-overview" aria-selected="true">${program_sub_discipline.name.toUpperCase()}</a>
@@ -713,5 +678,296 @@
                     }
                 });
             }
+
         </script>
+        <script>
+            function validateTOEFLScore() {
+                const toeflScore = document.getElementById('toeflScore').value;
+                const error = document.getElementById('error');
+                if (toeflScore > 120) {
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            }
+            var program_level_id =$('#program_level').val();
+            $.ajax({
+                url: "{{ route('fetch-other-exam-data') }}",
+                type: "POST",
+                data:{
+                    _token: '{{ csrf_token() }}',
+                    program_id:program_level_id
+                },
+                success: function(response){
+                    $.each(response, function(index, value){
+                        var tab_element = '<li class="nav-item tab-btns">'+
+                                            '  <a class="nav-link tab-btn" id="prod-overview-tab"'+
+                                            '     data-toggle="tab" href="#'+value.name+'" role="tab"'+
+                                            '     aria-controls="prod-overview" aria-selected="true">'+value.name+'</a>'+
+                                            '</li>';
+                        $('.other-exam').append(tab_element);
+                    });
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            $(".js-select2").select2({
+                closeOnSelect: false,
+                placeholder: "select country",
+                allowClear: true,
+                tags: true, // creates new options on the fly
+                templateResult: function(data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+                    var $image = $("<img>", {
+                        class: "select-image",
+                        src: $(data.element).data("image"),
+                        width: 24
+                    });
+                    var $text = $("<span>", {
+                        text: " " + data.text
+                    });
+                    return $("<span>").append($image).append($text);
+                },
+                templateSelection: function(data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+                    var $image = $("<img>", {
+                        class: "select-image",
+                        src: $(data.element).data("image"),
+                        width: 24
+                    });
+                    return $("<span>").append($image).append(" " + data.text);
+                }
+            });
+
+            $(".js-select2").on('select2:unselect', function(e) {
+                if ($(".js-select2").val() == null) {
+                    $("#showDiv").hide();
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            let mobile_header1_visible1 = false;
+            function toggleMobileHeader() {
+                if (mobile_header1_visible1 == false) {
+                    document.getElementById("mobile_header1").style.display = "block";
+                    mobile_header1_visible1 = true;
+                } else {
+                    document.getElementById("mobile_header1").style.display = "none";
+                    mobile_header1_visible1 = false;
+                }
+            }
+            document.getElementById("dropdown_trigger_nav2").addEventListener("click", function() {
+                document.getElementById("user_dropdown_content2").style.display = "block";
+            });
+            document.addEventListener("click", function(event) {
+                let el = document.getElementById("user_dropdown_content2");
+                if (el !== null) {
+                    if (event.target.closest("#dropdown_trigger_nav2")) {
+                        el.style.display = "block";
+                    } else {
+                        el.style.display = "none";
+                    }
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            //============Shree=============
+            var testSleep = function() {
+                setTimeout(function() {
+                    $('#exampleModal').modal('show');
+                }, 10000);
+            }
+            //=== Shree
+
+            function clearStorage() {
+                let session = sessionStorage.getItem('register');
+                if (session == null) {
+                    localStorage.removeItem('visible_popup');
+                }
+                sessionStorage.setItem('register', 1);
+            }
+            window.addEventListener('load', clearStorage);
+        </script>
+        <script type="text/javascript">
+            $(".js-select2").select2({
+                closeOnSelect: false,
+                placeholder: "select country",
+                allowClear: true,
+                tags: true, // creates new options on the fly
+                templateResult: function(data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+                    var $image = $("<img>", {
+                        class: "select-image",
+                        src: $(data.element).data("image"),
+                        width: 24
+                    });
+                    var $text = $("<span>", {
+                        text: " " + data.text
+                    });
+                    return $("<span>").append($image).append($text);
+                },
+                templateSelection: function(data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+                    var $image = $("<img>", {
+                        class: "select-image",
+                        src: $(data.element).data("image"),
+                        width: 24
+                    });
+                    return $("<span>").append($image).append(" " + data.text);
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            jQuery(document).ready(function() {
+                jQuery('.form-wizard-next-btn').click(function() {
+                    var parentFieldset = jQuery(this).parents('.wizard-fieldset');
+                    var currentActiveStep = jQuery(this).parents('.form-wizard').find(
+                        '.form-wizard-steps .active');
+                    var next = jQuery(this);
+                    var nextWizardStep = true;
+                    parentFieldset.find('.wizard-required').each(function() {
+                        var thisValue = jQuery(this).val();
+
+                        if (thisValue == "") {
+                            jQuery(this).siblings(".wizard-form-error").slideDown();
+                            nextWizardStep = false;
+                        } else {
+                            jQuery(this).siblings(".wizard-form-error").slideUp();
+                        }
+                    });
+                    if (nextWizardStep) {
+                        next.parents('.wizard-fieldset').removeClass("show", "400");
+                        currentActiveStep.removeClass('active').addClass('activated').next().addClass('active',
+                            "400");
+                        next.parents('.wizard-fieldset').next('.wizard-fieldset').addClass("show", "400");
+                        jQuery(document).find('.wizard-fieldset').each(function() {
+                            if (jQuery(this).hasClass('show')) {
+                                var formAtrr = jQuery(this).attr('data-tab-content');
+                                jQuery(document).find('.form-wizard-steps .form-wizard-step-item').each(
+                                    function() {
+                                        if (jQuery(this).attr('data-attr') == formAtrr) {
+                                            jQuery(this).addClass('active');
+                                            var innerWidth = jQuery(this).innerWidth();
+                                            var position = jQuery(this).position();
+                                            jQuery(document).find('.form-wizard-step-move').css({
+                                                "left": position.left,
+                                                "width": innerWidth
+                                            });
+                                        } else {
+                                            jQuery(this).removeClass('active');
+                                        }
+                                    });
+                            }
+                        });
+                    }
+                });
+                //click on previous button
+                jQuery('.form-wizard-previous-btn').click(function() {
+                    var counter = parseInt(jQuery(".wizard-counter").text());;
+                    var prev = jQuery(this);
+                    var currentActiveStep = jQuery(this).parents('.form-wizard').find(
+                        '.form-wizard-steps .active');
+                    prev.parents('.wizard-fieldset').removeClass("show", "400");
+                    prev.parents('.wizard-fieldset').prev('.wizard-fieldset').addClass("show", "400");
+                    currentActiveStep.removeClass('active').prev().removeClass('activated').addClass('active',
+                        "400");
+                    jQuery(document).find('.wizard-fieldset').each(function() {
+                        if (jQuery(this).hasClass('show')) {
+                            var formAtrr = jQuery(this).attr('data-tab-content');
+                            jQuery(document).find('.form-wizard-steps .form-wizard-step-item').each(
+                                function() {
+                                    if (jQuery(this).attr('data-attr') == formAtrr) {
+                                        jQuery(this).addClass('active');
+                                        var innerWidth = jQuery(this).innerWidth();
+                                        var position = jQuery(this).position();
+                                        jQuery(document).find('.form-wizard-step-move').css({
+                                            "left": position.left,
+                                            "width": innerWidth
+                                        });
+                                    } else {
+                                        jQuery(this).removeClass('active');
+                                    }
+                                });
+                        }
+                    });
+                });
+                //click on form submit button
+                jQuery(document).on("click", ".form-wizard .form-wizard-submit", function() {
+                    var parentFieldset = jQuery(this).parents('.wizard-fieldset');
+                    var currentActiveStep = jQuery(this).parents('.form-wizard').find(
+                        '.form-wizard-steps .active');
+                    parentFieldset.find('.wizard-required').each(function() {
+                        var thisValue = jQuery(this).val();
+                        if (thisValue == "") {
+                            jQuery(this).siblings(".wizard-form-error").slideDown();
+                        } else {
+                            jQuery(this).siblings(".wizard-form-error").slideUp();
+                        }
+                    });
+                });
+                // focus on input field check empty or not
+                jQuery(".form-control").on('focus', function() {
+                    var tmpThis = jQuery(this).val();
+                    if (tmpThis == '') {
+                        jQuery(this).parent().addClass("focus-input");
+                    } else if (tmpThis != '') {
+                        jQuery(this).parent().addClass("focus-input");
+                    }
+                }).on('blur', function() {
+                    var tmpThis = jQuery(this).val();
+                    if (tmpThis == '') {
+                        jQuery(this).parent().removeClass("focus-input");
+                        jQuery(this).siblings('.wizard-form-error').slideDown("3000");
+                    } else if (tmpThis != '') {
+                        jQuery(this).parent().addClass("focus-input");
+                        jQuery(this).siblings('.wizard-form-error').slideUp("3000");
+                    }
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            // image gallery
+            // init the state from the input
+            $(".image-checkbox").each(function() {
+                if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
+                    $(this).addClass('image-checkbox-checked');
+                } else {
+                    $(this).removeClass('image-checkbox-checked');
+                }
+            });
+            // sync the state to the input
+            $(".image-checkbox").on("click", function(e) {
+                $(this).toggleClass('image-checkbox-checked');
+                var $checkbox = $(this).find('input[type="checkbox"]');
+                $checkbox.prop("checked", !$checkbox.prop("checked"))
+                e.preventDefault();
+            });
+
+        </script>
+        <script>
+            $('.check-my-eligibility').on('click',function(){
+                var country = $('#country').val();
+                var program_level = $('#program_level').val();
+                var program_sub_level=$('.program-sub-level-data').attr('data-sublevel-id');
+                var education_level = $('.data_education_level').attr('data-education-level-id');
+                var program_displine=$('#program_displine').val();
+                var program_subdispline=$('.data-sub-discipline-id').attr('data-sub-discipline-id');
+                var eng_proficiency_level =$('.eng_proficiency_level.active').attr('data-eng');
+                var redirect_url = '{{ route('course-finder') }}?country='+country+'&program_level='+program_level+'&program_sub_level='+program_sub_level+'&education_level='+education_level+'&program_displine='+program_displine+'&program_subdispline='+program_subdispline+'&eng_proficiency_level='+eng_proficiency_level;
+                window.location.href=redirect_url;
+            });
+        </script>
+        <!-- Select2 CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 @endsection

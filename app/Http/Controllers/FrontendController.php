@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\EngProficiencyLevel;
 use App\Models\Fieldsofstudytype;
+use App\Models\Program;
 use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
 use App\Models\ProgramSubLevel;
+use App\Models\University;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -27,5 +29,19 @@ class FrontendController extends Controller
     public function get_country(Request $request){
         $country =Country::whereIn('id',$request->country_id)->get();
         return response()->json(['country'=>$country,'']);
+    }
+
+    public function course_university(Request $request)
+    {
+        $country=explode(',',$request->country);
+        $university=University::whereIn('country_id',$country)->get();
+        $course=Program::where('program_level_id',$request->program_level)
+               ->orwhere('program_sub_level',$request->program_sub_level)
+               ->orwhere('education_level_id',$request->education_level)
+               ->orwhere('program_discipline',$request->program_displine)
+               ->orwhere('program_subdiscipline',$request->program_subdispline)
+               ->orwhere('program_subdiscipline',$request->program_subdispline)
+               ->get();
+        return view('frontend.course-finder',compact('course','university'));
     }
 }

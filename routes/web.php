@@ -17,7 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Models\MasterLeadStatus;
 use Maatwebsite\Excel\Row;
 
-// URL::forceScheme('https');
+URL::forceScheme('https');
 
 /*
 in this project some names of models or functions, and table names are incorrect because
@@ -36,7 +36,8 @@ Route::post('/get-item-details',[FrontendController::class,'get_country'])->name
 Route::post('get-program-sublevel',[ProgramController::class,'get_program_sublevel'])->name('get-program-sublevel');
 Route::post('get-education-level-data',[ProgramController::class,'get_education_level'])->name('get-education-level-data');
 Route::post('program-subdiscipline-data',[ProgramController::class,'program_subdiscipline_data'])->name('program-subdiscipline-data');
-
+Route::post('fetch-other-exam-data',[ProgramController::class,'other_exam'])->name('fetch-other-exam-data');
+Route::get('course-finder',[FrontendController::class,'course_university'])->name('course-finder');
 
 
 

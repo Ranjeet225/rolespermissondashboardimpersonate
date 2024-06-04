@@ -41,6 +41,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/home/css/responsive.css?v=' . time()) }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/custom.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('frontend-css')
 </head>
 <body class="home-style2">
     <script type="text/javascript" src="{{ asset('v3/polyfill.min.js') }}"></script>
@@ -242,6 +243,36 @@
         <!--Header End-->
     </div>
     @yield('content')
+    <div class="rs-newsletter style1 orange-color mt-50 sm-mt-10 mb--90 sm-mb--30">
+        <div class="container">
+            <div class="newsletter-wrap">
+                <div class="row y-middle">
+                    <div class="col-lg-6 col-md-12 md-mb-30">
+                        <div class="content-part">
+                            <div class="sec-title">
+                                <div class="title-icon md-mb-15">
+                                    <img src="{{ asset('frontend/home/images/newsletter.png') }}" alt="images">
+                                </div>
+                                <h2 class="title mb-0 white-color">Subscribe to Newsletter</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <form class="newsletter-form">
+                            <input type="email" name="email" placeholder="Enter Your Email" required=""
+                                id="subscribe_to_email">
+                            <button class="primary newsletter_button" type="button"
+                                onclick="send_subscribe_to_email()">
+                                <span id="newsletter_subs_show_loading" style="display: none;"
+                                    class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span> Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Full width header End-->
     <!-- Footer Start -->
     <footer id="rs-footer" class="rs-footer">
@@ -387,250 +418,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @yield('section')
-<script type="text/javascript">
-    $(".js-select2").select2({
-        closeOnSelect: false,
-        placeholder: "select country",
-        allowClear: true,
-        tags: true, // creates new options on the fly
-        templateResult: function(data) {
-            if (!data.id) {
-                return data.text;
-            }
-            var $image = $("<img>", {
-                class: "select-image",
-                src: $(data.element).data("image"),
-                width: 24
-            });
-            var $text = $("<span>", {
-                text: " " + data.text
-            });
-            return $("<span>").append($image).append($text);
-        },
-        templateSelection: function(data) {
-            if (!data.id) {
-                return data.text;
-            }
-            var $image = $("<img>", {
-                class: "select-image",
-                src: $(data.element).data("image"),
-                width: 24
-            });
-            return $("<span>").append($image).append(" " + data.text);
-        }
-    });
 
-    $(".js-select2").on('select2:unselect', function(e) {
-        if ($(".js-select2").val() == null) {
-            $("#showDiv").hide();
-        }
-    });
-</script>
-<script type="text/javascript">
-    let mobile_header1_visible1 = false;
-    function toggleMobileHeader() {
-        if (mobile_header1_visible1 == false) {
-            document.getElementById("mobile_header1").style.display = "block";
-            mobile_header1_visible1 = true;
-        } else {
-            document.getElementById("mobile_header1").style.display = "none";
-            mobile_header1_visible1 = false;
-        }
-    }
-    document.getElementById("dropdown_trigger_nav2").addEventListener("click", function() {
-        document.getElementById("user_dropdown_content2").style.display = "block";
-    });
-    document.addEventListener("click", function(event) {
-        let el = document.getElementById("user_dropdown_content2");
-        if (el !== null) {
-            if (event.target.closest("#dropdown_trigger_nav2")) {
-                el.style.display = "block";
-            } else {
-                el.style.display = "none";
-            }
-        }
-    });
-</script>
-<script type="text/javascript">
-    //============Shree=============
-    var testSleep = function() {
-        setTimeout(function() {
-            $('#exampleModal').modal('show');
-        }, 10000);
-    }
-    //=== Shree
-
-    function clearStorage() {
-        let session = sessionStorage.getItem('register');
-        if (session == null) {
-            localStorage.removeItem('visible_popup');
-        }
-        sessionStorage.setItem('register', 1);
-    }
-    window.addEventListener('load', clearStorage);
-</script>
-<script type="text/javascript">
-    $(".js-select2").select2({
-        closeOnSelect: false,
-        placeholder: "select country",
-        allowClear: true,
-        tags: true, // creates new options on the fly
-        templateResult: function(data) {
-            if (!data.id) {
-                return data.text;
-            }
-            var $image = $("<img>", {
-                class: "select-image",
-                src: $(data.element).data("image"),
-                width: 24
-            });
-            var $text = $("<span>", {
-                text: " " + data.text
-            });
-            return $("<span>").append($image).append($text);
-        },
-        templateSelection: function(data) {
-            if (!data.id) {
-                return data.text;
-            }
-            var $image = $("<img>", {
-                class: "select-image",
-                src: $(data.element).data("image"),
-                width: 24
-            });
-            return $("<span>").append($image).append(" " + data.text);
-        }
-    });
-</script>
-<script type="text/javascript">
-    jQuery(document).ready(function() {
-        jQuery('.form-wizard-next-btn').click(function() {
-            var parentFieldset = jQuery(this).parents('.wizard-fieldset');
-            var currentActiveStep = jQuery(this).parents('.form-wizard').find(
-                '.form-wizard-steps .active');
-            var next = jQuery(this);
-            var nextWizardStep = true;
-            parentFieldset.find('.wizard-required').each(function() {
-                var thisValue = jQuery(this).val();
-
-                if (thisValue == "") {
-                    jQuery(this).siblings(".wizard-form-error").slideDown();
-                    nextWizardStep = false;
-                } else {
-                    jQuery(this).siblings(".wizard-form-error").slideUp();
-                }
-            });
-            if (nextWizardStep) {
-                next.parents('.wizard-fieldset').removeClass("show", "400");
-                currentActiveStep.removeClass('active').addClass('activated').next().addClass('active',
-                    "400");
-                next.parents('.wizard-fieldset').next('.wizard-fieldset').addClass("show", "400");
-                jQuery(document).find('.wizard-fieldset').each(function() {
-                    if (jQuery(this).hasClass('show')) {
-                        var formAtrr = jQuery(this).attr('data-tab-content');
-                        jQuery(document).find('.form-wizard-steps .form-wizard-step-item').each(
-                            function() {
-                                if (jQuery(this).attr('data-attr') == formAtrr) {
-                                    jQuery(this).addClass('active');
-                                    var innerWidth = jQuery(this).innerWidth();
-                                    var position = jQuery(this).position();
-                                    jQuery(document).find('.form-wizard-step-move').css({
-                                        "left": position.left,
-                                        "width": innerWidth
-                                    });
-                                } else {
-                                    jQuery(this).removeClass('active');
-                                }
-                            });
-                    }
-                });
-            }
-        });
-        //click on previous button
-        jQuery('.form-wizard-previous-btn').click(function() {
-            var counter = parseInt(jQuery(".wizard-counter").text());;
-            var prev = jQuery(this);
-            var currentActiveStep = jQuery(this).parents('.form-wizard').find(
-                '.form-wizard-steps .active');
-            prev.parents('.wizard-fieldset').removeClass("show", "400");
-            prev.parents('.wizard-fieldset').prev('.wizard-fieldset').addClass("show", "400");
-            currentActiveStep.removeClass('active').prev().removeClass('activated').addClass('active',
-                "400");
-            jQuery(document).find('.wizard-fieldset').each(function() {
-                if (jQuery(this).hasClass('show')) {
-                    var formAtrr = jQuery(this).attr('data-tab-content');
-                    jQuery(document).find('.form-wizard-steps .form-wizard-step-item').each(
-                        function() {
-                            if (jQuery(this).attr('data-attr') == formAtrr) {
-                                jQuery(this).addClass('active');
-                                var innerWidth = jQuery(this).innerWidth();
-                                var position = jQuery(this).position();
-                                jQuery(document).find('.form-wizard-step-move').css({
-                                    "left": position.left,
-                                    "width": innerWidth
-                                });
-                            } else {
-                                jQuery(this).removeClass('active');
-                            }
-                        });
-                }
-            });
-        });
-        //click on form submit button
-        jQuery(document).on("click", ".form-wizard .form-wizard-submit", function() {
-            var parentFieldset = jQuery(this).parents('.wizard-fieldset');
-            var currentActiveStep = jQuery(this).parents('.form-wizard').find(
-                '.form-wizard-steps .active');
-            parentFieldset.find('.wizard-required').each(function() {
-                var thisValue = jQuery(this).val();
-                if (thisValue == "") {
-                    jQuery(this).siblings(".wizard-form-error").slideDown();
-                } else {
-                    jQuery(this).siblings(".wizard-form-error").slideUp();
-                }
-            });
-        });
-        // focus on input field check empty or not
-        jQuery(".form-control").on('focus', function() {
-            var tmpThis = jQuery(this).val();
-            if (tmpThis == '') {
-                jQuery(this).parent().addClass("focus-input");
-            } else if (tmpThis != '') {
-                jQuery(this).parent().addClass("focus-input");
-            }
-        }).on('blur', function() {
-            var tmpThis = jQuery(this).val();
-            if (tmpThis == '') {
-                jQuery(this).parent().removeClass("focus-input");
-                jQuery(this).siblings('.wizard-form-error').slideDown("3000");
-            } else if (tmpThis != '') {
-                jQuery(this).parent().addClass("focus-input");
-                jQuery(this).siblings('.wizard-form-error').slideUp("3000");
-            }
-        });
-    });
-</script>
-<script type="text/javascript">
-    // image gallery
-    // init the state from the input
-    $(".image-checkbox").each(function() {
-        if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
-            $(this).addClass('image-checkbox-checked');
-        } else {
-            $(this).removeClass('image-checkbox-checked');
-        }
-    });
-    // sync the state to the input
-    $(".image-checkbox").on("click", function(e) {
-        $(this).toggleClass('image-checkbox-checked');
-        var $checkbox = $(this).find('input[type="checkbox"]');
-        $checkbox.prop("checked", !$checkbox.prop("checked"))
-        e.preventDefault();
-    });
-</script>
-<!-- Select2 CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+</body>
 </html>

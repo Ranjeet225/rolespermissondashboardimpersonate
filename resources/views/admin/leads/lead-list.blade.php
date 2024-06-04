@@ -288,9 +288,11 @@
                                                     <i class="fa-solid fa-user m-r-5"></i> Login To {{ Str::substr($data->name,0,8)  }}
                                                 </a>
                                             @else
+                                                @if(!empty($data->email))
                                                 <a class="dropdown-item" href="{{ route('create-student-profile', [$data->id]) }}">
                                                     <i class="fa-solid fa-user m-r-5"></i>Create Profile
                                                 </a>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
