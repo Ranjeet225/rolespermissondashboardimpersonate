@@ -84,9 +84,8 @@
                             <td>{{ $loop->index + (($program->currentPage() - 1) * $program->perPage()) + 1 }}</td>
                             <td>{{$item->name}}</td>
                             <td>{{$item->school->university_name ?? null}}</td>
-                            <td>{{$item->educationLevel->name ?? null}}</td>
-                            {{-- <td>{{$item->educationLevel->name ?? null}}</td> --}}
-                            <td>
+                            <td>{{$item->programLevel->name ?? null}}</td>
+                            {{-- <td>
                                 @if($item->grading_scheme_id == 1)
                                     Primary
                                 @elseif($item->grading_scheme_id == 2)
@@ -96,7 +95,7 @@
                                 @elseif($item->grading_scheme_id == 4)
                                     Undergraduate
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>
                                 @if ($item->is_approved == 1)
                                    {{'Approved'}}
@@ -213,28 +212,28 @@
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-listening_score" name="listening_score" type="number" class="form-control " placeholder="Listening Score" autocomplete="listening_score" required>
+                                <input id="usr-listening_score" name="listening_score"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" type="number" class="form-control " placeholder="Listening Score" autocomplete="listening_score" required>
                                 <label for="usr-listening_score" class="form-label">Listening Score</label>
                                 <span class="text-danger error-listening_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-writing_score" name="writing_score" type="number" class="form-control " placeholder="Writing Score" autocomplete="writing_score" required>
+                                <input id="usr-writing_score" name="writing_score" type="number"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" class="form-control " placeholder="Writing Score" autocomplete="writing_score" required>
                                 <label for="usr-writing_score" class="form-label">Writing Score</label>
                                 <span class="text-danger error-writing_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-reading_score" name="reading_score" type="number" class="form-control " placeholder="Reading Score" autocomplete="reading_score" required>
+                                <input id="usr-reading_score" name="reading_score"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" type="number" class="form-control " placeholder="Reading Score" autocomplete="reading_score" required>
                                 <label for="usr-reading_score" class="form-label">Reading Score</label>
                                 <span class="text-danger error-reading_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-speaking_score" name="speaking_score" type="number" class="form-control " placeholder="Speaking Score" autocomplete="speaking_score" required>
+                                <input id="usr-speaking_score" name="speaking_score" type="number"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" class="form-control " placeholder="Speaking Score" autocomplete="speaking_score" required>
                                 <label for="usr-speaking_score" class="form-label">Speaking Score</label>
                                 <span class="text-danger error-speaking_score"></span>
                                </div>
@@ -279,6 +278,7 @@
             }
             $('.score').on('click', function(event) {
                 $('.score').addClass('disabled');
+
                 var program_id = $('#score').attr('program-id');
                 var formData = $('#score-data').serialize();
                 formData += '&program_id=' + program_id;
@@ -299,6 +299,7 @@
                         $('#score-data')[0].reset();
                     },
                     error: function(xhr) {
+                        $('.score').removeClass('disabled');
                         var response = JSON.parse(xhr.responseText);
                         if(response.errors && response.errors.type){
                             $('.error-type').html(response.errors.type);

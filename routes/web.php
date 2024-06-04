@@ -211,6 +211,9 @@ Route::middleware('auth')->group(function () {
         Route::get('program-filter',[ProgramController::class,'manage_program'])->name('program-filter');
         Route::get('approve-program',[ProgramController::class,'approve_program'])->name('approve-program');
         Route::get('view-program/{id?}',[ProgramController::class,'view_program'])->name('view-program');
+        Route::post('education-level-fetch',[ProgramController::class,'education_level_fetch'])->name('education-level-fetch');
+        Route::post('fetch-scheme-data',[ProgramController::class,'fetch_scheme_data'])->name('fetch-scheme-data');
+        Route::post('fetch-other-exam',[ProgramController::class,'other_exam'])->name('fetch-other-exam');
 
         Route::get('approve-program-filter',[ProgramController::class,'approve_program'])->name('approve-program-filter');
         Route::get('program-level-details',[ProgramController::class,'program_level_details'])->name('program-level-details');

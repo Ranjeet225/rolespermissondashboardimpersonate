@@ -25,7 +25,7 @@ class ProgramController extends Controller
 {
     public function manage_program(Request $request)
     {
-        $program = Program::with('study_type', 'educationLevel', 'currency_data', 'ProgramCategory', 'school')
+        $program = Program::with('study_type', 'educationLevel','programLevel', 'currency_data', 'ProgramCategory', 'school')
             ->whereHas('school', function ($query) use ($request) {
                 if ($request->univerisity_name) {
                     $query->where('university_name', 'LIKE', "%{$request->univerisity_name}%");
@@ -95,7 +95,6 @@ class ProgramController extends Controller
             'programType' => 'required|max:200',
             'programCampus' => 'required|max:200',
             'lang_spec_for_program' => 'required|max:200',
-            'fieldsofstudytype' => 'required|max:200',
             'total_credits' => 'required|max:200',
             'application_fee' => 'required|max:200',
             'application_apply_date' => 'required|max:200',
@@ -103,7 +102,6 @@ class ProgramController extends Controller
             'tution_fee' => 'required|max:200',
             'currency' => 'required|max:200',
             'intake' => 'required|max:200',
-            'min_gpa' => 'required|max:200',
             'program_discipline'=>'required'
         ]);
         // $sub_type = gettype($request->subject_id_input);
@@ -124,8 +122,7 @@ class ProgramController extends Controller
             'length' => $request->length  ?? null,
             'programType' => $request->programType  ?? null,
             'programCampus' => $request->programCampus  ?? null,
-            // 'subject_id' => $subject_id_input  ?? null,
-            'fieldsofstudytype' => $request->fieldsofstudytype  ?? null,
+            'grading_number' => $request->grading_number  ?? null,
             'description' => $request->details  ?? null,
             'grading_scheme_id' => $request->grading_scheme_id  ?? null,
             'total_credits' => $request->total_credits  ?? null,
@@ -134,6 +131,7 @@ class ProgramController extends Controller
             'application_closing_date' => $request->application_closing_date  ?? null,
             'lang_spec_for_program'=>$request->lang_spec_for_program  ?? null,
             'program_level_id'=>$request->program_level  ?? null,
+            'program_sub_level'=>$request->program_sub_level  ?? null,
             'education_level_id'=>$request->education_level  ?? null,
             'program_discipline'=>$request->program_discipline ?? null,
             'program_subdiscipline'=>$request->program_subdiscipline ?? null,
@@ -166,13 +164,15 @@ class ProgramController extends Controller
         $program_category=DB::table('tbl_program_category')->get();
         $all_subject = Subject::where('status', '1')->get();
         $filed_of_study =Fieldsofstudytype::where('status', '1')->get();
+        $program_level = ProgramLevel::get();
+        $program_sublevel = ProgramSubLevel::get();
         $education_level = EducationLevel::get();
         $currency =Currency::get();
-        return view('admin.program.edit-program', compact('grading_scheme','program_discipline','program_subdiscipline','universities','program_category','all_subject','filed_of_study','education_level','currency','program'));
+        return view('admin.program.edit-program', compact('grading_scheme','program_sublevel','program_level','program_discipline','program_subdiscipline','universities','program_category','all_subject','filed_of_study','education_level','currency','program'));
     }
 
     public function view_program($id){
-        $program = Program::with('study_type', 'educationLevel', 'currency_data', 'ProgramCategory', 'school')->where('is_approved',1)->find($id);
+        $program = Program::with('study_type', 'programLevel','educationLevel', 'currency_data', 'ProgramCategory', 'school')->where('is_approved',1)->find($id);
         return view('admin.program.program-details',compact('program'));
     }
 
@@ -185,9 +185,7 @@ class ProgramController extends Controller
             'programType' => 'required|max:200',
             'programCampus' => 'required|max:200',
             'lang_spec_for_program' => 'required|max:200',
-            'fieldsofstudytype' => 'required|max:200',
-            'grading_scheme_id' => 'required|max:200',
-            'program-level' => 'required|max:200',
+            'program_level' => 'required|max:200',
             'total_credits' => 'required|max:200',
             'application_fee' => 'required|max:200',
             'application_apply_date' => 'required|max:200',
@@ -195,7 +193,6 @@ class ProgramController extends Controller
             'tution_fee' => 'required|max:200',
             'currency' => 'required|max:200',
             'intake' => 'required|max:200',
-            'min_gpa' => 'required|max:200',
             'program_discipline'=>'required|max:200'
         ]);
         // $sub_type = gettype($request->subject_id_input);
@@ -208,37 +205,39 @@ class ProgramController extends Controller
         //         $subject_id_input = "";
         //     }
         // }
+        // dd($request->all());
         $programSave = Program::find($id);
         $programSave->update([
             'user_id' => Auth::user()->id,
-            'school_id' => $request->school_id ?? null,
-            'name' => $request->name  ?? null,
-            'length' => $request->length  ?? null,
-            'programType' => $request->programType  ?? null,
-            'programCampus' => $request->programCampus  ?? null,
-            // 'subject_id' => $subject_id_input  ?? null,
-            'fieldsofstudytype' => $request->fieldsofstudytype  ?? null,
-            'description' => $request->details  ?? null,
-            'program_level_id'=>$request->program_level  ?? null,
-            'education_level_id'=>$request->education_level  ?? null,
-            'grading_scheme_id' => $request->grading_scheme_id  ?? null,
-            'total_credits' => $request->total_credits  ?? null,
-            'application_fee' => $request->application_fee  ?? null,
-            'application_apply_date' => $request->application_apply_date  ?? null,
-            'application_closing_date' => $request->application_closing_date  ?? null,
-            'program_discipline'=>$request->program_discipline ?? null,
-            'program_subdiscipline'=>$request->program_subdiscipline ?? null,
-            'tution_fee' => $request->tution_fee  ?? null,
-            'currency' => $request->currency  ?? null,
-            'intake' => $request->intake  ?? null,
-            'min_gpa' => $request->min_gpa  ?? null,
-            'other_requirements' => $request->other_requirements  ?? null,
-            'extra_notes' => $request->extra_notes  ?? null,
-            // 'tags' => $request->tags ?? null,
-            'priority' => $request->priority ?? null,
+            'school_id' => $request->school_id,
+            'name' => $request->name,
+            'length' => $request->length,
+            'programType' => $request->programType,
+            'programCampus' => $request->programCampus,
+            'grading_number' => $request->grading_number,
+            'fieldsofstudytype' => $request->fieldsofstudytype,
+            'description' => $request->details,
+            'program_level_id'=>$request->program_level,
+            'program_sub_level'=>$request->program_sub_level  ?? null,
+            'education_level_id'=>$request->education_level,
+            'grading_scheme_id' => $request->grading_scheme_id,
+            'total_credits' => $request->total_credits,
+            'application_fee' => $request->application_fee,
+            'application_apply_date' => $request->application_apply_date,
+            'application_closing_date' => $request->application_closing_date,
+            'program_discipline'=>$request->program_discipline,
+            'program_subdiscipline'=>$request->program_subdiscipline,
+            'tution_fee' => $request->tution_fee,
+            'currency' => $request->currency,
+            'intake' => $request->intake,
+            'min_gpa' => $request->min_gpa,
+            'other_requirements' => $request->other_requirements,
+            'extra_notes' => $request->extra_notes,
+            // 'tags' => $request->tags,
+            'priority' => $request->priority,
             'cost_of_living_fee' => '00.00',
             'cost_of_living' => '00.00',
-            'is_approved' => '1',
+            'is_approved' => 1,
         ]);
         return redirect()->route('manage-program')->with('success', 'Program Updated Successfully');
     }
@@ -249,10 +248,10 @@ class ProgramController extends Controller
         $request->validate([
             'type'=>'required',
             'program_id' => 'required',
-            'listening_score' => 'required',
-            'writing_score' => 'required',
-            'reading_score' => 'required',
-            'speaking_score' => 'required',
+            'listening_score' => 'required|numeric|max:120',
+            'writing_score' => 'required|numeric|max:120',
+            'reading_score' => 'required|numeric|max:120',
+            'speaking_score' => 'required|numeric|max:120',
             'program_id' => 'required',
         ]);
         $reqScore = DB::table('program_english_required')->insert([
@@ -865,16 +864,9 @@ class ProgramController extends Controller
     public function get_education_level(Request $request)
     {
         if($request->ajax()){
-            $programLevelId=is_array($request->programLevelId) ? $request->programLevelId : explode(',',$request->programLevelId);
-            $education_level=EducationLevel::where(function($q) use ($programLevelId){
-                if($programLevelId){
-                    $q->whereIn('program_level_id',$programLevelId);
-                }
-            })->where(function($q) use ($request){
-                if($request->program_sublevel_id){
-                    $q->whereIn('program_sublevel_id',$request->program_sublevel_id);
-                }
-            })->get();
+            $programLevelId=is_array($request->program_level_id) ? implode(',',$request->program_level_id) : $request->program_level_id;
+            $program_sublevel_id=is_array($request->program_sublevel_id) ? implode(',',$request->program_sublevel_id):$request->program_sublevel_id;
+            $education_level=EducationLevel::where('program_level_id',$programLevelId)->where('program_sublevel_id',$program_sublevel_id)->get();
             return response()->json($education_level);
         }
     }
@@ -895,5 +887,31 @@ class ProgramController extends Controller
             return response()->json($program_sub_discipline);
         }
     }
+
+    public function education_level_fetch(Request $request)
+    {
+        $education_level=EducationLevel::where('program_level_id',$request->program_level_id)->where('program_sublevel_id',$request->program_sublevel_id)->get();
+        return response()->json($education_level);
+    }
+
+
+    public function fetch_scheme_data(Request $request)
+    {
+        if($request->ajax()){
+            $country_id=University::where('id',$request->university_id)->value('country_id');
+            $grading_scheme=GradingScheme::where('country_id',$country_id)->where('education_level_id',$request->education_level_id)->get();
+            return response()->json($grading_scheme);
+        }
+    }
+
+
+    public function other_exam(Request $request)
+    {
+        if($request->ajax()){
+            $other_exam = Exam::where('program_level_id',$request->program_id)->get();
+            return response()->json($other_exam);
+        }
+    }
+
 
 }

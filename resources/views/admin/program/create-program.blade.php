@@ -56,14 +56,14 @@
                     @method('post')
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control " name="school_id" id="lead-school_id" placeholder="University / College Name">
+                          <select class="form-control " name="school_id" id="school_id" placeholder="University / College Name">
                              <option value="">-- University / College Name --</option>
                              @foreach ($universities as $item)
                                 <option value="{{$item->id}}" {{ old('school_id') == $item->id ? 'selected' : '' }}>{{$item->university_name}}</option>
                              @endforeach
                           </select>
 
-                          <label for="lead-school_id" class="form-label">University / College Name <span class="text-danger">*</span></label>
+                          <label for="school_id" class="form-label">University / College Name <span class="text-danger">*</span></label>
                           @error('school_id')
                                   <div class="text-danger">{{ $message }}</div>
                           @enderror
@@ -174,7 +174,7 @@
                     @enderror
                     </div>
 
-                    <div class="col-4">
+                    {{-- <div class="col-4">
                        <div class="form-floating">
                           <select class="form-control " name="fieldsofstudytype" id="lead-fieldsofstudytype" placeholder="Fields Of Study Type (Degree type offered)">
                              <option value="">-- Select Fields Of Study Type --</option>
@@ -187,49 +187,65 @@
                         @error('fieldsofstudytype')
                           <div class="text-danger">{{ $message }}</div>
                       @enderror
-                    </div>
+                    </div> --}}
+
                     <div class="col-4">
                        <div class="form-floating">
-                          <select class="form-control " name="grading_scheme_id" id="lead-grading_scheme_id" placeholder="Grading Scheme">
-                             <option value="">-- Grading Scheme --</option>
-                             @foreach ($grading_scheme as $item)
-                                <option value="{{$item->id}}" {{ old('grading_scheme_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
-                             @endforeach
-                          </select>
-                          <label for="lead-grading_scheme_id" class="form-label">Grading Scheme <span class="text-danger">*</span></label>
-                        </div>
-                        @error('grading_scheme_id')
-                          <div class="text-danger">{{ $message }}</div>
-                      @enderror
-                    </div>
-                    <div class="col-4">
-                       <div class="form-floating">
-                          <select class="form-control " name="program_level" id="lead-program-level" placeholder="Degree" onchange="showEducationLevel(this.value)">
+                          <select class="form-control " name="program_level" id="program-level" placeholder="Degree">
                              <option value="">-- Program level--</option>
                              @foreach ($program_level as $item)
                                   <option value="{{$item->id}}" {{ old('program-level') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                              @endforeach
                           </select>
-                          <label for="lead-program-level" class="form-label">Program level <span class="text-danger">*</span></label>
+                          <label for="program-level" class="form-label">Program level <span class="text-danger">*</span></label>
                         </div>
-                        @error('program-level')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                        @error('program_level')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-
-                    <div class="col-4" id="education-level">
+                    <div class="col-4">
                         <div class="form-floating">
-                          <select class="form-control " name="education_level" id="lead-education-level" placeholder="Education Level">
-                             <option value="">-- Education Level--</option>
+                           <select class="form-control program-sub-level" name="program_sub_level" id="program-sub-level" placeholder="" >
+                              <option value="">-- Program Sub level --</option>
+                           </select>
+                           <label for="lead-program-sub-evel" class="form-label">Program Sub level <span class="text-danger">*</span></label>
+                         </div>
+                         @error('program_sub_level')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                     </div>
+                    <div class="col-4" >
+                        <div class="form-floating">
+                          <select class="form-control " name="education_level" id="education-level" placeholder="Education Level">
+                             <option value="">-- Min Education Level Required--</option>
                           </select>
                           <label for="lead-education-level" class="form-label">Education Level <span class="text-danger">*</span></label>
                         </div>
                         @error('education-level')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-
-
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <select class="form-control select-grading-scheme" name="grading_scheme_id" id="grading_scheme_id" placeholder="Grading Scheme">
+                                <option value="">-- Grading Scheme --</option>
+                            </select>
+                            <label for="lead-grading_scheme_id" class="form-label">Grading Scheme <span class="text-danger">*</span></label>
+                        </div>
+                        @error('grading_scheme_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-4" id="grading-number-div" style="display: none;">
+                        <div class="form-floating">
+                            <input id="lead-grading_number" name="grading_number" type="number" class="form-control " placeholder="Grading Number" autocomplete="grading_number"
+                             value="{{old('grading_number')}}" max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')">
+                            <label for="lead-grading_number" class="form-label">Grading Number <span class="text-danger">*</span></label>
+                        </div>
+                        @error('grading_number')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="col-4">
                         <div class="form-floating ">
                             <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{old('total_credits')}}">
@@ -239,6 +255,17 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="col-4">
+                        <div class="form-floating">
+                           <select class="form-control other-exam" name="other_exam" id="other_exam" placeholder="" >
+                              <option value="">-- Other Exam --</option>
+                           </select>
+                           <label for="lead-other-exam" class="form-label"> Other Exam <span class="text-danger">*</span></label>
+                         </div>
+                         @error('other_exam')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                     </div>
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-application_fee" name="application_fee" type="number" class="form-control " placeholder="Application Fees in INR" autocomplete="application_fee" value="{{old('application_fee')}}">
@@ -259,13 +286,39 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-application_closing_date" name="application_closing_date" type="date" class="form-control " placeholder="Application Closing Date" autocomplete="application_closing_date" value="{{old('application_closing_date')}}">
+                            <input id="lead-application_closing_date" name="application_closing_date_input" type="date" class="form-control date-input" placeholder="Application Closing Date" autocomplete="application_closing_date" value="{{old('application_closing_date_input')}}">
                             <label for="lead-application_closing_date" class="form-label">Application Closing Date <span class="text-danger">*</span></label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="application_closing_date" id="application_closing_date_option1" value="ASAP" {{ old('application_closing_date') == 'ASAP' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="application_closing_date_option1">
+                              ASAP
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="application_closing_date" id="application_closing_date_option2" value="TBD" {{ old('application_closing_date') == 'TBD' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="application_closing_date_option2">
+                              TBD
+                            </label>
+                        </div>
                         @error('application_closing_date')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
+                    <script>
+                        $(document).ready(function(){
+                            $('.date-input').on('change', function() {
+                                var date = $(this).val();
+                                $('input[name="application_closing_date"][value="'+date+'"]').prop('checked', true);
+                            });
+                            $('input[name="application_closing_date"]').on('change', function() {
+                                var date = $(this).val();
+                                if (date == 'ASAP' || date == 'TBD') {
+                                    $('.date-input').val('');
+                                }
+                            });
+                        });
+                    </script>
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-tution_fee" name="tution_fee" type="number" class="form-control " placeholder="Tution Fee" autocomplete="tution_fee" value="{{old('tution_fee')}}">
@@ -303,7 +356,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
-                    <div class="col-4">
+                    {{-- <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-min_gpa" name="min_gpa" type="number" class="form-control " placeholder="Minimum GPA" autocomplete="min_gpa" value="{{old('min_gpa')}}">
                             <label for="lead-min_gpa" class="form-label">Minimum GPA <span class="text-danger">*</span></label>
@@ -311,7 +364,7 @@
                         @error('min_gpa')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-tags" name="tags" type="text" class="form-control " placeholder="Course Tags" autocomplete="tags" value="{{old('tags')}}">
@@ -330,7 +383,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
-                    <div class="col-4">
+                    {{-- <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-other_requirements" name="other_requirements" type="text" class="form-control " placeholder="Other Requirements (Eligibility Of Program / Courses)" autocomplete="other_requirements" value="">
                             <label for="lead-other_requirements" class="form-label">Other Requirements (Eligibility Of Program / Courses)</label>
@@ -338,7 +391,7 @@
                         @error('other_requirements')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-12">
                        <label>Description</label>
                         <textarea name="details" id="summernote1" cols="30" rows="10"></textarea>
@@ -401,7 +454,7 @@
                         $(".program_sub_discipline_select").empty();
                         $(".program_sub_discipline_select").append('<option value="">--Select Program Sub Discipline--</option>');
                         $.each(res,function(key,value){
-                            $(".program_sub_discipline_select").append('<option value="'+key+'">'+value.name+'</option>');
+                            $(".program_sub_discipline_select").append('<option value="'+value.id+'">'+value.name+'</option>');
                         });
                     }else{
                         $(".program_sub_discipline_select").empty();
@@ -412,23 +465,153 @@
     });
 </script>
 <script>
-    function showEducationLevel(programLevelId) {
-        $.ajax({
-            url: "{{route('get-education-level')}}",
-            type: "POST",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                programLevelId: programLevelId,
-            },
-            success: function(response) {
-                var educationLevel = $('#lead-education-level');
-                educationLevel.empty();
-                educationLevel.append("<option value=''>-- Education Level--</option>");
-                response.forEach(element => {
-                    educationLevel.append("<option value='"+element.id+"'>"+element.name+"</option>");
-                });
+    // function showEducationLevel(programLevelId) {
+    //     $.ajax({
+    //         url: "{{route('get-education-level')}}",
+    //         type: "POST",
+    //         data: {
+    //             "_token": "{{ csrf_token() }}",
+    //             programLevelId: programLevelId,
+    //         },
+    //         success: function(response) {
+    //             var educationLevel = $('#lead-education-level');
+    //             educationLevel.empty();
+    //             educationLevel.append("<option value=''>-- Education Level--</option>");
+    //             response.forEach(element => {
+    //                 educationLevel.append("<option value='"+element.id+"'>"+element.name+"</option>");
+    //             });
+    //         }
+    //     });
+    // }
+</script>
+<script>
+    function csrf(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
     }
+    $('#program-level').on('change',function() {
+        var selectedOptions = $(this).val();
+        csrf();
+        $.ajax({
+            url: '{{ route('get-program-sublevel') }}',
+            type: 'POST',
+            data: {
+                'program_level_id': selectedOptions
+            },
+            success: function(data) {
+                $('#program-sub-level').empty();
+                if (data.length > 0) {
+                    $('#program-sub-level').append(`<option value=''>--- Select Sub level ---</option>`);
+                    $.each(data, function(index, program_sub_level) {
+                        $('#program-sub-level').append(`
+                        <option value="${program_sub_level.id}">${program_sub_level.name.toUpperCase()}</option>
+                        `);
+                    });
+                } else {
+                    $('#program-sub-level').empty().append('<option value="">Not Found</option>');
+                }
+            }
+        });
+     });
+     $('.program-sub-level').on('change',function() {
+        var program_level =$('#program-level').val();
+        var program_sub_level =$('#program-sub-level').val();
+        csrf();
+        $.ajax({
+            url: '{{ route('education-level-fetch') }}',
+            type: 'POST',
+            data: {
+                'program_level_id': program_level,
+                'program_sublevel_id': program_sub_level
+            },
+            success: function(data) {
+                if (data.length > 0) {
+                    $('#education-level').empty();
+                    $.each(data, function(index, education_level) {
+                        $('#education-level').append(`
+                            <option value="${education_level.id}">${education_level.name.toUpperCase()}</option>
+                        `);
+                    });
+                } else {
+                    $('#education-level').empty().append('<option value="">Not Found</option>');
+                }
+            }
+        });
+    });
+    // grading_scheme_id
+    $('.select-grading-scheme').on('click',function(){
+        var education_level = $('#education-level').val();
+        var univerisity_id = $('#school_id').val();
+        if (education_level === '') {
+            alert('Please Select Education Level');
+            return false;
+        }
+        if (univerisity_id === '') {
+            alert('Please Select University');
+            return false;
+        }
+        csrf();
+        $.ajax({
+            url: '{{ route('fetch-scheme-data') }}',
+            type: 'POST',
+            data: {
+                'education_level_id': education_level,
+                'university_id': univerisity_id
+            },
+            success: function(data) {
+                if (data.length > 0) {
+                    $('#grading_scheme_id').empty();
+                    $.each(data, function(index, education_level) {
+                        $('#grading_scheme_id').append(`
+                            <option value="${education_level.id}">${education_level.name.toUpperCase()}</option>
+                        `);
+                    });
+                } else {
+                    $('#grading_scheme_id').empty().append('<option value="">Not Found</option>');
+                }
+            }
+        });
+    });
+    $('.other-exam').on('click',function(){
+        var program_id = $('#program-level').val();
+        if (program_id === '') {
+            alert('Please Select Program Level');
+            return false;
+        }
+        csrf();
+        $.ajax({
+            url: '{{ route('fetch-other-exam') }}',
+            type: 'POST',
+            data: {
+                'program_id': program_id,
+            },
+            success: function(data) {
+                if (data.length > 0) {
+                    $('#other_exam').empty();
+                    $.each(data, function(index, other_exam) {
+                        $('#other_exam').append(`
+                            <option value="${other_exam.id}">${other_exam.name.toUpperCase()}</option>
+                        `);
+                    });
+                } else {
+                    $('#other_exam').empty().append('<option value="">Not Found</option>');
+                }
+            }
+        });
+    });
+    $(document).on('change','.select-grading-scheme',function(){
+        var grading_scheme_id = $(this).val();
+        if(grading_scheme_id != ''){
+            $('#grading-number-div').show();
+        }else{
+            $('#grading-number-div').hide();
+        }
+    })
 </script>
 @endsection
+
+
+

@@ -170,10 +170,10 @@
                             <section class="flg">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-md-4 col-6">
+                                        <div class="col-md-6 col-6">
                                             <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
                                             <select class="js-select2" multiple="multiple"
-                                                name="program_displine" id="program_displine">
+                                                name="program_displine" id="program_displine" onchange="ajaxRequestprogram($(this).val())">
                                                 @foreach ($program_discipline as $item)
                                                     <option value="{{ $item->id }}">
                                                         {{ $item->name }}</option>
@@ -184,8 +184,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 col-6">
-                                            <ul class="program_subdiscipline_list">
+                                        <div class="col-md-6 col-6 ">
+                                            <ul class=" program_subdiscipline_list float-end">
 
                                             </ul>
                                             <h4 class="program_discipline_name"></h4>
@@ -196,7 +196,8 @@
                             <div class="col-lg-1 col-md-6">
                             </div>
                             <div class="form-group clearfix">
-                                <a href="javascript:;" class="form-wizard-next-btn float-right">Continue</a>
+                                <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
+                                <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
                             </div>
                         </fieldset>
                         {{-- <fieldset class="wizard-fieldset">
@@ -467,7 +468,32 @@
                             </div>
                             <div class="form-group clearfix">
                                 <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
-                                <a href="javascript:;" class="form-wizard-next-btn float-right">Check my Eligible</a>
+                                <a href="javascript:;" class="form-wizard-next-btn float-right">Continue</a>
+                            </div>
+                        </fieldset>
+                        <fieldset class="wizard-fieldset">
+                            <h2 style="text-align: center;font-weight: 800;margin: 0px"> Check my Eligible?</h2>
+                                <h4>Check my Eligible</h4>
+                            <br>
+                            <section class="flg">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4 col-6">
+
+                                        </div>
+                                        <div class="col-md-4 col-6">
+                                            <ul class="program_subdiscipline_list">
+
+                                            </ul>
+                                            <h4 class="program_discipline_name"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="form-group clearfix">
+                                <a href="javascript:;" class="form-wizard-previous-btn float-left">Previous</a>
+                                <a href="javascript:;" class="form-wizard-next-btn float-right program-subdiscipline" ">Check my Eligible</a>
                             </div>
                         </fieldset>
                     </form>
@@ -718,8 +744,7 @@
     </script>
     {{-- sub-discipline --}}
         <script>
-            $("#program_displine").on('change',function(){
-                var ids = $(this).val();
+            function ajaxRequestprogram(ids){
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -734,9 +759,12 @@
                             $('.program_subdiscipline_list').empty();
                             $.each(data, function(index, program_sub_discipline) {
                                 $('.program_subdiscipline_list').append(`
-                                <li class="nav-item tab-btns" data-program-sub-discipline-level-id="${program_sub_discipline.id}">
-                                   ${program_sub_discipline.name.toUpperCase()}
-                                </li>
+                                    <li class="nav-item tab-btns">
+                                        <a class="nav-link tab-btn" id="${program_sub_discipline.name}"
+                                            data-toggle="tab" href="#${program_sub_discipline.name}" role="tab"
+                                            data-sub-discipline-id="${program_sub_discipline.id}"
+                                            aria-controls="prod-overview" aria-selected="true">${program_sub_discipline.name.toUpperCase()}</a>
+                                    </li>
                                 `);
                             });
                         } else {
@@ -744,6 +772,6 @@
                         }
                     }
                 });
-            });
+            }
         </script>
 @endsection
