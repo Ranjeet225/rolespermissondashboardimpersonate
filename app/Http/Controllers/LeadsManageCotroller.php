@@ -863,13 +863,22 @@ class LeadsManageCotroller extends Controller
         if($id == null){
             $id=Auth::user()->id;
             $studentDetails = Student::where('user_id',$id)->first();
+            if(empty($studentDetails)) {
+                return abort(404);
+            }
             $id =$studentDetails->id;
         }else{
             $user=Auth::user();
             if($user->hasRole('Administrator')){
                 $studentDetails = Student::where('id',$id)->first();
+                if(empty($studentDetails)) {
+                    return abort(404);
+                }
             }else{
                 $studentDetails = Student::where('id',$id)->where('user_id',Auth::user()->id)->first();
+                if(empty($studentDetails)) {
+                    return abort(404);
+                }
             }
         }
         $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->orwhere('student_user_id',$id)->first();
