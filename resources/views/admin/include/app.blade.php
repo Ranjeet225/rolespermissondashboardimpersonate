@@ -7,12 +7,14 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
-    <title>  Admin Dashboard </title>
+    <title> Admin Dashboard </title>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/favicon.png')}}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+   <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
+
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
@@ -47,7 +49,6 @@
     @yield('page-script')
     @yield('scripts')
     {{-- <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --}}
-    <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <!-- Bootstrap Core JS -->
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
@@ -79,5 +80,6 @@
 {{-- <script>
     $('select').selectpicker();
 </script> --}}
+
   </body>
 </html>

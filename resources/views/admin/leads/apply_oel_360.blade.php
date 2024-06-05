@@ -16,7 +16,7 @@
         min-width: 900px !important;
     }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> --}}
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 @endsection
 @section('main-content')
@@ -880,23 +880,23 @@
                     success: function(response) {
                         spinner.classList.add('d-none');
                         if (response.hasOwnProperty('course')) {
-                        $('#courseSelect').selectpicker('destroy');
-                        $('#courseSelect').empty();
-                        $.each(response.course, function(index, item) {
+                            $('#courseSelect').selectpicker('destroy');
+                            $('#courseSelect').empty();
+                            $.each(response.course, function(index, item) {
+                                $('#courseSelect').append(`
+                                    <option value="${item.id}">${item.name}</option>
+                                `);
+                            });
+                            $('#courseSelect').selectpicker('refresh');
+                            $('#courseSelect').selectpicker('refresh');
+                        } else {
+                            $('#courseSelect').selectpicker('destroy');
+                            $('#courseSelect').empty();
                             $('#courseSelect').append(`
-                                <option value="${item.id}">${item.name}</option>
+                                <option value="">Course Not Found</option>
                             `);
-                        });
-                        $('#courseSelect').selectpicker('refresh');
-                        $('#courseSelect').selectpicker('refresh');
-                    } else {
-                        $('#courseSelect').selectpicker('destroy');
-                        $('#courseSelect').empty();
-                        $('#courseSelect').append(`
-                            <option value="">Course Not Found</option>
-                        `);
-                        $('#courseSelect').selectpicker('refresh');
-                    }
+                            $('#courseSelect').selectpicker('refresh');
+                        }
                         if(response.success){
                             if(response.status !='Rejected'){
                                 handleNext();
