@@ -58,7 +58,7 @@
           <h5>
             <h4 class="title">
               <img src="https://images.leverageedu.com/assets/img/course-finder/party.png" style="height: 30px" />
-               312 Courses in 67 universities found
+               {{$course->count()}} Courses in {{$university->count()}} universities found
             </h4>
           </h5>
         </div>
@@ -228,11 +228,11 @@
                 <ul class="nav nav-tabs intro-tabs tabs-box" id="myTab" role="tablist">
                   <li class="nav-item tab-btns w-50 mynav">
                     <a class="nav-link tab-btn active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">
-                      <i class="fa fa-university" aria-hidden="true"></i> Universities (67) </a>
+                      <i class="fa fa-university" aria-hidden="true"></i> Universities ({{$university->count()}}) </a>
                   </li>
                   <li class="nav-item tab-btns w-50 mynav">
                     <a class="nav-item tab-btn nav-link " id="programs-tab" data-toggle="tab" href="#programs" role="tab" aria-controls="programs" aria-selected="false">
-                      <i class="fa fa-book" aria-hidden="true"></i> Courses (312) </a>
+                      <i class="fa fa-book" aria-hidden="true"></i> Courses ({{$course->count()}}) </a>
                   </li>
                 </ul>
                 <div class="tab-content tabs-content" id="myTabContent">
@@ -242,6 +242,7 @@
                       <div class="my-2">
                         <div class="r-w-s">
                           <h3 class="mb-10 c-desc-t-h-r" id="features">Home</h3>
+                          @foreach ($university as $item)
                           <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
                             <div class="courses-item course-logo">
                               <div>
@@ -306,6 +307,7 @@
                               </div>
                             </div>
                           </div>
+                          @endforeach
                         </div>
                       </div>
                     </div>

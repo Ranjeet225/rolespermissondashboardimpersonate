@@ -18,7 +18,6 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 @endsection
 @section('main-content')
     <div class="row">
@@ -45,7 +44,7 @@
                                 data-bs-placement="top" title="Courses">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step2" id="step2-tab" data-bs-toggle="tab"  role="tab" aria-controls="step2"
-                                    aria-selected="false" @if(!($user->hasRole('Administrator')) && empty($university_in_three_sixtee)) @disabled(true) @endif
+                                    aria-selected="false" @if(!($user->hasRole('Administrator'))  || !($user->hasRole('Administrator'))&& empty($university_in_three_sixtee)) @disabled(true) @endif
                                      > 2 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Courses</span>
@@ -166,12 +165,12 @@
                                         <div class="alert-college"> </div>
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <div id="selectedValues"></div>
                                                 <select id="universitySelect" class="selectpicker college-checkbox" name="college" multiple data-live-search="true">
                                                     @foreach($university as $item)
                                                         <option class="un" value="{{ $item->id }}">{{ $item->university_name }}</option>
                                                     @endforeach
                                                 </select>
+                                                <div id="selectedValues"></div>
                                             </div>
                                         </div>
                                     <br>
@@ -202,13 +201,13 @@
                                     </div>
                                     <input type="hidden" name="sba_id" class="sba_id" value="{{$leadDetails->id}}">
                                     <h4>Select Course</h4>
-                                    <div class="row mb-2">
-                                        <div id="courseValues"></div>
-                                        <select id="courseSelect" class="selectpicker course-checkbox" name="course" multiple data-live-search="true">
-                                            @foreach($course as $item)
-                                                <option class="un" value="{{ $item->id }}">{{Str::ucfirst($item->subject_name) }}</option>
-                                            @endforeach
+                                    <div class="row mb-2 ">
+                                        <select id="courseSelect" class="selectpicker course-checkbox " name="course" multiple data-live-search="true">
+                                            {{-- @foreach ($course as $item)
+                                            <option>{{$item->name}}</option>
+                                            @endforeach --}}
                                         </select>
+                                        <div id="courseValues"></div>
                                         {{-- @foreach ($course as $item)
                                             <div class="col-md-4">
                                                 <input class="form-check-input course-checkbox" name="course" type="checkbox" value="{{$item->id}}" id="course{{$loop->iteration}}">
@@ -688,7 +687,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
     $(document).ready(function(){
             function handleNext() {
@@ -880,10 +879,28 @@
                     data: formData,
                     success: function(response) {
                         spinner.classList.add('d-none');
+                        if (response.hasOwnProperty('course')) {
+                        $('#courseSelect').selectpicker('destroy');
+                        $('#courseSelect').empty();
+                        $.each(response.course, function(index, item) {
+                            $('#courseSelect').append(`
+                                <option value="${item.id}">${item.name}</option>
+                            `);
+                        });
+                        $('#courseSelect').selectpicker('refresh');
+                        $('#courseSelect').selectpicker('refresh');
+                    } else {
+                        $('#courseSelect').selectpicker('destroy');
+                        $('#courseSelect').empty();
+                        $('#courseSelect').append(`
+                            <option value="">Course Not Found</option>
+                        `);
+                        $('#courseSelect').selectpicker('refresh');
+                    }
                         if(response.success){
                             if(response.status !='Rejected'){
                                 handleNext();
-                            }else{
+                        } else {
                                 return false;
                             }
                         }
@@ -1042,7 +1059,7 @@
                 });
                 $('#courseSelect option:not(:selected)').each(function(){
                     var value = $(this).val();
-                    $('.universityCheckbox[value="' + value + '"]').remove();
+                    $('.courseCheckbox[value="' + value + '"]').remove();
                 });
             });
           });

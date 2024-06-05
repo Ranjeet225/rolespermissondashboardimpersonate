@@ -34,14 +34,16 @@ class FrontendController extends Controller
     public function course_university(Request $request)
     {
         $country=explode(',',$request->country);
-        $university=University::whereIn('country_id',$country)->get();
+        $program_discipline=explode(',',$request->program_discipline);
+        $university=University::whereIn('country_id',$country)->take(5)->get();
         $course=Program::where('program_level_id',$request->program_level)
                ->orwhere('program_sub_level',$request->program_sub_level)
                ->orwhere('education_level_id',$request->education_level)
-               ->orwhere('program_discipline',$request->program_displine)
+               ->orwhere('program_discipline',$program_discipline)
                ->orwhere('program_subdiscipline',$request->program_subdispline)
                ->orwhere('program_subdiscipline',$request->program_subdispline)
                ->get();
+               dd($university);
         return view('frontend.course-finder',compact('course','university'));
     }
 }

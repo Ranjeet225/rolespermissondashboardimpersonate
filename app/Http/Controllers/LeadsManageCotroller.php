@@ -49,6 +49,7 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 use PhpParser\Node\Expr\FuncCall;
 use Razorpay\Api\Api;
 
@@ -863,32 +864,32 @@ class LeadsManageCotroller extends Controller
         if($id == null){
             $id=Auth::user()->id;
             $studentDetails = Student::where('user_id',$id)->first();
-            if(empty($studentDetails)) {
-                return abort(404);
+            if(!$studentDetails) {
+                return view('errors.404');
             }
             $id =$studentDetails->id;
         }else{
             $user=Auth::user();
             if($user->hasRole('Administrator')){
                 $studentDetails = Student::where('id',$id)->first();
-                if(empty($studentDetails)) {
-                    return abort(404);
+                if(!$studentDetails) {
+                    return view('errors.404');
                 }
             }else{
                 $studentDetails = Student::where('id',$id)->where('user_id',Auth::user()->id)->first();
-                if(empty($studentDetails)) {
-                    return abort(404);
+                if(!$studentDetails) {
+                    return view('errors.404');
                 }
             }
         }
         $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->orwhere('student_user_id',$id)->first();
-        if(empty($leadDetails && $studentDetails)){
+        if(!$leadDetails || !$studentDetails){
             return view('errors.404');
         }
         $university = University::where('country_id', $studentDetails->country_id)->get();
-        $course = DB::table('subjects')->get();
+        $course = DB::table('program')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
-        if (!empty($threesixtee)) {
+        if ($threesixtee) {
             $agent = DB::table('agents')->get();
             $university_id = explode(',', $threesixtee->college);
             $three_course_id = explode(',', $threesixtee->courses);
@@ -940,7 +941,14 @@ class LeadsManageCotroller extends Controller
                         'college' => $college
                     ]);
             }
-            $response = true;
+            $course=Program::wherein('school_id',$request->collegeValues)->get();
+            $data = [
+                'success' => true,
+                'status' => $response,
+                'college'=>$college,
+                'course'=>$course,
+            ];
+            return response()->json($data);
         } elseif ($request->tab2) {
             $validator = Validator::make($request->all(), [
                 'courseValues' => 'required',
@@ -1281,11 +1289,16 @@ class LeadsManageCotroller extends Controller
             if ($data) {
                 Mail::to($student->email)->send(new ApplyOel360Email($data));
             }
-            $response = true;;
+            $response = true;
+            $data = [
+                'success' => true,
+                'tab10'=>'tab10',
+                'status' => $response,
+            ];
+            return response()->json($data);
         }
         $data = [
             'success' => true,
-            'tab10'=>'tab10',
             'status' => $response,
         ];
         return response()->json($data);
