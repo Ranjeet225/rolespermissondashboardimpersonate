@@ -47,7 +47,7 @@
     @yield('page-script')
     @yield('scripts')
     {{-- <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --}}
-    {{-- <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script> --}}
+    <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
     <!-- Bootstrap Core JS -->
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Slimscroll JS -->
