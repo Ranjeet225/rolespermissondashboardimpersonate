@@ -306,10 +306,12 @@
                     <div class="col-lg-4">
                         <label for="basicpill-servicetax-input" class="form-label">--Test Required-- <span class="text-danger">*</span></label>
                         <select class="selectpicker" multiple data-live-search="true" name="testrequired_input[]">
-                          <option value="TOFEL" {{isset($university->testrequired) == "TOFEL" ? 'selected' : '' }}> TOFEL</option>
-                          <option value="IELTS" {{isset($university->testrequired) == "IELTS" ? 'selected' : '' }}> IELTS</option>
-                          <option value="PTE" {{isset($university->testrequired) == "PTE" ? 'selected' : '' }}> PTE</option>
-                          <option value="SAT" {{isset($university->testrequired) == "SAT" ? 'selected' : '' }}> SAT</option>
+                            @php
+                                $textrequired=App\Models\EngProficiencyLevel::all();
+                            @endphp
+                            @foreach ($textrequired as $item)
+                            <option value="{{$item->name}}" {{isset($university->testrequired) == "$item->name" ? 'selected' : '' }}> {{$item->name}}</option>
+                            @endforeach
                         </select>
                         <span class="text-danger testrequired_input"></span>
                       </div>
