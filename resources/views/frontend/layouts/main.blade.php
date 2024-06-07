@@ -114,10 +114,10 @@
                         <div class="col-lg-2">
                             <div class="logo-cat-wrap">
                                 <div class="logo-part">
-                                    <a class="dark-logo" href="index.htm">
+                                    <a class="dark-logo" href="">
                                         <img src="{{ asset('frontend/home/images/oel.png') }}" alt="">
                                     </a>
-                                    <a class="light-logo" href="index.htm">
+                                    <a class="light-logo" href="">
                                         <img src="{{ asset('frontend/home/images/white-oel.png') }}" alt="">
                                     </a>
                                 </div>
@@ -134,22 +134,22 @@
                                     <nav class="rs-menu">
                                         <ul class="nav-menu flexible_items">
                                             <li class="menu-item-has-children">
-                                                <a href="index.htm">Home</a>
+                                                <a href="">Home</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="about_us.html">About OEL</a>
+                                                <a href="">About OEL</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="universities.html">Universities</a>
+                                                <a href="">Universities</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="courses.html">Programs</a>
+                                                <a href="">Programs</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="program-offered.html">Courses Offered</a>
+                                                <a href="">Courses Offered</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="contact_us.html">Contact Us</a>
+                                                <a href="">Contact Us</a>
                                             </li>
                                             <li class="btn-part">
                                                 <a class="apply-btn" href="quick_search.html?prefill=true">Quick
@@ -157,10 +157,10 @@
                                                 </a>
                                             </li>
                                             <li class="btn-part">
-                                                <a class="apply-btn" href="login.html">Login</a>
+                                                <a class="apply-btn" href="">Login</a>
                                             </li>
                                             <li class="btn-part">
-                                                <a href="student_loan.html"> <img
+                                                <a href=""> <img
                                                         src="{{ asset('frontend/images/Student(1).png') }}"
                                                         class="rr">
                                                 </a>
@@ -182,7 +182,7 @@
                                             </div>
                                             <ul class="dropdown-menu" id="user_dropdown_content2">
                                                 <li class="menu_item_user_dropdown">
-                                                    <a href="login.html"><i class="fa fa-sign-in"></i>Login</a>
+                                                    <a href=""><i class="fa fa-sign-in"></i>Login</a>
                                                 </li>
                                                 <li class="menu_item_user_dropdown">
                                                     <a href="register.html"><i class="fa fa-registered"></i>Student
@@ -202,32 +202,32 @@
                                     <nav class="rs-menu mobile_menu">
                                         <ul class="nav-menu">
                                             <li class="">
-                                                <a href="index.htm">Home</a>
+                                                <a href="">Home</a>
                                             </li>
                                             <li class="">
                                                 <a href="quick_search-1.html">Quick Search</a>
                                             </li>
                                             <li class="">
-                                                <a href="about_us.html">About OEL</a>
+                                                <a href="">About OEL</a>
                                             </li>
                                             <li class="">
-                                                <a href="universities.html">Universities</a>
+                                                <a href="">Universities</a>
                                             </li>
                                             <li class="">
-                                                <a href="courses.html">Programs</a>
+                                                <a href="">Programs</a>
                                             </li>
                                             <li class="">
-                                                <a href="program-offered.html">Programs Offered</a>
+                                                <a href="">Programs Offered</a>
                                             </li>
                                             <li class="">
-                                                <a href="contact_us.html">Contact Us</a>
+                                                <a href="">Contact Us</a>
                                             </li>
                                             <li class="btn-part">
                                                 <a class="apply-btn" href="quick_search.html?prefill=true">Quick
                                                     Search</a>
                                             </li>
                                             <li class="btn-part">
-                                                <a class="apply-btn" href="login.html">My Account</a>
+                                                <a class="apply-btn" href="">My Account</a>
                                             </li>
                                         </ul>
                                         <!-- //.nav-menu -->
@@ -282,17 +282,17 @@
                     <div class="col-lg-3 col-md-12 col-sm-12 footer-widget md-mb-50">
                         <h4 class="widget-title">Other Links</h4>
                         <ul class="site-map">
-                            <li><a href="about_us.html">About OEL</a></li>
-                            <li><a href="contact_us.html">Contact Us</a></li>
+                            <li><a href="">About OEL</a></li>
+                            <li><a href="">Contact Us</a></li>
                             <li><a href="allblogs.html">Blogs</a></li>
                             <li><a href="testimonials.html">Testimonials</a></li>
                             <li><a href="frequently-asked-questions.html">FAQ</a></li>
                             <li><a href="privacy-policy.html">Privacy Policy</a></li>
                             <li>
-                                <a href="franchise-login.html">Franchise Login</a>
+                                <a href="franchise-">Franchise Login</a>
                             </li>
                             <li>
-                                <a href="counselor_login.html">Counselor Login</a>
+                                <a href="counselor_">Counselor Login</a>
                             </li>
                         </ul>
                     </div>
@@ -354,7 +354,7 @@
                 <div class="row y-middle">
                     <div class="col-lg-7 md-mb-20">
                         <div class="copyright md-text-left">
-                            <p>&copy; 2021 Copyright <a href="index.htm">Overseas Education Lane</a> All Rights
+                            <p>&copy; 2021 Copyright <a href="">Overseas Education Lane</a> All Rights
                                 Reserved.</p>
                         </div>
                     </div>

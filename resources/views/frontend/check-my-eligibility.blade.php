@@ -98,19 +98,10 @@
                                         @foreach ($program_level as $item)
                                             <div class="col-md-2 col-6">
                                                 <label class="img-btn">
-                                                        <input type="radio" name="program_level" id="program_level" value="{{ $item->id }}" />
-                                                        <img  class="img-responsive w-50 text-justify-center mx-auto" src="{{ asset('assets/degree.png') }}" alt="Sri Lanka Flag">
+                                                        <input type="radio" name="program_level" class="program_level_data" id="program_level" value="{{ $item->id }}" />
+                                                        <img  class="img-responsive w-50 text-justify-center mx-auto " program_id="{{ $item->id }}" src="{{ asset('assets/degree.png') }}" alt="Sri Lanka Flag">
                                                         <p class="countrypapa text-center"> {{ ucfirst($item->name) }} </p>
                                                     </label>
-                                                {{-- <label class="image-checkbox">
-                                                    <img class="img-responsive w-50 text-justify-center mx-auto"
-                                                        src="{{ asset('assets/degree.png') }}" />
-                                                    <p class="countrypapa text-center"> {{ ucfirst($item->name) }}
-                                                    </p>
-                                                    <input type="checkbox" name="program_level" id="program_level"
-                                                        value="{{ $item->id }}" />
-                                                    <i class="fa fa-check hidden"></i>
-                                                </label> --}}
                                             </div>
                                         @endforeach
                                     </div>
@@ -261,10 +252,9 @@
                                     <div class="tabcntr">
                                         <ul class="nav nav-tabs intro-tabs tabs-box " id="myTab" role="tablist">
                                             @foreach ($eng_proficiency_level  as $item)
-                                            <li class="nav-item tab-btns ">
+                                            <li class="nav-item tab-btns">
                                                 <a class="nav-link tab-btn eng_proficiency_level" data-eng="{{$item->id}}" data-toggle="tab" href="#{{$item->name}}"
-                                                    role="tab" aria-controls="prod-overview" id=
-                                                    onclick="$('#{{$item->name}}-input').toggle()" >{{$item->name}}</a>
+                                                    role="tab" aria-controls="{{$item->name}}" id="{{$item->name}}-name" onclick="$('#{{$item->name}}-input')">{{$item->name}}</a>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -279,7 +269,7 @@
                                                 <!-- Application Charges -->
                                                 <div class="course-overview">
                                                     <div class="inner-box">
-                                                        <input class="from-control" type="text" id="en-input"
+                                                        <input class="from-control" type="text" id="{{$item->name}}-input"
                                                             name="{{$item->name}}-input" placeholder="Enter Your Score"
                                                              oninput="validateScore('{{$item->name}}')">
                                                         <br><br>
@@ -316,13 +306,11 @@
                                             }
                                         }
                                         else if(name=='DET'){
-                                            if(score<10 || score>90){
+                                            if(score<10 || score>160){
                                                 message.innerHTML = "DTE  score must be in between 10-160";
                                             }else{
                                                 message.innerHTML = "";
                                             }
-                                        }else{
-
                                         }
                                     }
                                 </script>
@@ -589,7 +577,6 @@
                     'program_level_id': selectedOptions
                 },
                 success: function(data) {
-                    console.log(data);
                     $('.program-sub-level').empty();
                     if (data.length > 0) {
                         $.each(data, function(index, program_sub_level) {
@@ -955,11 +942,11 @@
         <script>
             $('.check-my-eligibility').on('click',function(){
                 var country = $('#country').val();
-                var program_level = $('#program_level').val();
-                var program_sub_level=$('.program-sub-level-data').attr('data-sublevel-id');
-                var education_level = $('.data_education_level').attr('data-education-level-id');
+                var program_level = $('.program_level_data:checked').val();
+                var program_sub_level=$('.program-sub-level-data.active').attr('data-sublevel-id');
+                var education_level = $('.data_education_level.active').attr('data-education-level-id');
                 var program_displine=$('#program_displine').val();
-                var program_subdispline=$('.data-sub-discipline-id').attr('data-sub-discipline-id');
+                var program_subdispline=$('.data-sub-discipline-id.active').attr('data-sub-discipline-id');
                 var eng_proficiency_level =$('.eng_proficiency_level.active').attr('data-eng');
                 var redirect_url = '{{ route('course-finder') }}?country='+country+'&program_level='+program_level+'&program_sub_level='+program_sub_level+'&education_level='+education_level+'&program_displine='+program_displine+'&program_subdispline='+program_subdispline+'&eng_proficiency_level='+eng_proficiency_level;
                 window.location.href=redirect_url;

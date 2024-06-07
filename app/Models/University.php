@@ -22,13 +22,23 @@ class University extends Model
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
+
+    public function country_name()
+    {
+        return $this->hasOne(Country::class,'id', 'country_id');
+    }
+
     public function province()
     {
         return $this->belongsTo(Province::class, 'state');
     }
     public function university_type()
     {
-        return $this->belongsTo(SchoolType::class, 'type_of_university');
+        return $this->belongsTo(SchoolType::class,'id','type_of_university');
+    }
+    public function university_type_name()
+    {
+        return $this->hasOne(SchoolType::class,'id', 'type_of_university');
     }
     public function yearly_hostel_expense_currency_data(){
         return $this->belongsTo(Currency::class, 'yearly_hostel_expense_currencies');
@@ -38,5 +48,8 @@ class University extends Model
     }
     public function scholarships(){
         return $this->hasMany(StudentScholorship::class, 'college_university_name');
+    }
+    public function Program(){
+        return $this->hasOne(Program::class,'school_id','id');
     }
 }

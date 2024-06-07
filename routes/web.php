@@ -38,8 +38,9 @@ Route::post('get-education-level-data',[ProgramController::class,'get_education_
 Route::post('program-subdiscipline-data',[ProgramController::class,'program_subdiscipline_data'])->name('program-subdiscipline-data');
 Route::post('fetch-other-exam-data',[ProgramController::class,'other_exam'])->name('fetch-other-exam-data');
 Route::get('course-finder',[FrontendController::class,'course_university'])->name('course-finder');
-
-
+Route::get('fetch-university-course',[FrontendController::class,'course_university'])->name('fetch-university-course');
+Route::post('get-education-level-filter',[FrontendController::class,'education_level_filter'])->name('get-education-level-filter');
+Route::post('get-university-course',[FrontendController::class,'get_university_course'])->name('get-university-course');
 
 
 // Route::get('/dashboard', function () {

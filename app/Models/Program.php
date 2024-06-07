@@ -36,10 +36,23 @@ class Program extends Model
         return $this->belongsTo(University::class, 'school_id');
     }
 
+    public function university_name(){
+        return $this->hasOne(University::class,'id', 'school_id');
+    }
+
     public function programLevel()
     {
         return $this->belongsTo(ProgramLevel::class, 'program_level_id');
     }
+    public function programSubLevel()
+    {
+        return $this->belongsTo(ProgramSubLevel::class, 'program_sub_level','id');
+    }
+    public function educationLevelprogram()
+    {
+        return $this->belongsTo(EducationLevel::class, 'education_level_id','id');
+    }
+
 
     public function educationLevel()
     {
