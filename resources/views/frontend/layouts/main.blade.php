@@ -148,14 +148,11 @@
                                             <li class="menu-item-has-children">
                                                 <a href="">Courses Offered</a>
                                             </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="">Contact Us</a>
-                                            </li>
                                             <li class="btn-part">
-                                                <a class="apply-btn" href="quick_search.html?prefill=true">Quick
-                                                    Search
+                                                <a class="apply-btn" href="#" data-toggle="modal" data-target="#myModal">  Check My Eligibility
                                                 </a>
                                             </li>
+                                           
                                             <li class="btn-part">
                                                 <a class="apply-btn" href="">Login</a>
                                             </li>
@@ -219,12 +216,9 @@
                                             <li class="">
                                                 <a href="">Programs Offered</a>
                                             </li>
-                                            <li class="">
-                                                <a href="">Contact Us</a>
-                                            </li>
                                             <li class="btn-part">
-                                                <a class="apply-btn" href="quick_search.html?prefill=true">Quick
-                                                    Search</a>
+                                                <a class="apply-btn" href="#" data-toggle="modal" data-target="#myModal">  Check My Eligibility
+                                                </a>
                                             </li>
                                             <li class="btn-part">
                                                 <a class="apply-btn" href="">My Account</a>
@@ -418,6 +412,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @yield('section')
+
 
 </body>
 </html>

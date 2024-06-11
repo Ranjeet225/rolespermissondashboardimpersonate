@@ -542,7 +542,7 @@
         });
     });
     // grading_scheme_id
-    $('.select-grading-scheme').on('click',function(){
+    $('#education-level').on('click',function(){
         var education_level = $('#education-level').val();
         var univerisity_id = $('#school_id').val();
         if (education_level === '') {
@@ -575,7 +575,7 @@
             }
         });
     });
-    $('.other-exam').on('click',function(){
+    $('#program-level').on('change',function(){
         var program_id = $('#program-level').val();
         if (program_id === '') {
             alert('Please Select Program Level');

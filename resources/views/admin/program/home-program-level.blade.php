@@ -69,7 +69,7 @@
                     @foreach ($home_program as $item)
                     <tr>
                         <td>{{ $loop->index + (($home_program->currentPage() - 1) * $home_program->perPage()) + 1 }}</td>
-                        <td>{{$item->home_program_levels->name}}</td>
+                        <td>{{$item->home_program_levels->name ?? null }}</td>
                         <td class="text-wrap">{!! $item->description !!}</td>
                         <td><a  href="{{route('edit-program-details',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         <td><a href="{{route('delete-program-details',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>

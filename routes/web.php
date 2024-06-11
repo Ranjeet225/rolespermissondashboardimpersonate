@@ -54,6 +54,10 @@ Route::post('payment/create',[LeadsManageCotroller::class,'store'])->name('razor
 Route::post('payment/failure',[LeadsManageCotroller::class,'failure'])->name('razorpay.payment.failure');
 Route::get('payment/success',[LeadsManageCotroller::class,'success'])->name('razorpay.payment.succes');
 
+// student mobile number verfication
+Route::post('/send-otp',[FrontendController::class,'send_otp'])->name('send-otp');
+Route::post('/verify-otp', [FrontendController::class, 'verify_otp'])->name('verify-otp');
+
 Route::middleware('auth')->group(function () {
     // Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
