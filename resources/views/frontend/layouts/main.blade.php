@@ -459,7 +459,7 @@
                          </div>
                          <span class="text-danger otp-error"></span>
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg" disabled>Submit Now</button>
+                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg booking_enquiry" disabled>Submit Now</button>
                         </div>
                      </form>
                     </div>
@@ -469,7 +469,13 @@
       </div>
 </div>
 @yield('section')
-
+<script>
+    $(document).ready(function(){
+        $('#verify_otp').click(function(){
+            $('#booking_enquiry').prop('disabled', false);
+        });
+    });
+</script>
 <script>
     $(document).on('click', '#verify_otp', function(e){
         $('.error-phone').html('');
@@ -495,7 +501,8 @@
             }
         })
     })
-    $(document).on('click', '#booking_enquiry', function(e){
+    $('.booking_enquiry').on('click', function(e){
+        alert('new');
         e.preventDefault();
         let mobile_number = $('#mobile_number').val();
         if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {

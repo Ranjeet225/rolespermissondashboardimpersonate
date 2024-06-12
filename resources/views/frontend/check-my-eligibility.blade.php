@@ -407,13 +407,7 @@
             </div>
         </div>
     </section>
-    <script>
-        $(document).ready(function(){
-            $('#verify_otp').click(function(){
-                $('#booking_enquiry').prop('disabled', false);
-            });
-        });
-    </script>
+
     <script>
         function validateScore(name){
             var score = document.getElementById(name+"-input").value;
@@ -874,7 +868,7 @@
         });
 
     </script>
-     
+
     <script>
 
         $('.check-my-eligibility').on('click',function(){
