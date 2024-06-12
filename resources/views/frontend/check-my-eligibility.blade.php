@@ -55,142 +55,7 @@
     }
     .flgfixSize{ max-weight: 60px; width: 60px; max-height: 60px; height: 47px;}
 </style>
-    <!-- Main content Start -->
-    {{-- <div class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: block;" aria-modal="true">
-        <section class="vh-100">
-           <div class="container h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                 <div class="col-lg-12 col-xl-11">
-                    <div class="card text-black" style="border-radius: 25px;">
-                       <div class="card-body p-md-5">
-                          <div class="row justify-content-center" style="margin-right:0px">
-                             <div class="col-md-6 tree-img">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"  data-dismiss="modal" class="myspan">×</span>
-                                </button>
-                                <div class="careertree">
-                                   <a href="" class="current"><img src="https://overseaseducationlane.com/public/img/pppp.png" border="0" usemap="#image-map"></a>
-                                </div>
-                             </div>
-                             <div id="mySidenav" class="sidenav" onclick="$('#exampleModal').modal();">
-                                <a style="cursor: pointer;" id="blog"><i class="fa fa-question-circle"></i> For Enquiry</a>
-                                <!--<a href="#" id="projects"><i class="fa fa-whatsapp"></i> Call Us</a>-->
-                             </div>
-                             <div class="col-md-6" style="background: #8080802b;border-right: 3px solid #8080803b;border-radius: 20px;">
-                                <center>
-                                   <h4 style="margin-top:70px">REQUEST AN ENQUIRY<br>we usually respond in seconds</h4>
-                                </center>
-                                <div class="modal-header">
-                                   <!--<h5 class="modal-title" id="exampleModalLabel">Enquiry Now </h5>-->
-                                </div>
-                                <form class="mx-1 mx-md-4" id="enquiry_data" method="POST" autocomplete="off" novalidate="novalidate">
-                                   @csrf
-                                   <div class="d-flex flex-row align-items-center mb-4">
-                                      <i class="fa fa-user" aria-hidden="true" style="height: 29px;padding: 0px 6px;font-size: 24px;color: #070758;"></i>
-                                      <input type="text" class="form-control" name="full_name" id="full_name"  required aria-describedby="emailHelp" placeholder="First Name">
-                                   </div>
-                                   <div class="d-flex flex-row align-items-center mb-4">
-                                      <i class="fa fa-envelope" aria-hidden="true" style="height: 32px;padding: 0px 6px;font-size: 22px;color: #070758;"></i>
-                                      <input type="email" name="email" class="form-control" required id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                                   </div>
-                                   <span style="margin-left: 37px;margin-bottom: 50px !important;position: relative;top: -8px;font-size: 12px;">We'll never share your email with anyone else.</span>
-                                   <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="d-flex flex-row align-items-center mb-4">
-                                           <i class="fa fa-mobile" aria-hidden="true" style="height: 44px;padding: 0px 8px;font-size: 42px;color: #070758;"></i>
-                                           <input type="tel" name="mobile_number" class="form-control" aria-describedby="emailHelp" pattern="[0-9]{10}" placeholder="Enter mobile number" id="mobile_number" required>
-                                        </div>
-                                        <span style="margin-left: 37px;position: relative;top: -8px;font-size: 12px;">Please enter 10 digits only.</span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="d-flex justify-content-center  mt-2">
-                                           <button type="button" id="verify_otp" class="btn btn-primary btn-sm">Verify OTP</button>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <span class="text-danger error-phone"></span>
-                                    <div class="d-flex flex-row align-items-center mb-4 otp-verify" style="display:none !important;">
-                                      <input type="number" name="otp" class="form-control" id ="otp" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter otp">
-                                    </div>
-                                    <span class="text-danger otp-error"></span>
-                                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                      <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg" disabled>Submit Now</button>
-                                   </div>
-                                </form>
-                                <script>
-                                $(document).ready(function(){
-                                    $('#verify_otp').click(function(){
-                                        $('#booking_enquiry').prop('disabled', false);
-                                    });
-                                });
-                                </script>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </section>
-    </div> --}}
-    <div class="container">
-        <div class="modal mt-60" id="myModal">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-               <div class="row">
-                  <div class="col-md-6 p-0">
-                      <img src="https://publicassets.leverageedu.com/nas-daily/ForLeverageedupopup2.png"/>
-                  </div>
-                      <div class="col-md-6" style="  background: #EAEAEA;border-right: 3px solid #8080803b;border-radius: 20px;">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                           </button>
-                          </div>
-                          <h4 style=";text-align:center">REQUEST AN ENQUIRY<br>we usually respond in seconds</h4>
-                          <div class="modal-header">
-                            <!--<h5 class="modal-title" id="exampleModalLabel">Enquiry Now </h5>-->
-                          </div>
-                          <form class="mx-1 mx-md-4" id="enquiry_data" method="POST" autocomplete="off" novalidate="novalidate">
-                            @csrf
-                            <div class="d-flex flex-row align-items-center mb-4">
-                               <i class="fa fa-user" aria-hidden="true" style="height: 29px;padding: 0px 6px;font-size: 24px;color: #070758;"></i>
-                               <input type="text" class="form-control" name="full_name" id="full_name"  required aria-describedby="emailHelp" placeholder="First Name">
-                            </div>
-                            <div class="d-flex flex-row align-items-center mb-4">
-                               <i class="fa fa-envelope" aria-hidden="true" style="height: 32px;padding: 0px 6px;font-size: 22px;color: #070758;"></i>
-                               <input type="email" name="email" class="form-control" required id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                            </div>
-                            <span style="margin-left: 37px;margin-bottom: 50px !important;position: relative;top: -8px;font-size: 12px;">We'll never share your email with anyone else.</span>
-                            <div class="row">
-                             <div class="col-md-8">
-                                 <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fa fa-mobile" aria-hidden="true" style="height: 44px;padding: 0px 8px;font-size: 42px;color: #070758;"></i>
-                                    <input type="tel" name="mobile_number" class="form-control" aria-describedby="emailHelp" pattern="[0-9]{10}" placeholder="Enter mobile number" id="mobile_number" required>
-                                 </div>
-                                 <span style="margin-left: 37px;position: relative;top: -8px;font-size: 12px;">Please enter 10 digits only.</span>
-                             </div>
-                             <div class="col-md-4">
-                                 <div class="d-flex justify-content-center  mt-2">
-                                    <button type="button" id="verify_otp" class="btn btn-primary btn-sm">Verify OTP</button>
-                                 </div>
-                             </div>
-                             </div>
-                             <span class="text-danger error-phone"></span>
-                             <div class="d-flex flex-row align-items-center mb-4 otp-verify" style="display:none !important;">
-                               <input type="number" name="otp" class="form-control" id ="otp" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter otp">
-                             </div>
-                             <span class="text-danger otp-error"></span>
-                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                               <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg" disabled>Submit Now</button>
-                            </div>
-                         </form>
-                        </div>
-                  </div>
-               </div>
-            </div>
-          </div>
-    </div>
+
     <section class="wizard-section" style="background-image: url('{{asset('assets/img/km.png') }}');background-size: cover;background-position: center;background-repeat: no-repeat;padding-bottom:50px">
         <div class="row no-gutters">
             <div class="col-lg-1 col-md-6">
@@ -293,7 +158,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-md-6 col-6 ">
+                                        <div class="col-md-12 col-12 ">
                                             <ul class="nav-tabs program_subdiscipline_list float-end">
 
                                             </ul>
@@ -483,7 +348,7 @@
                                         </div>
                                         <div class="col-md-6 passportDetailsYes"  style="display: none;">
                                             <label for="country">Country</label>
-                                            <input type="text" class="form-control" id="country" name="country" placeholder="Enter country">
+                                            <input type="text" class="form-control" id="country_name" name="country" placeholder="Enter country">
                                         </div>
                                         <div class="col-md-6 passportDetailsYes"  style="display: none;">
                                             <label for="expire_date">Expire Date</label>
@@ -1009,87 +874,11 @@
         });
 
     </script>
-      <script>
-        $(document).on('click', '#verify_otp', function(e){
-            $('.error-phone').html('');
-            e.preventDefault();
-            let mobile_number = $('#mobile_number').val();
-            if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)){
-                alert('Please enter valid mobile number', 'error');
-                return false;
-            }
-            $.ajax({
-                url: '{{route("send-otp")}}',
-                type: 'POST',
-                data: {
-                    phone_number: mobile_number,
-                    _token: '{{csrf_token()}}'
-                },
-                success: function(data){
-                    if(data.success){
-                        $('.otp-verify').show();
-                    }else{
-                        $('.error-phone').html(data.message);
-                    }
-                }
-            })
-        })
-        $(document).on('click', '#booking_enquiry', function(e){
-            e.preventDefault();
-            let mobile_number = $('#mobile_number').val();
-            if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {
-                alert('Please enter valid mobile number', 'error');
-                return false;
-            }
-            let full_name = $('#full_name').val();
-            if(!full_name) {
-                alert('Please enter your full name', 'error');
-                return false;
-            }
-            let email = $('#email').val();
-            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-            if(!email || !emailReg.test(email)) {
-                alert('Please enter valid email', 'error');
-                return false;
-            }
-            let otp = $('#otp').val();
-            if(!otp) {
-                alert('Please enter otp', 'error');
-                return false;
-            }
-            $.ajax({
-                url: '{{route("verify-otp")}}',
-                type: 'POST',
-                data: {
-                    phone_number: mobile_number,
-                    full_name: full_name,
-                    email: email,
-                    otp: otp,
-                    _token: '{{csrf_token()}}'
-                },
-                success: function(data){
-                    if(data.success){
-                    }else{
-                      $('.otp-error').html(data.message);
-                      $('#exampleModal').css('display','none');
-                    }
-                },
-                error: function(xhr,status,error){
-                    if(xhr.status == 401){
-                        $('.otp-error').html('Invalid OTP.');
-                    }
-                }
-            })
-        })
-
-       </script>
+     
     <script>
-        $('.myspan').on('click',function(){
-            $('#exampleModal').css('display','none');
-        });
+
         $('.check-my-eligibility').on('click',function(){
             var country = $('#country').val();
-            alert(country);
             var program_level = $('.program_level_data:checked').val();
             var program_sub_level=$('.program-sub-level-data.active').attr('data-sublevel-id');
             var education_level = $('.data_education_level.active').attr('data-education-level-id');

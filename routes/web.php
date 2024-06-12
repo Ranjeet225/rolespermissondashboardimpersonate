@@ -29,8 +29,25 @@ So, I apologize for repeating this mistake. I am not creating new tables. I am j
 // Route::get('/', function (Coun) {
 //     return view('frontend.check-my-eligibility');
 // });
+/*
+  The fallback route is not working because Laravel 8.x introduces a new
+  feature called Implicit Route Model Binding. This feature automatically
+  binds route parameters to Eloquent models.
 
-Route::get('/', [FrontendController::class,'check_eligibility']);
+  The fallback route is not working because Laravel tries to find a model
+  named "Coun" but it doesn't exist. To fix this issue, you can disable
+  the implicit route model binding feature by adding the following code
+  to the bootstrap/app.php file:
+
+  */
+
+Route::fallback(function () {
+    abort(404);
+});
+Route::get('/', function(){
+    return view('frontend.comming-soon');
+});
+Route::get('/check-eligibility', [FrontendController::class,'check_eligibility'])->name('check-eligible');
 Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');
 Route::post('/get-item-details',[FrontendController::class,'get_country'])->name('get-item-details');
 Route::post('get-program-sublevel',[ProgramController::class,'get_program_sublevel'])->name('get-program-sublevel');
@@ -494,7 +511,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/fetch-states', [LeadsManageCotroller::class, 'fetchStates'])->name('states.get');
 });
-Route::fallback(function () {
-    abort(404);
-});
+
 require __DIR__.'/auth.php';

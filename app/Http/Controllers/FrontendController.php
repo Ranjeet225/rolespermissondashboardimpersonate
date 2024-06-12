@@ -118,31 +118,31 @@ class FrontendController extends Controller
         $program_discipline=ProgramDiscipline::select('name','id')->get();
         $eng_proficiency_level=EngProficiencyLevel::select('name','id')->get();
         if($request->ajax()){
-            if($request->has('country') && $request->has('program_level') && $request->has('program_sub_level') && $request->has('education_level') && $request->has('program_displine') && $request->has('program_subdispline') && $request->has('eng_proficiency_level') && $request->has('eng_pro_input') && $request->has('other_exam')){
+            if($request->has('country') ||  $request->has('program_level') ||  $request->has('program_sub_level') ||  $request->has('education_level') ||  $request->has('program_displine') ||  $request->has('program_subdispline') ||  $request->has('eng_proficiency_level') ||  $request->has('eng_pro_input') ||  $request->has('other_exam')){
                 $course=Program::with('university_name','university_name.country_name','university_name.university_type_name')
-                ->where('program_level_id', $request->program_level)
-                ->where('program_sub_level', $request->program_sub_level)
-                ->where('education_level_id', $request->education_level)
-                ->whereIn('program_discipline', explode(',',$request->program_displine))
-                ->whereIn('program_subdiscipline', explode(',',$request->program_subdispline))
-                // ->where('eng_pro_input', $request->eng_pro_input)
-                ->where('other_exam', $request->other_exam)
+                // ->whereIn('program_level_id',explode(',',$request->program_level))
+                // ->whereIn('program_sub_level',explode(',',$request->program_sub_level))
+                // ->whereIn('education_level_id',explode(',',$request->education_level))
+                // ->whereIn('program_discipline', explode(',',$request->program_displine))
+                // ->whereIn('program_subdiscipline', explode(',',$request->program_subdispline))
+                // ->whereIn('eng_pro_input',explode(',',$request->eng_pro_input))
+                // ->whereIn('other_exam',explode(',',$request->other_exam))
                 ->paginate(12);
                 $universities = University::with('country','program','program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
                 ->whereIn('country_id', explode(',',$request->country))
-                ->whereHas('program', function ($query) use ($request) {
-                    $query->where('program_level_id', $request->program_level)
-                    ->where('program_sub_level', $request->program_sub_level)
-                    ->where('education_level_id', $request->education_level)
-                    ->whereIn('program_discipline', explode(',',$request->program_displine))
-                    ->whereIn('program_subdiscipline', explode(',',$request->program_subdispline));
-                })
+                // ->whereHas('program', function ($query) use ($request) {
+                //     $query->whereIn('program_level_id',explode(',',$request->program_level))
+                //     ->whereIn('program_sub_level',explode(',',$request->program_sub_level))
+                //     ->whereIn('education_level_id',explode(',',$request->education_level))
+                //     ->whereIn('program_discipline',explode(',',$request->program_displine))
+                //     ->whereIn('program_subdiscipline',explode(',',$request->program_displine));
+                // })
                 ->paginate(12);
                 return response()->json(['data' => $universities,'course_data'=>$course]);
             }else{
                 $course=Program::with('university_name','university_name.country_name','university_name.university_type_name')->paginate(12);
                 $universities = University::with('country','program','program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')->paginate(12);
-                return response()->json(['data' => $universities,'course_data'=>$course]);  
+                return response()->json(['data' => $universities,'course_data'=>$course]);
             }
 
         }
@@ -184,7 +184,7 @@ class FrontendController extends Controller
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
             ]);
-            return response()->json(['message' => 'OTP verified successfully.']);
+            return response()->json(['message' => 'OTP verified successfully.','success'=>true]);
 
         } else {
             return response()->json(['message' => 'Invalid OTP.','success'=>false], 401);

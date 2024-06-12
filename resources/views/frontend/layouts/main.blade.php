@@ -44,8 +44,7 @@
     @yield('frontend-css')
 </head>
 <body class="home-style2">
-    <script type="text/javascript" src="{{ asset('v3/polyfill.min.js') }}"></script>
-    <script src="{{ asset('npm/vue%402.6.12/dist/vue.js') }}"></script>
+    {{-- <script src="{{ asset('npm/vue%402.6.12/dist/vue.js') }}"></script> --}}
     <script src="{{ asset('ajax/libs/axios/0.21.1/axios.min.js') }}"
         integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
         crossorigin="anonymous"></script>
@@ -152,7 +151,7 @@
                                                 <a class="apply-btn" href="#" data-toggle="modal" data-target="#myModal">  Check My Eligibility
                                                 </a>
                                             </li>
-                                           
+
                                             <li class="btn-part">
                                                 <a class="apply-btn" href="">Login</a>
                                             </li>
@@ -411,8 +410,142 @@
 <script src="{{ asset('ajax/libs/jquery-validate/1.19.3/jquery.validate.js') }}" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<div class="container">
+    <div class="modal mt-60" id="myModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+           <div class="row">
+              <div class="col-md-6 p-0">
+                  <img src="https://publicassets.leverageedu.com/nas-daily/ForLeverageedupopup2.png"/>
+              </div>
+                  <div class="col-md-6" style="  background: #EAEAEA;border-right: 3px solid #8080803b;border-radius: 20px;">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                       </button>
+                      </div>
+                      <h4 style=";text-align:center">REQUEST AN ENQUIRY<br>we usually respond in seconds</h4>
+                      <div class="modal-header">
+                        <!--<h5 class="modal-title" id="exampleModalLabel">Enquiry Now </h5>-->
+                      </div>
+                      <form class="mx-1 mx-md-4" id="enquiry_data" method="POST" autocomplete="off" novalidate="novalidate">
+                        @csrf
+                        <div class="d-flex flex-row align-items-center mb-4">
+                           <i class="fa fa-user" aria-hidden="true" style="height: 29px;padding: 0px 6px;font-size: 24px;color: #070758;"></i>
+                           <input type="text" class="form-control" name="full_name" id="full_name"  required aria-describedby="emailHelp" placeholder="First Name">
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                           <i class="fa fa-envelope" aria-hidden="true" style="height: 32px;padding: 0px 6px;font-size: 22px;color: #070758;"></i>
+                           <input type="email" name="email" class="form-control" required id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <span style="margin-left: 37px;margin-bottom: 50px !important;position: relative;top: -8px;font-size: 12px;">We'll never share your email with anyone else.</span>
+                        <div class="row">
+                         <div class="col-md-8">
+                             <div class="d-flex flex-row align-items-center mb-4">
+                                <i class="fa fa-mobile" aria-hidden="true" style="height: 44px;padding: 0px 8px;font-size: 42px;color: #070758;"></i>
+                                <input type="tel" name="mobile_number" class="form-control" aria-describedby="emailHelp" pattern="[0-9]{10}" placeholder="Enter mobile number" id="mobile_number" required>
+                             </div>
+                             <span style="margin-left: 37px;position: relative;top: -8px;font-size: 12px;">Please enter 10 digits only.</span>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="d-flex justify-content-center  mt-2">
+                                <button type="button" id="verify_otp" class="btn btn-primary btn-sm">Verify OTP</button>
+                             </div>
+                         </div>
+                         </div>
+                         <span class="text-danger error-phone"></span>
+                         <div class="d-flex flex-row align-items-center mb-4 otp-verify" style="display:none !important;">
+                           <input type="number" name="otp" class="form-control" id ="otp" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter otp">
+                         </div>
+                         <span class="text-danger otp-error"></span>
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg" disabled>Submit Now</button>
+                        </div>
+                     </form>
+                    </div>
+              </div>
+           </div>
+        </div>
+      </div>
+</div>
 @yield('section')
 
-
+<script>
+    $(document).on('click', '#verify_otp', function(e){
+        $('.error-phone').html('');
+        e.preventDefault();
+        let mobile_number = $('#mobile_number').val();
+        if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)){
+            alert('Please enter valid mobile number', 'error');
+            return false;
+        }
+        $.ajax({
+            url: '{{route("send-otp")}}',
+            type: 'POST',
+            data: {
+                phone_number: mobile_number,
+                _token: '{{csrf_token()}}'
+            },
+            success: function(data){
+                if(data.success){
+                    $('.otp-verify').show();
+                }else{
+                    $('.error-phone').html(data.message);
+                }
+            }
+        })
+    })
+    $(document).on('click', '#booking_enquiry', function(e){
+        e.preventDefault();
+        let mobile_number = $('#mobile_number').val();
+        if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {
+            alert('Please enter valid mobile number', 'error');
+            return false;
+        }
+        let full_name = $('#full_name').val();
+        if(!full_name) {
+            alert('Please enter your full name', 'error');
+            return false;
+        }
+        let email = $('#email').val();
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        if(!email || !emailReg.test(email)) {
+            alert('Please enter valid email', 'error');
+            return false;
+        }
+        let otp = $('#otp').val();
+        if(!otp) {
+            alert('Please enter otp', 'error');
+            return false;
+        }
+        $.ajax({
+            url: '{{route("verify-otp")}}',
+            type: 'POST',
+            data: {
+                phone_number: mobile_number,
+                full_name: full_name,
+                email: email,
+                otp: otp,
+                _token: '{{csrf_token()}}'
+            },
+            success: function(data){
+                if(data.success){
+                    window.location.href = '{{url("check-eligibility")}}';
+                }else{
+                  $('.otp-error').html(data.message);
+                  $('#exampleModal').css('display','none');
+                }
+            },
+            error: function(xhr,status,error){
+                if(xhr.status == 401){
+                    $('.otp-error').html('Invalid OTP.');
+                }
+            }
+        })
+    })
+    $('.myspan').on('click',function(){
+        $('#exampleModal').css('display','none');
+    });
+</script>
 </body>
 </html>

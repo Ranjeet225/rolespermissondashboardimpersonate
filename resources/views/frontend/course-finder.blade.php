@@ -147,7 +147,7 @@
                 <h5>
                     <h4 class="title">
                         <img src="https://images.leverageedu.com/assets/img/course-finder/party.png" style="height: 30px" />
-                        {{-- {{ $course->count() }} Courses in {{ $university->count() }} universities found --}}
+                        <span class="course_count"></span> Courses in <span class="university_count"></span> universities found
                     </h4>
                 </h5>
             </div>
@@ -396,13 +396,13 @@
                             <li class="nav-item tab-btns w-50 mynav">
                                 <a class="nav-link tab-btn active" id="home-tab" data-toggle="tab" href="#home"
                                     role="tab" aria-controls="home" aria-selected="false">
-                                    <i class="fa fa-university" aria-hidden="true"></i> Universities
+                                    <i class="fa fa-university" aria-hidden="true"></i> Universities (<span class="university_count"></span>)
                                      </a>
                             </li>
                             <li class="nav-item tab-btns w-50 mynav">
                                 <a class="nav-item tab-btn nav-link " id="programs-tab" data-toggle="tab"
                                     href="#programs" role="tab" aria-controls="programs" aria-selected="false">
-                                    <i class="fa fa-book" aria-hidden="true"></i> Courses  </a>
+                                    <i class="fa fa-book" aria-hidden="true"></i> Courses  (<span class="course_count"></span>) </a>
                             </li>
                         </ul>
                         <div class="tab-content tabs-content" id="myTabContent">
@@ -482,31 +482,170 @@
         })(jQuery);
     </script>
     <script>
-        let pages = 2;
-        let current_page = 0;
-        let bool = false;
-        let lastPage;
-        $(window).scroll(function() {
-            let height = $(document).height();
-            if ($(window).scrollTop() + $(window).height() >= height && bool == false && lastPage > pages - 2) {
-                bool = true;
-                $('.ajax-load').show();
-                lazyLoad(pages)
-                    .then(() => {
-                        bool = false;
-                        pages++;
-                        if (pages - 2 == lastPage) {
-                            $('.no-data').show();
-                        }
-                    })
+        $(document).ready(function() {
+            function csrf() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
             }
-        })
-        function getParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.toString();
-        }
-        function lazyLoad(page) {
-            return new Promise((resolve, reject) => {
+            let pages = 2;
+            let current_page = 0;
+            let bool = false;
+            let lastPage;
+            $(window).scroll(function() {
+                let height = 4000;
+                if ($(window).scrollTop() + $(window).height() >= height && bool == false && lastPage > pages - 2) {
+                    bool = true;
+                    $('.ajax-load').show();
+                    lazyLoad(pages)
+                        .then(() => {
+                            bool = false;
+                            pages++;
+                            if (pages - 2 == lastPage) {
+                                $('.no-data').show();
+                            }
+                        })
+                }
+            })
+            function getParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.toString();
+            }
+            function lazyLoad(page) {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: `?page=${page}&${getParams()}`,
+                        type: 'GET',
+                        beforeSend: function() {
+                            $('.ajax-load').show();
+                        },
+                        success: function(response) {
+                            $('.ajax-load').hide();
+                            let html = '';
+                            let course_data ='';
+                            $.each(response.data.data, function(index, item) {
+                                html += `
+                                <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
+                                    <div class="courses-item course-logo">
+                                        <div>
+                                            <div class="course_card_logo_sec d-flex">
+                                                <div class="img-part" style="margin: 2px 5px;">
+                                                    <a href="course_details/${item.id}">
+                                                        <img src="${window.location.origin}/${item ? item.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
+                                                    </a>
+                                                </div>
+                                                <div style="flex: 1 1 0%;">
+                                                    <h5 class="mb-1">
+                                                        <a href="course_details/${item.id}">${item.program && item.program.name ? item.program.name : ""}</a>
+                                                    </h5>
+                                                    <a href="${item.website}" style="font-weight: 500; font-size: 14px;">${item.university_name ? item.university_name : ""}</a>
+                                                </div>
+                                            </div>
+                                            <div class="content-part">
+                                                <ul class="meta-part">
+                                                    <li class="user">
+                                                        <i class="fa fa-graduation-cap"></i>
+                                                        <span class="info_bold">Level</span>
+                                                        <span>${item.program && item.program.program_level && item.program.program_level.name ? item.program.program_level.name : ""}</span>
+                                                    </li>
+                                                    <li class="user">
+                                                        <i class="fa fa-clock-o"></i>
+                                                        <span class="info_bold">Duration</span>
+                                                        <span>4 year</span>
+                                                    </li>
+                                                    <li class="user">
+                                                        <i class="fa fa-money"></i>
+                                                        <span class="info_bold">Application Fees</span>
+                                                        <span>A$125.00</span>
+                                                    </li>
+                                                    <li class="user">
+                                                        <i class="fa fa-money"></i>
+                                                        <span class="info_bold">1st Year Tuition Fees</span>
+                                                        <span>A$49,600.00</span>
+                                                    </li>
+                                                    <li class="user">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        <span class="info_bold">Exams Required</span>
+                                                        <span style="font-size: 12px;">No Exam Required</span>
+                                                    </li>
+                                                </ul>
+                                                <hr class="mb-10 mt-10">
+                                                <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
+                                                <hr class="mb-10 mt-10">
+                                                <div class="bottom-part">
+                                                    <div class="info-meta">
+                                                        <ul>
+                                                            <li class="user">
+                                                                <i class="fa fa-flag"></i>
+                                                                <span>${item.country ? item.country.name : ''}</span>
+                                                                <span>-</span>
+                                                                <span>Full Time</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            });
+                            $.each(response.course_data.data, function(index, item) {
+                                $('.course_data').append(`
+                                    <div class="courses-item course-logo">
+                                        <div>
+                                            <div class="d-flex">
+                                                <a href="${item.university ? item.university_name.website : ''}" class="university_logo">
+                                                    <div class="u-logo">
+                                                        <img src="${window.location.origin}/${item.university ? item.university_name.logo : ''}" alt="${item.university ? item.university_name.logo : ''}" class="img-fluid uc-logo">
+                                                    </div>
+                                                </a>
+                                                <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
+                                                    <a href="${item.university_name ? item.university_name.website : ''}">${item.university ? item.university_name.name : ''}</a>
+                                                </h5>
+                                            </div>
+                                            <div class="content-part">
+                                                <ul class="meta-part" style="flex: 1 1 0%;">
+                                                    <li class="user meta_item">
+                                                        <i class="fa fa-map"></i>
+                                                        <span class="info_bold">Location: </span>
+                                                        <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>
+                                                    </li>
+                                                    <li class="user meta_item">
+                                                        <i class="fa fa-flag"></i>
+                                                        <span class="info_bold">Country: </span>
+                                                        <span>${item.university_name ? item.university_name.country_name.name : '' }</span>
+                                                    </li>
+                                                    <li class="user meta_item">
+                                                        <i class="fa fa-list"></i>
+                                                        <span class="info_bold">University Type: </span>
+                                                        <span>${item.university_name ? item.university_name.university_type_name.name : ''}</span>
+                                                    </li>
+                                                </ul>
+                                                <hr class="mb-10 mt-10">
+                                                <div class="bottom-part">
+                                                    <div class="info-meta" style="flex: 1 1 0%;"></div>
+                                                    <div class="btn-part">
+                                                        <a href="${item.university_name ? item.university_name.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `);
+                            });
+                            console.log(response.data.total);
+                            $('#university').append(html);
+                            $('.course_data').append(course_data);
+                            resolve();
+                        }
+                    });
+                })
+            }
+            loadData(1);
+            function loadData(page) {
                 $.ajax({
                     url: `?page=${page}&${getParams()}`,
                     type: 'GET',
@@ -515,11 +654,12 @@
                     },
                     success: function(response) {
                         $('.ajax-load').hide();
+                        lastPage = response.data.last_page;
                         let html = '';
                         let course_data ='';
                         $.each(response.data.data, function(index, item) {
                             html += `
-                               <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
+                                <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
                                 <div class="courses-item course-logo">
                                     <div>
                                         <div class="course_card_logo_sec d-flex">
@@ -629,166 +769,13 @@
                             `);
                         });
                         $('#university').append(html);
+                        $('.course_count').html(response.course_data.total);
+                        $('.university_count').html(response.data.total);
                         $('.course_data').append(course_data);
-                        resolve();
-                    }
-                });
-            })
-        }
-        loadData(1);
-
-        function loadData(page) {
-            $.ajax({
-                url: `?page=${page}&${getParams()}`,
-                type: 'GET',
-                beforeSend: function() {
-                    $('.ajax-load').show();
-                },
-                success: function(response) {
-                    $('.ajax-load').hide();
-                    lastPage = response.data.last_page;
-                    let html = '';
-                    let course_data ='';
-                    $.each(response.data.data, function(index, item) {
-                        html += `
-                            <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
-                            <div class="courses-item course-logo">
-                                <div>
-                                    <div class="course_card_logo_sec d-flex">
-                                        <div class="img-part" style="margin: 2px 5px;">
-                                            <a href="course_details/${item.id}">
-                                                <img src="${window.location.origin}/${item ? item.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
-                                            </a>
-                                        </div>
-                                        <div style="flex: 1 1 0%;">
-                                            <h5 class="mb-1">
-                                                <a href="course_details/${item.id}">${item.program && item.program.name ? item.program.name : ""}</a>
-                                            </h5>
-                                            <a href="${item.website}" style="font-weight: 500; font-size: 14px;">${item.university_name ? item.university_name : ""}</a>
-                                        </div>
-                                    </div>
-                                    <div class="content-part">
-                                        <ul class="meta-part">
-                                            <li class="user">
-                                                <i class="fa fa-graduation-cap"></i>
-                                                <span class="info_bold">Level</span>
-                                                <span>${item.program && item.program.program_level && item.program.program_level.name ? item.program.program_level.name : ""}</span>
-                                            </li>
-                                            <li class="user">
-                                                <i class="fa fa-clock-o"></i>
-                                                <span class="info_bold">Duration</span>
-                                                <span>4 year</span>
-                                            </li>
-                                            <li class="user">
-                                                <i class="fa fa-money"></i>
-                                                <span class="info_bold">Application Fees</span>
-                                                <span>A$125.00</span>
-                                            </li>
-                                            <li class="user">
-                                                <i class="fa fa-money"></i>
-                                                <span class="info_bold">1st Year Tuition Fees</span>
-                                                <span>A$49,600.00</span>
-                                            </li>
-                                            <li class="user">
-                                                <i class="fa fa-info-circle"></i>
-                                                <span class="info_bold">Exams Required</span>
-                                                <span style="font-size: 12px;">No Exam Required</span>
-                                            </li>
-                                        </ul>
-                                        <hr class="mb-10 mt-10">
-                                        <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
-                                        <hr class="mb-10 mt-10">
-                                        <div class="bottom-part">
-                                            <div class="info-meta">
-                                                <ul>
-                                                    <li class="user">
-                                                        <i class="fa fa-flag"></i>
-                                                        <span>${item.country ? item.country.name : ''}</span>
-                                                        <span>-</span>
-                                                        <span>Full Time</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    });
-                    $.each(response.course_data.data, function(index, item) {
-                        $('.course_data').append(`
-                            <div class="courses-item course-logo">
-                                <div>
-                                    <div class="d-flex">
-                                        <a href="${item.university ? item.university_name.website : ''}" class="university_logo">
-                                            <div class="u-logo">
-                                                <img src="${window.location.origin}/${item.university ? item.university_name.logo : ''}" alt="${item.university ? item.university_name.logo : ''}" class="img-fluid uc-logo">
-                                            </div>
-                                        </a>
-                                        <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
-                                            <a href="${item.university_name ? item.university_name.website : ''}">${item.university ? item.university_name.name : ''}</a>
-                                        </h5>
-                                    </div>
-                                    <div class="content-part">
-                                        <ul class="meta-part" style="flex: 1 1 0%;">
-                                            <li class="user meta_item">
-                                                <i class="fa fa-map"></i>
-                                                <span class="info_bold">Location: </span>
-                                                <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>
-                                            </li>
-                                            <li class="user meta_item">
-                                                <i class="fa fa-flag"></i>
-                                                <span class="info_bold">Country: </span>
-                                                <span>${item.university_name ? item.university_name.country_name.name : '' }</span>
-                                            </li>
-                                            <li class="user meta_item">
-                                                <i class="fa fa-list"></i>
-                                                <span class="info_bold">University Type: </span>
-                                                <span>${item.university_name ? item.university_name.university_type_name.name : ''}</span>
-                                            </li>
-                                        </ul>
-                                        <hr class="mb-10 mt-10">
-                                        <div class="bottom-part">
-                                            <div class="info-meta" style="flex: 1 1 0%;"></div>
-                                            <div class="btn-part">
-                                                <a href="${item.university_name ? item.university_name.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `);
-                    });
-                    $('#university').append(html);
-                    $('.course_data').append(course_data);
-                }
-            });
-        }
-    </script>
-    <script>
-        $(document).ready(function() {
-            function csrf() {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
             }
-
-            function checkAndCall() {
-                var checkboxes = document.getElementsByName('program_level[]');
-                var id = [];
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].checked) {
-                        id.push(checkboxes[i].value);
-                    }
-                }
-                fetchProgramSubLevel(id);
-            }
-            checkAndCall();
-
-            function fetchProgramSubLevel(id) {
+            window.fetchProgramSubLevel = function(id) {
                 var checkboxes = document.getElementsByName('program_level[]');
                 var selectedProgramLevelOptions = [];
                 for (var i = 0; i < checkboxes.length; i++) {
@@ -814,12 +801,12 @@
                                 var desiredId = program_sub_level.id;
                                 var isChecked = programSubLevelIds.includes(desiredId);
                                 var checkbox = `
-                    <li>
-                        <label for="random-${index}" class="playlist-name">
-                            <input id="random-${index}" class="program-sub-level-check" ${isChecked ? 'checked' : ''} data-sublevel-id="${program_sub_level.id}" type="checkbox" value="${program_sub_level.id}" name="program_sub_level[]"> ${program_sub_level.name.toUpperCase()}
-                        </label>
-                    </li>
-                `;
+                                            <li>
+                                                <label for="random-${index}" class="playlist-name">
+                                                    <input id="random-${index}" class="program-sub-level-check" ${isChecked ? 'checked' : ''} data-sublevel-id="${program_sub_level.id}" type="checkbox" value="${program_sub_level.id}" name="program_sub_level[]"> ${program_sub_level.name.toUpperCase()}
+                                                </label>
+                                            </li>
+                                        `;
                                 $('.program-sub-level').append(checkbox);
                             });
                         } else {
@@ -829,6 +816,17 @@
                     }
                 });
             }
+            window.checkAndCall = function() {
+                var checkboxes = document.getElementsByName('program_level[]');
+                var id = [];
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        id.push(checkboxes[i].value);
+                    }
+                }
+                fetchProgramSubLevel(id);
+            }
+            checkAndCall();
 
             $('#education_level').on('click', function() {
                 var selectedOptions = [];
@@ -956,126 +954,123 @@
                 });
             }
 
-            function makeAjaxRequest(page = 1, selectedProgramLevelOptions, programSubLevel, education_level,
-                program_discipline, programSubDiscipline, other_exam, country, intake, end_profiency_level,
-                schlorship, tution_fees) {
-                csrf();
-                $.ajax({
-                            url: '{{ route('get-university-course') }}',
-                            method: 'POST',
-                            data: {
-                                program_level_id: selectedProgramLevelOptions,
-                                program_sublevel_id: programSubLevel,
-                                education_level: education_level,
-                                program_discipline: program_discipline,
-                                program_sub_discipline: programSubDiscipline,
-                                other_exam: other_exam,
-                                country: country,
-                                intake: intake,
-                                end_profiency_level: end_profiency_level,
-                                schlorship: schlorship,
-                                tution_fees: tution_fees,
-                                page: page
-                            },
-                            success: function(response) {
-                                $('.university').empty();
-                                $.each(response.university, function(index, item) {
-                                    $('.university').append(`
-                      <h2>university Data ${item.id}</h2>
-                    `);
-                                });
-                                $('.course_data').empty();
-                                $.each(response.course.data, function(index, item) {
-                                    $('.course_data').append(`
-                                        <div class="courses-item course-logo">
-                                            <div>
-                                                <div class="d-flex">
-                                                    <a href="${item.university ? item.university_name.website : ''}" class="university_logo">
-                                                        <div class="u-logo">
-                                                            <img src="${window.location.origin}/${item.university ? item.university_name.logo : ''}" alt="${item.university ? item.university_name.logo : ''}" class="img-fluid uc-logo">
-                                                        </div>
-                                                    </a>
-                                                    <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
-                                                        <a href="${item.university_name ? item.university_name.website : ''}">${item.university ? item.university_name.name : ''}</a>
-                                                    </h5>
-                                                </div>
-                                                <div class="content-part">
-                                                    <ul class="meta-part" style="flex: 1 1 0%;">
-                                                        <li class="user meta_item">
-                                                            <i class="fa fa-map"></i>
-                                                            <span class="info_bold">Location: </span>
-                                                            <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>
-                                                        </li>
-                                                        <li class="user meta_item">
-                                                            <i class="fa fa-flag"></i>
-                                                            <span class="info_bold">Country: </span>
-                                                            <span>${item.university_name ? item.university_name.country_name.name : '' }</span>
-                                                        </li>
-                                                        <li class="user meta_item">
-                                                            <i class="fa fa-list"></i>
-                                                            <span class="info_bold">University Type: </span>
-                                                            <span>${item.university_name ? item.university_name.university_type_name.name : ''}</span>
-                                                        </li>
-                                                    </ul>
-                                                    <hr class="mb-10 mt-10">
-                                                    <div class="bottom-part">
-                                                        <div class="info-meta" style="flex: 1 1 0%;"></div>
-                                                        <div class="btn-part">
-                                                            <a href="${item.university_name ? item.university_name.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `);
-                                });
-                                var perPage = 100;
-                                var totalPages = Math.ceil(response.total_university / perPage);
-                                var paginationLinks = `
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item ${response.current_page > 1 ? '' : 'disabled'}">
-                                <a class="page-link pagination-custom" href="javascript:void(0);" onclick="makeAjaxRequest(${response.current_page - 1}, '${selectedProgramLevelOptions}', '${programSubLevel}', '${education_level}', '${program_discipline}', '${programSubDiscipline}', '${other_exam}', '${country}', '${intake}', '${end_profiency_level}', '${schlorship}', '${tution_fees}')">Previous</a>
-                            </li>
-                            ${Array.from({ length: totalPages }, (_, i) => {
-                                return ` < li class = "page-item ${(i + 1) == response.current_page ? 'active' : ''}" >
-                                    <
-                                    a class = "page-link pagination-custom"
-                                href = "javascript:void(0);"
-                                data - page = "${i + 1}"
-                                onclick =
-                                    "makeAjaxRequest(${i + 1}, '${selectedProgramLevelOptions}', '${programSubLevel}', '${education_level}', '${program_discipline}', '${programSubDiscipline}', '${other_exam}', '${country}', '${intake}', '${end_profiency_level}', '${schlorship}', '${tution_fees}')" >
-                                    $ {
-                                        i + 1
-                                    } < /a> <
-                                    /li>`;
-                        }).join('')
-                } <
-                li class = "page-item ${response.current_page < totalPages ? '' : 'disabled'}" >
-                <
-                a class = "page-link"
-            href = "javascript:void(0);"
-            onclick =
-                "makeAjaxRequest(${response.current_page + 1}, '${selectedProgramLevelOptions}', '${programSubLevel}', '${education_level}', '${program_discipline}', '${programSubDiscipline}', '${other_exam}', '${country}', '${intake}', '${end_profiency_level}', '${schlorship}', '${tution_fees}')" >
-                Next < /a> <
-                /li> <
-                /ul> <
-                /nav>
-            `;
+            // function makeAjaxRequest(page = 1, selectedProgramLevelOptions, programSubLevel, education_level,
+            //     program_discipline, programSubDiscipline, other_exam, country, intake, end_profiency_level,
+            //     schlorship, tution_fees) {
+            //     csrf();
+            //     $.ajax({
+            //                 url: '{{ route('get-university-course') }}',
+            //                 method: 'POST',
+            //                 data: {
+            //                     program_level_id: selectedProgramLevelOptions,
+            //                     program_sublevel_id: programSubLevel,
+            //                     education_level: education_level,
+            //                     program_discipline: program_discipline,
+            //                     program_sub_discipline: programSubDiscipline,
+            //                     other_exam: other_exam,
+            //                     country: country,
+            //                     intake: intake,
+            //                     end_profiency_level: end_profiency_level,
+            //                     schlorship: schlorship,
+            //                     tution_fees: tution_fees,
+            //                     page: page
+            //                 },
+            //                 success: function(response) {
+            //                     $('.university').empty();
+            //                     $.each(response.university, function(index, item) {
+            //                         $('.university').append(`
+            //           <h2>university Data ${item.id}</h2>
+            //         `);
+            //                     });
+            //                     $('.course_data').empty();
+            //                     $.each(response.course.data, function(index, item) {
+            //                         $('.course_data').append(`
+            //                             <div class="courses-item course-logo">
+            //                                 <div>
+            //                                     <div class="d-flex">
+            //                                         <a href="${item.university ? item.university_name.website : ''}" class="university_logo">
+            //                                             <div class="u-logo">
+            //                                                 <img src="${window.location.origin}/${item.university ? item.university_name.logo : ''}" alt="${item.university ? item.university_name.logo : ''}" class="img-fluid uc-logo">
+            //                                             </div>
+            //                                         </a>
+            //                                         <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
+            //                                             <a href="${item.university_name ? item.university_name.website : ''}">${item.university ? item.university_name.name : ''}</a>
+            //                                         </h5>
+            //                                     </div>
+            //                                     <div class="content-part">
+            //                                         <ul class="meta-part" style="flex: 1 1 0%;">
+            //                                             <li class="user meta_item">
+            //                                                 <i class="fa fa-map"></i>
+            //                                                 <span class="info_bold">Location: </span>
+            //                                                 <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>
+            //                                             </li>
+            //                                             <li class="user meta_item">
+            //                                                 <i class="fa fa-flag"></i>
+            //                                                 <span class="info_bold">Country: </span>
+            //                                                 <span>${item.university_name ? item.university_name.country_name.name : '' }</span>
+            //                                             </li>
+            //                                             <li class="user meta_item">
+            //                                                 <i class="fa fa-list"></i>
+            //                                                 <span class="info_bold">University Type: </span>
+            //                                                 <span>${item.university_name ? item.university_name.university_type_name.name : ''}</span>
+            //                                             </li>
+            //                                         </ul>
+            //                                         <hr class="mb-10 mt-10">
+            //                                         <div class="bottom-part">
+            //                                             <div class="info-meta" style="flex: 1 1 0%;"></div>
+            //                                             <div class="btn-part">
+            //                                                 <a href="${item.university_name ? item.university_name.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+            //                                             </div>
+            //                                         </div>
+            //                                     </div>
+            //                                 </div>
+            //                             </div>
+            //                         `);
+            //                     });
+            //                     var perPage = 100;
+            //                     var totalPages = Math.ceil(response.total_university / perPage);
+            //                     var paginationLinks = `
+            //         <nav aria-label="Page navigation example">
+            //             <ul class="pagination">
+            //                 <li class="page-item ${response.current_page > 1 ? '' : 'disabled'}">
+            //                     <a class="page-link pagination-custom" href="javascript:void(0);" onclick="makeAjaxRequest(${response.current_page - 1}, '${selectedProgramLevelOptions}', '${programSubLevel}', '${education_level}', '${program_discipline}', '${programSubDiscipline}', '${other_exam}', '${country}', '${intake}', '${end_profiency_level}', '${schlorship}', '${tution_fees}')">Previous</a>
+            //                 </li>
+            //                 ${Array.from({ length: totalPages }, (_, i) => {
+            //                     return ` < li class = "page-item ${(i + 1) == response.current_page ? 'active' : ''}" >
+            //                         <
+            //                         a class = "page-link pagination-custom"
+            //                     href = "javascript:void(0);"
+            //                     data - page = "${i + 1}"
+            //                     onclick =
+            //                         "makeAjaxRequest(${i + 1}, '${selectedProgramLevelOptions}', '${programSubLevel}', '${education_level}', '${program_discipline}', '${programSubDiscipline}', '${other_exam}', '${country}', '${intake}', '${end_profiency_level}', '${schlorship}', '${tution_fees}')" >
+            //                         $ {
+            //                             i + 1
+            //                         } < /a> <
+            //                         /li>`;
+            //             }).join('')
+            //     } <
+            //     li class = "page-item ${response.current_page < totalPages ? '' : 'disabled'}" >
+            //     <
+            //     a class = "page-link"
+            //         href = "javascript:void(0);"
+            //         onclick =
+            //             "makeAjaxRequest(${response.current_page + 1}, '${selectedProgramLevelOptions}', '${programSubLevel}', '${education_level}', '${program_discipline}', '${programSubDiscipline}', '${other_exam}', '${country}', '${intake}', '${end_profiency_level}', '${schlorship}', '${tution_fees}')" >
+            //             Next < /a> <
+            //             /li> <
+            //             /ul> <
+            //             /nav>
+            //         `;
 
-                    $('#university-pagination-links').html(paginationLinks);
-                    // $('#university-pagination-links').append(response.university.links);
-                },
-                error: function(xhr, status, error) {
-                    // Handle error here
-                }
-            });
-        }
+            //         $('#university-pagination-links').html(paginationLinks);
+            //         // $('#university-pagination-links').append(response.university.links);
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // Handle error here
+            //     }
+            // });
+        // }
 
-        $(document).on('click', '.pagination-custom', function(){
-            let page = $(this).data('page');
-            collectSelectedOptions(page);
-        });
+
 
         function collectSelectedOptions(page = 1) {
             var selectedProgramLevelOptions = [];
@@ -1127,32 +1122,113 @@
         }
         $('.country-checkbox').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
-            if($(this).is(':checked')){
-                $('.country_name').append(` < span class = "badge badge-primary" > $ {
-                itemName
-            } < /span>`);
+            var checkedCountries = $("input[name='country[]']:checked").map(function() {
+                return this.value;
+            }).get().join(',');
+            var url = window.location.origin + window.location.pathname;
+            if(window.location.search){
+                var params = new URLSearchParams(window.location.search);
+                params.delete('country');
+                if (checkedCountries) {
+                    params.append('country', checkedCountries);
+                }
+                url += '?' + params.toString();
             } else {
-                $('.country_name .badge:contains("' + itemName + '")').remove();
+                if (checkedCountries) {
+                    url += '?country=' + checkedCountries;
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            $('.country_name').empty();
+            if (checkedCountries) {
+                $('.country_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             }
         });
         $('.program_level_value').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
-            if ($(this).is(':checked')) {
-                $('.program_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
+            var program_level = $("input[name='program_level[]']:checked").map(function(){
+                return this.value;
+            }).get().join(',');
+            var url = window.location.origin + window.location.pathname;
+            if(window.location.search){
+                var params = new URLSearchParams(window.location.search);
+                params.delete('program_level');
+                if (program_level) {
+                    params.append('program_level', program_level);
+                }
+                url += '?' + params.toString();
             } else {
-                $('.program_level_name .badge:contains("' + itemName + '")').remove();
+                if (program_level) {
+                    url += '?program_level=' + program_level;
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            $('.program_level_name').empty();
+            if (program_level) {
+                $('.program_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             }
         });
         $(document).on('click', '.program-sub-level-check', function() {
             var itemName = $(this).closest('label').text().trim();
-            if ($(this).is(':checked')) {
-                $('.program_sub_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
+            var program_sub_level = $("input[name='program_sub_level[]']:checked").map(function(){
+                return this.value;
+            }).get().join(',');
+            var url = window.location.origin + window.location.pathname;
+            if(window.location.search){
+                var params = new URLSearchParams(window.location.search);
+                params.delete('program_sub_level');
+                if (program_sub_level) {
+                    params.append('program_sub_level', program_sub_level);
+                }
+                url += '?' + params.toString();
             } else {
-                $('.program_sub_level_name .badge:contains("' + itemName + '")').remove();
+                if (program_sub_level) {
+                    url += '?program_sub_level=' + program_sub_level;
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            $('.program_sub_level_name').empty();
+            if (program_sub_level) {
+                $('.program_sub_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             }
         });
         $(document).on('click', '.education_level_check', function() {
             var itemName = $(this).closest('label').text().trim();
+            var education_level = $("input[name='education_level[]']:checked").map(function(){
+                return this.value;
+            }).get();
+            var url = window.location.origin + window.location.pathname;
+            if(window.location.search){
+                var params = new URLSearchParams(window.location.search);
+                params.delete('education_level');
+                if (education_level.length > 0) {
+                    params.append('education_level', education_level.join(','));
+                }
+                url += '?' + params.toString();
+            } else {
+                if (education_level.length > 0) {
+                    url += '?education_level=' + education_level.join(',');
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            $('.education-level-name').empty();
+            if (education_level.length > 0) {
+                education_level.forEach(function(level) {
+                    $('.education-level-name').append(`<span class="badge badge-primary">${level}</span>`);
+                });
+            }
             if ($(this).is(':checked')) {
                 $('.education-level-name').append(`<span class="badge badge-primary">${itemName}</span>`);
             } else {
@@ -1161,6 +1237,30 @@
         });
         $('.intake-name-data').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
+            var intake_name = $("input[name='intake[]']:checked").map(function(){
+                return this.value;
+            }).get().join(',');
+            var url = window.location.origin + window.location.pathname;
+            if(window.location.search){
+                var params = new URLSearchParams(window.location.search);
+                params.delete('intake');
+                if (intake_name) {
+                    params.append('intake', intake_name);
+                }
+                url += '?' + params.toString();
+            } else {
+                if (intake_name) {
+                    url += '?intake=' + intake_name;
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            $('.intake_name').empty();
+            if (intake_name) {
+                $('.intake_name').append(`<span class="badge badge-primary">${itemName}</span>`);
+            }
             if ($(this).is(':checked')) {
                 $('.intake_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             } else {
@@ -1169,6 +1269,32 @@
         });
         $('.program_discipline_checkbox').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
+            var program_displine = $("input[name='program_discipline[]']:checked").map(function(){
+                return this.value;
+            }).get();
+            var url = window.location.origin + window.location.pathname;
+            if (window.location.search) {
+                var params = new URLSearchParams(window.location.search);
+                params.delete('program_discipline');
+                if (program_displine.length > 0) {
+                    params.append('program_discipline', program_displine.join(','));
+                }
+                url += '?' + params.toString();
+            } else {
+                if (program_displine.length > 0) {
+                    url += '?program_discipline=' + program_displine.join(',');
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('.program_discipline_name').empty();
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            if (program_displine.length > 0) {
+                program_displine.forEach(function(discipline) {
+                    $('.program_discipline_name').append(`<span class="badge badge-primary">${$(`input[name='program_discipline[]'][value='${discipline}']`).closest('label').text().trim()}</span>`);
+                });
+            }
             if ($(this).is(':checked')) {
                 $('.program_discipline_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             } else {
@@ -1177,14 +1303,66 @@
         });
         $(document).on('click', '.program-sub-discipline-checkbox', function() {
             var itemName = $(this).closest('label').text().trim();
+            var program_subdispline = $("input[name='program_sub_discipline[]']:checked").map(function(){
+                return this.value;
+            }).get();
+            var url = window.location.origin + window.location.pathname;
+            if (window.location.search) {
+                var params = new URLSearchParams(window.location.search);
+                params.delete('program_subdispline');
+                if (program_subdispline.length > 0) {
+                    params.append('program_subdispline', program_subdispline.join(','));
+                }
+                url += '?' + params.toString();
+            } else {
+                if (program_subdispline.length > 0) {
+                    url += '?program_subdispline=' + program_subdispline.join(',');
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('.program_sub_discipline_name').empty();
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            if (program_subdispline.length > 0) {
+                program_subdispline.forEach(function(discipline) {
+                    $('.program_sub_discipline_name').append(`<span class="badge badge-primary">${$(`input[name='program_sub_discipline[]'][value='${discipline}']`).closest('label').text().trim()}</span>`);
+                });
+            }
             if ($(this).is(':checked')) {
                 $('.program_sub_discipline_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             } else {
                 $('.program_sub_discipline_name .badge:contains("' + itemName + '")').remove();
             }
         });
-        $('.eng-pro').on('click', function() {
+        $(document).on('click', '.eng-pro', function() {
             var itemName = $(this).closest('label').text().trim();
+            var eng_proficiency_level = $("input[name='end_profiency_level[]']:checked").map(function(){
+                return this.value;
+            }).get();
+            var url = window.location.origin + window.location.pathname;
+            if (window.location.search) {
+                var params = new URLSearchParams(window.location.search);
+                params.delete('eng_proficiency_level');
+                if (eng_proficiency_level.length > 0) {
+                    params.append('eng_proficiency_level', eng_proficiency_level.join(','));
+                }
+                url += '?' + params.toString();
+            } else {
+                if (eng_proficiency_level.length > 0) {
+                    url += '?eng_proficiency_level=' + eng_proficiency_level.join(',');
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('.eng_proficiency_level_name').empty();
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
+            if (eng_proficiency_level.length > 0) {
+                eng_proficiency_level.forEach(function(level) {
+                    $('.eng_proficiency_level_name').append(`<span class="badge badge-primary">${$(`input[name='end_profiency_level[]'][value='${level}']`).closest('label').text().trim()}</span>`);
+                });
+            }
             if ($(this).is(':checked')) {
                 $('.eng_proficiency_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             } else {
@@ -1193,6 +1371,26 @@
         });
         $(document).on('click', '.other_exam_check', function() {
             var itemName = $(this).closest('label').text().trim();
+            var other_exam = $("input[name='other_exam[]']:checked").map(function(){
+                return this.value;
+            }).get();
+            var url = window.location.origin + window.location.pathname;
+            if (window.location.search) {
+                var params = new URLSearchParams(window.location.search);
+                params.delete('other_exam');
+                if (other_exam.length > 0) {
+                    params.append('other_exam', other_exam.join(','));
+                }
+                url += '?' + params.toString();
+            } else {
+                if (other_exam.length > 0) {
+                    url += '?other_exam=' + other_exam.join(',');
+                }
+            }
+            window.history.pushState(null, '', url);
+            $('#university').empty();
+            $('.course_data').empty();
+            loadData(1);
             if ($(this).is(':checked')) {
                 $('.other_exam_name').append(`<span class="badge badge-primary">${itemName}</span>`);
             } else {
@@ -1203,13 +1401,13 @@
         // $("input[name='program_level[]'], input[name='program_sub_level[]'], input[name='education_level[]'],input[name='program_discipline[]'],input[name='program_sub_discipline[]'],input[name='other_exam[]'],input[name='country[]'],input[name='intake[]'],input[name='end_profiency_level[]'],input[name='schlorship[]'],input[name='tution_fees[]']").change(function() {
         //     collectSelectedOptions();
         // });
-        $(document).on('change',
-            "input[name='program_level[]'], input[name='program_sub_level[]'], input[name='education_level[]'], input[name='program_discipline[]'], input[name='program_sub_discipline[]'], input[name='other_exam[]'], input[name='country[]'], input[name='intake[]'], input[name='end_profiency_level[]'], input[name='schlorship[]'], input[name='tution_fees[]']",
-            function() {
-                collectSelectedOptions();
-            });
+        // $(document).on('change',
+        //     "input[name='program_level[]'], input[name='program_sub_level[]'], input[name='education_level[]'], input[name='program_discipline[]'], input[name='program_sub_discipline[]'], input[name='other_exam[]'], input[name='country[]'], input[name='intake[]'], input[name='end_profiency_level[]'], input[name='schlorship[]'], input[name='tution_fees[]']",
+        //     function() {
+        //         collectSelectedOptions();
+        //     });
 
-        collectSelectedOptions();
+        // collectSelectedOptions();
         });
     </script>
 @endsection
