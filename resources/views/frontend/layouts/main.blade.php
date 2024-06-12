@@ -507,8 +507,7 @@
         })
     })
     $('.booking_enquiry').on('click', function(e){
-        var spinner = this.querySelector('.spinner-grow');
-        spinner.classList.remove('d-none');
+
         e.preventDefault();
         let mobile_number = $('#mobile_number').val();
         if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {
@@ -523,7 +522,7 @@
         let email = $('#email').val();
         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         if(!email || !emailReg.test(email)) {
-            alert('Please enter valid email', 'error');
+        alert('Please enter valid email', 'error');
             return false;
         }
         let otp = $('#otp').val();
@@ -531,6 +530,8 @@
             alert('Please enter otp', 'error');
             return false;
         }
+        var spinner = this.querySelector('.spinner-grow');
+        spinner.classList.remove('d-none');
         $.ajax({
             url: '{{route("verify-otp")}}',
             type: 'POST',
