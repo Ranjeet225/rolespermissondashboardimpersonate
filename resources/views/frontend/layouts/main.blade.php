@@ -449,7 +449,9 @@
                          </div>
                          <div class="col-md-4">
                              <div class="d-flex justify-content-center  mt-2">
-                                <button type="button" id="verify_otp" class="btn btn-primary btn-sm">Verify OTP</button>
+                                 <button type="button" id="verify_otp" class="btn btn-primary btn-sm">
+                                    <span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>
+                                     Verify OTP</button>
                              </div>
                          </div>
                          </div>
@@ -459,7 +461,7 @@
                          </div>
                          <span class="text-danger otp-error"></span>
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg booking_enquiry" disabled>Submit Now</button>
+                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg booking_enquiry" disabled> <span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Submit Now</button>
                         </div>
                      </form>
                     </div>
@@ -485,6 +487,8 @@
             alert('Please enter valid mobile number', 'error');
             return false;
         }
+        var spinner = this.querySelector('.spinner-grow');
+        spinner.classList.remove('d-none');
         $.ajax({
             url: '{{route("send-otp")}}',
             type: 'POST',
@@ -493,6 +497,7 @@
                 _token: '{{csrf_token()}}'
             },
             success: function(data){
+                spinner.classList.add('d-none');
                 if(data.success){
                     $('.otp-verify').show();
                 }else{
@@ -502,6 +507,8 @@
         })
     })
     $('.booking_enquiry').on('click', function(e){
+        var spinner = this.querySelector('.spinner-grow');
+        spinner.classList.remove('d-none');
         e.preventDefault();
         let mobile_number = $('#mobile_number').val();
         if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {
@@ -535,6 +542,7 @@
                 _token: '{{csrf_token()}}'
             },
             success: function(data){
+                spinner.classList.add('d-none');
                 if(data.success){
                     window.location.href = '{{url("check-eligibility")}}';
                 }else{
@@ -543,6 +551,7 @@
                 }
             },
             error: function(xhr,status,error){
+                spinner.classList.add('d-none');
                 if(xhr.status == 401){
                     $('.otp-error').html('Invalid OTP.');
                 }
