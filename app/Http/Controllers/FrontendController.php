@@ -127,7 +127,7 @@ class FrontendController extends Controller
                 // ->whereIn('program_subdiscipline', explode(',',$request->program_subdispline))
                 // ->whereIn('eng_pro_input',explode(',',$request->eng_pro_input))
                 // ->whereIn('other_exam',explode(',',$request->other_exam))
-                ->paginate(12);
+                ->paginate(2);
                 $universities = University::with('country','program','program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
                 ->whereIn('country_id', explode(',',$request->country))
                 // ->whereHas('program', function ($query) use ($request) {

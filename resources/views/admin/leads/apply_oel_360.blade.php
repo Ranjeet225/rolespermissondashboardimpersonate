@@ -63,7 +63,7 @@
                                 data-bs-placement="top" title="Offer Detail">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step4" id="step4-tab" data-bs-toggle="tab"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->application)) @disabled(true) @endif
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->application )) @disabled(true) @endif
                                      role="tab" aria-controls="step4"
                                     aria-selected="false"> 4 </a>
                                 <br>
@@ -73,7 +73,7 @@
                                 data-bs-placement="top" title="Visa Application">
                                   <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step5" id="step5-tab" data-bs-toggle="tab"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->joining_date && $threesixtee->offer_amount)) @disabled(true) @endif
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->joining_date ?? null && $threesixtee->offer_amount ?? null)) @disabled(true) @endif
                                      role="tab" aria-controls="step5"
                                     aria-selected="false"> 5
                                   </a>
@@ -84,7 +84,7 @@
                                 data-bs-placement="top" title="Visa Status">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step6" id="step6-tab"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->visa_document || $threesixtee->visa_agent)) @disabled(true) @endif
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->visa_document  ?? null && $threesixtee->visa_agent  ?? null)) @disabled(true) @endif
 
                                      data-bs-toggle="tab" role="tab" aria-controls="step6"
                                     aria-selected="false"> 6
@@ -96,7 +96,7 @@
                                 data-bs-placement="top" title="Fees Details">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step7" id="step7-tab"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->visa_application || $threesixtee->visa_no || $threesixtee->visa_exp_date)) @disabled(true) @endif
+                                    @if(!($user->hasRole('Administrator')) && (empty($threesixtee->visa_application ?? null) || empty($threesixtee->visa_no ?? null) || empty($threesixtee->visa_exp_date ?? null))) @disabled(true) @endif
                                      data-bs-toggle="tab" role="tab" aria-controls="step7"
                                     aria-selected="false"> 7 </a>
                                 <br>
@@ -106,8 +106,7 @@
                                 data-bs-placement="top" title=" Flight Details">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step8" id="step8-tab"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->fee_payment_mode || $threesixtee->fee_amount || $threesixtee->fee_payment_by)) @disabled(true) @endif
-
+                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->fee_payment_mode) || empty($threesixtee->fee_amount) || empty($threesixtee->fee_payment_by)) @disabled(true) @endif
                                      data-bs-toggle="tab" role="tab" aria-controls="step8"
                                     aria-selected="false"> 8
                                 </a>
@@ -119,7 +118,7 @@
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step9" id="step9-tab" data-bs-toggle="tab" role="tab" aria-controls="step9"
                                     aria-selected="false"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->flight_name || $threesixtee->flight_no || $threesixtee->flight_dep_date)) @disabled(true) @endif
+                                    @if(!($user->hasRole('Administrator')) && (empty($threesixtee->flight_name) || empty($threesixtee->flight_no) || empty($threesixtee->flight_dep_date))) @disabled(true) @endif
                                      > 9
                                 </a>
                                 <br>
@@ -131,7 +130,7 @@
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step10" id="step10-tab" data-bs-toggle="tab" role="tab" aria-controls="step10"
                                     aria-selected="false"
-                                    @if(!($user->hasRole('Administrator')) && empty($threesixtee->hand_holding || $threesixtee->agent_name)) @disabled(true) @endif
+                                    @if(!($user->hasRole('Administrator')) && (empty($threesixtee->hand_holding) || empty($threesixtee->agent_name))) @disabled(true) @endif
                                     > 10 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Boarding</span>
@@ -140,7 +139,8 @@
                                 data-bs-placement="top" title="Done">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step11" id="step11-tab" data-bs-toggle="tab" role="tab" aria-controls="step11"
-                                    aria-selected="false" @if(!($user->hasRole('Administrator')) && empty( $threesixtee->hostel || $threesixtee->personal)) @disabled(true) @endif> 11 </a>
+                                    aria-selected="false" @if(!($user->hasRole('Administrator')) && (empty($threesixtee->hostel) || empty($threesixtee->personal))) @disabled(true) @endif> 11
+                                </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb"> Done</span>
                             </li>

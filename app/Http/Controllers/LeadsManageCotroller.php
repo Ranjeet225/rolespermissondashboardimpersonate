@@ -533,6 +533,9 @@ class LeadsManageCotroller extends Controller
                          'added_by'=>Auth::user()->id,
                     ];
                     DB::table('student')->insert($student_data);
+                    $studentAgent->update([
+                        "student_user_id" => $user->id ?? null,
+                    ]);
                     $role = Role::where('name','student')->first();
                     if ($role) {
                         $user->assignRole([$role->id]);
@@ -1528,6 +1531,9 @@ class LeadsManageCotroller extends Controller
                     'pref_subjects'=>$student_agent->subject ?? null,
                     'added_by'=>Auth::user()->id,
             ];
+            $student_agent->update([
+                "student_user_id" => $user->id ?? null,
+            ]);
             DB::table('student')->insert($student_data);
             if ($role) {
                 $user->assignRole([$role->id]);

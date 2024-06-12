@@ -64,7 +64,7 @@
 
                                         <select class="form-control " name="education_level_id" id="education_level_id">
                                           <option value="{{$gradingScheme->education_level_id}}">
-                                            {{$gradingScheme->education_level->name}}
+                                            {{$gradingScheme->education_level->name ?? null}}
                                           </option>
                                           @foreach ($education_level as $item)
                                              <option value="{{$item->id}}">{{$item->name}}</option>

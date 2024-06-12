@@ -471,5 +471,8 @@ return [
             'program_sub_level.update',
             'program_sub_level.delete',
         ],
+        'check_eligibility'=>[
+            'check_eligibility.view'
+        ],
       ],
 ];

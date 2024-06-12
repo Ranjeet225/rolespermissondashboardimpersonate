@@ -191,6 +191,13 @@
             ]
         },
         {
+            "url": "/check-eligibility",
+            "name": "Eligibility Check",
+            "icon": "menu-icon tf-icons fa-solid fa-circle-check",
+            "slug": "check-eligibility",
+            "permission":"check_eligibility.view"
+        },
+        {
             "name": "Programs",
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",

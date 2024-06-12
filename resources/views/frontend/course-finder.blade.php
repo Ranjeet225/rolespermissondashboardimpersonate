@@ -96,6 +96,7 @@
         $state = App\Models\Province::where('id', $university->state ?? null)->get();
         $university_type = App\Models\SchoolType::where('id', $university->type_of_university ?? null)->get();
     @endphp
+    
     <section>
         <div class="container ">
             <div class="d-flex">
@@ -495,7 +496,7 @@
             let bool = false;
             let lastPage;
             $(window).scroll(function() {
-                let height = 4000;
+                let height = 1000;
                 if ($(window).scrollTop() + $(window).height() >= height && bool == false && lastPage > pages - 2) {
                     bool = true;
                     $('.ajax-load').show();

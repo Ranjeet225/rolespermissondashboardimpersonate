@@ -55,7 +55,14 @@
     }
     .flgfixSize{ max-weight: 60px; width: 60px; max-height: 60px; height: 47px;}
 </style>
-
+@if(Auth::check())
+        @php
+        $user=Auth::user();
+        $student_data=DB::table('student')->select('country_id','id')->where('user_id',$user->id)->first();
+        $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id)->first();
+        $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id)->first();
+    @endphp
+@endif
     <section class="wizard-section" style="background-image: url('{{asset('assets/img/km.png') }}');background-size: cover;background-position: center;background-repeat: no-repeat;padding-bottom:50px">
         <div class="row no-gutters">
             <div class="col-lg-1 col-md-6">
@@ -85,15 +92,27 @@
                             <section class="flg">
                                 <div class="container">
                                     <div class="row">
-                                        @foreach ($program_level as $item)
-                                            <div class="col-md-2 col-6">
-                                                <label class="img-btn">
-                                                        <input type="radio" name="program_level" class="program_level_data" id="program_level" value="{{ $item->id }}" />
-                                                        <img  class="img-responsive w-50 text-justify-center mx-auto flgimg" program_id="{{ $item->id }}" src="{{ asset('assets/degree.png') }}" alt="Sri Lanka Flag">
-                                                        <p class="countrypapa text-center"> {{ ucfirst($item->name) }} </p>
-                                                    </label>
-                                            </div>
-                                        @endforeach
+                                        @if(isset($program_id->program_label))
+                                            @foreach ($program_level as $item)
+                                                <div class="col-md-2 col-6">
+                                                    <label class="img-btn">
+                                                            <input type="radio" name="program_level" class="program_level_data" id="program_level" value="{{ $item->id }}" {{($item->id == $program_id->program_label) ? 'checked' : ''}}/>
+                                                            <img  class="img-responsive w-50 text-justify-center mx-auto flgimg" program_id="{{ $item->id }}" src="{{ asset('assets/degree.png') }}" alt="Sri Lanka Flag">
+                                                            <p class="countrypapa text-center"> {{ ucfirst($item->name) }} </p>
+                                                        </label>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            @foreach ($program_level as $item)
+                                                <div class="col-md-2 col-6">
+                                                    <label class="img-btn">
+                                                            <input type="radio" name="program_level" class="program_level_data" id="program_level" value="{{ $item->id }}" />
+                                                            <img  class="img-responsive w-50 text-justify-center mx-auto flgimg" program_id="{{ $item->id }}" src="{{ asset('assets/degree.png') }}" alt="Sri Lanka Flag">
+                                                            <p class="countrypapa text-center"> {{ ucfirst($item->name) }} </p>
+                                                        </label>
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </section>
@@ -382,8 +401,7 @@
                                         <select class="js-select2" multiple="multiple" name="country[]"
                                             id="country" onchange="ajaxRequest($(this).val())">
                                             @foreach ($country as $item)
-                                                <option value="{{ $item->id }}">
-                                                    {{ $item->name }}</option>
+                                                <option value="{{ $item->id }}" {{ isset($student_data->country_id) == $item->id ? 'selected' : '' }}> {{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                         <div id="showDiv" style="display: none; width: 100%">

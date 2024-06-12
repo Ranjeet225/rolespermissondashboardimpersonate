@@ -16,7 +16,7 @@
                 @endphp
                 @if($permissionCondition)
                     @if(!($user->hasRole('student')))
-                        @if($menu->permission== 'my_profile.view' || $menu->permission == 'my_profile.update')
+                        @if($menu->permission== 'my_profile.view' || $menu->permission == 'oel_apply.view' || $menu->permission== 'check_eligibility.view' || $menu->permission == 'my_profile.update')
                             @continue
                         @endif
                     @endif
