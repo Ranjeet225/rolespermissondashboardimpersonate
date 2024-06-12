@@ -502,7 +502,6 @@
         })
     })
     $('.booking_enquiry').on('click', function(e){
-        alert('new');
         e.preventDefault();
         let mobile_number = $('#mobile_number').val();
         if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {
