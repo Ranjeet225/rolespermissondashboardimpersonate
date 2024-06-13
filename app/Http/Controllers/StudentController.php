@@ -51,7 +51,7 @@ class StudentController extends Controller
         if ($request->from_date && $request->to_date) {
             $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
         }
-        if ($user->hasRole('Administrator') || $user->hasRole('visa')) {
+        if ($user->hasRole('Administrator')) {
             $student_profile = $query->paginate(20);
         } else {
             $student_profile = $query->where('added_by', $user->id)->paginate(20);
@@ -89,6 +89,7 @@ class StudentController extends Controller
     {
         $auth_user =Auth::user()->id;
         $about_student =DB::table('student')->where('user_id',$auth_user)->first();
+
         $countries = Country::all();
         $progLabel = EducationLevel::All();
         $student_attendence = StudentAttendence::with('country','province','student')->WHERE('student_id', $about_student->id)->get();

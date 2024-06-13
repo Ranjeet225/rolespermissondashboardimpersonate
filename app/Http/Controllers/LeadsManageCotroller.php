@@ -873,7 +873,7 @@ class LeadsManageCotroller extends Controller
             $id =$studentDetails->id;
         }else{
             $user=Auth::user();
-            if($user->hasRole('Administrator')){
+            if($user->hasRole('Administrator') || $user->hasRole('visa')){
                 $studentDetails = Student::where('id',$id)->first();
                 if(!$studentDetails) {
                     return view('errors.404');
