@@ -245,8 +245,8 @@
                                     <a href="#">{{ $data->created_at }}</a>
                                 </td>
                                 <td> {{ $data->source }}</td>
-                                <td>{{ $data->zip }}</td>
                                 <td>{{ $data->name }}</td>
+                                <td>{{ $data->zip }}</td>
                                 <td>{{ $data->phone_number }}</td>
                                 <td>{{ $data->email }}</td>
                                 <td class="text-wrap">{{ $data->student_comment }}</td>
