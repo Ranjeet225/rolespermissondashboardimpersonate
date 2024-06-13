@@ -458,7 +458,7 @@
             "name": "Admin-Management",
             "icon": "menu-icon tf-icons la la-users",
             "slug": "admin-management",
-            "permission":["admin_user.view","role_permissions.view","student.view"],
+            "permission":["admin_user.view","role_permissions.view"],
             "submenu": [
                 {
                     "url": "/admin-management/users",
