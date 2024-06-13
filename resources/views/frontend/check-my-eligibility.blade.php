@@ -214,7 +214,7 @@
                                         </ul>
                                     </div>
                                     <br>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <select class="form-control" id="exampleFormControlSelect1" name="board">
                                             <option value="">Select Board</option>
                                             <option value="ICGSE">ICGSE</option>
@@ -226,8 +226,7 @@
                                             <option value="OTHER">OTHER</option>
                                             <option value="University">University</option>
                                         </select>
-                                    </div>
-
+                                    </div> --}}
                                     <div class="tab-content tabs-content" id="myTabContent">
                                         <!-- Home Tab -->
                                         @foreach ($eng_proficiency_level  as $item)
@@ -401,7 +400,7 @@
                                         <select class="js-select2" multiple="multiple" name="country[]"
                                             id="country" onchange="ajaxRequest($(this).val())">
                                             @foreach ($country as $item)
-                                                <option value="{{ $item->id }}" {{ isset($student_data->country_id) == $item->id ? 'selected' : '' }}> {{ $item->name }}</option>
+                                                <option value="{{ $item->id }}" {{ isset($student_data->country_id) && $student_data->country_id == $item->id ? 'selected' : '' }}> {{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                         <div id="showDiv" style="display: none; width: 100%">
