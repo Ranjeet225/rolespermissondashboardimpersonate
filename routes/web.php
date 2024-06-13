@@ -42,7 +42,7 @@ So, I apologize for repeating this mistake. I am not creating new tables. I am j
   */
 
 Route::fallback(function () {
-    abort(404);
+    return view('errors.404');
 });
 Route::get('/', function(){
     return view('frontend.comming-soon');
