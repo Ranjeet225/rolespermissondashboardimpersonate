@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-4">
-                    <a href="{{ route('create-student-question') }}" class="btn add-btn float-end">
-                        <i class="las la-plus"></i>Create Student  Apply Question</a>
-                </div>
+                @can('student_apply_question.create')
+                    <div class="col-md-4">
+                        <a href="{{ route('create-student-question') }}" class="btn add-btn float-end">
+                            <i class="las la-plus"></i>Create Student  Apply Question</a>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -61,8 +63,12 @@
                     <tr>
                         <th>S.N</th>
                         <th>Question</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('student_apply_question.update')
+                            Edit
+                        @endcan
+                        @can('student_apply_question.delete')
+                            Delete
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -70,8 +76,12 @@
                     <tr>
                         <td>{{ $loop->index + (($student_question->currentPage() - 1) * $student_question->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->question }}</td>
-                        <td><a  href="{{route('edit-student-question',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-student-question',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('student_apply_question.update')
+                           <td><a  href="{{route('edit-student-question',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('student_apply_question.delete')
+                            <td><a href="{{route('delete-student-question',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

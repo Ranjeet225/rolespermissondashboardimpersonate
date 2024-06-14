@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('program_subdiscipline.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-program-subdiscipline') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create  Program SubDiscipline</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -63,8 +65,12 @@
                         <th>Program Discipline</th>
                         <th>NAME</th>
                         <th>Status</th>
+                        @can('program_subdiscipline.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('program_subdiscipline.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -74,8 +80,12 @@
                         <td class="text-wrap">{{ $item->programdiscipline->name }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
+                        @can('program_subdiscipline.update')
                         <td><a  href="{{route('edit-program-subdiscipline',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('program_subdiscipline.delete')
                         <td><a href="{{route('delete-program-subdiscipline',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

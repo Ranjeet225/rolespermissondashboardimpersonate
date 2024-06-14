@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-4">
-                    <a href="{{ route('create-program-discipline') }}" class="btn add-btn float-end">
-                        <i class="las la-plus"></i>Create New Program Discipline</a>
-                </div>
+                @can('program_discipline.create')
+                    <div class="col-md-4">
+                        <a href="{{ route('create-program-discipline') }}" class="btn add-btn float-end">
+                            <i class="las la-plus"></i>Create New Program Discipline</a>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -62,8 +64,12 @@
                         <th>S.N</th>
                         <th>NAME</th>
                         <th>Status</th>
+                        @can('program_discipline.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('program_discipline.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -72,8 +78,12 @@
                         <td>{{ $loop->index + (($program_discipline->currentPage() - 1) * $program_discipline->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
-                        <td><a  href="{{route('edit-program-discipline',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-program-discipline',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('program_discipline.update')
+                          <td><a  href="{{route('edit-program-discipline',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('program_discipline.delete')
+                          <td><a href="{{route('delete-program-discipline',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

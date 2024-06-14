@@ -210,8 +210,31 @@ return [
             'grading_scheme.grading_scheme_view',
             'exams.exams_view',
             'field_of_study.field_of_study_view',
-            'subject.subject_view',
             'manage_recommended_programs.manage_recommended_programs_view'
+        ],
+        'program_level_details' => [
+            'program_level_details.create',
+            'program_level_details.view',
+            'program_level_details.update',
+            'program_level_details.delete',
+        ],
+        'exams' => [
+            'exams.create',
+            'exams.view',
+            'exams.update',
+            'exams.delete',
+        ],
+        'subject' => [
+            'subject.create',
+            'subject.view',
+            'subject.update',
+            'subject.delete',
+        ],
+        'program_level' => [
+            'program_level.create',
+            'program_level.view',
+            'program_level.update',
+            'program_level.delete',
         ],
         'my_profile' => [
             'my_profile.create',
@@ -363,6 +386,12 @@ return [
             'education_lane.update',
             'education_lane.delete',
         ],
+        'education_level' => [
+            'education_level.create',
+            'education_level.view',
+            'education_level.update',
+            'education_level.delete',
+        ],
         'manage_blogs' => [
             'manage_blogs.create',
             'manage_blogs.view',
@@ -492,8 +521,21 @@ return [
             'slider.update',
             'slider.delete',
         ],
+        'grading_scheme' => [
+            'grading_scheme.create',
+            'grading_scheme.view',
+            'grading_scheme.update',
+            'grading_scheme.delete',
+        ],
+        'field_of_study' => [
+            'field_of_study.create',
+            'field_of_study.view',
+            'field_of_study.update',
+            'field_of_study.delete',
+        ],
         'enquiry_email' => [
             'enquiry_email.view',
         ],
+
       ],
 ];

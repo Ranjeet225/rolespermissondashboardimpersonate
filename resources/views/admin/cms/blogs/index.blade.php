@@ -11,10 +11,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('blogs.create')
                 <div class="col-md-2">
                     <a href="{{ route('create-blogs') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Blogs</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -60,8 +62,12 @@
                         <th>Title</th>
                         <th>Image</th>
                         <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('blogs.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('blogs.delete')
+                          <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -71,8 +77,12 @@
                         <td class="text-wrap">{{ $item->title }}</td>
                         <td><img src="{{asset('imagesapi/'.$item->image)}}" width="100" alt=""></td>
                         <td>{{ $item->status == 1 ? 'Publish' : 'UnPublish' }}</td>
-                        <td><a  href="{{route('edit-blogs',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-blogs',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('blogs.update')
+                           <td><a  href="{{route('edit-blogs',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('blogs.delete')
+                           <td><a href="{{route('delete-blogs',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

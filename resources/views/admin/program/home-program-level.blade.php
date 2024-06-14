@@ -9,14 +9,15 @@
                         <li class="breadcrumb-item">
                             <a href="index.php"> Home</a>
                         </li>
-                        <li class="breadcrumb-item text-muted">Program Level Details For Home Page
-                        </li>
+                        <li class="breadcrumb-item text-muted">Program Level Details                     </li>
                     </ol>
                 </div>
+                @can('program_level_details.create')
                 <div class="col-md-2">
                     <a href="{{ route('create-new-program-details') }}" class="btn add-btn">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -71,8 +72,12 @@
                         <td>{{ $loop->index + (($home_program->currentPage() - 1) * $home_program->perPage()) + 1 }}</td>
                         <td>{{$item->home_program_levels->name ?? null }}</td>
                         <td class="text-wrap">{!! $item->description !!}</td>
+                        @can('program_level_details.update')
                         <td><a  href="{{route('edit-program-details',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('program_level_details.delete')
                         <td><a href="{{route('delete-program-details',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

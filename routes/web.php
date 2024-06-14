@@ -461,7 +461,7 @@ Route::middleware('auth')->group(function () {
            Route::get("create-franchise",[FrenchiseController::class,'create'])->name('frenchise-create');
            Route::get("edit-franchise/{id?}",[FrenchiseController::class,'edit'])->name('frenchise-edit');
            Route::Post("store-franchise",[FrenchiseController::class,'store'])->name('frenchise-store');
-           Route::get("pincode",[FrenchiseController::class,'pincode'])->name('frenchise-pincode');
+        //    Route::get("pincode",[FrenchiseController::class,'pincode'])->name('frenchise-pincode');
            Route::get("manage-oel-presentation",[FrenchiseController::class,'manage_oel_pres'])->name('manage-oel-pres');
            Route::post("manage-oel-presentation",[FrenchiseController::class,'store_manage_oel_pres'])->name('store-manage-oel-pres');
            Route::get("delete-manage-oel-presentation/{id?}",[FrenchiseController::class,'delete_manage_oel_pres'])->name('delete-manage-oel-presentation');

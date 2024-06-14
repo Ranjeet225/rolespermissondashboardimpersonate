@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('exams.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-exam') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Exam</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -63,8 +65,12 @@
                         <th>NAME</th>
                         <th>Program Level</th>
                         <th>Number</th>
+                        @can('exams.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('exams.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -74,8 +80,12 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td >{{$item->program_level->name ?? null}}</td>
                         <td>{{ $item->number }}</td>
+                        @can('exams.update')
                         <td><a  href="{{route('edit-exam',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('exams.delete')
                         <td><a href="{{route('delete-exam',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

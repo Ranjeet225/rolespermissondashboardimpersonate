@@ -12,10 +12,12 @@
                             <li class="breadcrumb-item text-muted">Franchise List</li>
                         </ol>
                     </div>
+                    @can('franchise.create')
                     <div class="col-md-3">
                         <a href="{{ route('frenchise-create') }}" class="btn add-btn float-end  ">
                             <i class="fa-solid fa-plus"></i>Add New Franchise</a>
                     </div>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -118,7 +120,9 @@
                             <th> PinCode</th>
                             <th> Status</th>
                             <th> Approve Status</th>
-                            <th> Action </th>
+                            @can('franchise.update')
+                              <th>Action</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody id="lead-list">
@@ -167,8 +171,10 @@
 
                                 @endif
                                 <a href="" class="btn btn-info" style="margin-top: 5px;">Pincodes</a>
-                                <a href="{{route('frenchise-edit',$item->id)}}" class="btn btn-info"
-                                    style="margin-top: 5px;">Franchise Profile</a>
+                                @can('franchise.update')
+                                    <a href="{{route('frenchise-edit',$item->id)}}" class="btn btn-info"
+                                        style="margin-top: 5px;">Franchise Profile</a>
+                                @endcan
                             </td>
                         </tr>
                         @php

@@ -58,7 +58,6 @@
 @if(Auth::check())
     @php
         $user=Auth::user();
-        // dd($user->id);
         $student_data=DB::table('student')->select('country_id','id')->where('user_id',$user->id)->first();
         $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id ?? null)->first();
         $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id  ?? null)->first();

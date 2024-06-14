@@ -182,13 +182,24 @@
 
                             $add_slider= request()->routeIs('create.slider');
                             $edit_slider= request()->routeIs('edit.slider');
-                            $ads= $submenu->name === 'Ads';
+                            $slider= $submenu->name === 'Slider';
+
+                            $add_about_country= request()->routeIs('create.country.university');
+                            $edit_country= request()->routeIs('edit.country.university');
+                            $about_country= $submenu->name === 'About Country';
+
+                            $create_program_details= request()->routeIs('create-new-program-details');
+                            $edit_program_details= request()->routeIs('edit-program-details');
+                            $program_Details= $submenu->name === 'Program Level Details';
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
                                 (($approve_program_filter || $add_program || $edit_program || $program_filter || $view_program) && $program_menu) ||
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
+                                (($edit_program_details || $create_program_details) && $program_Details) ||
                                 (($edit_ads || $add_ads) && $ads) ||
+                                (($edit_slider || $add_slider) && $slider) ||
+                                (($edit_country || $add_about_country) && $about_country) ||
                                 ($student_guide_menu && ($student_guide || $create_student_guide || $edit_student_guide)) ||
                                 ($pending_leads_submenu && $pending_leads_filter) ||
                                 ($assi_leads_submenu && $assi_leads_filter) ||

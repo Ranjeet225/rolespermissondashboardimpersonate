@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('subject.create')
                 <div class="col-md-2">
                     <a href="{{ route('create-subjects') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -71,8 +73,12 @@
                         <th>S.N</th>
                         <th>NAME</th>
                         <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('subject.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('subject.delete')
+                          <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -81,8 +87,12 @@
                         <td>{{ $loop->index + (($subjects->currentPage() - 1) * $subjects->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->subject_name }}</td>
                         <td>{{ $item->status ? 'Active' : 'Inactive' }}</td>
+                        @can('subject.update')
                         <td><a  href="{{route('edit-subject',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-subject',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
+                        @can('subject.delete')
+                            <td><a href="{{route('delete-subject',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

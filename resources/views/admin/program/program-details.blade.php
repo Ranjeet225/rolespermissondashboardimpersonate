@@ -12,10 +12,12 @@
                             <li class="breadcrumb-item text-muted">Program  / Courses Details</li>
                         </ol>
                     </div>
+                    @can('programs.create')
                     <div class="col-md-2">
                         <a href="{{ route('add-program') }}" class="btn add-btn">
                             <i class="las la-university"></i>Add Program </a>
                     </div>
+                    @endcan
                 </div>
             </div>
         </div>

@@ -14,10 +14,13 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ route('create-new-education-level') }}" class="btn add-btn">
-                        <i class="las la-plus"></i>Create New </a>
-                </div>
+                @can('education_level.create')
+                    <div class="col-md-2">
+                        <a href="{{ route('create-new-education-level') }}" class="btn add-btn">
+                            <i class="las la-plus"></i>Create New
+                        </a>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -64,8 +67,12 @@
                         <th>Program Sub Name</th>
                         <th>Education Name</th>
                         {{-- <th>Order </th> --}}
+                        @can('education_level.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('education_level.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -76,8 +83,12 @@
                         <td class="text-wrap">{{ $item->program_sublevel->name ?? null }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         {{-- <td class="text-wrap">{{ $item->item_order }}</td> --}}
+                        @can('education_level.update')
                         <td><a  href="{{route('edit-education-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('education_level.delete')
                         <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

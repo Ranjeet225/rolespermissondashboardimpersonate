@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('field_of_study.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-field-of-study') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -71,8 +73,12 @@
                         <th>S.N</th>
                         <th>NAME</th>
                         <th>Status</th>
+                        @can('field_of_study.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('field_of_study.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -81,8 +87,12 @@
                         <td>{{ $loop->index + (($fieldofstudy->currentPage() - 1) * $fieldofstudy->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td>{{ $item->status ? 'Active' : 'Inactive' }}</td>
+                        @can('field_of_study.update')
                         <td><a  href="{{route('edit-field-of-study',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('field_of_study.delete')
                         <td><a href="{{route('delete-field-of-study',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('program_sub_level.create')
                 <div class="col-md-2">
                     <a href="{{ route('create-new-program-sub-level') }}" class="btn add-btn">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -63,8 +65,12 @@
                         <th>Program Name</th>
                         <th>NAME</th>
                         {{-- <th>Order </th> --}}
+                        @can('program_sub_level.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('program_sub_level.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -74,8 +80,12 @@
                         <td class="text-wrap">{{ $item->programLevel->first()?->name ?? null }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         {{-- <td class="text-wrap">{{ $item->orders }}</td> --}}
+                        @can('program_sub_level.update')
                         <td><a  href="{{route('edit-program-sub-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('program_sub_level.delete')
                         <td><a href="{{route('delete-program-sub-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

@@ -11,10 +11,12 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-4">
-                    <a href="{{ route('create-student-guide') }}" class="btn add-btn float-end">
-                        <i class="las la-plus"></i>Create Student  Guide</a>
-                </div>
+                @can('popular_student_guide.update')
+                    <div class="col-md-4">
+                        <a href="{{ route('create-student-guide') }}" class="btn add-btn float-end">
+                            <i class="las la-plus"></i>Create Student  Guide</a>
+                    </div>
+                 @endcan
             </div>
         </div>
     </div>
@@ -59,8 +61,12 @@
                         <th>S.N</th>
                         <th>Title</th>
                         <th>Image</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('popular_student_guide.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('popular_student_guide.delete')
+                           <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -69,8 +75,12 @@
                         <td>{{ $loop->index + (($student_guide->currentPage() - 1) * $student_guide->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->title }}</td>
                         <td><img src="{{asset('imagesapi/'.$item->image)}}" width="100" alt=""></td>
-                        <td><a  href="{{route('edit-student-guide',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-student-guide',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('popular_student_guide.update')
+                           <td><a  href="{{route('edit-student-guide',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('popular_student_guide.delete')
+                            <td><a href="{{route('delete-student-guide',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

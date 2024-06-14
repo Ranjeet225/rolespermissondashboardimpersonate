@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('student_registration_fees.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-student-registration-fees') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Student Registration Fees</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -62,8 +64,12 @@
                         <th>S.N</th>
                         <th>Fees Type</th>
                         <th>Fees Amount</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('student_registration_fees.update')
+                           <th>Edit</th>
+                        @endcan
+                        @can('student_registration_fees.delete')
+                           <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -72,8 +78,12 @@
                         <td>{{ $loop->index + (($student_registraion_fees->currentPage() - 1) * $student_registraion_fees->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->fees_type }}</td>
                         <td class="text-wrap">{{ $item->fees_amount }}</td>
-                        <td><a  href="{{route('edit-student-registration-fees',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-student-registration-fees',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('student_registration_fees.update')
+                            <td><a  href="{{route('edit-student-registration-fees',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('student_registration_fees.delete')
+                            <td><a href="{{route('delete-student-registration-fees',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

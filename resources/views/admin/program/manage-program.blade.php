@@ -12,10 +12,12 @@
                             <li class="breadcrumb-item text-muted">Manage Program / Courses</li>
                         </ol>
                     </div>
+                    @can('programs.create')
                     <div class="col-md-2">
                         <a href="{{ route('add-program') }}" class="btn add-btn">
                             <i class="las la-university"></i>Add Program </a>
                     </div>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -70,7 +72,7 @@
                             <th>S.N</th>
                             <th>ProgramName </th>
                             <th>UniversityName </th>
-                            {{-- <th>MinimumLevelOfEducationRequired</th> --}}
+                            {{-- <th>MinimumLev elOfEducationRequired</th> --}}
                             <th>ProgramLevel</th>
                             <th>ApproveStatus</th>
                             <th> </th>
@@ -114,7 +116,9 @@
                                 aria-controls="testscrores"> <i class="la la-plus"></i>
                                 Commission</a>
                             </td>
+                            @can('programs.create')
                             <td><a class="btn btn-primary" href="{{route('edit-program',$item->id)}}"><i class="la la-pen">Edit</a></td>
+                            @endcan
                         </tr>
                         <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="testscrores">
                             <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">

@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ route('create-new-program_level') }}" class="btn add-btn">
-                        <i class="las la-plus"></i>Create New </a>
-                </div>
+                @can('program_level.create')
+                    <div class="col-md-2">
+                        <a href="{{ route('create-new-program_level') }}" class="btn add-btn">
+                            <i class="las la-plus"></i>Create New </a>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -62,8 +64,12 @@
                         <th>S.N</th>
                         <th>NAME</th>
                         {{-- <th>Order </th> --}}
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('program_level.update')
+                          <th>Edit</th>
+                        @endcan
+                       @can('program_level.delete')
+                            <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -72,8 +78,12 @@
                         <td>{{ $loop->index + (($programlevel->currentPage() - 1) * $programlevel->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         {{-- <td class="text-wrap">{{ $item->orders }}</td> --}}
-                        <td><a  href="{{route('edit-program_level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-program-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('program_level.update')
+                            <td><a  href="{{route('edit-program_level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('program_level.delete')
+                            <td><a href="{{route('delete-program-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

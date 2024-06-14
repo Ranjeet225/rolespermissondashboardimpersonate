@@ -12,10 +12,12 @@
                             <li class="breadcrumb-item text-muted">Approve Program / Courses</li>
                         </ol>
                     </div>
-                    <div class="col-md-2">
-                        <a href="{{ route('add-program') }}" class="btn add-btn">
-                            <i class="las la-university"></i>Add Program </a>
-                    </div>
+                    @can('programs.create')
+                        <div class="col-md-2">
+                            <a href="{{ route('add-program') }}" class="btn add-btn">
+                                <i class="las la-university"></i>Add Program </a>
+                        </div>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -77,7 +79,9 @@
                             <td>{{$user_name->name ?? null }}</td>
                             <td>{{$item->name}}</td>
                             <td>{{$item->updated_at}}</td>
-                            <td><a class="btn btn-primary" href="{{route('view-program',$item->id)}}">   View Details</a></td>
+                            @can('programs.view')
+                              <td><a class="btn btn-primary" href="{{route('view-program',$item->id)}}">   View Details</a></td>
+                            @endcan
                         </tr>
                         @endforeach
                     </tbody>

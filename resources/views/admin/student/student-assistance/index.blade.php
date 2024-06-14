@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('student_assistance.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-student-assistance') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Student  Assistance</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -61,8 +63,12 @@
                     <tr>
                         <th>S.N</th>
                         <th>Title</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('student_assistance.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('student_assistance.delete')
+                            <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -70,8 +76,12 @@
                     <tr>
                         <td>{{ $loop->index + (($student_assistance->currentPage() - 1) * $student_assistance->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->title }}</td>
-                        <td><a  href="{{route('edit-student-assistance',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-student-assistance',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('student_assistance.update')
+                          <td><a  href="{{route('edit-student-assistance',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('student_assistance.delete')
+                            <td><a href="{{route('delete-student-assistance',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

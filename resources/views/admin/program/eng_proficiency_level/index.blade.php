@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('proficiency_level.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-eng-proficiency-level') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Eng Proficiency Level</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -62,8 +64,12 @@
                         <th>S.N</th>
                         <th>Name</th>
                         <th>Number</th>
+                        @can('proficiency_level.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('proficiency_level.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -72,8 +78,12 @@
                         <td>{{ $loop->index + (($eng_proficiency_level->currentPage() - 1) * $eng_proficiency_level->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->number }}</td>
-                        <td><a  href="{{route('edit-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('proficiency_level.update')
+                           <td><a  href="{{route('edit-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('proficiency_level.delete')
+                           <td><a href="{{route('delete-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

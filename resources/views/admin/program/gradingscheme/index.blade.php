@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('grading_scheme.create')
                 <div class="col-md-2">
                     <a href="{{ route('create-new-grading-scheme') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New </a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -101,7 +103,9 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->country->name }}</td>
                         <td class="text-wrap">{{ $item->education_level->name ?? null }}</td>
-                        <td><a  href="{{route('edit-grading-scheme',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @can('grading_scheme.update')
+                          <td><a  href="{{route('edit-grading-scheme',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
                         {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
                     </tr>
                     @endforeach

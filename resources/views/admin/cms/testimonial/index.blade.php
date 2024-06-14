@@ -11,10 +11,12 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-3">
-                    <a href="{{ route('create-testimonial') }}" class="btn add-btn float-end">
-                        <i class="las la-plus"></i>Create Testimonial</a>
-                </div>
+                @can('testimonial.create')
+                    <div class="col-md-3">
+                        <a href="{{ route('create-testimonial') }}" class="btn add-btn float-end">
+                            <i class="las la-plus"></i>Create Testimonial</a>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -62,8 +64,12 @@
                         <th>Designation</th>
                         <th>Location</th>
                         <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('testimonial.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('testimonial.delete')
+                           <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -75,8 +81,12 @@
                         <td class="text-wrap">{{ $item->designation }}</td>
                         <td class="text-wrap">{{ $item->location }}</td>
                         <td>{{ $item->status == 1 ? 'Publish' : 'UnPublish' }}</td>
-                        <td><a  href="{{route('edit-testimonial',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-testimonial',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('testimonial.update')
+                           <td><a  href="{{route('edit-testimonial',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('testimonial.delete')
+                            <td><a href="{{route('delete-testimonial',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

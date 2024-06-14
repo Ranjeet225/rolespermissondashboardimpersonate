@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-4 ">
-                    <a href="{{ route('create-sms-template') }}" class="btn add-btn float-end">
-                        <i class="las la-plus"></i>Create New Sms Template</a>
-                </div>
+                @can('sms_template.create')
+                    <div class="col-md-4 ">
+                        <a href="{{ route('create-sms-template') }}" class="btn add-btn float-end">
+                            <i class="las la-plus"></i>Create New Sms Template</a>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -61,9 +63,14 @@
                     <tr>
                         <th>S.N</th>
                         <th>Heading</th>
+                        <th>Content</th>
                         <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('sms_template.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('sms_template.delete')
+                          <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -73,8 +80,12 @@
                         <td class="text-wrap">{{ $item->heading }}</td>
                         <td class="text-wrap">{!! $item->body !!}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
-                        <td><a  href="{{route('edit-sms-template',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><a href="{{route('delete-sms-template',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('sms_template.update')
+                          <td><a  href="{{route('edit-sms-template',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('sms_template.delete')
+                          <td><a href="{{route('delete-sms-template',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>
