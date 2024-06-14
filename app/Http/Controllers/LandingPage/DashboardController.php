@@ -31,6 +31,11 @@ class DashboardController extends Controller
     }
     public function storeAds(Request $request)
     {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'=>'required|max:198'
+        ]);
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagename = time() . '.' . $image->getClientOriginalExtension();
@@ -50,6 +55,11 @@ class DashboardController extends Controller
     }
     public function updateAds(Request $request,$id)
     {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'=>'required|max:198'
+        ]);
+
         $data =[
             'title'=>$request->title,
         ];
@@ -102,6 +112,10 @@ class DashboardController extends Controller
     }
     public function storeSlider(Request $request)
     {
+        $request->validate([
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
         $slider = Slider::create([
             'country_id' => $request->country_id,
             'state_id' => $request->state_id,
@@ -135,6 +149,9 @@ class DashboardController extends Controller
     }
     public function updateSlider(Request $request, $id)
     {
+        $request->validate([
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
         $slider = Slider::findOrFail($id);
         $slider->update([
             'country_id' => $request->country_id,
