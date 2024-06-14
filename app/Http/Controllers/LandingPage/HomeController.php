@@ -23,9 +23,11 @@ class HomeController extends Controller
 
         $country =  Country::select('name','id')->get();
         $slider = DB::table('sliders')->where('status', '1')->first();
-        $countryId = $slider->country_id;
+        $countryId = $slider ? $slider->country_id : null;
         if(empty($countryId)){
             $countryId =82;
+        }else{
+
         }
         $testimonials = DB::table('testimonials')->take(3)->get();
         $universities = University::where('country_id',$countryId)->get();
