@@ -8,6 +8,38 @@
             "permission":"dashboard.view"
         },
         {
+            "name": "Landing Page",
+            "icon": "menu-icon tf-icons fas fa-home fs-5",
+            "slug": "landing-page",
+            "permission":["ads.view","about_country.view","slider.view","enquiry_email.view"],
+            "submenu": [
+                {
+                    "url": "/landing-page/ads",
+                    "name": "Ads",
+                    "slug": "landing-page-ads",
+                    "permission":"ads.view"
+                },
+                {
+                    "url": "/landing-page/country-university",
+                    "name": "About Country",
+                    "slug": "landing-page-country-university",
+                    "permission":"about_country.view"
+                },
+                {
+                    "url": "/landing-page/getSlider",
+                    "name": "Slider",
+                    "slug": "landing-page-slider",
+                    "permission":"slider.view"
+                },
+                {
+                    "url": "/landing-page/emailData",
+                    "name": "Enquiry Email",
+                    "slug": "landing-page-emailData",
+                    "permission":"enquiry_email.view"
+                }
+            ]
+        },
+        {
             "name": "Manage Leads",
             "icon": "menu-icon tf-icons la la-user-secret",
             "slug": "admin",
@@ -144,7 +176,7 @@
             "name": "Student",
             "icon": "menu-icon tf-icons fas fa-user-graduate",
             "slug": "student",
-            "permission":["student.view","student_registration_fees,view","student_apply_question.view","student_assistance.view","student_assistance.view","student_enquiry_log.view","popular_student_guide.view","find_program_log.view"],
+            "permission":["student.view","student_registration_fees.view","student_apply_question.view","student_assistance.view","student_assistance.view","student_enquiry_log.view","popular_student_guide.view","find_program_log.view"],
             "submenu": [
                 {
                     "url": "/admin/student-list",
@@ -190,6 +222,7 @@
                 }
             ]
         },
+
         {
             "url": "/check-eligibility",
             "name": "Eligibility Check",

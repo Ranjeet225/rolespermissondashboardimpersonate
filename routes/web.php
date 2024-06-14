@@ -14,32 +14,9 @@ use App\Http\Controllers\OtherMasterDataController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
-use App\Models\MasterLeadStatus;
-use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
-/*
-in this project some names of models or functions, and table names are incorrect because
-this project was made with reference to another project. The other project is working.
-
-So, I apologize for repeating this mistake. I am not creating new tables. I am just using existing databases.
-*/
-
-// Route::get('/', function (Coun) {
-//     return view('frontend.check-my-eligibility');
-// });
-/*
-  The fallback route is not working because Laravel 8.x introduces a new
-  feature called Implicit Route Model Binding. This feature automatically
-  binds route parameters to Eloquent models.
-
-  The fallback route is not working because Laravel tries to find a model
-  named "Coun" but it doesn't exist. To fix this issue, you can disable
-  the implicit route model binding feature by adding the following code
-  to the bootstrap/app.php file:
-
-  */
 
 Route::fallback(function () {
     return view('errors.404');
@@ -511,5 +488,41 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/fetch-states', [LeadsManageCotroller::class, 'fetchStates'])->name('states.get');
 });
+Route::middleware(['auth'])->prefix('landing-page')->group(function () {
+    Route::get("/ads",[\App\Http\Controllers\LandingPage\DashboardController::class,'getAds'])->name('getAds');
+    Route::get("create/ads",[\App\Http\Controllers\LandingPage\DashboardController::class,'createAds'])->name('create.ads');
+    Route::post("store/ads",[\App\Http\Controllers\LandingPage\DashboardController::class,'storeAds'])->name('store.ads');
+    Route::get("edit/ads/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'editAds'])->name('edit.ads');
+    Route::post("update/ads/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'updateAds'])->name('update.ads');
+    Route::get("delete/ads/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'deleteAds'])->name('delete.ads');
+    // slider
+    Route::get("getSlider",[\App\Http\Controllers\LandingPage\DashboardController::class,'getSlider'])->name('getSlider');
+    Route::get("create/slider",[\App\Http\Controllers\LandingPage\DashboardController::class,'createSlider'])->name('create.slider');
+    Route::get('/fetch-states', [\App\Http\Controllers\LandingPage\DashboardController::class, 'fetchStates'])->name('states.get');
+    Route::post("store/slider",[\App\Http\Controllers\LandingPage\DashboardController::class,'storeSlider'])->name('store.slider');
+    Route::get("edit/slider/{id}", [\App\Http\Controllers\LandingPage\DashboardController::class, 'editSlider'])->name('edit.slider');
+    Route::get("show/slider/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'showSlider'])->name('show.slider');
+    Route::post("update/slider/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'updateSlider'])->name('update.slider');
+    Route::get("delete/slider/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'deleteSlider'])->name('delete.slider');
+    Route::post("update-slider-status",[\App\Http\Controllers\LandingPage\DashboardController::class,'updateSliderStatus'])->name('statusUpdate');
+    // indexpage Data'
+    Route::get("emailData",[\App\Http\Controllers\LandingPage\DashboardController::class,'emailData'])->name('emailData');
+    Route::get("email-delete/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'emailDelete'])->name('emailDelete');
+    // whycountry
+    Route::get("country-university",[\App\Http\Controllers\LandingPage\DashboardController::class,'countryUniversity'])->name('country.university');
+    Route::get("create/country-university",[\App\Http\Controllers\LandingPage\DashboardController::class,'createCountryUniversity'])->name('create.country.university');
+    Route::post("country-university/store",[\App\Http\Controllers\LandingPage\DashboardController::class,'storeCountryUniversity'])->name('store.country.university');
+    Route::get("edit/country-university/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'editCountryUniversity'])->name('edit.country.university');
+    Route::post("update/country-university/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'updateCountryUniversity'])->name('update.country.university');
+    Route::get("delete/country-university/{id}",[\App\Http\Controllers\LandingPage\DashboardController::class,'deleteCountryUniversity'])->name('delete.country.university');
+
+});
+
+Route::get('/landing-page', [App\Http\Controllers\LandingPage\HomeController::class, 'index'])->name('index');
+Route::post('landing-page/get-country-data', [App\Http\Controllers\LandingPage\HomeController::class, 'getCountryData'])->name('get-country-data');
+// Route::get('country/{id}',[App\Http\Controllers\LandingPage\HomeController::class,'getIndexPageData'])->name('country');
+Route::post('landing-page/send-mail',[App\Http\Controllers\LandingPage\HomeController::class,'sendMail'])->name('send-mail');
+
+
 
 require __DIR__.'/auth.php';

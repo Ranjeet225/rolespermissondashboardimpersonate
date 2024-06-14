@@ -474,5 +474,26 @@ return [
         'check_eligibility'=>[
             'check_eligibility.view'
         ],
+        'ads' => [
+            'ads.create',
+            'ads.view',
+            'ads.update',
+            'ads.delete',
+        ],
+        'about_country' => [
+            'about_country.create',
+            'about_country.view',
+            'about_country.update',
+            'about_country.delete',
+        ],
+        'slider' => [
+            'slider.create',
+            'slider.view',
+            'slider.update',
+            'slider.delete',
+        ],
+        'enquiry_email' => [
+            'enquiry_email.view',
+        ],
       ],
 ];

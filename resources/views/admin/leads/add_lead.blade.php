@@ -387,7 +387,7 @@
           </div>
        </div>
     </div>
- </div>
+</div>
 @endsection
 @section('scripts')
 <script src="{{asset('assets/js/jquery-3.7.1.js')}}"></script>

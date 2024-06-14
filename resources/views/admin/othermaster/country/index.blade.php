@@ -47,7 +47,6 @@
       </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-12">
         @if (session('success'))
@@ -87,5 +86,4 @@
         </div>
     </div>
 </div>
-  @endsection
-@section('scripts')
+@endsection
