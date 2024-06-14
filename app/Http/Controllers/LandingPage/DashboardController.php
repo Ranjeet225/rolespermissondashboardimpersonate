@@ -32,7 +32,7 @@ class DashboardController extends Controller
     public function storeAds(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|max:2048',
             'title'=>'required|max:198'
         ]);
 
@@ -56,7 +56,7 @@ class DashboardController extends Controller
     public function updateAds(Request $request,$id)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|max:2048',
             'title'=>'required|max:198'
         ]);
 
@@ -113,7 +113,7 @@ class DashboardController extends Controller
     public function storeSlider(Request $request)
     {
         $request->validate([
-            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images' => 'required|max:2048',
         ]);
 
         $slider = Slider::create([
@@ -150,7 +150,7 @@ class DashboardController extends Controller
     public function updateSlider(Request $request, $id)
     {
         $request->validate([
-            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images' => 'required|max:2048',
         ]);
         $slider = Slider::findOrFail($id);
         $slider->update([
@@ -289,7 +289,7 @@ class DashboardController extends Controller
         $request->validate([
             'country_id' => 'required',
             'aboutcountry' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'max:2048',
         ]);
         if ($request->hasFile('image')) {
             $picture = $request->file('image');
@@ -317,7 +317,7 @@ class DashboardController extends Controller
        $request->validate([
             'country_id' => 'required',
             'aboutcountry' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'max:2048',
         ]);
 
         $updateData = [
