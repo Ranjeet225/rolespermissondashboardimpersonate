@@ -56,11 +56,12 @@
     .flgfixSize{ max-weight: 60px; width: 60px; max-height: 60px; height: 47px;}
 </style>
 @if(Auth::check())
-        @php
+    @php
         $user=Auth::user();
+        // dd($user->id);
         $student_data=DB::table('student')->select('country_id','id')->where('user_id',$user->id)->first();
-        $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id)->first();
-        $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id)->first();
+        $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id ?? null)->first();
+        $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id  ?? null)->first();
     @endphp
 @endif
     <section class="wizard-section" style="background-image: url('{{asset('assets/img/km.png') }}');background-size: cover;background-position: center;background-repeat: no-repeat;padding-bottom:50px">

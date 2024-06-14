@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('ads.create')
                 <div class="col-md-4">
                     <a href="{{ route('create.ads') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New ads</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -30,15 +32,19 @@
                 {{ session('success') }}
             </div>
         @endif
-        
+
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
                         <th>S.No</th>
                         <th>Ads Title</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        @can('ads.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('ads.delete')
+                          <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +53,7 @@
                             <tr>
                                 <td>{{ $loop->index + (($ads->currentPage() - 1) * $ads->perPage()) + 1 }}</td>
                                 <td>{{ ucfirst($item->title) }}</td>
+                                @can('ads.update')
                                 <td class="text-nowrap">
                                     <a title="Edit"
                                         href="{{route('edit.ads',[$item->id])}}"
@@ -54,6 +61,8 @@
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
+                              @endcan
+                              @can('ads.delete')
                                 <td class="text-nowrap">
                                     <a title="Delete"
                                         href="{{route('delete.ads',[$item->id])}}"
@@ -61,6 +70,7 @@
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>
+                            @endcan
                             </tr>
                         @endforeach
                     @else

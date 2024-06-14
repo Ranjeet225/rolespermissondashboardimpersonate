@@ -175,11 +175,20 @@
                             $add_program_sublevel= request()->routeIs('create-new-program-sub-level');
                             $edit_program_sublevel= request()->routeIs('edit-program-sub-level');
                             $program_sublevel= $submenu->name === 'Program Sub Level';
+
+                            $add_ads= request()->routeIs('create.ads');
+                            $edit_ads= request()->routeIs('edit.ads');
+                            $ads= $submenu->name === 'Ads';
+
+                            $add_slider= request()->routeIs('create.slider');
+                            $edit_slider= request()->routeIs('edit.slider');
+                            $ads= $submenu->name === 'Ads';
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
                                 (($approve_program_filter || $add_program || $edit_program || $program_filter || $view_program) && $program_menu) ||
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
+                                (($edit_ads || $add_ads) && $ads) ||
                                 ($student_guide_menu && ($student_guide || $create_student_guide || $edit_student_guide)) ||
                                 ($pending_leads_submenu && $pending_leads_filter) ||
                                 ($assi_leads_submenu && $assi_leads_filter) ||
