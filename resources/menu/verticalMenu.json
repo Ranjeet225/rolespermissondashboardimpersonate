@@ -222,12 +222,11 @@
                 }
             ]
         },
-
         {
-            "url": "/check-eligibility",
-            "name": "Eligibility Check",
+            "url": "/apply-program",
+            "name": "Apply Program",
             "icon": "menu-icon tf-icons fa-solid fa-circle-check",
-            "slug": "check-eligibility",
+            "slug": "apply-program",
             "permission":"check_eligibility.view"
         },
         {
@@ -235,7 +234,7 @@
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
             "permission":["program_sub_level.view","programs.view","proficiency_level.view","approve_program.approve_program_view",
-            "manage_program.manage_program_view","program_level_details.view","education_level.view",
+            "manage_program.manage_program_view","program_level_details.view","education_level.view","program_subdiscipline.view",
             "program_level.program_level_view","grading_scheme.view","exams.view","field_of_study.view","subject.view_view","manage_recommended_programs.manage_recommended_programs_view"],
             "submenu": [
                 {
@@ -373,7 +372,7 @@
             "icon": "menu-icon tf-icons las la-tachometer-alt",
             "slug": "other-master-data",
             "permission":["specializations.view","source.view","interested.view","country.view","province.view","visa_type.view"
-            ,"faq.view","education_lane.view","manage_blogs.view","vas_services.view"],
+            ,"faq.view","education_lane.view","manage_blogs.view","vas_services.view","master_service.view"],
             "submenu": [
                 {
                     "url": "/admin/specializations",
@@ -428,6 +427,12 @@
                     "name": "Education Lane (Home Page)",
                     "slug": "admin-education-lane",
                     "permission":"education_lane.view"
+                },
+                {
+                    "url": "/admin/master-service",
+                    "name": "Master Service",
+                    "slug": "admin-master-service",
+                    "permission":"master_service.view"
                 }
             ]
             },

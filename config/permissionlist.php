@@ -536,6 +536,11 @@ return [
         'enquiry_email' => [
             'enquiry_email.view',
         ],
-
+       'master_service'=> [
+        'master_service.create',
+        'master_service.view',
+        'master_service.update',
+        'master_service.delete',
+       ]
       ],
 ];

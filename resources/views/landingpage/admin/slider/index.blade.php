@@ -40,8 +40,12 @@
                         <th>State Name</th>
                         <th>Status</th>
                         <th>Show</th>
+                        @can('slider.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('slider.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -80,21 +84,28 @@
                                     <input class="form-check-input flexSwitchCheckChecked" data-id="{{$item->id}}" type="checkbox" role="switch" {{ $item->status == '1' ? 'checked' : '' }}>
                                 </div>
                             </td>
+                            @can('slider.view')
                             <td class="text-nowrap">
                                 <a title="show" href="{{ route('show.slider',[$item->id]) }}" class="btn btn-warning btn-sm content-icon">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
+                            @endcan
+                            @can('slider.update')
                             <td class="text-nowrap">
                                 <a title="Edit" href="{{ route('edit.slider',[$item->id]) }}" class="btn btn-warning btn-sm content-icon">
                                     <i class="fa fa-edit"></i>
                                 </a>
                             </td>
+                            @endcan
+                            @can('slider.delete')
                             <td class="text-nowrap">
                                 <a title="Delete" href="{{ route('delete.slider',[$item->id]) }}" class="btn btn-warning btn-sm content-icon">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
+                            @endcan
+
                         </tr>
                         @php
                             $i++;

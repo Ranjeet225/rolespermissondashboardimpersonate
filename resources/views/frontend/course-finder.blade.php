@@ -96,7 +96,14 @@
         $state = App\Models\Province::where('id', $university->state ?? null)->get();
         $university_type = App\Models\SchoolType::where('id', $university->type_of_university ?? null)->get();
     @endphp
-    
+@if(Auth::check())
+@php
+    $user=Auth::user();
+    $student_data=DB::table('student')->select('country_id','id')->where('user_id',$user->id)->first();
+    $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id ?? null)->first();
+    $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id  ?? null)->first();
+@endphp
+@endif
     <section>
         <div class="container ">
             <div class="d-flex">
@@ -528,108 +535,103 @@
                             let course_data ='';
                             $.each(response.data.data, function(index, item) {
                                 html += `
-                                <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
-                                    <div class="courses-item course-logo">
-                                        <div>
-                                            <div class="course_card_logo_sec d-flex">
-                                                <div class="img-part" style="margin: 2px 5px;">
-                                                    <a href="course_details/${item.id}">
-                                                        <img src="${window.location.origin}/${item ? item.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
-                                                    </a>
+                                 <div class="university-item course-logo">
+                                    <div>
+                                        <div class="d-flex">
+                                            <a href="${item.university ? item.website : ''}" class="university_logo">
+                                                <div class="u-logo">
+                                                    <img src="${window.location.origin}/${item ? item.logo : ''}" alt="${item ? item.logo : ''}" class="img-fluid uc-logo">
                                                 </div>
-                                                <div style="flex: 1 1 0%;">
-                                                    <h5 class="mb-1">
-                                                        <a href="course_details/${item.id}">${item.program && item.program.name ? item.program.name : ""}</a>
-                                                    </h5>
-                                                    <a href="${item.website}" style="font-weight: 500; font-size: 14px;">${item.university_name ? item.university_name : ""}</a>
-                                                </div>
-                                            </div>
-                                            <div class="content-part">
-                                                <ul class="meta-part">
-                                                    <li class="user">
-                                                        <i class="fa fa-graduation-cap"></i>
-                                                        <span class="info_bold">Level</span>
-                                                        <span>${item.program && item.program.program_level && item.program.program_level.name ? item.program.program_level.name : ""}</span>
-                                                    </li>
-                                                    <li class="user">
-                                                        <i class="fa fa-clock-o"></i>
-                                                        <span class="info_bold">Duration</span>
-                                                        <span>4 year</span>
-                                                    </li>
-                                                    <li class="user">
-                                                        <i class="fa fa-money"></i>
-                                                        <span class="info_bold">Application Fees</span>
-                                                        <span>A$125.00</span>
-                                                    </li>
-                                                    <li class="user">
-                                                        <i class="fa fa-money"></i>
-                                                        <span class="info_bold">1st Year Tuition Fees</span>
-                                                        <span>A$49,600.00</span>
-                                                    </li>
-                                                    <li class="user">
-                                                        <i class="fa fa-info-circle"></i>
-                                                        <span class="info_bold">Exams Required</span>
-                                                        <span style="font-size: 12px;">No Exam Required</span>
-                                                    </li>
-                                                </ul>
-                                                <hr class="mb-10 mt-10">
-                                                <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
-                                                <hr class="mb-10 mt-10">
-                                                <div class="bottom-part">
-                                                    <div class="info-meta">
-                                                        <ul>
-                                                            <li class="user">
-                                                                <i class="fa fa-flag"></i>
-                                                                <span>${item.country ? item.country.name : ''}</span>
-                                                                <span>-</span>
-                                                                <span>Full Time</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                            </a>
+                                            <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
+                                                <a href="${item.university_name ? item.website : ''}">${item ? item.university_name : ''}</a>
+                                            </h5>
+                                        </div>
+                                        <div class="content-part">
+                                            <ul class="meta-part" style="flex: 1 1 0%;">
+                                                <li class="user meta_item">
+                                                    <i class="fa fa-map"></i>
+                                                    <span class="info_bold">Location: </span>
+                                                    <span class="text_ellipsis">${item.university_name ? item.logo : ''} ${item ? item.zip : ''}</span>
+                                                </li>
+                                                <li class="user meta_item">
+                                                    <i class="fa fa-flag"></i>
+                                                    <span class="info_bold">Country: </span>
+                                                    <span>${item.country ? item.country.name  : '' }</span>
+                                                </li>
+                                                <li class="user meta_item">
+                                                    <i class="fa fa-list"></i>
+                                                    <span class="info_bold">University Type: </span>
+                                                    <span>${item.university_type ? item.university_type.name : ''}</span>
+                                                </li>
+                                            </ul>
+                                            <hr class="mb-10 mt-10">
+                                            <div class="bottom-part">
+                                                <div class="info-meta" style="flex: 1 1 0%;"></div>
+                                                <div class="btn-part">
+                                                    <a href="${item.university_name ? item.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            `;
+                                `;
                             });
                             $.each(response.course_data.data, function(index, item) {
                                 $('.course_data').append(`
-                                    <div class="courses-item course-logo">
-                                        <div>
-                                            <div class="d-flex">
-                                                <a href="${item.university ? item.university_name.website : ''}" class="university_logo">
-                                                    <div class="u-logo">
-                                                        <img src="${window.location.origin}/${item.university ? item.university_name.logo : ''}" alt="${item.university ? item.university_name.logo : ''}" class="img-fluid uc-logo">
+                                    <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
+                                        <div class="courses-item course-logo">
+                                            <div>
+                                                <div class="course_card_logo_sec d-flex">
+                                                    <div class="img-part" style="margin: 2px 5px;">
+                                                        <a href="course_details/${item.id}">
+                                                            <img src="${window.location.origin}/${item.university_name ? item.university_name.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
+                                                        </a>
                                                     </div>
-                                                </a>
-                                                <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
-                                                    <a href="${item.university_name ? item.university_name.website : ''}">${item.university ? item.university_name.name : ''}</a>
-                                                </h5>
-                                            </div>
-                                            <div class="content-part">
-                                                <ul class="meta-part" style="flex: 1 1 0%;">
-                                                    <li class="user meta_item">
-                                                        <i class="fa fa-map"></i>
-                                                        <span class="info_bold">Location: </span>
-                                                        <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>
-                                                    </li>
-                                                    <li class="user meta_item">
-                                                        <i class="fa fa-flag"></i>
-                                                        <span class="info_bold">Country: </span>
-                                                        <span>${item.university_name ? item.university_name.country_name.name : '' }</span>
-                                                    </li>
-                                                    <li class="user meta_item">
-                                                        <i class="fa fa-list"></i>
-                                                        <span class="info_bold">University Type: </span>
-                                                        <span>${item.university_name ? item.university_name.university_type_name.name : ''}</span>
-                                                    </li>
-                                                </ul>
-                                                <hr class="mb-10 mt-10">
-                                                <div class="bottom-part">
-                                                    <div class="info-meta" style="flex: 1 1 0%;"></div>
-                                                    <div class="btn-part">
-                                                        <a href="${item.university_name ? item.university_name.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                    <div style="flex: 1 1 0%;">
+                                                        <h5 class="mb-1">
+                                                            <a href="course_details/${item.id}">${item.name ?? ''}</a>
+                                                        </h5>
+                                                        <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">${item?.university_name ?? ""}</a>
+                                                    </div>
+                                                </div>
+                                                <div class="content-part">
+                                                    <ul class="meta-part">
+                                                        <li class="user">
+                                                            <i class="fa fa-graduation-cap"></i>
+                                                            <span class="info_bold">Level</span>
+                                                            <span>${item.program && item.programLevel}</span>
+                                                        </li>
+                                                        <li class="user">
+                                                            <i class="fa fa-money"></i>
+                                                            <span class="info_bold">Application Fees</span>
+                                                            <span>$${item.application_fee}</span>
+                                                        </li>
+                                                        <li class="user">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            <span class="info_bold">Duration</span>
+                                                            <span>${item.length}</span>
+                                                        </li>
+                                                        <li class="user">
+                                                            <i class="fa fa-money"></i>
+                                                            <span class="info_bold">1st Year Tuition Fees</span>
+                                                            <span>A$${item.tution_fee }</span>
+                                                        </li>
+                                                    </ul>
+                                                    <hr class="mb-10 mt-10">
+                                                    <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
+                                                    <hr class="mb-10 mt-10">
+                                                    <div class="bottom-part">
+                                                        <div class="info-meta">
+                                                            <ul>
+                                                                <li class="user">
+                                                                    <i class="fa fa-flag"></i>
+                                                                    <span>${item.university_name ? item.university_name.country_name.name : ''}</span>
+                                                                    <span>-</span>
+                                                                    <span>${item.programType}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -637,7 +639,6 @@
                                     </div>
                                 `);
                             });
-                            console.log(response.data.total);
                             $('#university').append(html);
                             $('.course_data').append(course_data);
                             resolve();
@@ -659,84 +660,17 @@
                         let html = '';
                         let course_data ='';
                         $.each(response.data.data, function(index, item) {
-                            html += `
-                                <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
-                                <div class="courses-item course-logo">
-                                    <div>
-                                        <div class="course_card_logo_sec d-flex">
-                                            <div class="img-part" style="margin: 2px 5px;">
-                                                <a href="course_details/${item.id}">
-                                                    <img src="${window.location.origin}/${item ? item.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
-                                                </a>
-                                            </div>
-                                            <div style="flex: 1 1 0%;">
-                                                <h5 class="mb-1">
-                                                    <a href="course_details/${item.id}">${item.program && item.program.name ? item.program.name : ""}</a>
-                                                </h5>
-                                                <a href="${item.website}" style="font-weight: 500; font-size: 14px;">${item.university_name ? item.university_name : ""}</a>
-                                            </div>
-                                        </div>
-                                        <div class="content-part">
-                                            <ul class="meta-part">
-                                                <li class="user">
-                                                    <i class="fa fa-graduation-cap"></i>
-                                                    <span class="info_bold">Level</span>
-                                                    <span>${item.program && item.program.program_level && item.program.program_level.name ? item.program.program_level.name : ""}</span>
-                                                </li>
-                                                <li class="user">
-                                                    <i class="fa fa-clock-o"></i>
-                                                    <span class="info_bold">Duration</span>
-                                                    <span>4 year</span>
-                                                </li>
-                                                <li class="user">
-                                                    <i class="fa fa-money"></i>
-                                                    <span class="info_bold">Application Fees</span>
-                                                    <span>A$125.00</span>
-                                                </li>
-                                                <li class="user">
-                                                    <i class="fa fa-money"></i>
-                                                    <span class="info_bold">1st Year Tuition Fees</span>
-                                                    <span>A$49,600.00</span>
-                                                </li>
-                                                <li class="user">
-                                                    <i class="fa fa-info-circle"></i>
-                                                    <span class="info_bold">Exams Required</span>
-                                                    <span style="font-size: 12px;">No Exam Required</span>
-                                                </li>
-                                            </ul>
-                                            <hr class="mb-10 mt-10">
-                                            <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
-                                            <hr class="mb-10 mt-10">
-                                            <div class="bottom-part">
-                                                <div class="info-meta">
-                                                    <ul>
-                                                        <li class="user">
-                                                            <i class="fa fa-flag"></i>
-                                                            <span>${item.country ? item.country.name : ''}</span>
-                                                            <span>-</span>
-                                                            <span>Full Time</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        });
-                        $.each(response.course_data.data, function(index, item) {
-                            $('.course_data').append(`
-                                <div class="courses-item course-logo">
+                                html += `
+                                 <div class="university-item course-logo">
                                     <div>
                                         <div class="d-flex">
-                                            <a href="${item.university ? item.university_name.website : ''}" class="university_logo">
+                                            <a href="${item.university ? item.website : ''}" class="university_logo">
                                                 <div class="u-logo">
-                                                    <img src="${window.location.origin}/${item.university ? item.university_name.logo : ''}" alt="${item.university ? item.university_name.logo : ''}" class="img-fluid uc-logo">
+                                                    <img src="${window.location.origin}/${item ? item.logo : ''}" alt="${item ? item.logo : ''}" class="img-fluid uc-logo">
                                                 </div>
                                             </a>
                                             <h5 class="university_name" style="margin-left: 10px; margin-bottom: 0px; margin-top: 5px;">
-                                                <a href="${item.university_name ? item.university_name.website : ''}">${item.university ? item.university_name.name : ''}</a>
+                                                <a href="${item.university_name ? item.website : ''}">${item ? item.university_name : ''}</a>
                                             </h5>
                                         </div>
                                         <div class="content-part">
@@ -744,24 +678,86 @@
                                                 <li class="user meta_item">
                                                     <i class="fa fa-map"></i>
                                                     <span class="info_bold">Location: </span>
-                                                    <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>
+                                                    <span class="text_ellipsis">${item.university_name ? item.logo : ''} ${item ? item.zip : ''}</span>
                                                 </li>
                                                 <li class="user meta_item">
                                                     <i class="fa fa-flag"></i>
                                                     <span class="info_bold">Country: </span>
-                                                    <span>${item.university_name ? item.university_name.country_name.name : '' }</span>
+                                                    <span>${item.country ? item.country.name : '' }</span>
                                                 </li>
                                                 <li class="user meta_item">
                                                     <i class="fa fa-list"></i>
                                                     <span class="info_bold">University Type: </span>
-                                                    <span>${item.university_name ? item.university_name.university_type_name.name : ''}</span>
+                                                    <span>${item.university_type ? item.university_type.name : ''}</span>
                                                 </li>
                                             </ul>
                                             <hr class="mb-10 mt-10">
                                             <div class="bottom-part">
                                                 <div class="info-meta" style="flex: 1 1 0%;"></div>
                                                 <div class="btn-part">
-                                                    <a href="${item.university_name ? item.university_name.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                    <a href="${item.university_name ? item.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        $.each(response.course_data.data, function(index, item) {
+                            $('.course_data').append(`
+                                <div class="col-lg-12 col-md-4 col-sm-6 mt-30">
+                                    <div class="courses-item course-logo">
+                                        <div>
+                                            <div class="course_card_logo_sec d-flex">
+                                                <div class="img-part" style="margin: 2px 5px;">
+                                                    <a href="course_details/${item.id}">
+                                                        <img src="${window.location.origin}/${item.university_name ? item.university_name.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
+                                                    </a>
+                                                </div>
+                                                <div style="flex: 1 1 0%;">
+                                                    <h5 class="mb-1">
+                                                        <a href="course_details/${item.id}">${item.name ?? ''}</a>
+                                                    </h5>
+                                                    <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">${item?.university_name ?? ""}</a>
+                                                </div>
+                                            </div>
+                                            <div class="content-part">
+                                                <ul class="meta-part">
+                                                    <li class="user">
+                                                        <i class="fa fa-graduation-cap"></i>
+                                                        <span class="info_bold">Level</span>
+                                                        <span>${item.program && item.programLevel}</span>
+                                                    </li>
+                                                    <li class="user">
+                                                        <i class="fa fa-money"></i>
+                                                        <span class="info_bold">Application Fees</span>
+                                                        <span>$${item.application_fee}</span>
+                                                    </li>
+                                                     <li class="user">
+                                                        <i class="fa fa-clock-o"></i>
+                                                        <span class="info_bold">Duration</span>
+                                                        <span>${item.length}</span>
+                                                    </li>
+                                                    <li class="user">
+                                                        <i class="fa fa-money"></i>
+                                                        <span class="info_bold">1st Year Tuition Fees</span>
+                                                        <span>A$${item.tution_fee }</span>
+                                                    </li>
+                                                </ul>
+                                                <hr class="mb-10 mt-10">
+                                                <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
+                                                <hr class="mb-10 mt-10">
+                                                <div class="bottom-part">
+                                                    <div class="info-meta">
+                                                        <ul>
+                                                            <li class="user">
+                                                                <i class="fa fa-flag"></i>
+                                                                <span>${item.university_name ? item.university_name.country_name.name : ''}</span>
+                                                                <span>-</span>
+                                                                <span>${item.programType}</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

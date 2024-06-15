@@ -93,7 +93,12 @@
                         <th>NAME</th>
                         <th>Country </th>
                         <th>Education Level </th>
-                        <th>Action</th>
+                        @can('grading_scheme.update')
+                        <th>Edit</th>
+                        @endcan
+                        @can('grading_scheme.delete')
+                        <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -106,7 +111,9 @@
                         @can('grading_scheme.update')
                           <td><a  href="{{route('edit-grading-scheme',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
-                        {{-- <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        @can('grading_scheme.delete')
+                        <td><a href="{{route('delete-grading-scheme',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                         @endcan
                     </tr>
                     @endforeach
                 </tbody>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\EducationHistory;
 use App\Models\EducationLevel;
+use App\Models\MasterService;
 use App\Models\PopularStudentGuide;
 use App\Models\Program;
 use App\Models\SchoolAttended;
@@ -17,10 +18,15 @@ use App\Models\StudentByAgent;
 use App\Models\StudentRegistrationFees;
 use App\Models\Subject;
 use App\Models\University;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use App\Mail\PaymentLinkEmail;
+use App\Models\PaymentsLink;
 use PDO;
+use Razorpay\Api\PaymentLink;
 
 class StudentController extends Controller
 {
@@ -56,7 +62,8 @@ class StudentController extends Controller
         } else {
             $student_profile = $query->where('added_by', $user->id)->paginate(20);
         }
-        return view('admin.student.index', compact('student_profile'));
+        $master_service =MasterService::select('name','id')->get();
+        return view('admin.student.index', compact('student_profile','master_service'));
     }
 
 
@@ -726,5 +733,56 @@ class StudentController extends Controller
         return redirect()->route('student-guide')->with('error', 'Student Guide not found');
     }
 
+
+    public function payment_link(Request $request)
+    {
+        $amount = $request->amount;
+        if(empty($amount)){
+            return response()->json(['status'=>false,'message'=>'Amount is required']);
+        }
+        $student_id = $request->student_id;
+        if(empty($student_id)){
+            return response()->json(['status'=>false,'message'=>'Student id is required']);
+        }
+        $controller = new LeadsManageCotroller();
+        $uniqueId 	= $controller->uniqidgenrate();
+        $token 		= $controller->generateToken();
+        $student=Student::where('id',$request->student_id)->first();
+        $paymentLinkData = [
+            'token'	=> $token,
+            'user_id'=> $request->student_id,
+            'master_service'=>$request->master_service,
+            'email'=> $student->email,
+            'remarks'=>$request->remarks,
+            'amount' => $amount,
+            'expired_in'=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
+            'fallowp_unique_id'=> $uniqueId,
+        ];
+        $paymentData =[
+            'name'=>$student->first_name,
+            'payment_link'=>url('/pay-now/c?token=' . $token),
+            'amount'=>$amount,
+        ];
+        Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
+        PaymentsLink::create($paymentLinkData);
+        return response()->json(['status'=>true,'message'=>'Payment link sent successfully']);
+    }
+
+    public function payment_link_details(Request $request)
+    {
+      $paymentData = PaymentsLink::with('master_service')->select('amount','email','remarks','master_service','id')->where('user_id', $request->student_id)->get();
+      return response()->json(['payment_data' => $paymentData]);
+    }
+
+    public function delete_payment_link(Request $request)
+    {
+        $payment = PaymentsLink::find($request->score_id);
+        if($payment){
+            $payment->delete();
+            return response()->json(['success'=>'Payment link deleted successfully']);
+        }else{
+            return response()->json(['error'=>'Payment link not found']);
+        }
+    }
 
 }

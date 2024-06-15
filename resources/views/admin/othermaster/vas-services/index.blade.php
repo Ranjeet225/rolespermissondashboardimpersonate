@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('vas_services.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-vas-service') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Vas Service's</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -63,8 +65,12 @@
                         <th>Title</th>
                         <th>Order</th>
                         <th>Content</th>
+                        @can('vas_services.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('vas_services.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -75,8 +81,12 @@
                         <td class="text-wrap">{{ $item->order }}</td>
                         <td class="text-wrap">{!! $item->content !!}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
+                        @can('vas_services.update')
                         <td><a  href="{{route('edit-vas-service',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('vas_services.delete')
                         <td><a href="{{route('delete-vas-service',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

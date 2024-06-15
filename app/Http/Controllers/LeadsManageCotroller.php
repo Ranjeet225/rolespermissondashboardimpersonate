@@ -667,7 +667,7 @@ class LeadsManageCotroller extends Controller
         return view('admin.leads.manage-leads', compact('studentAgentData', 'student_id', 'masterLeadStatus', 'follow_up_list'));
     }
 
-    private function generateToken(){
+    public function generateToken(){
     	$token = Str::random(60);
     	$paymentsLink = PaymentsLink::where('token',$token)->first();
 		if($paymentsLink){
@@ -676,7 +676,7 @@ class LeadsManageCotroller extends Controller
     	return $token;
     }
 
-    private function uniqidgenrate(){
+    public function uniqidgenrate(){
         $uniqueId = uniqid() . bin2hex(random_bytes(5));
     	$paymentsLink = Payment::where('fallowp_unique_id',$uniqueId)->first();
 		if($paymentsLink){

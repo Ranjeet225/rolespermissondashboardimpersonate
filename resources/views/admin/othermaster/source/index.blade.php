@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('source.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-source') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Source</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -62,8 +64,12 @@
                         <th>S.N</th>
                         <th>NAME</th>
                         <th>Status</th>
+                        @can('source.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('source.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -72,8 +78,12 @@
                         <td>{{ $loop->index + (($source->currentPage() - 1) * $source->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
+                        @can('source.update')
                         <td><a  href="{{route('edit-source',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('source.delete')
                         <td><a href="{{route('delete-source',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

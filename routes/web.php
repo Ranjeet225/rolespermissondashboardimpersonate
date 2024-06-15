@@ -14,8 +14,9 @@ use App\Http\Controllers\OtherMasterDataController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
+use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -24,7 +25,7 @@ Route::fallback(function () {
 Route::get('/', function(){
     return view('frontend.comming-soon');
 });
-Route::get('/check-eligibility', [FrontendController::class,'check_eligibility'])->name('check-eligible');
+Route::get('/apply-program', [FrontendController::class,'course_university'])->name('check-eligible');
 Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');
 Route::post('/get-item-details',[FrontendController::class,'get_country'])->name('get-item-details');
 Route::post('get-program-sublevel',[ProgramController::class,'get_program_sublevel'])->name('get-program-sublevel');
@@ -36,11 +37,10 @@ Route::get('fetch-university-course',[FrontendController::class,'course_universi
 Route::post('get-education-level-filter',[FrontendController::class,'education_level_filter'])->name('get-education-level-filter');
 Route::post('get-university-course',[FrontendController::class,'get_university_course'])->name('get-university-course');
 
-
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/impersonate/{user}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate-users');
+// Route::get('/impersonate/{user}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate-users');
 // Route::get('/impersonate/{user}', [UserController::class, 'impersonate'])->name('impersonate')->middleware('auth', 'role:Administrator');
 // Route::get('/revert-to-admin', [UserController::class, 'revertToAdmin'])->name('revert_to_admin')->middleware('auth');
 Route::get('pay-now/{token?}',[LeadsManageCotroller::class,'payment_view']);
@@ -48,6 +48,9 @@ Route::post('payment/create',[LeadsManageCotroller::class,'store'])->name('razor
 Route::post('payment/failure',[LeadsManageCotroller::class,'failure'])->name('razorpay.payment.failure');
 Route::get('payment/success',[LeadsManageCotroller::class,'success'])->name('razorpay.payment.succes');
 
+Route::post('send-payment-link',[StudentController::class,'payment_link'])->name('send-payment-link');
+Route::get('payment_link_details',[StudentController::class,'payment_link_details'])->name('fetch-student-payment');
+Route::get('delete-payment-link',[StudentController::class,'delete_payment_link'])->name('delete-payment-link');
 // student mobile number verfication
 Route::post('/send-otp',[FrontendController::class,'send_otp'])->name('send-otp');
 Route::post('/verify-otp', [FrontendController::class, 'verify_otp'])->name('verify-otp');
@@ -104,7 +107,7 @@ Route::middleware('auth')->group(function () {
         Route::post('excel-sheet-uplod-lead',[LeadsManageCotroller::class,'excel_sheet_leads'])->name('excel-sheet-leads');
         Route::Post('add-user-follow-up',[LeadsManageCotroller::class,'add_user_follow_up'])->name('add-user-follow-up');
         Route::get('fetch-follow-up-date',[LeadsManageCotroller::class,'follow_up_list'])->name('follow-up-list');
-        Route::post("update-user-status",[UserController::class,'updateUserStatus'])->name('statusUpdate');
+        Route::post("update-user-status",[UserController::class,'updateUserStatus'])->name('statusUpdateUser');
         Route::post("approve-user-status",[UserController::class,'approveUserStatus'])->name('approveStatusUpdate');
         Route::get("relocate-frenchise",[LeadsManageCotroller::class,'relocated_frenchise'])->name('relocated-frenchise');
         Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise'])->name('assign-leads');
@@ -418,6 +421,12 @@ Route::middleware('auth')->group(function () {
         Route::post('update-blogs/{id?}',[CmsController::class,'blogs_update'])->name('update-blogs');
         Route::post('store-blogs',[CmsController::class,'blogs_store'])->name('store-blogs');
 
+        Route::get('master-service/{id?}',[CmsController::class,'master_service'])->name('master_service');
+        Route::get('create-master-service',[CmsController::class,'master_service_create'])->name('create-master-service');
+        Route::get('edit-master-service/{id?}',[CmsController::class,'master_service_edit'])->name('edit-master-service');
+        Route::get('delete-master-service/{id?}',[CmsController::class,'master_service_delete'])->name('delete-master-service');
+        Route::post('update-master-service/{id?}',[CmsController::class,'master_service_update'])->name('update-master-service');
+        Route::post('store-master-service',[CmsController::class,'master_service_store'])->name('store-master-service');
         // testimonial
         Route::get('testimonial/{id?}',[CmsController::class,'testimonial'])->name('testimonial');
         Route::get('testimonial-filter',[CmsController::class,'testimonial'])->name('testimonial-filter');
@@ -486,7 +495,7 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::get('/fetch-states', [LeadsManageCotroller::class, 'fetchStates'])->name('states.get');
+    Route::get('/fetch-state', [LeadsManageCotroller::class, 'fetchStates'])->name('state.get');
 });
 Route::middleware(['auth'])->prefix('landing-page')->group(function () {
     Route::get("/ads",[\App\Http\Controllers\LandingPage\DashboardController::class,'getAds'])->name('getAds');

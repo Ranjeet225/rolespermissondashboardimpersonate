@@ -191,6 +191,10 @@
                             $create_program_details= request()->routeIs('create-new-program-details');
                             $edit_program_details= request()->routeIs('edit-program-details');
                             $program_Details= $submenu->name === 'Program Level Details';
+
+                            $create_master_service= request()->routeIs('create-master-service');
+                            $edit_master_service= request()->routeIs('edit-master-service');
+                            $master_service= $submenu->name === 'Master Service';
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
@@ -198,6 +202,7 @@
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
                                 (($edit_program_details || $create_program_details) && $program_Details) ||
                                 (($edit_ads || $add_ads) && $ads) ||
+                                (($edit_master_service || $create_master_service) && $master_service) ||
                                 (($edit_slider || $add_slider) && $slider) ||
                                 (($edit_country || $add_about_country) && $about_country) ||
                                 ($student_guide_menu && ($student_guide || $create_student_guide || $edit_student_guide)) ||

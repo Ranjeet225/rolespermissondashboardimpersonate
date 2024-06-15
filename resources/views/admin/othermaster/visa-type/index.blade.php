@@ -14,10 +14,13 @@
                         </li>
                     </ol>
                 </div>
+                @can('visa_type.create')
+
                 <div class="col-md-4">
                     <a href="{{ route('create-visa-type') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Visa</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -61,7 +64,12 @@
                     <tr>
                         <th>S.N</th>
                         <th> Name</th>
+                        @can('visa_type.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('visa_type.delete')
+                        <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -69,8 +77,12 @@
                     <tr>
                         <td>{{ $loop->index + (($visa_type->currentPage() - 1) * $visa_type->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
+                        @can('visa_type.update')
                         <td><a  href="{{route('edit-visa-type',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        {{-- <td><a href="{{route('delete-province',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        @endcan
+                        @can('visa_type.delete')
+                        <td><a href="{{route('delete-visa-type',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\MasterService;
 use App\Models\Testimonials;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -151,4 +152,62 @@ class CmsController extends Controller
         $testimonial->delete();
         return redirect()->route('testimonial')->with('success','Data Deleted Successfully');
     }
+
+
+    public function master_service(Request $request)
+    {
+        $master_service = MasterService::paginate(12);
+        if ($request->name) {
+            $master_service = MasterService::where('name', 'LIKE', "%{$request->name}%")->paginate(12);
+        }
+        return view('admin.othermaster.master-service.index', compact('master_service'));
+    }
+    public function master_service_create()
+    {
+        return view('admin.othermaster.master-service.create');
+    }
+    public function master_service_store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+
+        $master_service = new MasterService;
+        $master_service->name = $request->name;
+        $master_service->status = $request->status;
+        $master_service->save();
+        return redirect()->route('master_service')->with('success','Data Created Successfully');
+    }
+    public function master_service_edit($id)
+    {
+        $master_service = MasterService::find($id);
+        if (!$master_service) {
+            return redirect()->route('master_service')->with('error','Data Not Found');
+        }
+        return view('admin.othermaster.master-service.edit', compact('master_service'));
+    }
+    public function master_service_update(Request $request,$id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+
+        $master_service = MasterService::find($id);
+        $master_service->name = $request->name;
+        $master_service->status = $request->status;
+        $master_service->save();
+        return redirect()->route('master_service')->with('success','Data Updated Successfully');
+    }
+    public function master_service_delete($id)
+    {
+        $master_service = MasterService::find($id);
+        if (!$master_service) {
+            return redirect()->route('master_service')->with('error','Data Not Found');
+        }
+        $master_service->delete();
+        return redirect()->route('master_service')->with('success','Data Deleted Successfully');
+    }
+
 }

@@ -13,4 +13,9 @@ class PaymentsLink extends Model
     protected $table ='payments_link';
 
     protected $guarded =[];
+
+    public function master_service()
+    {
+        return $this->belongsTo(MasterService::class,'master_service','id');
+    }
 }

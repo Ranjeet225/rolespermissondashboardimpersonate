@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('scholorship.create')
                 <div class="col-md-4 ">
                     <a href="{{ route('create-scholarship') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Scholarship</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -61,8 +63,8 @@
                     <tr>
                         <th>S.N</th>
                         <th>Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+
+
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -70,8 +72,12 @@
                     <tr>
                         <td>{{ $loop->index + (($scholarship->currentPage() - 1) * $scholarship->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->heading }}</td>
+                        @can('scholorship.update')
                         <td><a  href="{{route('edit-scholarship',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('scholorship.delete')
                         <td><a href="{{route('delete-scholarship',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('province.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-province') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create New Provience</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -71,7 +73,12 @@
                         <th>S.N</th>
                         <th>Province Name</th>
                         <th>Country Name</th>
-                        <th>Edit</th>
+                        @can('province.update')
+                          <th>Edit</th>
+                        @endcan
+                        @can('province.delete')
+                          <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -80,8 +87,12 @@
                         <td>{{ $loop->index + (($province->currentPage() - 1) * $province->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->country->name }}</td>
+                        @can('province.update')
                         <td><a  href="{{route('edit-province',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
-                        {{-- <td><a href="{{route('delete-province',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td> --}}
+                        @endcan
+                        @can('province.delete')
+                        <td><a href="{{route('delete-province',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

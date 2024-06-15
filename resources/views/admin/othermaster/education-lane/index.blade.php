@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('education_lane.create')
                 <div class="col-md-4">
                     <a href="{{ route('create-education-lane') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create Education Lane</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -72,8 +74,12 @@
                         <td>{{ $loop->index + (($education_lane->currentPage() - 1) * $education_lane->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{!! $item->details !!}</td>
+                        @can('education_lane.update')
                         <td><a  href="{{route('edit-education-lane',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('education_lane.delete')
                         <td><a href="{{route('delete-education-lane',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

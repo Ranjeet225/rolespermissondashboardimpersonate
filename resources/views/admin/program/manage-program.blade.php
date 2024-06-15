@@ -205,10 +205,9 @@
                                <div class="form-floating">
                                   <select class="form-control " name="type" id="usr-fees_type" placeholder="Type" required>
                                      <option value="">--- Select Type ---</option>
-                                     <option value="TOEFL">TOEFL</option>
-                                     <option value="IELTS">IELTS</option>
-                                     <option value="SAT">SAT</option>
-                                     <option value="PTE">PTE</option>
+                                     @foreach ($eng_proficiency_level as $item)
+                                      <option value="{{$item->id}}">{{$item->name}}</option>
+                                     @endforeach
                                   </select>
                                   <label for="usr-fees_type" class="form-label">Type</label>
                                   <span class="text-danger error-type"></span>

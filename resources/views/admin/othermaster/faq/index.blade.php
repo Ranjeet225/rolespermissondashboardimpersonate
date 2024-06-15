@@ -14,10 +14,12 @@
                         </li>
                     </ol>
                 </div>
+                @can('faq.create')
                 <div class="col-md-2">
                     <a href="{{ route('create-faq') }}" class="btn add-btn float-end">
                         <i class="las la-plus"></i>Create FAQ's</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -63,8 +65,12 @@
                         <th>Faq's Question</th>
                         <th>Faq's Answer</th>
                         <th>Status</th>
+                        @can('faq.update')
                         <th>Edit</th>
+                        @endcan
+                        @can('faq.delete')
                         <th>Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -74,8 +80,12 @@
                         <td class="text-wrap">{{ $item->faq_question }}</td>
                         <td class="text-wrap">{!! $item->faq_answer !!}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
+                        @can('faq.update')
                         <td><a  href="{{route('edit-faq',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        @endcan
+                        @can('faq.delete')
                         <td><a href="{{route('delete-faq',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

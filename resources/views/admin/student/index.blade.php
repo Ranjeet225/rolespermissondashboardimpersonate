@@ -97,6 +97,7 @@
                             <th>State</th>
                             <th>Login</th>
                             <th>Apply Oel 360</th>
+                            <th>Payment Link</th>
                         </tr>
                     </thead>
                     <tbody id="lead-list">
@@ -130,6 +131,14 @@
                             </td>
                             @else
                             <td>-</td>
+
+                            @endif
+                            @if(!empty($item->email))
+                            <td scope="col">
+                                <a href="" class="btn btn-primary btn-sm mx-1" id="score"  student-id="{{$item->id}}" data-tour="search"
+                                data-bs-toggle="offcanvas" data-bs-target="#gmat"
+                                aria-controls="gmat"><i class="la la-plus"></i>payment</a>
+                            </td>
                             @endif
                         </tr>
                         @endforeach
@@ -146,4 +155,180 @@
             </div>
         </div>
     </div>
+         {{-- gmat score  --}}
+         <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="gmat">
+            <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">
+                <div class="sidebar-headersets">
+                    <h5>Payments</h5>
+                </div>
+                <div class="sidebar-headerclose">
+                    <a data-bs-dismiss="offcanvas" aria-label="Close">
+                        <img src="{{ url('assets/img/close.png') }}" alt="Close Icon">
+                    </a>
+                </div>
+            </div>
+            <div class="offcanvas-body">
+                <div class="responseMessage"></div>
+                <div class="row">
+                    <div class="card-stretch-full">
+                        <div class="row g-4">
+                            <form class="row g-4" id="score-data">
+                                <div class="col-12">
+                                   <div class="form-floating">
+                                      <select class="form-control " name="master_service" id="usr-fees_type" placeholder="Type" required>
+                                        @foreach ($master_service as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                      </select>
+                                      <label for="usr-fees_type" class="form-label">Master Service</label>
+                                      <span class="text-danger error-master-service"></span>
+                                   </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                     <input id="usr-amount" name="amount" type="number"   class="form-control" placeholder="Number" autocomplete="amount" required>
+                                     <label for="usr-amount" class="form-label">Amount</label>
+                                     <span class="text-danger error-amount"></span>
+                                    </div>
+                                 </div>
+                                <div class="col-12">
+                                   <div class="form-floating">
+                                    <input id="usr-listening_score" name="remarks"  type="text" class="form-control" placeholder="Remarks"  required>
+                                    <label for="usr-listening_score" class="form-label">Remark</label>
+                                    <span class="text-danger error-remark"></span>
+                                   </div>
+                                </div>
+
+                             </form>
+                            <div class="col-md-12"><button type="button"
+                                class="btn btn-info  py-6 score">Payment</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S.N</th>
+                                <th>Master Service</th>
+                                <th>Amount</th>
+                                <th>Remarks</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="score-table">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+         {{-- test Score --}}
+@endsection
+@section('scripts')
+    <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            function setupCSRF() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            }
+            $('.score').on('click', function(event) {
+                $('.score').addClass('disabled');
+                var student_id = $('#score').attr('student-id');
+                var formData = $('#score-data').serialize();
+                formData += '&student_id=' + student_id;
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('send-payment-link') }}',
+                    type: 'post',
+                    data: formData,
+                    success: function(response) {
+                        if (response.status) {
+                            fetchscore();
+                            $('.responseMessage').html('<span class="alert alert-success">' +
+                                response.success + '</span>');
+                            setTimeout(() => {
+                                // location.reload();
+                            }, 1000);
+                        }
+                        $('.score').removeClass('disabled');
+                        $('#score-data')[0].reset();
+                    },
+                    error: function(xhr) {
+                        $('.score').removeClass('disabled');
+                        var response = JSON.parse(xhr.responseText);
+                        if(response.errors && response.errors.master_service){
+                            $('.error-master-service').html(response.errors.master_service);
+                        }else{
+                            $('.error-master-service').html('');
+                        }
+                        if(response.errors && response.errors.amount){
+                            $('.error-amount').html(response.errors.amount);
+                        }else{
+                            $('.error-amount').html('');
+                        }
+                        if(response.errors && response.errors.remarks){
+                            $('.error-remark').html(response.errors.remarks);
+                        }else{
+                            $('.error-remark').html('');
+                        }
+                    }
+                });
+            });
+
+            function fetchscore() {
+                $('.score-table').empty();
+                var student_id = $('#score').attr('student-id');
+                setupCSRF();
+                $.ajax({
+                    url: "{{ route('fetch-student-payment') }}",
+                    method: 'get',
+                    data: {
+                        student_id: student_id
+                    },
+                    success: function(response) {
+                        var score =response.payment_data;
+                        console.log(score);
+                        if ($.isEmptyObject(response)) {
+                            $('.score-table').append('<option value="">No records found</option>');
+                        } else {
+                            $.each(score, function(key, value) {
+                                key++;
+                                $('.score-table').append('<tr><td>' +
+                                    key + '</td><td>' +
+                                    (value.master_service ? value.master_service.name : '') + '</td><td>' +
+                                    value.amount + '</td><td>' +
+                                    value.remarks + '</td><td><a href="#" class="btn btn-sm btn-danger delete-score" data-id="'+value.id+'">Delete</a></td></tr>');
+                            });
+                        }
+                    }
+                }).then(function(){
+                    $('.delete-score').on('click', function(e){
+                        e.preventDefault();
+                        var score_id = $(this).data('id');
+                        setupCSRF();
+                        $.ajax({
+                            url: "{{ route('delete-payment-link') }}",
+                            method: 'get',
+                            data: {
+                                score_id: score_id
+                            },
+                            success: function(response){
+                                alert('Payment Deleted Successfully');
+                                fetchscore();
+                            }
+                        });
+                    });
+                });
+            }
+            $('#score').on('click', function(event) {
+                fetchscore();
+            });
+
+        });
+    </script>
 @endsection

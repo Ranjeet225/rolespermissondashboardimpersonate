@@ -10,14 +10,14 @@
                             <a href="index.php"> Home</a>
                         </li>
                         <li class="breadcrumb-item text-muted">
-                            Manage Country
+                            Manage Master Service
                         </li>
                     </ol>
                 </div>
-                @can('country.create')
+                @can('master_service.create')
                     <div class="col-md-4">
-                        <a href="{{ route('create-country') }}" class="btn add-btn float-end">
-                            <i class="las la-plus"></i>Create New country</a>
+                        <a href="{{ route('create-master-service') }}" class="btn add-btn float-end">
+                            <i class="las la-plus"></i>Create New Master Service</a>
                     </div>
                 @endcan
             </div>
@@ -29,7 +29,7 @@
     <div class="card-group">
       <div class="card">
         <div class="card-body myform">
-          <form id="eudcation" action="{{route('country')}}" method="get" class="d-flex justify-content-between">
+          <form id="eudcation" action="{{route('master_service')}}" method="get" class="d-flex justify-content-between">
             <div class="col-md-8">
                 <div class="form-floating ">
                     <input id="lead-total_credits" name="name" type="text" class="form-control " placeholder="NAME" >
@@ -40,7 +40,7 @@
               <button type="submit" class="btn btn-info px-5 mx-2 float-end" id="submit" value="1">Search</button>
             </div>
             <div class="col-md-2 float-start">
-                <a href="{{route('country')}}" class="btn btn-info px-5 mx-2">
+                <a href="{{route('master_service')}}" class="btn btn-info px-5 mx-2">
                     Reset
                 </a>
             </div>
@@ -62,22 +62,22 @@
                     <tr>
                         <th>S.N</th>
                         <th>Name</th>
-                        <th>Country Code</th>
+                        <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    @foreach ($country as $item)
+                    @foreach ($master_service as $item)
                     <tr>
-                        <td>{{ $loop->index + (($country->currentPage() - 1) * $country->perPage()) + 1 }}</td>
+                        <td>{{ $loop->index + (($master_service->currentPage() - 1) * $master_service->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
-                        <td class="text-wrap">{{ $item->country_code }}</td>
-                        @can('country.update')
-                        <td><a  href="{{route('edit-country',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
+                        @can('master_service.update')
+                        <td><a  href="{{route('edit-master-service',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
-                        @can('country.delete')
-                        <td><a href="{{route('delete-country',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        @can('master_service.delete')
+                        <td><a href="{{route('delete-master-service',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach
@@ -86,7 +86,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                        {{$country->links()}}
+                        {{$master_service->links()}}
                     </div>
                 </div>
             </div>

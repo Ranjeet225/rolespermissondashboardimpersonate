@@ -44,7 +44,8 @@ class ProgramController extends Controller
             $program->where('is_approved',0);
         }
         $program= $program->paginate(12);
-        return view('admin.program.manage-program',compact('program'));
+        $eng_proficiency_level =EngProficiencyLevel::get();
+        return view('admin.program.manage-program',compact('program','eng_proficiency_level'));
     }
 
     public function approve_program(Request $request)
@@ -552,6 +553,12 @@ class ProgramController extends Controller
         $country=Country::get();
         $education_level =EducationLevel::get();
         return view('admin.program.gradingscheme.edit',compact('gradingScheme','country','education_level'));
+    }
+
+
+    public function grading_scheme_delete($id){
+        GradingScheme::find($id)->delete();
+        return redirect()->route('grading-scheme')->with('success','Data Deleted Successfully');
     }
 
     public function grading_scheme_update(Request $request,$id){

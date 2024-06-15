@@ -34,7 +34,7 @@ class University extends Model
     }
     public function university_type()
     {
-        return $this->belongsTo(SchoolType::class,'id','type_of_university');
+        return $this->belongsTo(SchoolType::class,'type_of_university','id');
     }
     public function university_type_name()
     {

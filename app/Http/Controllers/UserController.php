@@ -22,11 +22,11 @@ class UserController extends Controller
     {
         view()->share('page_title', 'Admin User List');
         $this->middleware('auth');
-       $this->middleware('role_or_permission:admin_user.create', ['only' => ['create', 'store']]);
-       $this->middleware('role_or_permission:admin_user.update', ['only' => ['edit', 'update']]);
-       $this->middleware('role_or_permission:admin_user.view', ['only' => ['index', 'show']]);
-       $this->middleware('role_or_permission:admin_user.delete', ['only' => ['destroy']]);
-       $roles = Role::pluck('name','id')->toArray();
+        $this->middleware('role_or_permission:admin_user.create', ['only' => ['create', 'store']]);
+        $this->middleware('role_or_permission:admin_user.update', ['only' => ['edit', 'update']]);
+        $this->middleware('role_or_permission:admin_user.view', ['only' => ['index', 'show']]);
+        $this->middleware('role_or_permission:admin_user.delete', ['only' => ['destroy']]);
+        $roles = Role::pluck('name','id')->toArray();
         view()->share('roles', $roles);
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
         $user = User::query();
         if($request->status == 'Active'){
             $active_Status = 1;
-        }else{  
+        }else{
             $active_Status = 0;
         }
         if($request->approvestatus == 'Approve'){

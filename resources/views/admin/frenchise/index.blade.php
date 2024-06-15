@@ -265,7 +265,7 @@
                 }
             });
             $.ajax({
-                url: "{{ route('statusUpdate') }}",
+                url: "{{ route('statusUpdateUser') }}",
                 type: 'POST',
                 data: { status: status,id:id },
                 success: function(response) {
