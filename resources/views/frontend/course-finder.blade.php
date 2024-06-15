@@ -592,7 +592,8 @@
                                                         <h5 class="mb-1">
                                                             <a href="course_details/${item.id}">${item.name ?? ''}</a>
                                                         </h5>
-                                                        <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">${item?.university_name ?? ""}</a>
+                                                        <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">
+                                                            ${item.university_name?.university_name ?? ''}</a>
                                                     </div>
                                                 </div>
                                                 <div class="content-part">
@@ -716,9 +717,9 @@
                                                 </div>
                                                 <div style="flex: 1 1 0%;">
                                                     <h5 class="mb-1">
-                                                        <a href="course_details/${item.id}">${item.name ?? ''}</a>
+                                                        <a href="course_details/${item.id}">${item?.name ?? ''}</a>
                                                     </h5>
-                                                    <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">${item?.university_name ?? ""}</a>
+                                                    <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">${item.university_name?.university_name ?? ''}</a>
                                                 </div>
                                             </div>
                                             <div class="content-part">

@@ -168,28 +168,30 @@ class FrontendController extends Controller
                 return response()->json(['data' => $universities,'course_data'=>$course]);
             }else{
                 $user = Auth::user();
-                if ($user->hasRole('student')) {
-                    $student_data = DB::table('student')->select('country_id', 'id')->where('user_id', $user->id)->first();
-                    $program_id = DB::table('student_by_agent')->select('program_label')->where('student_user_id', $student_data->id ?? null)->first();
-                    $education_id = DB::table('education_history')->select('education_level_id')->where('student_id', $student_data->id  ?? null)->first();
-                    if ($program_id && $education_id && $student_data) {
-                        $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')
-                            ->when(!empty($program_id->program_label), function ($query) use ($program_id) {
-                                $query->whereIn('program_level_id', explode(',', $program_id->program_label));
-                            })
-                            ->when(!empty($education_id->education_level_id), function ($query) use ($education_id) {
-                                $query->whereIn('education_level_id', explode(',', $education_id->education_level_id));
-                            })
-                            ->whereHas('university_name', function ($query) use ($student_data) {
-                                $query->where('country_id', $student_data->country_id);
-                            })
+                if ($user) {
+                    if($user->hasRole('student')){
+                        $student_data = DB::table('student')->select('country_id', 'id')->where('user_id', $user->id)->first();
+                        $program_id = DB::table('student_by_agent')->select('program_label')->where('student_user_id', $student_data->id ?? null)->first();
+                        $education_id = DB::table('education_history')->select('education_level_id')->where('student_id', $student_data->id  ?? null)->first();
+                        if ($program_id && $education_id && $student_data) {
+                            $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')
+                                ->when(!empty($program_id->program_label), function ($query) use ($program_id) {
+                                    $query->whereIn('program_level_id', explode(',', $program_id->program_label));
+                                })
+                                ->when(!empty($education_id->education_level_id), function ($query) use ($education_id) {
+                                    $query->whereIn('education_level_id', explode(',', $education_id->education_level_id));
+                                })
+                                ->whereHas('university_name', function ($query) use ($student_data) {
+                                    $query->where('country_id', $student_data->country_id);
+                                })
+                                ->paginate(12);
+                        } else {
+                            $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->paginate(12);
+                        }
+                        $universities = University::with('country', 'university_type', 'program', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
+                            ->where('country_id', $student_data->country_id ?? null)
                             ->paginate(12);
-                    } else {
-                        $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->paginate(12);
                     }
-                    $universities = University::with('country', 'university_type', 'program', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
-                        ->where('country_id', $student_data->country_id ?? null)
-                        ->paginate(12);
                 } else {
                     $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->paginate(12);
                     $universities = University::with('country', 'university_type', 'program', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')->paginate(12);
