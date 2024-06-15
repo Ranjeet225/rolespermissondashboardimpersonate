@@ -122,31 +122,30 @@ class FrontendController extends Controller
         $eng_proficiency_level=EngProficiencyLevel::select('name','id')->get();
         if($request->ajax()){
             if($request->has('country') ||  $request->has('program_level') ||  $request->has('program_sub_level') ||  $request->has('education_level') ||  $request->has('program_displine') ||  $request->has('program_subdispline') ||  $request->has('eng_proficiency_level') ||  $request->has('eng_pro_input') ||  $request->has('other_exam')){
-                if ($request->has('program_level') || $request->has('program_sub_level') || $request->has('education_level') || $request->has('program_displine') || $request->has('program_subdispline') || $request->has('other_exam')) {
                     $course = Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')
-                        ->when($request->has('program_level'), function ($query) use ($request) {
-                            return $query->whereIn('program_level_id', explode(',', $request->program_level));
-                        })
-                        ->when($request->has('program_sub_level'), function ($query) use ($request) {
-                            return $query->whereIn('program_sub_level', explode(',', $request->program_sub_level));
-                        })
-                        ->when($request->has('education_level'), function ($query) use ($request) {
-                            return $query->whereIn('education_level_id', explode(',', $request->education_level));
-                        })
-                        ->when($request->has('program_displine'), function ($query) use ($request) {
-                            return $query->whereIn('program_discipline', explode(',', $request->program_displine));
-                        })
-                        ->when($request->has('program_subdispline'), function ($query) use ($request) {
-                            return $query->whereIn('program_subdiscipline', explode(',', $request->program_subdispline));
-                        })
-                        ->when($request->has('other_exam'), function ($query) use ($request) {
-                            return $query->whereIn('other_exam', explode(',', $request->other_exam));
-                        })
-                        ->paginate(12);
-                }
-                if ($request->program_level || $request->program_sub_level || $request->education_level || $request->program_displine || $request->program_subdispline) {
-                    $universities = University::with('country','program','university_type','program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
-                    ->whereIn('country_id', explode(',', $request->country ?? ''))
+                            ->when($request->has('program_level'), function ($query) use ($request) {
+                                return $query->whereIn('program_level_id', explode(',', $request->program_level));
+                            })
+                            ->when($request->has('program_sub_level'), function ($query) use ($request) {
+                                return $query->whereIn('program_sub_level', explode(',', $request->program_sub_level));
+                            })
+                            ->when($request->has('education_level'), function ($query) use ($request) {
+                                return $query->whereIn('education_level_id', explode(',', $request->education_level));
+                            })
+                            ->when($request->has('program_displine'), function ($query) use ($request) {
+                                return $query->whereIn('program_discipline', explode(',', $request->program_displine));
+                            })
+                            ->when($request->has('program_subdispline'), function ($query) use ($request) {
+                                return $query->whereIn('program_subdiscipline', explode(',', $request->program_subdispline));
+                            })
+                            ->when($request->has('other_exam'), function ($query) use ($request) {
+                                return $query->whereIn('other_exam', explode(',', $request->other_exam));
+                            })
+                    ->paginate(12);
+                    $universities = University::with('country','program','university_type','program.programLevel', 'program.programSubLevel', 'program.educationLevel')
+                    ->when($request->has('country'), function ($query) use ($request) {
+                        return $query->whereIn('country_id', explode(',', $request->country));
+                    })
                     ->whereHas('program', function ($query) use ($request) {
                         $query->when($request->program_level, function ($query) use ($request) {
                             $query->whereIn('program_level_id', explode(',', $request->program_level));
@@ -157,20 +156,15 @@ class FrontendController extends Controller
                         ->when($request->education_level, function ($query) use ($request) {
                             $query->whereIn('education_level_id', explode(',', $request->education_level));
                         })
-                        ->when($request->program_displine, function ($query) use ($request) {
-                            $query->whereIn('program_discipline', explode(',', $request->program_displine));
+                        ->when($request->program_discipline, function ($query) use ($request) {
+                            $query->whereIn('program_discipline', explode(',', $request->program_discipline));
                         })
-                        ->when($request->program_subdispline, function ($query) use ($request) {
-                            $query->whereIn('program_subdiscipline', explode(',', $request->program_subdispline));
+                        ->when($request->program_subdiscipline, function ($query) use ($request) {
+                            $query->whereIn('program_subdiscipline', explode(',', $request->program_subdiscipline));
                         });
                     })
                     ->paginate(12);
-                }
-                // else {
-                //     $universities = University::with('country','program','university_type','program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
-                //     ->whereIn('country_id', explode(',', $request->country ?? ''))
-                //     ->paginate(12);
-                // }
+
                 return response()->json(['data' => $universities,'course_data'=>$course]);
             }else{
                 $user = Auth::user();
