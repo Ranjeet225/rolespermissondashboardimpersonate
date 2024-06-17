@@ -748,13 +748,13 @@ class LeadsManageCotroller extends Controller
             Session::put('error', 'User ID Not Found');
             return redirect()->back();
         }
-        $student=StudentByAgent::where('id',$paymentLink->user_id)->select('name','email')->first();
+        $student =Student::where('id',$paymentLink->user_id)->select('first_name','email')->first();
         $data=[
             'fallowp_unique_id'=>$paymentLink->fallowp_unique_id,
             'user_id'=>$paymentLink->user_id,
             'email'=>$paymentLink->email,
             'amount'=>$paymentLink->amount,
-            'name'=>$student->name
+            'name'=>$student->first_name
         ];
         return view('admin.leads.payment-view',compact('data'));
     }
@@ -791,7 +791,7 @@ class LeadsManageCotroller extends Controller
                     'payment_id' => $paymentResponse['razorpay_payment_id'] ?? null,
                     'payment_method' => $response->method,
                     'currency' => $response->currency,
-                              'fallowp_unique_id' =>$request->response['fallowp_unique_id'],
+                    'fallowp_unique_id' =>$request->response['fallowp_unique_id'],
                     'customer_name'=>$request->response['name'],
                     'user_id'=>$request->response['user_id'],
                     'customer_email' => $response->email,
@@ -902,7 +902,6 @@ class LeadsManageCotroller extends Controller
             $course_in_three_sixtee = DB::table('subjects')->wherein('id', $course_id)->get();
             $table_three_sixtee_image = DB::table('tbl_three_sixtee_image')->where('image_type', 'offer')->where('sba_id', $id)->get();
         } else {
-
             $agent = DB::table('agents')->get();
             $university_id = null;
             $course_id = null;

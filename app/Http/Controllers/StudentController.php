@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
+use App\Models\EngProficiencyLevel;
 use App\Models\PaymentsLink;
 use PDO;
 use Razorpay\Api\PaymentLink;
@@ -105,8 +106,9 @@ class StudentController extends Controller
         $test_score = DB::table('test_scores')->where('student_id', $about_student->id)->get();
         $all_subject = Subject::where('status', '1')->get();
         $student_document = DB::table('student_documents')->where('student_id', $auth_user)->get();
+        $eng_prof_level=EngProficiencyLevel::where('status',1)->get();
         $education_history = DB::table('education_history')->where('student_id', $auth_user)->first();
-        return view('admin.student.edit_student',compact('education_history','about_student','student_document','all_subject','gmat','test_score','countries','progLabel','student_attendence','additional_qualification'));
+        return view('admin.student.edit_student',compact('education_history','eng_prof_level','about_student','student_document','all_subject','gmat','test_score','countries','progLabel','student_attendence','additional_qualification'));
     }
 
     public function store_student(Request $request)

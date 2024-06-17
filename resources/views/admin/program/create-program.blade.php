@@ -246,7 +246,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-4">
+                    {{-- <div class="col-4">
                         <div class="form-floating ">
                             <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{old('total_credits')}}">
                             <label for="lead-total_credits" class="form-label">Total Credits <span class="text-danger">*</span></label>
@@ -254,7 +254,7 @@
                         @error('total_credits')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-4">
                         <div class="form-floating">
                            <select class="form-control other-exam" name="other_exam" id="other_exam" placeholder="" >
@@ -564,7 +564,11 @@
             success: function(data) {
                 if (data.length > 0) {
                     $('#grading_scheme_id').empty();
+                    $('#grading_scheme_id').append(`
+                        <option value="">--Select Grading Scheme--</option>
+                    `);
                     $.each(data, function(index, education_level) {
+
                         $('#grading_scheme_id').append(`
                             <option value="${education_level.id}">${education_level.name.toUpperCase()}</option>
                         `);

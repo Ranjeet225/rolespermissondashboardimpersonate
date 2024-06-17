@@ -948,10 +948,9 @@
                                     <div class="form-floating">
                                         <select class="form-control " name="type" id="lead-type" placeholder="Exam Type">
                                             <option value="">--Select--</option>
-                                            <option value="TOEFL">TOEFL</option>
-                                            <option value="IELTS">IELTS</option>
-                                            <option value="SAT">SAT</option>
-                                            <option value="PTE">PTE</option>
+                                            @foreach ($eng_prof_level as $item)
+                                              <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
                                         </select>
                                         <label for="lead-name" class="form-label">Exam Type</label>
                                     </div>

@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label>Number<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control " name="number" value="{{ $exam->number }}">
+                                        <input type="text" class="form-control " name="number" value="{{ $exam->number }}">
                                         @error('number')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

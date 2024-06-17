@@ -898,7 +898,7 @@
             var program_subdispline=$('.data-sub-discipline-id.active').attr('data-sub-discipline-id');
             var eng_proficiency_level =$('.eng_proficiency_level.active').attr('data-eng');
             var other_exam =$('.other-exam-data.active').attr('data-other-exam-id');
-            var redirect_url = '{{ route('course-finder') }}?country='+country+'&program_level='+program_level+'&program_sub_level='+program_sub_level+'&education_level='+education_level+'&program_displine='+program_displine+'&program_subdispline='+program_subdispline+'&eng_proficiency_level='+eng_proficiency_level+'&eng_pro_input='+eng_pro_input+'&other_exam='+other_exam;
+            var redirect_url = '{{ route('apply-program') }}?country='+country+'&program_level='+program_level+'&program_sub_level='+program_sub_level+'&education_level='+education_level+'&program_displine='+program_displine+'&program_subdispline='+program_subdispline+'&eng_proficiency_level='+eng_proficiency_level+'&eng_pro_input='+eng_pro_input+'&other_exam='+other_exam;
             window.location.href=redirect_url;
         });
     </script>
