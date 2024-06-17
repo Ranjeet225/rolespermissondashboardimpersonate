@@ -238,14 +238,17 @@
                     </div>
                     <div class="col-4" id="grading-number-div" style="display: none;">
                         <div class="form-floating">
-                            <input id="lead-grading_number" name="grading_number" type="number" class="form-control " placeholder="Grading Number" autocomplete="grading_number"
-                             value="{{old('grading_number')}}" max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')">
+                            <input type="hidden" name="max_grading_number" id="max_grading_number">
+                            <input id="lead-grading_number" name="grading_number" type="number" class="form-control" placeholder="Grading Number" autocomplete="grading_number"
+                             value="{{old('grading_number')}}" >
                             <label for="lead-grading_number" class="form-label">Grading Number <span class="text-danger">*</span></label>
+                            <div id="grading_input_error" class="text-danger"  style="display: none;">Invalid grade. Please enter a value within the selected grading scheme.</div>
                         </div>
                         @error('grading_number')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
                     {{-- <div class="col-4">
                         <div class="form-floating ">
                             <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{old('total_credits')}}">
@@ -266,6 +269,17 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                      </div>
+                     <div class="col-4" id="other-exam-input" style="display: none;">
+                        <div class="form-floating">
+                            <input id="lead-other-exam-number" name="other_exam_number" type="number" class="form-control" placeholder="Other Exam Number" autocomplete="other-exam-number"
+                             value="{{old('other-exam-number')}}" >
+                            <label for="lead-other-exam-number" class="form-label">Other Exam Number <span class="text-danger">*</span></label>
+                            <div id="other_exam_input_error" class="text-danger"  style="display: none;">Invalid input. Please enter a value within the selected other exam.</div>
+                        </div>
+                        @error('other-exam-number')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-application_fee" name="application_fee" type="number" class="form-control " placeholder="Application Fees in INR" autocomplete="application_fee" value="{{old('application_fee')}}">
@@ -417,7 +431,6 @@
 @endsection
 @section('scripts')
 <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
-
  {{-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> --}}
  {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> --}}
  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -484,6 +497,76 @@
     //     });
     // }
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+        const gradingSchemeSelect = document.getElementById('grading_scheme_id');
+        const gradingInput = document.getElementById('lead-grading_number');
+
+        gradingSchemeSelect.addEventListener('change', function () {
+            validateInput();
+        });
+        gradingInput.addEventListener('input', function () {
+            validateInput();
+        });
+        function extractMaxGrade(value) {
+            const match = value.match(/(\d+)$/);
+            return match ? parseInt(match[0], 10) : null;
+        }
+        function validateInput() {
+            const selectedOption = gradingSchemeSelect.options[gradingSchemeSelect.selectedIndex];
+            const selectedScheme = selectedOption.getAttribute('grading-data');
+            const inputValue = gradingInput.value;
+            if (selectedScheme && inputValue !== '') {
+                const maxGrade = extractMaxGrade(selectedScheme);
+                if (maxGrade && inputValue > maxGrade) {
+                    gradingInput.classList.add('is-invalid');
+                    $('#grading_input_error').show();
+                } else {
+                    gradingInput.classList.remove('is-invalid');
+                    $('#grading_input_error').hide();
+                }
+            } else {
+                gradingInput.classList.remove('is-invalid');
+                $('#grading_input_error').hide();
+            }
+        }
+  });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+          const otherExam = document.getElementById('other_exam');
+          const otherExamInput = document.getElementById('lead-other-exam-number');
+          otherExam.addEventListener('change', function () {
+              validateInput();
+          });
+          otherExamInput.addEventListener('input', function () {
+              validateInput();
+          });
+          function extractMaxGrade(value) {
+              const match = value.match(/(\d+)$/);
+              return match ? parseInt(match[0], 10) : null;
+          }
+          function validateInput() {
+              const selectedOption = otherExam.options[otherExam.selectedIndex];
+              const selectedScheme = selectedOption.getAttribute('other-exam-number');
+              const inputValue = otherExamInput.value;
+              if (selectedScheme && inputValue !== '') {
+                  const maxGrade = extractMaxGrade(selectedScheme);
+                  console.log(maxGrade,inputValue);
+                  if (inputValue > maxGrade) {
+                      otherExamInput.classList.add('is-invalid');
+                      $('#other_exam_input_error').show().html(`Invalid input. Please enter a value within ${maxGrade}`);
+                  } else {
+                      otherExamInput.classList.remove('is-invalid');
+                      $('#other_exam_input_error').hide();
+                  }
+              } else {
+                  otherExamInput.classList.remove('is-invalid');
+                  $('#other_exam_input_error').hide();
+              }
+          }
+    });
+  </script>
 <script>
     function csrf(){
         $.ajaxSetup({
@@ -568,9 +651,8 @@
                         <option value="">--Select Grading Scheme--</option>
                     `);
                     $.each(data, function(index, education_level) {
-
                         $('#grading_scheme_id').append(`
-                            <option value="${education_level.id}">${education_level.name.toUpperCase()}</option>
+                            <option value="${education_level.id}" grading-data ="${education_level.name}">${education_level.name.toUpperCase()}</option>
                         `);
                     });
                 } else {
@@ -595,9 +677,12 @@
             success: function(data) {
                 if (data.length > 0) {
                     $('#other_exam').empty();
+                    $('#other_exam').append(`
+                        <option value="">--Select Other Exam--</option>
+                    `);
                     $.each(data, function(index, other_exam) {
                         $('#other_exam').append(`
-                            <option value="${other_exam.id}">${other_exam.name.toUpperCase()}</option>
+                            <option value="${other_exam.id}" other-exam-number="${other_exam.number}">${other_exam.name.toUpperCase()}</option>
                         `);
                     });
                 } else {
@@ -612,6 +697,14 @@
             $('#grading-number-div').show();
         }else{
             $('#grading-number-div').hide();
+        }
+    })
+    $(document).on('change','.other-exam',function(){
+        var grading_scheme_id = $(this).val();
+        if(grading_scheme_id != ''){
+            $('#other-exam-input').show();
+        }else{
+            $('#other-exam-input').hide();
         }
     })
 </script>
