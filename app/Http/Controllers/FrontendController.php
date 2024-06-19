@@ -148,23 +148,22 @@ class FrontendController extends Controller
                         })
                         ->whereHas('program', function ($query) use ($request) {
                             $query->when($request->program_level, function ($query) use ($request) {
-                                $query->whereIn('program_level_id', explode(',', $request->program_level));
+                                $query->orwhereIn('program_level_id', explode(',', $request->program_level));
                             })
                             ->when($request->program_sub_level, function ($query) use ($request) {
-                                $query->whereIn('program_sub_level', explode(',', $request->program_sub_level));
+                                $query->orwhereIn('program_sub_level', explode(',', $request->program_sub_level));
                             })
                             ->when($request->education_level, function ($query) use ($request) {
-                                $query->whereIn('education_level_id', explode(',', $request->education_level));
+                                $query->orwhereIn('education_level_id', explode(',', $request->education_level));
                             })
                             ->when($request->program_discipline, function ($query) use ($request) {
-                                $query->whereIn('program_discipline', explode(',', $request->program_discipline));
+                                $query->orwhereIn('program_discipline', explode(',', $request->program_discipline));
                             })
                             ->when($request->program_subdiscipline, function ($query) use ($request) {
-                                $query->whereIn('program_subdiscipline', explode(',', $request->program_subdiscipline));
+                                $query->orwhereIn('program_subdiscipline', explode(',', $request->program_subdiscipline));
                             });
                         })
                         ->paginate(12);
-
                 return response()->json(['data' => $universities,'course_data'=>$course]);
             }else{
                 $user = Auth::user();
@@ -181,7 +180,7 @@ class FrontendController extends Controller
                                 ->when(!empty($education_id->education_level_id), function ($query) use ($education_id) {
                                     $query->whereIn('education_level_id', explode(',', $education_id->education_level_id));
                                 })
-                                ->whereHas('university_name', function ($query) use ($student_data) {
+                                ->orwhereHas('university_name', function ($query) use ($student_data) {
                                     $query->where('country_id', $student_data->country_id);
                                 })
                                 ->paginate(12);
