@@ -37,7 +37,7 @@
             text-align: center
         }
         .bg-primary2{
-            background-color:blue;
+            background-color:rgb(62, 62, 145);
         }
 
         .bs4-order-tracking li:first-child:before {
@@ -59,7 +59,7 @@
             line-height: 29px;
             display: block;
             font-size: 12px;
-            background: #878788;
+            background: rgb(62, 62, 145);
             border-radius: 50%;
             margin: auto
         }
@@ -116,51 +116,85 @@
                 </div>
                 @php
                     $user = Auth::user();
+                    $progress=DB::table('tbl_three_sixtee')->where('user_id',$user->id)->first();
                 @endphp
                     @if ($user->hasRole('student'))
                     <div class=" card-timeline px-2 border-none " style="margin-top:100px">
                         <ul class="bs4-order-tracking">
-                            <li class="step active">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step ">
+                                <div class="@if(!empty($progress->college)) bg-success @endif"><i class="fas fa-check"></i></div>
                                 Universities
                             </li>
-                            <li class="step active">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="@if(!empty($progress->courses)) bg-success @endif"><i class="fas fa-check"></i></div>
                                 Courses
                             </li>
-                            <li class="step active  ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="
+                                    @if(!empty($progress->application) && $progress->application == 'accepted') bg-success
+                                    @elseif (!empty($progress->application) && $progress->application == 'rejected') bg-danger
+                                    @elseif (empty($progress->application) && $progress->application == 'inprogress') bg-warning
+                                    @endif">
+                                    <i class="fas fa-check"></i>
+                                </div>
                                 Application Status
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="@if(!empty($progress->joining_date) && !empty($progress->offer_amount) && !empty($progress->cource_details)) bg-success @else  bg-primary2 @endif"><i class="fas fa-check"></i></div>
                                 Offer Detail
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="
+                                @if(!empty($progress->visa_document) &&
+                                !empty($progress->visa_apply_date))
+                                bg-success @else  bg-primary2 @endif"
+                                ><i class="fas fa-check"></i></div>
                                 Visa Application
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="
+                                @if(!empty($progress->visa_application) && $progress->visa_application == 'Accepted') bg-success
+                                @elseif (!empty($progress->visa_application) && $progress->visa_application == 'Rejected') bg-danger
+                                @elseif (empty($progress->visa_application) && $progress->visa_application == 'Inprogress') bg-warning
+                                @endif"><i class="fas fa-check"></i></div>
                                 Visa Status
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="
+                                @if(!empty($progress->fee_payment_mode) &&
+                                !empty($progress->fee_amount) &&
+                                !empty($progress->fee_payment_by))
+                                bg-success @else  bg-primary2 @endif"
+                                ><i class="fas fa-check"></i></div>
                                 Fees Details
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="
+                                @if(!empty($progress->flight_name) &&
+                                !empty($progress->flight_no) &&
+                                !empty($progress->flight_dep_date))
+                                bg-success @else  bg-primary2 @endif"
+                                ><i class="fas fa-check"></i></div>
                                 Flight Details
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div
+                                class="
+                                @if(!empty($progress->hand_holding) &&
+                                !empty($progress->agent_name))
+                                bg-success @else  bg-primary2 @endif"
+                                ><i class="fas fa-check"></i></div>
                                 Take Off
                             </li>
-                            <li class="step ">
-                                <div><i class="fas fa-check"></i></div>
+                            <li class="step">
+                                <div class="
+                                @if(!empty($progress->hostel) &&
+                                !empty($progress->personal))
+                                bg-success @else  bg-primary2 @endif"
+                                ><i class="fas fa-check"></i></div>
                                 Boarding
                             </li>
-                            <li class="step ">
+                            <li class="step">
                                 <div><i class="fas fa-check"></i></div>
                                 Done
                             </li>
@@ -168,7 +202,7 @@
 
                     </div>
 
-                    <div class="list-group mb-3 mt-3 float-end ms-auto mr-5" style="width: 200px">
+                    <div class="list-group  float-end ms-auto mr-5 mb-0" style="width: 200px">
                         @php
                          $application_status =['In Progress','Completed','Rejected'];
                         @endphp
@@ -178,7 +212,7 @@
                                 if ($value == 'In Progress') {
                                     $status_color = 'bg-primary2';
                                 } elseif ($value == 'Completed') {
-                                    $status_color = 'bg-secondary';
+                                    $status_color = 'bg-success';
                                 } elseif ($value == 'Rejected') {
                                     $status_color = 'bg-danger';
                                 }
@@ -352,7 +386,7 @@
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <input type="hidden" name="sba_id" class="sba_id" value="{{ $leadDetails->id }}">
+                                        <input type="hidden" name="sba_id" class="sba_id" value="{{$leadDetails->student_user_id ?? null  }}">
                                         <br>
                                         <h4>Select University</h4>
                                         <div class="alert-college"> </div>
@@ -395,27 +429,25 @@
                                                             type="checkbox" value="{{ $item->id }}" checked
                                                             id="course{{ $loop->iteration }}">
                                                         <label class="form-check-label"
-                                                            for="course{{ $loop->iteration }}">{{ $item->subject_name }}</label>
+                                                            for="course{{ $loop->iteration }}">{{ $item->name }}</label>
                                                     </div>
                                                 @endforeach
                                             @endif
                                         </div>
-                                        <input type="hidden" name="sba_id" class="sba_id" value="{{ $leadDetails->id }}">
-                                        <h4>Select Course</h4>
+                                        <input type="hidden" name="sba_id" class="sba_id" value="{{$leadDetails->student_user_id ?? null  }}">
+                                        <h4>Selected University</h4>
                                         <div class="row mb-2 ">
-                                            <select id="courseSelect" class="selectpicker course-checkbox " name="course"
-                                                multiple data-live-search="true">
-                                                {{-- @foreach ($course as $item)
-                                            <option>{{$item->name}}</option>
-                                            @endforeach --}}
-                                            </select>
-                                            <div id="courseValues"></div>
-                                            {{-- @foreach ($course as $item)
-                                            <div class="col-md-4">
-                                                <input class="form-check-input course-checkbox" name="course" type="checkbox" value="{{$item->id}}" id="course{{$loop->iteration}}">
-                                                <label class="form-check-label" for="course{{$loop->iteration}}">{{$item->tag_name}}</label>
+                                            <div class="col-6">
+                                                <select id="universitySelected" class="course-checkbox form-control" name="university_show"
+                                                     data-live-search="true">
+                                                </select>
                                             </div>
-                                        @endforeach --}}
+                                            <div class="col-6">
+                                                <select id="courses" name="course" class="form-control">
+                                                    <option value="">--Select Course--</option>
+                                                </select>
+                                            </div>
+                                            <div id="courseValues"></div>
                                         </div>
                                     </form>
 
@@ -439,7 +471,7 @@
                                                 <label class="form-label">Accepted
                                                 </label>
                                                 <input type="hidden" name="sba_id" class="sba_id"
-                                                    value="{{ $leadDetails->id }}">
+                                                    value="{{$leadDetails->student_user_id ?? null  }}">
                                                 <input type="radio" name="application_status"
                                                     {{ isset($threesixtee) && $threesixtee->application == 'accepted' ? 'checked' : '' }}
                                                     value="accepted" id="accepted">
@@ -501,11 +533,11 @@
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-namecard-input" class="form-label">Fee Amount
                                                     </label>
-                                                    <input type="number" class="form-control" name="fee_amount"
-                                                        id="fee_amount" value="{{ $threesixtee->offer_amount ?? '' }}"
+                                                    <input type="number" class="form-control" name="offer_amount"
+                                                        id="offer_amount" value="{{ $threesixtee->offer_amount ?? '' }}"
                                                         max="50">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -612,7 +644,7 @@
                                                         value="{{ isset($threesixtee->visa_apply_date) ? $threesixtee->visa_apply_date : date('Y-m-d') }}"
                                                         id="visa_apply_date">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -717,7 +749,7 @@
                                                 <label class="form-label">Accepted
                                                 </label>
                                                 <input type="hidden" name="sba_id" class="sba_id"
-                                                    value="{{ $leadDetails->id }}">
+                                                    value="{{$leadDetails->student_user_id ?? null  }}">
                                                 <input type="radio" name="visa_application"
                                                     {{ isset($threesixtee) && $threesixtee->visa_application == 'Accepted' ? 'checked' : '' }}
                                                     value="Accepted" id="Accepted">
@@ -740,7 +772,7 @@
                                                     <input type="hidden" class="form-control" name="tab" id="tab6"
                                                         value="tab6">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -790,7 +822,7 @@
                                                     <input type="hidden" class="form-control" name="tab" id="tab7"
                                                         value="tab7">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                     <label for="basicpill-namecard-input" class="form-label">Payment
                                                         Mode</label>
                                                     <input type="text" maxlength ="150"
@@ -877,7 +909,7 @@
                                                     <input type="hidden" class="form-control" name="tab" id="tab8"
                                                         value="tab8">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                     <label for="basicpill-namecard-input" class="form-label">Flight
                                                         Name</label>
                                                     <input type="text" maxlength ="250" name="flight_name"
@@ -941,7 +973,7 @@
                                                     <input type="hidden" class="form-control" name="tab" id="tab9"
                                                         value="tab9">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                     <label for="basicpill-namecard-input" class="form-label">Agent
                                                         Name</label>
                                                     <input type="text" maxlength ="150" name="agent_name"
@@ -990,9 +1022,9 @@
                                                     <input type="hidden" class="form-control" name="tab" id="tab10"
                                                         value="tab10">
                                                     <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{ $leadDetails->id }}">
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
                                                     <label for="basicpill-expiration-input" class="form-label">
-                                                        Contact Number</label>
+                                                    </label>
                                                     <input type="text" class="form-control"
                                                         value="{{ $threesixtee->personal ?? '' }}" maxlength="200"
                                                         name="personal" id="personal">
@@ -1071,7 +1103,7 @@
             // $('.next').on('click', handleNext);
             $('.previous').on('click', handlePrevious);
             $('.next').on('click', function() {
-                // $('.next').addClass('disabled');
+                $('.next').addClass('disabled');
                 var spinner = this.querySelector('.spinner-grow');
                 spinner.classList.remove('d-none');
                 event.preventDefault();
@@ -1188,6 +1220,7 @@
                         processData: false,
                         success: function(response) {
                             spinner.classList.add('d-none');
+                            $('.next').removeClass('disabled');
                             if (response.success) {
                                 if (response.status != 'Rejected') {
                                     handleNext();
@@ -1200,7 +1233,6 @@
                             $('.next').removeClass('disabled');
                             spinner.classList.add('d-none');
                             var response = JSON.parse(xhr.responseText);
-                            console.log(response);
                         }
                     });
                 } else if ('tab6DataForm' == activeFormId) {
@@ -1255,23 +1287,21 @@
                     data: formData,
                     success: function(response) {
                         spinner.classList.add('d-none');
-                        if (response.hasOwnProperty('course')) {
-                            $('#courseSelect').selectpicker('destroy');
-                            $('#courseSelect').empty();
-                            $.each(response.course, function(index, item) {
-                                $('#courseSelect').append(`
-                                    <option value="${item.id}">${item.name}</option>
+                        $('.next').removeClass('disabled');
+                        if (response.hasOwnProperty('university')) {
+                            $('#universitySelected').empty();
+                            $('#universitySelected').append(`
+                                    <option value="">--Select University--</option>
+                                `);
+                            $.each(response.university, function(index, item) {
+                                $('#universitySelected').append(`
+                                    <option value="${item.id}">${item.university_name}</option>
                                 `);
                             });
-                            $('#courseSelect').selectpicker('refresh');
-                            $('#courseSelect').selectpicker('refresh');
                         } else {
-                            $('#courseSelect').selectpicker('destroy');
-                            $('#courseSelect').empty();
-                            $('#courseSelect').append(`
-                                <option value="">Course Not Found</option>
+                            $('#universitySelected').append(`
+                                <option value="">No University Found</option>
                             `);
-                            $('#courseSelect').selectpicker('refresh');
                         }
                         if (response.success) {
                             if (response.status != 'Rejected') {
@@ -1282,14 +1312,14 @@
                         }
                         if (response.success) {
                             if (response.tab10 == 'tab10') {
-                                var done = `<div class="alert alert-warning alert-dismissible fade " role="alert">
+                                var html = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
                                                 <strong>Done!</strong> Success! 🎉
                                                 You have Successfully Update the Student 360.
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                   <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>`;
-                                $('.done-alert').html(done)
+                                $('.done-alert').append(html)
                             }
                         }
                     },
@@ -1347,6 +1377,7 @@
                     },
                     error: function(xhr) {
                         var response = JSON.parse(xhr.responseText);
+                        $('.upload-image').removeClass('disabled');
                         if (response.errors.document) {
                             var documents = ` <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -1428,18 +1459,50 @@
                     $('.universityCheckbox[value="' + value + '"]').remove();
                 });
             });
-            $('#courseSelect').change(function() {
-                $('#courseValues').empty();
-                $('#courseSelect option:selected').each(function() {
+            $('#courses').change(function() {
+                // $('#courseValues').empty();
+                var selectedValues = {};
+                $('#courses option:selected').each(function() {
                     var value = $(this).val();
                     var text = $(this).text();
-                    $('#courseValues').append(
-                        '<input type="checkbox" class="courseCheckbox course-checkbox" value="' +
-                        value + '" checked> ' + text + '<br>');
+                    var school_id =  $(this).attr('school-id');
+                    $('.courseCheckbox[school-id="' + school_id + '"]').remove();
+                    if (!selectedValues[school_id]) {
+                        selectedValues[school_id] = value;
+                        $('#courseValues').append(
+                            '<input type="checkbox" class="courseCheckbox course-checkbox" value="' +
+                            value + '" checked school-id="' + school_id + '"> ' + text + '<br>');
+                    }
                 });
-                $('#courseSelect option:not(:selected)').each(function() {
+                $('#courses option:not(:selected)').each(function() {
                     var value = $(this).val();
-                    $('.courseCheckbox[value="' + value + '"]').remove();
+                    var school_id =  $(this).attr('school-id');
+                    if (selectedValues[school_id] === value) {
+                        $('.courseCheckbox[value="' + value + '"][school-id="' + school_id + '"]').remove();
+                    }
+                });
+            });
+            $('#universitySelected').on('change',function(){
+                var selectedValue = $(this).val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ route('university.courses') }}",
+                    type: "post",
+                    data:{university_id:selectedValue},
+                    success: function(response) {
+                        $('#courses').empty();
+                        $('#courses').append(`<option value="">--Select Course--</option>`);
+                        response.program.forEach(function(item) {
+                            $('#courses').append(`<option value="${item.id}" school-id="${response.college_id}">${item.name}</option>`);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error here
+                    }
                 });
             });
         });

@@ -566,7 +566,7 @@
               }
           }
     });
-  </script>
+</script>
 <script>
     function csrf(){
         $.ajaxSetup({

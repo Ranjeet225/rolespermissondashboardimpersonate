@@ -296,7 +296,7 @@ class LeadsManageCotroller extends Controller
             $total_not_useful_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Warm Lead
- $lead_status = MasterLeadStatus::where("name", "Warm")->first();
+        $lead_status = MasterLeadStatus::where("name", "Warm")->first();
         $lead_status_id = $lead_status ? $lead_status->id : null;
         // $lead_status_id = MasterLeadStatus::where("name", "Warm")->first()->id;
         $total_warm_leads = 0;
@@ -864,27 +864,36 @@ class LeadsManageCotroller extends Controller
 
     public function aply_360($id = null)
     {
-        if($id == null){
-            $id=Auth::user()->id;
-            $studentDetails = Student::where('user_id',$id)->first();
-            if(!$studentDetails) {
-                return view('errors.404');
-            }
-            $id =$studentDetails->id;
+        $user =Auth::user();
+        if($user->hasRole('student')){
+            $studentDetails = Student::where('user_id',$user->id)->first();
         }else{
-            $user=Auth::user();
-            if($user->hasRole('Administrator') || $user->hasRole('visa')){
-                $studentDetails = Student::where('id',$id)->first();
-                if(!$studentDetails) {
-                    return view('errors.404');
-                }
-            }else{
-                $studentDetails = Student::where('id',$id)->where('user_id',Auth::user()->id)->first();
-                if(!$studentDetails) {
-                    return view('errors.404');
-                }
-            }
+            $studentDetails = Student::where('id',$id)->first();
         }
+        if(!$studentDetails) {
+            return view('errors.404');
+        }
+        // if($id == null){
+        //     $id=Auth::user()->id;
+        //     $studentDetails = Student::where('id',$id)->first();
+        //     if(!$studentDetails) {
+        //         return view('errors.404');
+        //     }
+        //     $id =$studentDetails->id;
+        // }else{
+        //     $user=Auth::user();
+        //     if($user->hasRole('Administrator') || $user->hasRole('visa')){
+        //         $studentDetails = Student::where('id',$id)->first();
+        //         if(!$studentDetails) {
+        //             return view('errors.404');
+        //         }
+        //     }else{
+        //         $studentDetails = Student::where('id',$id)->first();
+        //         if(!$studentDetails) {
+        //             return view('errors.404');
+        //         }
+        //     }
+        // }
         $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->orwhere('student_user_id',$id)->first();
         if(!$leadDetails || !$studentDetails){
             return view('errors.404');
@@ -899,7 +908,7 @@ class LeadsManageCotroller extends Controller
             $student_course_id = explode(',', $studentDetails->pref_subjects);
             $course_id = array_unique(array_merge($three_course_id, $student_course_id));
             $university_in_three_sixtee = University::wherein('id', $university_id)->get();
-            $course_in_three_sixtee = DB::table('subjects')->wherein('id', $course_id)->get();
+            $course_in_three_sixtee = DB::table('program')->wherein('id', $course_id)->get();
             $table_three_sixtee_image = DB::table('tbl_three_sixtee_image')->where('image_type', 'offer')->where('sba_id', $id)->get();
         } else {
             $agent = DB::table('agents')->get();
@@ -915,7 +924,7 @@ class LeadsManageCotroller extends Controller
 
     public function store_lead_360(Request $request)
     {
-        $user_id = Auth::user()->id;
+        $user_id = Student::where('id',$request->sba_id)->value('user_id');
         $response = null;
         if ($request->tab1) {
             $validator = Validator::make($request->all(), [
@@ -943,12 +952,11 @@ class LeadsManageCotroller extends Controller
                         'college' => $college
                     ]);
             }
-            $course=Program::wherein('school_id',$request->collegeValues)->get();
+            $university=University::whereIn('id',$request->collegeValues)->select('id','university_name')->get();
             $data = [
                 'success' => true,
-                'status' => $response,
-                'college'=>$college,
-                'course'=>$course,
+                'status' => true,
+                'university'=>$university,
             ];
             return response()->json($data);
         } elseif ($request->tab2) {
@@ -968,6 +976,13 @@ class LeadsManageCotroller extends Controller
                     'courses' => $course
                 ]);
             } else {
+                DB::table('tbl_three_sixtee')
+                ->Where('sba_id', $request->sba_id)
+                ->update([
+                    'sba_id' => $request->sba_id,
+                    'user_id' => $user_id,
+                    'courses' => null
+                ]);
                 DB::table('tbl_three_sixtee')
                     ->Where('sba_id', $request->sba_id)
                     ->update([
@@ -1151,7 +1166,7 @@ class LeadsManageCotroller extends Controller
                 'student' => $student->name,
                 'joining_date' => $threesixetee->joining_date,
                 'offer_amount' => $threesixetee->fee_amount,
-                'course_details' => $threesixetee->cource_details,
+                'cource_details' => $threesixetee->cource_details,
                 'student' => $student->name,
                 'visa_document' => $threesixetee->visa_document ?? null,
                 'visa_apply_date' => $threesixetee->visa_apply_date ?? null,
@@ -1305,6 +1320,8 @@ class LeadsManageCotroller extends Controller
         ];
         return response()->json($data);
     }
+
+
 
     public function bulk_upload()
     {
@@ -1556,4 +1573,18 @@ class LeadsManageCotroller extends Controller
         return view('admin.leads.show_lead', compact('studentData', 'preproLabel', 'castes', 'interested', 'subjects', 'countries', 'lead_status', 'source', 'progLabel'));
 
     }
+
+
+    public function university_course(Request $request)
+    {
+        $program = Program::where('school_id', $request->university_id)->get();
+        $data = [
+            'success' => true,
+            'status' => true,
+            'program'=>$program,
+            'college_id'=>$request->university_id,
+        ];
+        return response()->json($data);
+    }
+
 }

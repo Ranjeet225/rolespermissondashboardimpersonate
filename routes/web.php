@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -113,7 +113,9 @@ Route::middleware('auth')->group(function () {
         Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise'])->name('assign-leads');
         // Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise']);
         Route::get("student-list",[StudentController::class,'student_list'])->name('student-list');
+        // Route::get('cehckout/{say}',[LeadsManageCotroller::class,'with_parameter'])->name('parameter');
 
+        Route::post('university-course',[LeadsManageCotroller::class,'university_course'])->name('university.courses');
         // student registration fees
         Route::get('student-registration-fees',[StudentController::class,'student_registration_fees'])->name('student-registration-fees');
         Route::get('student-registration-fees-filter',[StudentController::class,'student_registration_fees'])->name('student-registration-fees-filter');

@@ -229,7 +229,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-4">
+                    {{-- <div class="col-4">
                         <div class="form-floating">
                             <select class="form-control select-grading-scheme" name="grading_scheme_id" id="grading_scheme_id" placeholder="Grading Scheme">
                                 <option value="">-- Grading Scheme --</option>
@@ -243,18 +243,60 @@
                         @error('grading_scheme_id')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
-                    <div class="col-4" id="grading-number-div" @if(empty($program->grading_number)) style="display: none;" @endif>
+                    </div> --}}
+                    {{-- <div class="col-4">
                         <div class="form-floating">
-                            <input id="lead-grading_number" name="grading_number" type="number" class="form-control " placeholder="Grading Number" autocomplete="grading_number"
-                             value="{{old('grading_number', $program->grading_number ?? '')}}" max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')">
+                            <select class="form-control select-grading-scheme" name="grading_scheme_id" id="grading_scheme_id" placeholder="Grading Scheme">
+                                <option value="">-- Grading Scheme --</option>
+                                @foreach ($grading_scheme as $item)
+                                    <option value="{{$item->id}}" {{ old('grading_scheme_id') == $item->id ? 'selected' : ($program->grading_scheme_id == $item->id ? 'selected' : '') }}>{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                            <label for="lead-grading_scheme_id" class="form-label">Grading Scheme <span class="text-danger">*</span></label>
+                        </div>
+                        @error('grading_scheme_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-4" id="grading-number-div" style="display: none;">
+                        <div class="form-floating">
+                            <input type="hidden" name="max_grading_number" id="max_grading_number">
+                            <input id="lead-grading_number" name="grading_number" type="number" class="form-control" placeholder="Grading Number" autocomplete="grading_number"
+                            value="{{old('grading_number', $program->grading_number ?? '')}}" >
                             <label for="lead-grading_number" class="form-label">Grading Number <span class="text-danger">*</span></label>
+                            <div id="grading_input_error" class="text-danger"  style="display: none;">Invalid grade. Please enter a value within the selected grading scheme.</div>
+                        </div>
+                        @error('grading_number')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <select class="form-control select-grading-scheme" name="grading_scheme_id" id="grading_scheme_id" placeholder="Grading Scheme">
+                                <option value="">-- Grading Scheme --</option>
+                                @foreach ($grading_scheme as $item)
+                                    <option value="{{$item->id}}" {{ old('grading_scheme_id') == $item->id ? 'selected' : ($program->grading_scheme_id == $item->id ? 'selected' : '') }}>{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                            <label for="lead-grading_scheme_id" class="form-label">Grading Scheme <span class="text-danger">*</span></label>
+                        </div>
+                        @error('grading_scheme_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-4" id="grading-number-div" style="display: none;">
+                        <div class="form-floating">
+                            <input type="hidden" name="max_grading_number" id="max_grading_number">
+                            <input id="lead-grading_number" name="grading_number" type="number" class="form-control" placeholder="Grading Number" autocomplete="grading_number"
+                            value="{{old('grading_number', $program->grading_number ?? '')}}" >
+                            <label for="lead-grading_number" class="form-label">Grading Number <span class="text-danger">*</span></label>
+                            <div id="grading_input_error" class="text-danger"  style="display: none;">Invalid grade. Please enter a value within the selected grading scheme.</div>
                         </div>
                         @error('grading_number')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-4">
+                    {{-- <div class="col-4">
                         <div class="form-floating ">
                             <input id="lead-total_credits" name="total_credits" type="number" class="form-control " placeholder="Total Credits" autocomplete="total_credits" value="{{old('total_credits', $program->total_credits ?? '')}}">
                             <label for="lead-total_credits" class="form-label">Total Credits <span class="text-danger">*</span></label>
@@ -262,8 +304,33 @@
                         @error('total_credits')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-4">
+                        <div class="form-floating">
+                           <select class="form-control other-exam" name="other_exam" id="other_exam" placeholder="" >
+                               <option value="">-- Other Exam --</option>
+                                @foreach ($other_exam as $item)
+                                    <option value="{{$item->id}}" {{$program->other_exam == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                                @endforeach
+                           </select>
+                           <label for="lead-other-exam" class="form-label"> Other Exam <span class="text-danger">*</span></label>
+                         </div>
+                         @error('other_exam')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                     </div>
+                     <div class="col-4" id="other-exam-input" style="display: none;">
+                        <div class="form-floating">
+                            <input id="lead-other-exam-number" name="other_exam_number" value="{{$program->other_exam_number  ?? null}}" type="number" class="form-control" placeholder="Other Exam Number" autocomplete="other-exam-number"
+                             value="{{old('other-exam-number')}}" >
+                            <label for="lead-other-exam-number" class="form-label">Other Exam Number <span class="text-danger">*</span></label>
+                            <div id="other_exam_input_error" class="text-danger"  style="display: none;">Invalid input. Please enter a value within the selected other exam.</div>
+                        </div>
+                        @error('other-exam-number')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    {{-- <div class="col-4">
                         <div class="form-floating">
                            <select class="form-control other-exam" name="other_exam" id="other_exam" placeholder="" >
                               <option value="">-- Other Exam --</option>
@@ -276,7 +343,7 @@
                          @error('other_exam')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                     </div>
+                     </div> --}}
                     <div class="col-4">
                         <div class="form-floating">
                             <input id="lead-application_fee" name="application_fee" type="number" class="form-control " placeholder="Application Fees in INR" autocomplete="application_fee" value="{{old('application_fee', $program->application_fee ?? '')}}">
@@ -434,6 +501,75 @@
  {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> --}}
  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+          const gradingSchemeSelect = document.getElementById('grading_scheme_id');
+          const gradingInput = document.getElementById('lead-grading_number');
+          gradingSchemeSelect.addEventListener('change', function () {
+              validateInput();
+          });
+          gradingInput.addEventListener('input', function () {
+              validateInput();
+          });
+          function extractMaxGrade(value) {
+              const match = value.match(/(\d+)$/);
+              return match ? parseInt(match[0], 10) : null;
+          }
+          function validateInput() {
+              const selectedOption = gradingSchemeSelect.options[gradingSchemeSelect.selectedIndex];
+              const selectedScheme = selectedOption.getAttribute('grading-data');
+              const inputValue = gradingInput.value;
+              if (selectedScheme && inputValue !== '') {
+                  const maxGrade = extractMaxGrade(selectedScheme);
+                  if (maxGrade && inputValue > maxGrade) {
+                      gradingInput.classList.add('is-invalid');
+                      $('#grading_input_error').show();
+                  } else {
+                      gradingInput.classList.remove('is-invalid');
+                      $('#grading_input_error').hide();
+                  }
+              } else {
+                  gradingInput.classList.remove('is-invalid');
+                  $('#grading_input_error').hide();
+              }
+          }
+    });
+</script>
+<script>
+      document.addEventListener('DOMContentLoaded', function () {
+            const otherExam = document.getElementById('other_exam');
+            const otherExamInput = document.getElementById('lead-other-exam-number');
+            otherExam.addEventListener('change', function () {
+                validateInput();
+            });
+            otherExamInput.addEventListener('input', function () {
+                validateInput();
+            });
+            function extractMaxGrade(value) {
+                const match = value.match(/(\d+)$/);
+                return match ? parseInt(match[0], 10) : null;
+            }
+            function validateInput() {
+                const selectedOption = otherExam.options[otherExam.selectedIndex];
+                const selectedScheme = selectedOption.getAttribute('other-exam-number');
+                const inputValue = otherExamInput.value;
+                if (selectedScheme && inputValue !== '') {
+                    const maxGrade = extractMaxGrade(selectedScheme);
+                    console.log(maxGrade,inputValue);
+                    if (inputValue > maxGrade) {
+                        otherExamInput.classList.add('is-invalid');
+                        $('#other_exam_input_error').show().html(`Invalid input. Please enter a value within ${maxGrade}`);
+                    } else {
+                        otherExamInput.classList.remove('is-invalid');
+                        $('#other_exam_input_error').hide();
+                    }
+                } else {
+                    otherExamInput.classList.remove('is-invalid');
+                    $('#other_exam_input_error').hide();
+                }
+            }
+      });
+</script>
  <script>
     $('#summernote1').summernote({
       placeholder: ' Write Here',
@@ -580,9 +716,12 @@
             success: function(data) {
                 if (data.length > 0) {
                     $('#grading_scheme_id').empty();
+                    $('#grading_scheme_id').append(`
+                        <option value="">--Select Grading Scheme--</option>
+                    `);
                     $.each(data, function(index, education_level) {
                         $('#grading_scheme_id').append(`
-                            <option value="${education_level.id}">${education_level.name.toUpperCase()}</option>
+                            <option value="${education_level.id}" grading-data ="${education_level.name}">${education_level.name.toUpperCase()}</option>
                         `);
                     });
                 } else {
@@ -608,9 +747,12 @@
             success: function(data) {
                 if (data.length > 0) {
                     $('#other_exam').empty();
+                    $('#other_exam').append(`
+                        <option value="">--Select Other Exam--</option>
+                    `);
                     $.each(data, function(index, other_exam) {
                         $('#other_exam').append(`
-                            <option value="${other_exam.id}">${other_exam.name.toUpperCase()}</option>
+                            <option value="${other_exam.id}" other-exam-number="${other_exam.number}">${other_exam.name.toUpperCase()}</option>
                         `);
                     });
                 } else {
@@ -625,6 +767,14 @@
             $('#grading-number-div').show();
         }else{
             $('#grading-number-div').hide();
+        }
+    })
+    $(document).on('change','.other-exam',function(){
+        var grading_scheme_id = $(this).val();
+        if(grading_scheme_id != ''){
+            $('#other-exam-input').show();
+        }else{
+            $('#other-exam-input').hide();
         }
     })
 </script>
