@@ -50,6 +50,6 @@ class University extends Model
         return $this->hasMany(StudentScholorship::class, 'college_university_name');
     }
     public function Program(){
-        return $this->hasOne(Program::class,'school_id','id');
+        return $this->hasMany(Program::class,'school_id','id');
     }
 }

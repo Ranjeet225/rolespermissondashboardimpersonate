@@ -552,7 +552,7 @@
                                                 <li class="user meta_item">
                                                     <i class="fa fa-map"></i>
                                                     <span class="info_bold">Location: </span>
-                                                    <span class="text_ellipsis">${item.university_name ? item.logo : ''} ${item ? item.zip : ''}</span>
+                                                    <span class="text_ellipsis">${item.country ? item.country.name : ''}, ${item.city} ,${item ? item.zip : ''}</span>
                                                 </li>
                                                 <li class="user meta_item">
                                                     <i class="fa fa-flag"></i>
@@ -679,7 +679,7 @@
                                                 <li class="user meta_item">
                                                     <i class="fa fa-map"></i>
                                                     <span class="info_bold">Location: </span>
-                                                    <span class="text_ellipsis">${item.university_name ? item.logo : ''} ${item ? item.zip : ''}</span>
+                                                    <span class="text_ellipsis">${item.country ? item.country.name : ''} ,${item.city}, ${item ? item.zip : ''}</span>
                                                 </li>
                                                 <li class="user meta_item">
                                                     <i class="fa fa-flag"></i>
@@ -690,6 +690,11 @@
                                                     <i class="fa fa-list"></i>
                                                     <span class="info_bold">University Type: </span>
                                                     <span>${item.university_type ? item.university_type.name : ''}</span>
+                                                </li>
+                                                <li class="user meta_item">
+                                                    <i class="fa fa-tasks"></i>
+                                                    <span class="info_bold">Total Program: </span>
+                                                    <span><a href="{{ url('view-program-data') }}/${item.id}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
                                                 </li>
                                             </ul>
                                             <hr class="mb-10 mt-10">
@@ -998,6 +1003,7 @@
             //                                     <div class="content-part">
             //                                         <ul class="meta-part" style="flex: 1 1 0%;">
             //                                             <li class="user meta_item">
+
             //                                                 <i class="fa fa-map"></i>
             //                                                 <span class="info_bold">Location: </span>
             //                                                 <span class="text_ellipsis">${item.university_name ? item.university_name.logo : ''} ${item.university_name ? item.university_name.zip : ''}</span>

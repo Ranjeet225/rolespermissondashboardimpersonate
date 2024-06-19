@@ -83,10 +83,10 @@
                     </div>
                     <div class="col-4">
                         <div class="form-floating">
-                            <select class="form-control program_sub_discipline_select" name="program_subdiscipline" id="lead-program-sub-discipline" placeholder="Program Sub Discipline">
+                            <select class="form-control program_sub_discipline_select text-wrap" name="program_subdiscipline" id="program-subdiscipline" placeholder="Program Sub Discipline">
                                 <option value="">-- Select Program Sub Discipline --</option>
                                 @foreach ($program_subdiscipline as $item)
-                                    <option value="{{$item->id}}" {{ old('program_subdiscipline') == $item->id ? 'selected' : ($program->program_subdiscipline == $item->id ? 'selected' : '') }}>{{$item->name}}</option>
+                                    <option class="text-wrap" value="{{$item->id}}" {{ old('program_subdiscipline') == $item->id ? 'selected' : ($program->program_subdiscipline_id == $item->id ? 'selected' : '') }}>{{$item->name}}</option>
                                 @endforeach
                             </select>
                             <label for="lead-program-sub-discipline" class="form-label">Program sub discipline</label>
