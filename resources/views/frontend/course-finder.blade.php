@@ -46,7 +46,7 @@
             padding: 5px 8px;
         }
 
-        .keyword {
+        .keyword,.keyword1 {
             width: 86%;
             border-right: 0px;
             border-bottom: 2px solid #979797;
@@ -185,7 +185,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="addto-playlists">
+                                        <div class="addto-playlists1">
                                             <ul>
                                                 @foreach ($country as $item)
                                                     <li>
@@ -209,14 +209,14 @@
                                         <div class="addto-search">
                                             <form action="#">
                                                 <div class="form-input ">
-                                                    <input class="keyword" type="text"
+                                                    <input class="keyword1" type="text"
                                                         placeholder="Program Level "><button class="search-button  srchbtn">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="addto-playlists">
+                                        <div class="addto-playlists2">
                                             <ul>
                                                 @foreach ($program_level as $item)
                                                     <li>
@@ -240,7 +240,7 @@
                                     </div>
                                     <div id="collapseThree" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists3">
                                                 <ul class="program-sub-level">
 
                                                 </ul>
@@ -253,7 +253,7 @@
                                     </div>
                                     <div id="collapsefour" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists4">
                                                 <ul id="education-level-list">
 
                                                 </ul>
@@ -267,7 +267,7 @@
                                     </div>
                                     <div id="collapseThree3" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists5">
                                                 <ul>
                                                     @foreach (range(1, 12) as $month)
                                                         <li>
@@ -289,7 +289,7 @@
                                     </div>
                                     <div id="discipline" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists6">
                                                 <ul>
                                                     @foreach ($program_discipline as $item)
                                                         <li>
@@ -312,7 +312,7 @@
                                     </div>
                                     <div id="subdiscipline" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists7">
                                                 <ul class="program_subdiscipline">
 
                                                 </ul>
@@ -325,7 +325,7 @@
                                     </div>
                                     <div id="end_profiency_level" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists8">
                                                 <ul>
                                                     @foreach ($eng_proficiency_level as $item)
                                                         <li>
@@ -344,11 +344,11 @@
                                     </div>
                                     <div class="card-header collapsed clp other_exam" data-toggle="collapse"
                                         data-parent="#accordion" href="#other_exam">
-                                        <a class="ct">Other Exam </a>
+                                        <a class="ct">Other Exam</a>
                                     </div>
                                     <div id="other_exam" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists9">
                                                 <ul class="other_exam_show">
 
                                                 </ul>
@@ -361,7 +361,7 @@
                                     </div>
                                     <div id="collapseThree4" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists10">
                                                 <ul>
                                                     <li>
                                                         <label for="random-1" class="playlist-name">
@@ -378,7 +378,7 @@
                                     </div>
                                     <div id="collapseThree5" class="collapse" data-parent="#accordion">
                                         <div class="card-body">
-                                            <div class="addto-playlists">
+                                            <div class="addto-playlists11">
                                                 <ul>
                                                     <li>
                                                         <label for="random-1" class="playlist-name">
@@ -478,7 +478,21 @@
             $(".keyword").on('keyup', function(e) {
                 var $this = $(this);
                 var exp = new RegExp($this.val(), 'i');
-                $(".addto-playlists li label").each(function() {
+                $(".addto-playlists1 li label").each(function() {
+                    var $self = $(this);
+                    if (!exp.test($self.text())) {
+                        $self.parent().hide();
+                    } else {
+                        $self.parent().show();
+                    }
+                });
+            });
+        })(jQuery);
+        (function($) {
+            $(".keyword1").on('keyup', function(e) {
+                var $this = $(this);
+                var exp = new RegExp($this.val(), 'i');
+                $(".addto-playlists2 li label").each(function() {
                     var $self = $(this);
                     if (!exp.test($self.text())) {
                         $self.parent().hide();
@@ -564,6 +578,11 @@
                                                     <span class="info_bold">University Type: </span>
                                                     <span>${item.university_type ? item.university_type.name : ''}</span>
                                                 </li>
+                                                <li class="user meta_item">
+                                                    <i class="fa fa-tasks"></i>
+                                                    <span class="info_bold">Total Program: </span>
+                                                    <span><a href="{{ url('view-program-data') }}/${item.id}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
+                                                </li>
                                             </ul>
                                             <hr class="mb-10 mt-10">
                                             <div class="bottom-part">
@@ -584,13 +603,13 @@
                                             <div>
                                                 <div class="course_card_logo_sec d-flex">
                                                     <div class="img-part" style="margin: 2px 5px;">
-                                                        <a href="course_details/${item.id}">
+                                                        <a href="{{url('course-details')}}/${item.id}">
                                                             <img src="${window.location.origin}/${item.university_name ? item.university_name.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
                                                         </a>
                                                     </div>
                                                     <div style="flex: 1 1 0%;">
                                                         <h5 class="mb-1">
-                                                            <a href="course_details/${item.id}">${item.name ?? ''}</a>
+                                                            <a href="{{url('course-details')}}/${item.id}">${item.name ?? ''}</a>
                                                         </h5>
                                                         <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">
                                                             ${item.university_name?.university_name ?? ''}</a>
@@ -601,7 +620,7 @@
                                                         <li class="user">
                                                             <i class="fa fa-graduation-cap"></i>
                                                             <span class="info_bold">Level</span>
-                                                            <span>${item.program && item.programLevel}</span>
+                                                            <span>${ item.program_level.name}</span>
                                                         </li>
                                                         <li class="user">
                                                             <i class="fa fa-money"></i>
@@ -657,7 +676,7 @@
                     },
                     success: function(response) {
                         $('.ajax-load').hide();
-                        lastPage = response.data.last_page;
+                        lastPage = Math.max(response.data.last_page, response.course_data.last_page);
                         let html = '';
                         let course_data ='';
                         $.each(response.data.data, function(index, item) {
@@ -716,13 +735,13 @@
                                         <div>
                                             <div class="course_card_logo_sec d-flex">
                                                 <div class="img-part" style="margin: 2px 5px;">
-                                                    <a href="course_details/${item.id}">
+                                                    <a href="{{url('course-details')}}/${item.id}">
                                                         <img src="${window.location.origin}/${item.university_name ? item.university_name.logo : ''}" alt="university logo" class="img-thumbnail university_logo">
                                                     </a>
                                                 </div>
                                                 <div style="flex: 1 1 0%;">
                                                     <h5 class="mb-1">
-                                                        <a href="course_details/${item.id}">${item?.name ?? ''}</a>
+                                                        <a href="{{url('course-details')}}/${item.id}">${item?.name ?? ''}</a>
                                                     </h5>
                                                     <a href="${item.university_name?.website ?? ''}" style="font-weight: 500; font-size: 14px;">${item.university_name?.university_name ?? ''}</a>
                                                 </div>
@@ -732,7 +751,7 @@
                                                     <li class="user">
                                                         <i class="fa fa-graduation-cap"></i>
                                                         <span class="info_bold">Level</span>
-                                                        <span>${item.program && item.programLevel}</span>
+                                                        <span>${ item.program_level.name}</span>
                                                     </li>
                                                     <li class="user">
                                                         <i class="fa fa-money"></i>

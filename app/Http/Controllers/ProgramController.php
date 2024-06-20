@@ -259,16 +259,19 @@ class ProgramController extends Controller
             'speaking_score' => 'required|numeric|max:120',
             'program_id' => 'required',
         ]);
-        $reqScore = DB::table('program_english_required')->insert([
-            'program_id' => $request->program_id,
-            'type' => $request->type,
-            'listening_score' => $request->listening_score,
-            'writing_score' => $request->writing_score,
-            'reading_score' => $request->reading_score,
-            'speaking_score' => $request->speaking_score,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]);
+        $reqScore = DB::table('program_english_required')
+            ->updateOrInsert(
+                ['program_id' => $request->program_id],
+                [
+                    'type' => $request->type,
+                    'listening_score' => $request->listening_score,
+                    'writing_score' => $request->writing_score,
+                    'reading_score' => $request->reading_score,
+                    'speaking_score' => $request->speaking_score,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]
+            );
         return response()->json(['status'=>true,'success'=>'Data Inserted Successfully']);
     }
 

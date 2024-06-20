@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -36,7 +36,7 @@ Route::get('course-finder',[FrontendController::class,'course_university'])->nam
 Route::get('fetch-university-course',[FrontendController::class,'course_university'])->name('fetch-university-course');
 Route::post('get-education-level-filter',[FrontendController::class,'education_level_filter'])->name('get-education-level-filter');
 Route::post('get-university-course',[FrontendController::class,'get_university_course'])->name('get-university-course');
-
+Route::get('course-details/{id?}',[FrontendController::class,'course_details'])->name('course-details');
 Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_data'])->name('view-program-data');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

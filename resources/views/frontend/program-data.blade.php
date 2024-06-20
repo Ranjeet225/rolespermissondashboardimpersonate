@@ -11,7 +11,7 @@
                 <br> Duration  - {{$item->length ?? null}}.
                 <br> Tution Fees  - {{$item->currency}} {{$item->tution_fee ?? null}}.
                 </p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <a href="{{route('course-details',[$item->id])}}" class="btn btn-primary">Course Details</a>
             </div>
         </div>
     </div>

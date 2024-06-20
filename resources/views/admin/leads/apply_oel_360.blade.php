@@ -1449,10 +1449,18 @@
                 $('#selectedValues').empty();
                 $('#universitySelect option:selected').each(function() {
                     var value = $(this).val();
-                    var text = $(this).text();
-                    $('#selectedValues').append(
-                        '<input type="checkbox" class="universityCheckbox college-checkbox" value="' +
-                        value + '" checked> ' + text + '<br>');
+                    var college_id = [];
+                    $('.college-checkbox:checked').each(function() {
+                        college_id.push($(this).val());
+                    });
+                    if (college_id.includes(value)) {
+                        alert("University already added!");
+                    } else {
+                        var text = $(this).text();
+                        $('#selectedValues').append(
+                            '<input type="checkbox" class="universityCheckbox college-checkbox" value="' +
+                            value + '" checked> ' + text + '<br>');
+                    }
                 });
                 $('#universitySelect option:not(:selected)').each(function() {
                     var value = $(this).val();
@@ -1460,28 +1468,46 @@
                 });
             });
             $('#courses').change(function() {
-                // $('#courseValues').empty();
                 var selectedValues = {};
+                // Iterate through all selected options
                 $('#courses option:selected').each(function() {
                     var value = $(this).val();
                     var text = $(this).text();
-                    var school_id =  $(this).attr('school-id');
-                    $('.courseCheckbox[school-id="' + school_id + '"]').remove();
-                    if (!selectedValues[school_id]) {
-                        selectedValues[school_id] = value;
-                        $('#courseValues').append(
-                            '<input type="checkbox" class="courseCheckbox course-checkbox" value="' +
-                            value + '" checked school-id="' + school_id + '"> ' + text + '<br>');
-                    }
+                    var school_id = $(this).attr('school-id');
+
+                    // Remove previous course entries for this school
+                    $('.courseEntry[school-id="' + school_id + '"]').remove();
+
+                    // Store the selected value
+                    selectedValues[school_id] = value;
+
+                    // Append the checkbox and text inside a div
+                    $('#courseValues').append(
+                        '<span class="courseEntry" school-id="' + school_id + '">' +
+                        '<input type="checkbox" class="courseCheckbox course-checkbox" value="' +
+                        value + '" checked school-id="' + school_id + '"> ' + text + '<br></span>'
+                    );
                 });
-                $('#courses option:not(:selected)').each(function() {
+                // Iterate through all options
+                $('#courses option').each(function() {
                     var value = $(this).val();
-                    var school_id =  $(this).attr('school-id');
-                    if (selectedValues[school_id] === value) {
-                        $('.courseCheckbox[value="' + value + '"][school-id="' + school_id + '"]').remove();
+                    var school_id = $(this).attr('school-id');
+
+                    // Check if the option is not selected
+                    if (!$(this).is(':selected')) {
+                        // Remove the entire course entry for the unselected option
+                        $('.courseEntry:has(.courseCheckbox[value="' + value + '"][school-id="' + school_id + '"])').remove();
+
+                        // Remove the value from selectedValues if it matches
+                        if (selectedValues[school_id] === value) {
+                            delete selectedValues[school_id];
+                        }
                     }
                 });
             });
+
+
+
             $('#universitySelected').on('change',function(){
                 var selectedValue = $(this).val();
                 $.ajaxSetup({

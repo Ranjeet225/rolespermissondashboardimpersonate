@@ -113,7 +113,7 @@
                         <div class="col-lg-2">
                             <div class="logo-cat-wrap">
                                 <div class="logo-part">
-                                    <a class="dark-logo" href="">
+                                    <a class="dark-logo" href="{{url('/')}}">
                                         <img src="{{ asset('frontend/home/images/oel.png') }}" alt="">
                                     </a>
                                     <a class="light-logo" href="">

@@ -298,6 +298,7 @@
                                 // location.reload();
                             }, 1000);
                         }
+                        fetchscore();
                         $('.score').removeClass('disabled');
                         $('#score-data')[0].reset();
                     },
@@ -397,7 +398,7 @@
                         } else {
                             $.each(score, function(key, value) {
                                 $('.score-table').append('<tr><td>' +
-                                    value.id + '</td><td>' +
+                                    key + '</td><td>' +
                                     value.listening_score + '</td><td>' +
                                     value.writing_score + '</td><td>' +
                                     value.reading_score + '</td><td>' +
