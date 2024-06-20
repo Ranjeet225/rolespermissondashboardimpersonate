@@ -27,13 +27,18 @@
                 <div class="card-header">
                     <h4 class="card-title mb-0">Student Profile</h4>
                 </div>
+                @if (session('message'))
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="text-center">{{ session('message') }}</h4>
+                    </div>
+                @endif
                 <div class="card-body">
                     <div class="wizard">
                         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title=" General Information ">
                                 <a class="nav-link active rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1"
+                                    href="#step1" id="step1-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step1"
                                     aria-selected="true"> 1 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">General Information </span>
@@ -41,7 +46,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Educaton History">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2"
+                                    href="#step2" id="step2-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step2"
                                     aria-selected="false"> 2 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Educaton History</span>
@@ -49,7 +54,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Test Score">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3"
+                                    href="#step3" id="step3-tab"  @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step3"
                                     aria-selected="false"> 3 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Test Score</span>
@@ -57,7 +62,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="BackGround Information">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
+                                    href="#step4" id="step4-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step4"
                                     aria-selected="false"> 4 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">BackGround Information</span>
@@ -65,7 +70,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Document">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step5" id="step5-tab" data-bs-toggle="tab" role="tab" aria-controls="step5"
+                                    href="#step5" id="step5-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step5"
                                     aria-selected="false"> 5
                                 </a>
                                 <br>
@@ -87,7 +92,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <input id="lead-middle_name"
+                                                <input
                                                     value="{{ $about_student->first_name ?? old('first_name') }}"
                                                     name="first_name" type="text" class="form-control"
                                                     placeholder="Middle Name" autocomplete="first_name">
@@ -98,7 +103,7 @@
                                         <div class="col-4">
                                             <div class="form-floating">
                                                 <input type="hidden" name="tab1" value="tab1">
-                                                <input id="lead-middle_name" name="middle_name" type="text"
+                                                <input  name="middle_name" type="text"
                                                     class="form-control"
                                                     value="{{ $about_student->middle_name ?? old('middle_name') }}"
                                                     placeholder="Middle Name" autocomplete="middle_name">
@@ -108,7 +113,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <input id="lead-middle_name" name="last_name" type="text"
+                                                <input  name="last_name" type="text"
                                                     class="form-control"
                                                     value="{{ $about_student->last_name ?? old('last_name') }}"
                                                     placeholder="Last Name" autocomplete="last_name">
@@ -120,6 +125,16 @@
                                     <div class="row mt-3">
                                         <div class="col-4">
                                             <div class="form-floating">
+                                                <input  name="email" type="text"
+                                                    class="form-control"
+                                                    value="{{ $about_student->email ?? old('email') }}"
+                                                    placeholder="Email" autocomplete="Email">
+                                                <label for="lead-last_name" class="form-label">Email</label>
+                                                <span class="text-danger email-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-floating">
                                                 <select class="form-control" name="gender" >
                                                     <option value="">-- Select Gender --</option>
                                                     <option value="Male"
@@ -129,6 +144,7 @@
                                                         {{ ($about_student->gender ?? old('gender')) == 'Female' ? 'selected' : '' }}>
                                                         FeMale</option>
                                                 </select>
+                                                <span class="text-danger gender"></span>
                                                 <label for="lead-source" class="form-label">Gender</label>
                                             </div>
                                         </div>
@@ -150,6 +166,7 @@
                                                         Divorced</option>
                                                 </select>
                                                 <label for="lead-source" class="form-label">Maritial Status</label>
+                                                <span class="text-danger maritial_status"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -166,21 +183,22 @@
                                                         {{ ($about_student->passport_status ?? old('passport_status')) == 'I do not have' ? 'selected' : '' }}>
                                                         I do not have</option>
                                                     <option value="I have applied"
-                                                        {{ ($about_student->passport_status ?? old('maritial_status')) == 'I have applied' ? 'selected' : '' }}>
+                                                        {{ ($about_student->passport_status ?? old('passport_status')) == 'I have applied' ? 'selected' : '' }}>
                                                         I have applied</option>
                                                 </select>
                                                 <label for="lead-source" class="form-label">Passport Status</label>
+                                                <span class="text-danger passport_status"></span>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="form-floating">
-                                                <input id="lead-middle_name" name="passport_number"
+                                                <input  name="passport_number"
                                                     value="{{ $about_student->passport_number ?? old('passport_number') }}"
                                                     type="text" class="form-control" placeholder="Middle Name"
                                                     autocomplete="passport-number">
                                                 <label for="lead-passport-number" class="form-label">Passport
                                                     Number</label>
-                                                <span class="text-danger passport-number"></span>
+                                                <span class="text-danger passport_number"></span>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -188,7 +206,7 @@
                                                 <input name="dob" type="date" class="form-control"
                                                     value="{{ $about_student->dob ?? old('dob') }}" >
                                                 <label for="lead-passport-number" class="form-label">Date of Birth</label>
-                                                <span class="text-danger passport-number"></span>
+                                                <span class="text-danger dob"></span>
                                             </div>
                                         </div>
                                         <div class="col-4 mt-3">
@@ -198,7 +216,7 @@
                                                     class="form-control" >
                                                 <label for="lead-passport-number" class="form-label">First
                                                     Language</label>
-                                                <span class="text-danger first-language "></span>
+                                                <span class="text-danger first_language "></span>
                                             </div>
                                         </div>
                                     </div>
@@ -217,6 +235,7 @@
                                                     @endforeach
                                                 </select>
                                                 <label for="lead-source" class="form-label">Country</label>
+                                                <span class="text-danger country_id "></span>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -236,6 +255,7 @@
                                                 </select>
                                                 <label for="lead-source" class="form-label">State/Provision </label>
                                             </div>
+                                            <span class="text-danger province_id_error"></span>
                                         </div>
                                         <div class="col-4">
                                             <div class="form-floating">
@@ -282,14 +302,14 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-floating">
-                                                <select class="form-control selected-country" name="country_id"
-                                                    >
+                                                <select class="form-control selected-country" name="pref_countries">
                                                     <option value="">-- Select Country --</option>
                                                     @foreach ($countries as $item)
                                                         <option value="{{ $item->id }}"  {{ (isset($education_history->country_id)) == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 <label for="lead-source" class="form-label">Country</label>
+                                                <span class="text-danger pref_countries"></span>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -302,6 +322,7 @@
                                                     @endforeach
                                                 </select>
                                                 <label for="lead-source" class="form-label">Education Level</label>
+                                                <span class="text-danger education_level_id_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -326,11 +347,12 @@
                                                     <option value="">--Grading Scheme --</option>
                                                 </select> --}}
                                                 <label for="lead-source" class="form-label">Grading Scheme</label>
+                                                <span class="text-danger grading_scheme_id_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-floating">
-                                                <input name="grading_average" type="number" class="form-control"
+                                                <input name="grading_average" value="{{ $education_history->grading_average }}" type="number" class="form-control"
                                                     >
                                                 <input type="hidden" name="tab2" value="tab2">
                                                 <label for="lead-address" class="form-label">Grading Average</label>
@@ -509,21 +531,24 @@
                                                 <input type="radio" name="ever_refused_visa" value="Yes"  {{ $about_student->ever_refused_visa === "Yes" ? 'checked' : '' }}>
                                                 &nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
                                                 <input type="radio" name="ever_refused_visa" value="No" {{ $about_student->ever_refused_visa === "No" ? 'checked' : '' }}>&nbsp; No</label>
-                                        </div>
+                                                <span class="text-danger ever_refused_visa"></span>
+                                            </div>
                                     </div>
                                     <div class="col-12">
                                         <input type="hidden" name="tab4" value="tab4" >
                                         <label><b>Do you have a valid Study Permit / Visa?</b></label>
                                         <label>
                                         <input type="radio" name="has_visa" value="1" {{ $about_student->has_visa == "1" ? 'checked' : '' }}>&nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
-                                            <input type="radio" name="has_visa" value="0" {{ $about_student->has_visa == "0" ? 'checked' : '' }}>&nbsp; No</label>
+                                        <input type="radio" name="has_visa" value="0" {{ $about_student->has_visa == "0" ? 'checked' : '' }}>&nbsp; No</label>
+                                        <span class="text-danger has_visa"></span>
                                     </div>
                                     <br>
                                     <div class="col-12">
                                         <div class="form-floating">
                                             <input name="visa_details" value="{{ $about_student->visa_details ?? null }}"  type="text" class="form-control" >
                                             <label for="lead-address" class="form-label">Visa Details</label>
-                                            <span class="text-danger grading_average"></span>
+                                            <span class="text-danger visa_details"></span>
+
                                         </div>
                                     </div>
                                     <br>
@@ -538,10 +563,11 @@
                                                             $selected = in_array($item->id, explode(',', $about_student->pref_subjects)) ? 'selected' : '';
                                                         }
                                                     @endphp
-                                                    <option value="{{ $item->id }}" {{ $selected }}>{{ $item->subject_name }}</option>
+                                                    <option value="{{ $item->id }}" {{ $selected }}>{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                             <label for="lead-education_level_id" class="form-label">Subject</label>
+                                            <span class="text-danger subject_input"></span>
                                         </div>
                                     </div>
                                 </form>
@@ -578,6 +604,7 @@
                                                     <option value="Backlog Certificate (if app;licable)">Backlog Certificate (if app;licable)</option>
                                                  </select>
                                                 <label for="lead-source" class="form-label">Document Type</label>
+                                                <span class="text-danger visa_document_type"></span>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -1125,7 +1152,111 @@
                         spinner.classList.add('d-none');
                         $('.next').removeClass('disabled');
                         var response = JSON.parse(xhr.responseText);
-
+                        if(response.errors.email){
+                            $('.email-error').html(response.errors.email);
+                        }else{
+                            $('.email-error').html('');
+                        }
+                        if(response.errors.middle_name){
+                            $('.middle_name').html(response.errors.middle_name);
+                        }else{
+                            $('.middle_name').html('');
+                        }
+                        if(response.errors.last_name){
+                            $('.last_name').html(response.errors.last_name);
+                        }else{
+                            $('.last_name').html('');
+                        }
+                        if(response.errors.zip){
+                            $('.zip').html(response.errors.zip);
+                        }else{
+                            $('.zip').html('');
+                        }
+                        if(response.errors.gender){
+                            $('.gender').html(response.errors.gender);
+                        }else{
+                            $('.gender').html('');
+                        }
+                        if(response.errors.maritial_status){
+                            $('.maritial_status').html(response.errors.maritial_status);
+                        }else{
+                            $('.maritial_status').html('');
+                        }
+                        if(response.errors.first_language){
+                            $('.first_language').html(response.errors.first_language);
+                        }else{
+                            $('.first_language').html('');
+                        }
+                        if(response.errors.passport_status){
+                            $('.passport_status').html(response.errors.passport_status);
+                        }else{
+                            $('.passport_status').html('');
+                        }
+                        if(response.errors.dob){
+                            $('.dob').html(response.errors.dob);
+                        }else{
+                            $('.dob').html('');
+                        }
+                        if(response.errors.country_id){
+                            $('.country_id').html(response.errors.country_id);
+                        }else{
+                            $('.country_id').html('');
+                        }
+                        if(response.errors.province_id){
+                            $('.province_id_error').html(response.errors.province_id);
+                        }else{
+                            $('.province_id_error').html('');
+                        }
+                        if(response.errors.city){
+                            $('.city').html(response.errors.city);
+                        }else{
+                            $('.city').html('');
+                        }
+                        if(response.errors.address){
+                            $('.address').html(response.errors.address);
+                        }else{
+                            $('.address').html('');
+                        }
+                        if(response.errors.pref_countries){
+                            $('.pref_countries').html(response.errors.pref_countries);
+                        }else{
+                            $('.pref_countries').html('');
+                        }
+                        if(response.errors.education_level_id){
+                            $('.education_level_id_error').html(response.errors.education_level_id);
+                        }else{
+                            $('.education_level_id_error').html('');
+                        }
+                        if(response.errors.grading_average){
+                            $('.grading_average').html(response.errors.grading_average);
+                        }else{
+                            $('.grading_average').html('');
+                        }
+                        if(response.errors.grading_scheme_id){
+                            $('.grading_scheme_id_error').html(response.errors.grading_scheme_id);
+                        }else{
+                            $('.grading_scheme_id_error').html('');
+                        }
+                        if(response.errors.ever_refused_visa){
+                            $('.ever_refused_visa').html(response.errors.ever_refused_visa);
+                        }else{
+                            $('.ever_refused_visa').html('');
+                        }
+                        if(response.errors.has_visa){
+                            $('.has_visa').html(response.errors.has_visa);
+                        }else{
+                            $('.has_visa').html('');
+                        }
+                        if(response.errors.visa_details){
+                            $('.visa_details').html(response.errors.visa_details);
+                        }else{
+                            $('.visa_details').html('');
+                        }
+                        if(response.errors.pref_subjects){
+                            $('.pref_subjects').html(response.errors.pref_subjects);
+                        }else{
+                            $('.pref_subjects').html('');
+                        }
                     }
                 });
             });

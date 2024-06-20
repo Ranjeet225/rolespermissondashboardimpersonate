@@ -43,4 +43,9 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function user_login()
+    {
+        return view('auth.user-login');
+    }
 }

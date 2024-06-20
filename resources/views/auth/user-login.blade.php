@@ -237,6 +237,20 @@
                    <div class="noticedbg noticed 2nd">
                       <div class="main-part">
                          <div class="loginform">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                             <h2>Student Login</h2>
                             <hr>
                             <form method="POST" action="{{route('login')}}" aria-label="Login">
@@ -270,7 +284,7 @@
                                <span>Log In</span>
                                </button>
                                <div class="last-password">
-                                  <p>Not registered? <a href="https://overseaseducationlane.com/register">Create an account</a></p>
+                                  <p>Not registered? <a href="{{route('student-registration')}}">Create an account</a></p>
                                </div>
                             </form>
                          </div>
@@ -390,6 +404,20 @@
                    <div class="noticedbg noticed 33">
                       <div class="main-part">
                          <div class="loginform">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                             <h2>Franchise Login </h2>
                             <hr>
                             <form method="POST" action="{{route('login')}}" aria-label="Login">
@@ -423,7 +451,7 @@
                                <span>Log In</span>
                                </button>
                                <div class="last-password">
-                                  <p>Not registered? <a href="https://overseaseducationlane.com/franchise-register">Create an account</a></p>
+                                  <p>Not registered? <a href="{{route('franchise-register')}}">Create an account</a></p>
                                </div>
                             </form>
                          </div>
@@ -451,7 +479,7 @@
                                <div class="desc mb-30 pr-50 md-pr-15">
                                   India turns out to be a market with huge potential for abroad training anyway intricacies engaged with beginning another business are definitely more than beginning a partner office. To have organization of workplaces all over and presence in the entire of India is undeniably challenging for large associations and marginally unthinkable for the medium size and more modest ones also.  This is the extraordinary business design, which can empower fair organizations to go for a public development and arrive at clients in all pieces of the country.
                                   <div class="row" style="padding-top: 20px;">
-                                     <div class="col-lg-6"><a class="btn-become" href="https://overseaseducationlane.com/franchise-register">Become Franchise</a>
+                                     <div class="col-lg-6"><a class="btn-become" href="{{route('franchise-register')}}">Become Franchise</a>
                                      </div>
                                   </div>
                                </div>
@@ -529,6 +557,20 @@
                    <div class="noticedbg noticed 44">
                       <div class="main-part">
                          <div class="loginform">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                             <h2>Counselor Login</h2>
                             <hr>
                             <form method="POST" action="{{route('login')}}" aria-label="Login">
@@ -561,7 +603,7 @@
                                <span>Log In</span>
                                </button>
                                <div class="last-password">
-                                  <p>Not registered? <a href="https://overseaseducationlane.com/counselor_register">Create an account</a></p>
+                                  <p>Not registered? <a href="{{route('counselor_register')}}">Create an account</a></p>
                                </div>
                             </form>
                          </div>
@@ -591,7 +633,7 @@
                                   <p style="text-align:left">The counselors' help in choosing a study destination and choosing the right education provider and course. They also assist with registration and preparation for your English test and visa application support. Our counsellors also help with your accommodation. Not just this, they also perform career counselling and help in job search support and advise you to get a better job and opportunity.
                                   </p>
                                   <div class="row" style="padding-top: 20px;">
-                                     <div class="col-lg-6"><a class="btn-become" href="https://overseaseducationlane.com/franchise-register">Become Franchise</a>
+                                     <div class="col-lg-6"><a class="btn-become" href="{{route('franchise-register')}}">Become Franchise</a>
                                      </div>
                                   </div>
                                </div>

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
 use App\Models\EngProficiencyLevel;
 use App\Models\PaymentsLink;
+use Validator;
 use PDO;
 use Razorpay\Api\PaymentLink;
 
@@ -104,7 +105,7 @@ class StudentController extends Controller
         $additional_qualification= DB::table('additional_qualification')->WHERE('student_id', $about_student->id)->where('type', 'GRE')->first();
         $gmat=  DB::table('additional_qualification')->WHERE('student_id', $about_student->id)->where('type', 'GMAT')->first();
         $test_score = DB::table('test_scores')->where('student_id', $about_student->id)->get();
-        $all_subject = Subject::where('status', '1')->get();
+        $all_subject = Program::get();
         $student_document = DB::table('student_documents')->where('student_id', $auth_user)->get();
         $eng_prof_level=EngProficiencyLevel::where('status',1)->get();
         $education_history = DB::table('education_history')->where('student_id', $auth_user)->first();
@@ -116,10 +117,30 @@ class StudentController extends Controller
        $student_id = Auth::user()->id;
        $student = Student::where('user_id',$student_id)->first();
        if($request->tab1){
+            $validator = Validator::make($request->all(), [
+                'email' => 'unique:users,email,' . $student_id,
+                'first_name'=>'required|max:2000',
+                'middle_name'=>'required|max:2000',
+                'last_name'=>'required',
+                'gender'=>'required',
+                'maritial_status'=>'required',
+                'first_language'=>'required',
+                'passport_status'=>'required',
+                'dob'=>'required',
+                'country_id'=>'required',
+                'province_id'=>'required',
+                'city'=>'required',
+                'address'=>'required',
+                'zip'=>'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+            }
            $student_data =[
                 "first_name" => $request->first_name,
                 "middle_name" =>  $request->middle_name,
                 "last_name" =>  $request->last_name,
+                'email'=>$request->email,
                 "gender" => $request->gender,
                 "maritial_status" => $request->maritial_status,
                 "passport_status" => $request->passport_status,
@@ -133,13 +154,29 @@ class StudentController extends Controller
                 "zip" => $request->zip,
            ];
            DB::table('student')->where('user_id',$student_id)->update($student_data);
+           DB::table('users')->where('id',$student_id)->update([
+             "name" => $request->first_name,
+             'email'=>$request->email,
+           ]);
            return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab2){
+            $validator = Validator::make($request->all(), [
+                'pref_countries'=>'required',
+                'education_level_id'=>'required',
+                'grading_average'=>'required',
+                'grading_scheme_id'=>'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+            }
+            DB::table('student')->where('user_id',$student_id)->update([
+                'pref_countries'=>$request->pref_countries
+            ]);
             DB::table('education_history')
             ->updateOrInsert(
                 ['student_id' => $student_id],
                 [
-                    'country_id' => $request->country_id,
+                    'country_id' => $request->pref_countries,
                     'education_level_id' => $request->education_level_id,
                     'grading_average' => $request->grading_average,
                     'grading_scheme_id' => $request->grading_scheme_id,
@@ -148,6 +185,14 @@ class StudentController extends Controller
             );
              return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab4){
+                $validator = Validator::make($request->all(), [
+                    'ever_refused_visa'=>'required',
+                    'has_visa'=>'required',
+                    'visa_details'=>'required',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+                }
                 DB::table('student')->where('user_id',$student_id)
                 ->update([
                     'ever_refused_visa' => $request->ever_refused_visa,
@@ -183,7 +228,8 @@ class StudentController extends Controller
         DB::table('student')
         ->Where('email', $student_email)
         ->update([
-            'status_threesixty' => '1'
+            'status_threesixty' => '1',
+            'profile_complete'=>'1',
         ]);
         return response()->json(['status'=>true,'success'=>'Data inserted Successfully']);
        }
@@ -785,6 +831,15 @@ class StudentController extends Controller
         }else{
             return response()->json(['error'=>'Payment link not found']);
         }
+    }
+
+
+    public function applied_program()
+    {
+        $student_user =Auth::user();
+        $student_id=Student::where('user_id',$student_user->id)->first();
+        $program_applied = PaymentsLink::where('user_id', $student_id->id)->get();
+        return view('admin.student.applied-program');
     }
 
 }

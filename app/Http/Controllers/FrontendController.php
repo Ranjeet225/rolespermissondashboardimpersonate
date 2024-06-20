@@ -11,6 +11,7 @@ use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
 use App\Models\ProgramSubdiscipline;
 use App\Models\ProgramSubLevel;
+use App\Models\Student;
 use App\Models\StudentByAgent;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -18,6 +19,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\PaymentsLink;
 
 class FrontendController extends Controller
 {
@@ -229,8 +232,43 @@ class FrontendController extends Controller
         return view('frontend.program-details', compact('program_data','exam_text'));
     }
 
-    public function user_login()
-    {
-        return view('frontend.user-login');
+    public function apply_program_payment($student_id,$program_id){
+        $student_details=Student::where('id',$student_id)->first();
+        $program_data=Program::with('university_name')->where('id',$program_id)->first();
+        if (!$student_details) {
+            abort(404);
+        }
+        if (Auth::check() && Auth::user()->hasRole('student') && ($student_details->profile_complete != 1)) {
+            return redirect()->route('student-edit')->with(['message'=>'Please Complete Your Profile']);
+        }
+        return view('frontend.apply-program-payment',compact('program_data','student_id'));
     }
+
+    public function pay_amount($student_id,$program_id,$amount)
+    {
+        $fee = Crypt::decrypt($amount);
+        $student_details=Student::where('id',$student_id)->first();
+        $program_data=Program::with('university_name')->select('id')->where('id',$program_id)->first();
+        $controller = new LeadsManageCotroller();
+        $token 		= $controller->generateToken();
+        $uniqueId 		= $controller->uniqidgenrate();
+        $paymentLinkData = [
+            'token'					=> $token,
+            'user_id'				=> $student_details->id,
+            'email'					=> $student_details->email,
+            'program_id'            =>$program_data->id,
+            'payment_type'			=> null,
+            'payment_type_remarks' 	=> "applied_program",
+            'payment_mode'  		=> null,
+            'payment_mode_remarks' 	=> "",
+            'amount' 				=> $fee,
+            'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
+            'fallowp_unique_id'=> $uniqueId,
+        ];
+        PaymentsLink::create($paymentLinkData);
+        return redirect(url('/pay-now/c?token=' . $token));
+        // return view('emails.payment_link',compact('paymentData'));
+    }
+
+
 }

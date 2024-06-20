@@ -230,6 +230,13 @@
             "permission":"check_eligibility.view"
         },
         {
+            "url": "/student/applied-program",
+            "name": "Applied Programs",
+            "icon": "menu-icon tf-icons lab la-product-hunt",
+            "slug": "applied-program",
+            "permission":"applied_program.view"
+        },
+        {
             "name": "Programs",
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
@@ -451,13 +458,7 @@
             "slug": "edit-profile",
             "permission":"my_profile.update"
         },
-        {
-            "url": "/student/applied-program",
-            "name": "Applied Programs",
-            "icon": "menu-icon tf-icons lab la-product-hunt",
-            "slug": "applied-program",
-            "permission":"applied_program.view"
-        },
+
         {
             "name": "CMS",
             "icon": "menu-icon tf-icons las la-tachometer-alt",

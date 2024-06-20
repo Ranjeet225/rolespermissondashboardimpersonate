@@ -74,11 +74,19 @@
                       </li>
                    </ul>
                 </div>
+
                 <div class="btn-part mb-20">
-                   <a class="btn btn-primary btn-block"
-                      href="">Login &amp; Apply</a>
-                   <a href=""
-                      class="btn btn-primary btn-block brochure-btn">Download Brochure</a>
+                        @if(Auth::check())
+                            @php
+                                $user=Auth::user();
+                                $student_id=App\Models\Student::where('user_id',$user->id)->select('id')->first();
+                            @endphp
+                            @if($user->hasRole('student'))
+                                    <a href="{{ route('apply-program-payment', ['student_id' => $student_id->id, 'program_id' => $program_data->id]) }}" class="btn btn-primary">Apply</a>
+                            @endif
+                        @else
+                            <a href="{{route('user-login')}}"  class="btn btn-primary ">Login</a>
+                        @endif
                 </div>
              </div>
           </div>

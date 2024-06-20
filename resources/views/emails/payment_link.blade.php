@@ -51,7 +51,11 @@
 <body>
     <div class="container">
         <h1>Dear {{ $paymentData['name'] }},</h1>
-        <p>Please proceed with your payment   <p>Amount: {{ $paymentData['amount'] }}</p> by clicking on the following link:</p>
+        @php
+            $amountInRupees = $paymentData['amount'] * (1 / 0.013);
+        @endphp
+        <p>Please proceed with your payment   <p>Amount: {{ number_format($amountInRupees, 2) }} INR</p> by clicking on the following Go to:</p>
+        {{-- <p>Converted amount in INR: {{ number_format($amountInRupees, 2) }}</p> --}}
         <a class="payment-link" href="{{ $paymentData['payment_link'] }}" class="btn btn-primary">Go TO</a>
         {{-- <form action="{{ route('razorpay.payment.store') }}" method="POST">
             <a class="payment-link" href="{{ $paymentData['payment_link'] }}" class="btn btn-primary">Pay Now</a>

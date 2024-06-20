@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
-   
+
 
         $user = User::create([
             'name' => $request->name,
@@ -56,5 +56,19 @@ class RegisteredUserController extends Controller
         //return redirect(RouteServiceProvider::HOME);
         //return redirect('login');
         return redirect('login')->with('status', __('Congratulations, Your account has been successfully created.'));
+    }
+
+    public function franchise_register()
+    {
+        return view('auth.franchise_register');
+    }
+
+    public function student_registration()
+    {
+        return view('auth.student_registration');
+    }
+    public function counselor_register()
+    {
+        return view('auth.counselor_register');
     }
 }

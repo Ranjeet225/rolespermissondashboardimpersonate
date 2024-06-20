@@ -38,7 +38,8 @@ Route::post('get-education-level-filter',[FrontendController::class,'education_l
 Route::post('get-university-course',[FrontendController::class,'get_university_course'])->name('get-university-course');
 Route::get('course-details/{id?}',[FrontendController::class,'course_details'])->name('course-details');
 Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_data'])->name('view-program-data');
-Route::get('user-login',[FrontendController::class,'user_login'])->name('user-login');
+Route::get('apply-program-payment/{student_id}/{program_id}',[FrontendController::class,'apply_program_payment'])->name('apply-program-payment');
+
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -56,6 +57,8 @@ Route::get('delete-payment-link',[StudentController::class,'delete_payment_link'
 // student mobile number verfication
 Route::post('/send-otp',[FrontendController::class,'send_otp'])->name('send-otp');
 Route::post('/verify-otp', [FrontendController::class, 'verify_otp'])->name('verify-otp');
+
+Route::get('pay-amount/{student_id?}/{program_id?}/{amount?}', [FrontendController::class, 'pay_amount'])->name('pay-amount');
 
 Route::middleware('auth')->group(function () {
     // Route::get('/', [DashboardController::class, 'index']);
@@ -484,6 +487,7 @@ Route::middleware('auth')->group(function () {
 
     });
     Route::prefix('student')->group(function () {
+        Route::get('applied-program',[StudentController::class,'applied_program'])->name('applied-program');
         Route::get("my-profile",[StudentController::class,'student_profile'])->name('student-profile');
         Route::get("edit-profile",[StudentController::class,'edit_student'])->name('student-edit');
         Route::post("store-profile",[StudentController::class,'store_student'])->name('student-store');
