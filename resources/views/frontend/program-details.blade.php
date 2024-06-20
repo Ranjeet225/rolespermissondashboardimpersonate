@@ -1,13 +1,29 @@
 @extends('frontend.layouts.main')
 @section('content')
+<style>
+.college-banner img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 60%;
+}
+</style>
+<div class="rs-breadcrumbs breadcrumbs-overlay" style="height:300px">
+	<div class="breadcrumbs-img college-banner">
+                    <img src="{{asset($program_data->university_name->logo ?? null)}}">
+    </div>
+	<div class="breadcrumbs-text white-color">
+		<h1 class="page-title">{{$program_data->name ?? null}}</h1>
+		<h4 class="dn-about">
+			<a class="university_title" href="{{$program_data->university_name->website ?? null}}">{{$program_data->university_name->university_name ?? null}}</a>
+		</h4>
+	</div>
+</div>
 <section class="intro-section gray-bg pt-94 pb-40 md-pt-64 md-pb-70 sm-pb-30 loaded">
     <div class="container">
        <div class="row clearfix">
-          <!-- Video Column -->
           <div class="video-column col-lg-4">
              <div class="inner-column">
-                <!-- Video Box -->
-                <!-- End Video Box -->
                 <div class="course-features-info">
                    <h4>{{$program_data->name ?? null}}</h4>
                    <ul>
@@ -31,11 +47,11 @@
                          <span class="label">Courses Campus</span>
                          <span class="value">{{$program_data->programCampus ?? null}}</span>
                       </li>
-                      {{-- <li class="duration-feature">
+                      <li class="duration-feature">
                          <i class="fa fa-language"></i>
                          <span class="label">Language Specification</span>
-                         <span class="value">IELTS</span>
-                      </li> --}}
+                         <span class="value">{{$exam_text->type ?? null}}</span>
+                      </li>
                       <li class="duration-feature">
                          <i class="fa fa-graduation-cap"></i>
                          <span class="label">Program Level</span>
