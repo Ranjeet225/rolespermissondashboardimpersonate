@@ -228,4 +228,9 @@ class FrontendController extends Controller
         }
         return view('frontend.program-details', compact('program_data','exam_text'));
     }
+
+    public function user_login()
+    {
+        return view('frontend.user-login');
+    }
 }

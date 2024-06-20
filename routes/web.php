@@ -38,6 +38,7 @@ Route::post('get-education-level-filter',[FrontendController::class,'education_l
 Route::post('get-university-course',[FrontendController::class,'get_university_course'])->name('get-university-course');
 Route::get('course-details/{id?}',[FrontendController::class,'course_details'])->name('course-details');
 Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_data'])->name('view-program-data');
+Route::get('user-login',[FrontendController::class,'user_login'])->name('user-login');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

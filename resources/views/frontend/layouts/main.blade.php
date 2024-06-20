@@ -153,7 +153,7 @@
                                             </li>
 
                                             <li class="btn-part">
-                                                <a class="apply-btn" href="">Login</a>
+                                                <a class="apply-btn" href="{{route('user-login')}}">Login</a>
                                             </li>
                                             <li class="btn-part">
                                                 <a href=""> <img
@@ -178,7 +178,7 @@
                                             </div>
                                             <ul class="dropdown-menu" id="user_dropdown_content2">
                                                 <li class="menu_item_user_dropdown">
-                                                    <a href=""><i class="fa fa-sign-in"></i>Login</a>
+                                                    <a href="{{route('user-login')}}"><i class="fa fa-sign-in"></i>Login</a>
                                                 </li>
                                                 <li class="menu_item_user_dropdown">
                                                     <a href="register.html"><i class="fa fa-registered"></i>Student
@@ -282,10 +282,10 @@
                             <li><a href="frequently-asked-questions.html">FAQ</a></li>
                             <li><a href="privacy-policy.html">Privacy Policy</a></li>
                             <li>
-                                <a href="franchise-">Franchise Login</a>
+                                <a href="{{route('user-login')}}">Franchise Login</a>
                             </li>
                             <li>
-                                <a href="counselor_">Counselor Login</a>
+                                <a href="{{route('user-login')}}">Counselor Login</a>
                             </li>
                         </ul>
                     </div>
