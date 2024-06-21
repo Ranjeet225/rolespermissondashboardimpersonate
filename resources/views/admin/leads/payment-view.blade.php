@@ -63,7 +63,7 @@
                     <input type="hidden" name="name" value="{{$data['name']}}">
                     <input type="hidden" name="fallowp_unique_id" value="{{$data['fallowp_unique_id']}}">
                     <input type="hidden" name="user_id" value="{{$data['user_id']}}">
-                    <button id="payBtn"  class="payment-link">Pay {{ $data['amount'] }} INR
+                    <button id="payBtn"  class="payment-link">Pay {{ $data['amount'] }} GBP
                     </button>
                     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
                 </form>

@@ -252,22 +252,49 @@ class FrontendController extends Controller
         $controller = new LeadsManageCotroller();
         $token 		= $controller->generateToken();
         $uniqueId 		= $controller->uniqidgenrate();
-        $paymentLinkData = [
-            'token'					=> $token,
-            'user_id'				=> $student_details->id,
-            'email'					=> $student_details->email,
-            'program_id'            =>$program_data->id,
-            'payment_type'			=> null,
-            'payment_type_remarks' 	=> "applied_program",
-            'payment_mode'  		=> null,
-            'payment_mode_remarks' 	=> "",
-            'amount' 				=> $fee,
-            'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
-            'fallowp_unique_id'=> $uniqueId,
-        ];
-        PaymentsLink::create($paymentLinkData);
+        $paymentLink = PaymentsLink::updateOrCreate(
+            ['program_id' => $program_data->id],
+            [
+                'token'					=> $token,
+                'user_id'				=> $student_details->id,
+                'email'					=> $student_details->email,
+                'payment_type'			=> null,
+                'payment_type_remarks' 	=> "applied_program",
+                'payment_mode'  		=> null,
+                'payment_mode_remarks' 	=> "",
+                'amount' 				=> $fee,
+                'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
+                'fallowp_unique_id'=> $uniqueId,
+            ]
+        );
         return redirect(url('/pay-now/c?token=' . $token));
         // return view('emails.payment_link',compact('paymentData'));
+    }
+
+    public function pay_later($student_id,$program_id,$amount)
+    {
+        $fee = Crypt::decrypt($amount);
+        $student_details=Student::where('id',$student_id)->first();
+        $program_data=Program::with('university_name')->select('id')->where('id',$program_id)->first();
+        $controller = new LeadsManageCotroller();
+        $token 		= $controller->generateToken();
+        $uniqueId 		= $controller->uniqidgenrate();
+        $paymentLink = PaymentsLink::updateOrCreate(
+            ['program_id' => $program_data->id],
+            [
+                'token'					=> $token,
+                'user_id'				=> $student_details->id,
+                'email'					=> $student_details->email,
+                'payment_type'			=> null,
+                'payment_type_remarks' 	=> "applied_program_pay_later",
+                'payment_mode'  		=> null,
+                'payment_mode_remarks' 	=> "",
+                'amount' 				=> $fee,
+                'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
+                'fallowp_unique_id'=> $uniqueId,
+            ]
+        );
+        return redirect(url('student/applied-program'));
     }
 
 

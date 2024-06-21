@@ -80,9 +80,15 @@
                             @php
                                 $user=Auth::user();
                                 $student_id=App\Models\Student::where('user_id',$user->id)->select('id')->first();
+                                $student_program_applied = App\Models\PaymentsLink::with('program:name,id,school_id')->where('payment_type_remarks','applied_program')->where('user_id', $student_id->id)->get();
+                                $university_id = $student_program_applied->pluck('program.school_id')->toArray();
                             @endphp
-                            @if($user->hasRole('student'))
+                            @if(in_array($program_data->school_id,$university_id))
+                                 <button class="btn btn-primary">You Can Select One University One Program</button>
+                            @else
+                                @if($user->hasRole('student'))
                                     <a href="{{ route('apply-program-payment', ['student_id' => $student_id->id, 'program_id' => $program_data->id]) }}" class="btn btn-primary">Apply</a>
+                                @endif
                             @endif
                         @else
                             <a href="{{route('user-login')}}"  class="btn btn-primary ">Login</a>

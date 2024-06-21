@@ -838,8 +838,13 @@ class StudentController extends Controller
     {
         $student_user =Auth::user();
         $student_id=Student::where('user_id',$student_user->id)->first();
-        $program_applied = PaymentsLink::where('user_id', $student_id->id)->get();
-        return view('admin.student.applied-program');
+        $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->id)->get();
+        return view('admin.student.applied-program',compact('program_applied'));
     }
 
+
+    public function delete_program($id){
+        PaymentsLink::find($id)?->delete();
+        return redirect(url('student/applied-program'));
+    }
 }

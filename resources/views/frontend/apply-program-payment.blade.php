@@ -132,13 +132,35 @@
     </style>
     <div class="center payment_buttons">
        <div style="display: flex; justify-content: center;">
-          <button type="button" onclick="pay_later()" class="btn btn-primary m-l-15 razorpay-payment-button" id="pay_later">Pay Later</button>
-          <div style="width: 20px;"></div>
-          <button type="button" id="paybtn" class="btn btn-primary m-l-15 razorpay-payment-button loading_button">
-          <span style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          <span><a href="{{route('pay-amount',[$student_id,$program_data->id,Crypt::encrypt($program_data->tution_fee)])}}" class="text-light">Pay and Continue</a></span>
-
-          </button>
+          @php
+              $payment_details = DB::table('payments_link')->where('user_id', $student_id)->where('program_id', $program_data->id)->first();
+          @endphp
+          @if ($payment_details)
+                @php
+                    $payments = DB::table('payments')->where('fallowp_unique_id', $payment_details->fallowp_unique_id)->first();
+                @endphp
+                @if (empty($payments) ||  !($payments->payment_status == 'success'))
+                    <button type="button"  class="btn btn-primary mr-5 m-l-15 razorpay-payment-button" id="pay_later">
+                        <a href="{{route('pay-later',[$student_id, $program_data->id,Crypt::encrypt($program_data->tution_fee)])}}" class="text-light">
+                            Pay Later
+                        </a>
+                    </button>
+                    <button type="button" id="paybtn" class="btn btn-primary mr-4 m-l-15 razorpay-payment-button loading_button">
+                        <span style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span><a href="{{ route('pay-amount', [$student_id, $program_data->id, Crypt::encrypt($program_data->tution_fee)]) }}" class="text-light">Pay and Continue</a></span>
+                    </button>
+                @endif
+            @else
+            <button type="button"  class="btn btn-primary mr-4 m-l-15 razorpay-payment-button" id="pay_later">
+                <a href="{{route('pay-later',[$student_id, $program_data->id, Crypt::encrypt($program_data->tution_fee)])}}" class="text-light">
+                    Pay Later
+                </a>
+            </button>
+            <button type="button" id="paybtn" class="btn btn-primary m-l-15 razorpay-payment-button loading_button">
+                <span style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span><a href="{{ route('pay-amount', [$student_id, $program_data->id, Crypt::encrypt($program_data->tution_fee)]) }}" class="text-light">Pay and Continue</a></span>
+            </button>
+          @endif
        </div>
     </div>
  </div>

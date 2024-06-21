@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -39,6 +39,7 @@ Route::post('get-university-course',[FrontendController::class,'get_university_c
 Route::get('course-details/{id?}',[FrontendController::class,'course_details'])->name('course-details');
 Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_data'])->name('view-program-data');
 Route::get('apply-program-payment/{student_id}/{program_id}',[FrontendController::class,'apply_program_payment'])->name('apply-program-payment');
+Route::get('pay-later/{student_id}/{program_id}/{amount?}',[FrontendController::class,'pay_later'])->name('pay-later');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -129,8 +130,8 @@ Route::middleware('auth')->group(function () {
         Route::get('edit-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_edit'])->name('edit-student-registration-fees');
         Route::post('update-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_update'])->name('update-student-registration-fees');
         Route::get('delete-student-registration-fees/{id?}',[StudentController::class,'student_registration_fees_destroy'])->name('delete-student-registration-fees');
+        Route::get('delete-program/{id}',[StudentController::class,'delete_program'])->name('delete-program');
 
-        // student question
         Route::get('student-apply-question',[StudentController::class,'student_question'])->name('student-question');
         Route::get('student-question-filter',[StudentController::class,'student_question'])->name('student-question-filter');
         Route::get('create-student-question',[StudentController::class,'student_question_create'])->name('create-student-question');
