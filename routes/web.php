@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-// URL::forceScheme('https');
+URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -488,7 +488,7 @@ Route::middleware('auth')->group(function () {
 
     });
     Route::prefix('student')->group(function () {
-        Route::get('applied-program',[StudentController::class,'applied_program'])->name('applied-program');
+        Route::get('applied-program',[StudentController::class,'applieed_program'])->name('applied-program');
         Route::get("my-profile",[StudentController::class,'student_profile'])->name('student-profile');
         Route::get("edit-profile",[StudentController::class,'edit_student'])->name('student-edit');
         Route::post("store-profile",[StudentController::class,'store_student'])->name('student-store');

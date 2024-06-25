@@ -332,31 +332,27 @@
                                                         ->where('id', $education_history->grading_scheme_id ?? null)
                                                         ->first();
                                                 @endphp
-                                            <select name="grading_scheme_id"
+                                            <select name="grading_scheme_id" id="grading_scheme_id"
                                                 class="form-control grading_scheme_id grading-scheme" required>
                                                 @if (!empty($education_history->grading_scheme_id))
-                                                    <option value="{{ $education_history->grading_scheme_id }}"
+                                                    <option value="{{ $education_history->grading_scheme_id }}" grading-data="{{$grading_scheme->name}}"
                                                         {{ ($education_history->grading_scheme_id ?? old('grading_scheme_id'))}}>
                                                         {{ $grading_scheme->name }}</option>
                                                 @else
                                                   <option value="">--Grading Scheme --</option>
                                                 @endif
                                             </select>
-                                                {{-- <select class="form-control  grading-scheme" name="grading_scheme_id"
-                                                    >
-                                                    <option value="">--Grading Scheme --</option>
-                                                </select> --}}
-                                                <label for="lead-source" class="form-label">Grading Scheme</label>
+                                                 <label for="lead-source" class="form-label">Grading Scheme</label>
                                                 <span class="text-danger grading_scheme_id_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-floating">
-                                                <input name="grading_average" value="{{ $education_history->grading_average }}" type="number" class="form-control"
-                                                    >
+                                                <input name="grading_average" id="lead-grading_number" value="{{ $education_history->grading_average }}" type="number" class="form-control">
                                                 <input type="hidden" name="tab2" value="tab2">
                                                 <label for="lead-address" class="form-label">Grading Average</label>
                                                 <span class="text-danger grading_average"></span>
+                                                <div id="grading_input_error" class="text-danger"  style="display: none;">Invalid grade. Please enter a value within the selected grading scheme.</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1029,6 +1025,41 @@
     </div>
 @endsection
 @section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+          const gradingSchemeSelect = document.getElementById('grading_scheme_id');
+          const gradingInput = document.getElementById('lead-grading_number');
+
+          gradingSchemeSelect.addEventListener('change', function () {
+              validateInput();
+          });
+          gradingInput.addEventListener('input', function () {
+              validateInput();
+          });
+          function extractMaxGrade(value) {
+              const match = value.match(/(\d+)$/);
+              return match ? parseInt(match[0], 10) : null;
+          }
+          function validateInput() {
+              const selectedOption = gradingSchemeSelect.options[gradingSchemeSelect.selectedIndex];
+              const selectedScheme = selectedOption.getAttribute('grading-data');
+              const inputValue = gradingInput.value;
+              if (selectedScheme && inputValue !== '') {
+                  const maxGrade = extractMaxGrade(selectedScheme);
+                  if (maxGrade && inputValue > maxGrade) {
+                      gradingInput.classList.add('is-invalid');
+                      $('#grading_input_error').show();
+                  } else {
+                      gradingInput.classList.remove('is-invalid');
+                      $('#grading_input_error').hide();
+                  }
+              } else {
+                  gradingInput.classList.remove('is-invalid');
+                  $('#grading_input_error').hide();
+              }
+          }
+    });
+  </script>
     <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
     <script>
         $(document).ready(function() {

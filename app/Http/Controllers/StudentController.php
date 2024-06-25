@@ -77,9 +77,15 @@ class StudentController extends Controller
     public function student_profile()
     {
         $auth_user =Auth::user()->id;
+        if(empty($auth_user)) {
+            abort(404);
+        }
         $about_student =Student::with('country','province')->where('user_id',$auth_user)->first();
         $education_history = EducationHistory::with('country','educationLevel','gradingScheme')->where('student_id',$auth_user)->first();
         $student = DB::table('student')->select('id')->where('user_id', $auth_user)->first();
+        if(empty($student)) {
+            abort(404);
+        }
         $student_id = $student->id;
         $test_score= DB::table('test_scores')->where('student_id',$student_id)->get();
         $attended_school =SchoolAttended::with('country','educationLevel','Student','province')->where('student_id',$student_id)->get();
@@ -98,7 +104,9 @@ class StudentController extends Controller
     {
         $auth_user =Auth::user()->id;
         $about_student =DB::table('student')->where('user_id',$auth_user)->first();
-
+        if(empty($about_student)) {
+            abort(404);
+        }
         $countries = Country::all();
         $progLabel = EducationLevel::All();
         $student_attendence = StudentAttendence::with('country','province','student')->WHERE('student_id', $about_student->id)->get();
@@ -115,6 +123,9 @@ class StudentController extends Controller
     public function store_student(Request $request)
     {
        $student_id = Auth::user()->id;
+       if(empty($student_id)) {
+            abort(404);
+        }
        $student = Student::where('user_id',$student_id)->first();
        if($request->tab1){
             $validator = Validator::make($request->all(), [
@@ -838,12 +849,18 @@ class StudentController extends Controller
     {
         $student_user =Auth::user();
         $student_id=Student::where('user_id',$student_user->id)->first();
+        if(empty($student_id)) {
+            abort(404);
+        }
         $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->id)->get();
         return view('admin.student.applied-program',compact('program_applied'));
     }
 
 
     public function delete_program($id){
+        if(empty($id)) {
+            abort(404);
+        }
         PaymentsLink::find($id)?->delete();
         return redirect(url('student/applied-program'));
     }
