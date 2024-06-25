@@ -181,6 +181,7 @@
                             <th>Payment Mode</th>
                             <th>Amount</th>
                             <th>Payment Status</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -202,6 +203,11 @@
                             <td>{{$item->paymentMode}}</td>
                             <td>{{$item->amount}}</td>
                             <td class="text-capitalize">{{$payment_status->payment_status ?? null}}</td>
+                            <td class="text-capitalize">
+                                <a href="{{route('delete-user-follow-up',$item->id)}}" class="btn btn-warning" >
+                                    Delete
+                                </a>
+                            </td>
                         <tr>
                             @php
                                 $i++;

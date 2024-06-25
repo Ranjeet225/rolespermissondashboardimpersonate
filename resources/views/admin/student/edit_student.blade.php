@@ -348,7 +348,7 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-floating">
-                                                <input name="grading_average" id="lead-grading_number" value="{{ $education_history->grading_average }}" type="number" class="form-control">
+                                                <input name="grading_average" id="lead-grading_number" value="{{ $education_history->grading_average ?? null }}" type="number" class="form-control">
                                                 <input type="hidden" name="tab2" value="tab2">
                                                 <label for="lead-address" class="form-label">Grading Average</label>
                                                 <span class="text-danger grading_average"></span>

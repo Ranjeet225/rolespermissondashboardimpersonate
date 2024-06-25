@@ -674,6 +674,69 @@
             "install-path": "../egulias/email-validator"
         },
         {
+            "name": "everapi/freecurrencyapi-php",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/everapihq/freecurrencyapi-php.git",
+                "reference": "61514ca4124b6c5e4de823a546fe08a3dd8c3c9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/everapihq/freecurrencyapi-php/zipball/61514ca4124b6c5e4de823a546fe08a3dd8c3c9e",
+                "reference": "61514ca4124b6c5e4de823a546fe08a3dd8c3c9e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "pestphp/pest": "^1.20",
+                "spatie/ray": "^1.28"
+            },
+            "time": "2023-05-26T09:26:01+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "FreeCurrencyApi\\FreeCurrencyApi\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dominik Kukacka",
+                    "email": "office@everapi.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP wrapper for the freecurrencyapi.com API",
+            "homepage": "https://github.com/everapihq/freecurrencyapi-php",
+            "keywords": [
+                "api",
+                "currency api",
+                "exchange rates data",
+                "foreign exchange rates API",
+                "free currency api ",
+                "free currency conversion API",
+                "freecurrencyapi-php",
+                "freecurrencyapi.com",
+                "rates API"
+            ],
+            "support": {
+                "issues": "https://github.com/everapihq/freecurrencyapi-php/issues",
+                "source": "https://github.com/everapihq/freecurrencyapi-php/tree/master"
+            },
+            "install-path": "../everapi/freecurrencyapi-php"
+        },
+        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.17.0",
             "version_normalized": "4.17.0.0",

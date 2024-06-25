@@ -203,7 +203,7 @@
                                <select class="form-control" name="subject"  placeholder="Source">
                                        <option value="">-- Subjects  --</option>
                                     @foreach ($subjects as $item)
-                                        <option class="option" value="{{$item->id}}"  {{ $item->id == $studentData->subject ? 'selected' : '' }}>{{$item->subject_name}}</option>
+                                        <option class="option" value="{{$item->id}}"  {{ $item->id == $studentData-> name ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                </select>
                                <label for="lead-source" class="form-label">Subjects</label>

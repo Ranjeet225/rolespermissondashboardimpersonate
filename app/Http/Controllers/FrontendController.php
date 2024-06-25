@@ -271,8 +271,16 @@ class FrontendController extends Controller
     public function pay_amount($student_id,$program_id,$amount)
     {
         $fee = Crypt::decrypt($amount);
+        // CONVERT CURRENCY
         $student_details=Student::where('id',$student_id)->first();
-        $program_data=Program::with('university_name')->select('id')->where('id',$program_id)->first();
+        $program_data=Program::with('university_name')->select('id','currency')->where('id',$program_id)->first();
+        $freecurrencyapi = new \FreeCurrencyApi\FreeCurrencyApi\FreeCurrencyApiClient('fca_live_mt9NJ25AtC6V2SEojGBNmlM01WMMdmOUyJOctMzI');
+        $rates = $freecurrencyapi->latest([
+            'base_currency' => $program_data->currency,
+            'symbols' => 'INR',
+            'amount' => $fee,
+        ]);
+        $currency = $rates['data']['INR'];
         $controller = new LeadsManageCotroller();
         $token 		= $controller->generateToken();
         $uniqueId 		= $controller->uniqidgenrate();
@@ -286,7 +294,7 @@ class FrontendController extends Controller
                 'payment_type_remarks' 	=> "applied_program",
                 'payment_mode'  		=> null,
                 'payment_mode_remarks' 	=> "",
-                'amount' 				=> $fee,
+                'amount' 				=> round($currency*$fee,2),
                 'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
                 'fallowp_unique_id'=> $uniqueId,
             ]

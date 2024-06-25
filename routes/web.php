@@ -101,6 +101,8 @@ Route::middleware('auth')->group(function () {
         Route::any('excel-sheet-export', [LeadsManageCotroller::class, 'lead_list_export'])->name('lead_list_export');
         Route::get('manage-lead/{id?}', [LeadsManageCotroller::class, 'manage_lead'])->name('manage-lead');
         Route::get('edit-lead/{id?}', [LeadsManageCotroller::class, 'edit_lead_data'])->name('edit-lead');
+        Route::get('delete-user-follow-up/{id?}', [LeadsManageCotroller::class, 'delete_user_follow_up'])->name('delete-user-follow-up');
+
         Route::get('show-lead/{id?}', [LeadsManageCotroller::class, 'show_lead'])->name('view-lead');
         Route::get('create_student_profile/{id}', [LeadsManageCotroller::class, 'create_student_profile'])->name('create-student-profile');
         Route::get('oel-360/', [LeadsManageCotroller::class, 'oel_360'])->name('oel_360');
@@ -488,7 +490,7 @@ Route::middleware('auth')->group(function () {
 
     });
     Route::prefix('student')->group(function () {
-        Route::get('applied-program',[StudentController::class,'applieed_program'])->name('applied-program');
+        Route::get('applied-program',[StudentController::class,'applied_program'])->name('applied-program');
         Route::get("my-profile",[StudentController::class,'student_profile'])->name('student-profile');
         Route::get("edit-profile",[StudentController::class,'edit_student'])->name('student-edit');
         Route::post("store-profile",[StudentController::class,'store_student'])->name('student-store');
@@ -540,6 +542,7 @@ Route::get('/landing-page', [App\Http\Controllers\LandingPage\HomeController::cl
 Route::post('landing-page/get-country-data', [App\Http\Controllers\LandingPage\HomeController::class, 'getCountryData'])->name('get-country-data');
 // Route::get('country/{id}',[App\Http\Controllers\LandingPage\HomeController::class,'getIndexPageData'])->name('country');
 Route::post('landing-page/send-mail',[App\Http\Controllers\LandingPage\HomeController::class,'sendMail'])->name('send-mail');
+Route::get('/fetch-states', [\App\Http\Controllers\LandingPage\DashboardController::class, 'fetchStates'])->name('fetch-states.get');
 
 
 

@@ -193,8 +193,8 @@
                             <th>S.N</th>
                             <th>Date</th>
                             <th> Source </th>
-                            <th> Name </th>
                             <th> PinCode</th>
+                            <th> Name </th>
                             <th> Phone</th>
                             <th> Email</th>
                             <th> Comment </th>

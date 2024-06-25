@@ -372,7 +372,7 @@ class LeadsManageCotroller extends Controller
 
         $user = auth()->user();
         $castes = Caste::where("status", 1)->get();
-        $subjects = Subject::where("status", 1)->get();
+        $subjects = Program::get();
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
@@ -584,7 +584,7 @@ class LeadsManageCotroller extends Controller
     {
         $user = auth()->user();
         $castes = Caste::where("status", 1)->get();
-        $subjects = Subject::where("status", 1)->get();
+        $subjects = Program::get();
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
@@ -667,6 +667,17 @@ class LeadsManageCotroller extends Controller
         return view('admin.leads.manage-leads', compact('studentAgentData', 'student_id', 'masterLeadStatus', 'follow_up_list'));
     }
 
+
+    public function delete_user_follow_up(Request $request){
+        if($request->id){
+            $deleted = DB::table('user_follow_up')->where('id', $request->id)->delete();
+            if($deleted){
+                return redirect()->back()->with('success','Follow up deleted successfully.');
+            }
+        }
+        return redirect()->back()->with('error','Something went wrong.');
+    }
+
     public function generateToken(){
     	$token = Str::random(60);
     	$paymentsLink = PaymentsLink::where('token',$token)->first();
@@ -711,8 +722,8 @@ class LeadsManageCotroller extends Controller
                 'payment_link'=>url('/pay-now/c?token=' . $token),
                 'amount'=>$amount,
             ];
-            Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
-            // Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
+            // Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
+            Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
             PaymentsLink::create($paymentLinkData);
         }
         $data = [
@@ -1562,7 +1573,7 @@ class LeadsManageCotroller extends Controller
     {
         $user = auth()->user();
         $castes = Caste::where("status", 1)->get();
-        $subjects = Subject::where("status", 1)->get();
+        $subjects = Program::get();
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();

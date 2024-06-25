@@ -56,7 +56,6 @@ class DashboardController extends Controller
     public function updateAds(Request $request,$id)
     {
         $request->validate([
-            'image' => 'required|max:2048',
             'title'=>'required|max:198'
         ]);
 
@@ -149,9 +148,7 @@ class DashboardController extends Controller
     }
     public function updateSlider(Request $request, $id)
     {
-        $request->validate([
-            'images' => 'required|max:2048',
-        ]);
+     
         $slider = Slider::findOrFail($id);
         $slider->update([
             'country_id' => $request->country_id,

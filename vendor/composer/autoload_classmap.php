@@ -984,6 +984,8 @@ return array(
     'Faker\\Provider\\zh_TW\\Text' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/zh_TW/Text.php',
     'Faker\\UniqueGenerator' => $vendorDir . '/fakerphp/faker/src/Faker/UniqueGenerator.php',
     'Faker\\ValidGenerator' => $vendorDir . '/fakerphp/faker/src/Faker/ValidGenerator.php',
+    'FreeCurrencyApi\\FreeCurrencyApi\\FreeCurrencyApiClient' => $vendorDir . '/everapi/freecurrencyapi-php/src/FreeCurrencyApiClient.php',
+    'FreeCurrencyApi\\FreeCurrencyApi\\FreeCurrencyApiException' => $vendorDir . '/everapi/freecurrencyapi-php/src/FreeCurrencyApiException.php',
     'Fruitcake\\Cors\\CorsService' => $vendorDir . '/fruitcake/php-cors/src/CorsService.php',
     'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => $vendorDir . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
     'GrahamCampbell\\ResultType\\Error' => $vendorDir . '/graham-campbell/result-type/src/Error.php',

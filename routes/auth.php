@@ -23,8 +23,11 @@ Route::middleware('guest')->group(function () {
     Route::get('user-login',[AuthenticatedSessionController::class,'user_login'])->name('user-login');
 
     Route::get('franchise-register',[RegisteredUserController::class,'franchise_register'])->name('franchise-register');
+    Route::post('franchise-user-store',[RegisteredUserController::class,'franchise_user_store'])->name('franchise-user-store');
     Route::get('student-registration',[RegisteredUserController::class,'student_registration'])->name('student-registration');
+    Route::post('student-store',[RegisteredUserController::class,'student_store'])->name('student-store');
     Route::get('counselor-register',[RegisteredUserController::class,'counselor_register'])->name('counselor_register');
+    Route::post('counselor-register-store',[RegisteredUserController::class,'counselor_register_store'])->name('counselor-register-store');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 

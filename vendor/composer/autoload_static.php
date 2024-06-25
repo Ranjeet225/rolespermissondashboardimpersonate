@@ -21,9 +21,9 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '3bd81c9b8fcc150b69d8b63b4d2ccf23' => __DIR__ . '/..' . '/spatie/flare-client-php/src/helpers.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
@@ -172,6 +172,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'F' => 
         array (
             'Fruitcake\\Cors\\' => 15,
+            'FreeCurrencyApi\\FreeCurrencyApi\\' => 32,
             'Faker\\' => 6,
         ),
         'E' => 
@@ -562,6 +563,10 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'Fruitcake\\Cors\\' => 
         array (
             0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
+        ),
+        'FreeCurrencyApi\\FreeCurrencyApi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/everapi/freecurrencyapi-php/src',
         ),
         'Faker\\' => 
         array (
@@ -1625,6 +1630,8 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'Faker\\Provider\\zh_TW\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/zh_TW/Text.php',
         'Faker\\UniqueGenerator' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/UniqueGenerator.php',
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/ValidGenerator.php',
+        'FreeCurrencyApi\\FreeCurrencyApi\\FreeCurrencyApiClient' => __DIR__ . '/..' . '/everapi/freecurrencyapi-php/src/FreeCurrencyApiClient.php',
+        'FreeCurrencyApi\\FreeCurrencyApi\\FreeCurrencyApiException' => __DIR__ . '/..' . '/everapi/freecurrencyapi-php/src/FreeCurrencyApiException.php',
         'Fruitcake\\Cors\\CorsService' => __DIR__ . '/..' . '/fruitcake/php-cors/src/CorsService.php',
         'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => __DIR__ . '/..' . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',

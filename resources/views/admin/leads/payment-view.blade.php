@@ -52,24 +52,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container" style="width: 600px">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Dear {{ $data['name'] }},</h1>
-                <p>Please proceed with your payment
-                <p>Amount: {{ $data['amount'] }}</p> by clicking on the following link:</p>
-                <form action="{{ route('razorpay.payment.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="name" value="{{$data['name']}}">
-                    <input type="hidden" name="fallowp_unique_id" value="{{$data['fallowp_unique_id']}}">
-                    <input type="hidden" name="user_id" value="{{$data['user_id']}}">
-                    <button id="payBtn"  class="payment-link">Pay {{ $data['amount'] }} GBP
-                    </button>
-                    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-                </form>
-            </div>
-            <div class="col-md-4 mt-4">
-                <img src="{{asset('assets/img/logo2.png')}}">
+    <div class="container" style="display: flex; justify-content: center; max-width: 600px;">
+        <div style="width: 100%;">
+            <div class="card text-center" style="max-width: 600px; margin: auto;">
+                <div class="card-body">
+                    <h1>Dear {{ $data['name'] }},</h1>
+                    <p>Please proceed with your payment</p>
+                    <p>Amount: {{ $data['amount'] }} INR</p>
+                    <form action="{{ route('razorpay.payment.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="name" value="{{$data['name']}}">
+                        <input type="hidden" name="fallowp_unique_id" value="{{$data['fallowp_unique_id']}}">
+                        <input type="hidden" name="user_id" value="{{$data['user_id']}}">
+                        <button id="payBtn"  class="payment-link">Pay {{ $data['amount'] }} INR
+                        </button>
+                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                    </form>
+                </div>
+                <div class="card-footer" style="text-align: center;">
+                    <img src="{{asset('assets/img/logo2.png')}}">
+                </div>
             </div>
         </div>
     </div>

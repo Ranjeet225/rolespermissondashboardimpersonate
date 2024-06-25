@@ -44,53 +44,184 @@
        <div class="container">
           <div class="register-box">
              <div class="sec-title text-center mb-30">
-                <h2 class="title mb-10">Student Registration</h2>
+                <h2 class="title mb-10">Franchise Registration</h2>
              </div>
              <!-- Login Form -->
              <div class="styled-form">
-                <form id="contact-form" method="POST" action="https://overseaseducationlane.com/register" aria-label="Register">
+                <form id="contact-form" method="POST" action="{{route('franchise-user-store')}}" aria-label="Register">
                    <div class="row clearfix">
-                      <input type="hidden" name="_token" value="j4L3drDpDVFnhtiqiTpduovA0C7JqmingCcV2gNI">
-                      <div class="col-md-12">
+                    @csrf
+                      <!-- Name -->
+                      <div class="col-md-12 col-sm-12">
                          <div class="form-group">
-                            <label>Name <span class="required">*</span></label>
-                            <input id="name_input" type="text" name="name" value="" class="form-control " placeholder="Enter Name">
-                            <span class="invalid-feedback" role="alert" id="name_error">
-                            </span>
+                            <label for="name_input">Name <span class="required">*</span></label>
+                            <input type="text" name="name" value="{{old('name')}}" class="form-control " id="name_input" placeholder="Enter Name">
+                            @error('name')
+                                  <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
                          </div>
                       </div>
                       <div class="col-md-12">
                          <div class="form-group">
                             <label for="exampleInputEmail1">Email address <span class="required">*</span></label>
-                            <input type="email" name="email" value="" class="form-control " id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                            <input type="email" name="email"  value="{{old('email')}}"  class="form-control " id="email" aria-describedby="emailHelp" placeholder="Enter email">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            <span id="email_error" class="invalid-feedback" role="alert">
-                            </span>
+                            @error('email')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12" style="padding-bottom: 20px;">
+                         <label for="exampleInputEmail1">Select Gender <span class="required">*</span></label><br>
+                         <div style="display: flex;">
+                            <div class="form-check" style="margin-right: 15px;">
+                               <input class="form-check-input" type="radio" value="{{old('gender')}}"  name="gender" id="flexRadioDefault1" value="Male">
+                               <label class="form-check-label" for="flexRadioDefault1">
+                               Male
+                               </label>
+                            </div>
+                            <div class="form-check">
+                               <input class="form-check-input" type="radio"  value="{{old('gender')}}"  name="gender" id="flexRadioDefault2" value="Female">
+                               <label class="form-check-label" for="flexRadioDefault2">
+                               Female
+                               </label>
+                            </div>
+                            @error('gender')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
                          </div>
                       </div>
                       <div class="col-md-12">
                          <div class="form-group">
-                            <label for="exampleInputPhoneNumber1">Mobile No. <span class="required">*</span></label>
-                            <input type="text" name="phone_number" value="" class="form-control  phone_number" id="exampleInputPhoneNumber1" placeholder="Phone Number">
-                            <span id="phone_number_error" class="invalid-feedback" role="alert">
-                            </span>
+                            <label for="phone_number_input">Mobile No. <span class="required">*</span></label>
+                            <input type="text" maxlength="10" name="phone" value="{{old('phone')}}" class="form-control  phone" id="phone" placeholder="Phone Number">
+                            @error('phone')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
                          </div>
                       </div>
                       <div class="col-md-12">
                          <div class="form-group">
-                            <label>Password <span class="required">*</span></label>
-                            <input type="password" name="password" value="" class="form-control " placeholder="Password" id="password_box">
-                            <span id="password_error" class="invalid-feedback" role="alert">
-                            </span>
+                            <label for="exampleInputEmail1">Select Country <span class="required">*</span></label>
+                            @php
+                                $country=App\Models\Country::select('name','id')->get();
+                            @endphp
+                            <select name="country_id" class="form-control country" id="country_select" style="height: 45px;">
+                                <option value="">--Select Country--</option>
+                                @foreach ($country as  $item)
+                                <option value="{{$item->id}}" {{ old('country_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('country_id')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
                          </div>
                       </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label>Select State <span class="required">*</span></label>
+                            <select name="state_id" class="form-control province_id" id="state_id" style="height: 45px;">
+                               <option value="">--Select State--</option>
+                            </select>
+                            @error('state_id')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label>City<span class="required">*</span></label>
+                            <input type="text" class="form-control" value="{{old('city')}}" placeholder="Enter City" name="city" >
+                            @error('city')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label for="pincode_input">Business Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Business Name" name="business_name" value="{{old('business_name')}}">
+                            @error('business_name')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label for="zip">Pincode <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="zip" placeholder="Enter Pincode" name="zip" value="{{old('zip')}}">
+                            @error('zip')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label for="exampleInputEmail1"> Current Profession<span class="required">*</span></label>
+                            <select name="profession" class="form-control" id="profession">
+                                <option value="">--Select Current Profession--</option>
+                                <option value="JOB" {{ old('profession') == 'JOB' ? 'selected' : '' }}>JOB</option>
+                                <option value="BUSINESS" {{ old('profession') == 'BUSINESS' ? 'selected' : '' }}>BUSINESS</option>
+                                <option value="FREELANCER" {{ old('profession') == 'FREELANCER' ? 'selected' : '' }}>FREELANCER</option>
+                                <option value="OTHERS" {{ old('profession') == 'OTHERS' ? 'selected' : '' }}>OTHERS</option>
+                            </select>
+                            @error('profession')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12" style="display: none;">
+                         <div class="form-group">
+                            <label for="expertise_input">Expertise <span class="required">*</span></label>
+                            <input type="text" name="expertise" class="form-control" id="expertise_input" value="{{old('expertise')}}" placeholder="Enter Your Specialization">
+                            @error('expertise')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label for="address">Address 1 <span class="required">*</span></label>
+                            <input  type="text" class="form-control" id="address" value="{{old('address')}}"  placeholder="Enter Address" name="address">
+                            @error('address1')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label for="address2">Address 2</label>
+                            <input value="" type="text" class="form-control " id="address2" value="{{old('address2')}}" placeholder="Enter Address" name="address2">
+                            @error('address2')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                         <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" value="{{old('password')}}" class="form-control " placeholder="Password" id="password_box">
+                            @error('password')
+                                    <span class="text-danger invalid-feedback">{{$message}}</span>
+                            @enderror
+                         </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                           <label>Confirm Password <span class="required">*</span></label>
+                           <input type="password" name="password_confirmation" value="" class="form-control" placeholder="Confirm Password">
+                           @error('password_confirmation')
+                           <span class="text-danger">    {{$message}}</span>
+                           @enderror
+                        </div>
+                     </div>
                       <div class="col-md-12">
                          <p class="otp_failed text-danger"></p>
                       </div>
                       <div class="col-md-12">
                          <div class="form-group" style="display :none;" id="otpDiv">
                             <label for="VerifyOtp">Enter OTP</label>
-                            <input type="text" name="otp" class="form-control " id="VerifyOtp" placeholder="OTP">
+                            <input type="text"  class="form-control " id="VerifyOtp" placeholder="OTP">
                          </div>
                       </div>
                       <div class="col-md-12">
@@ -106,21 +237,20 @@
                          </div>
                       </div>
                       <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center">
-                         <button type="button" class="readon submit-btn" id="send_otp">Register</button>
+                         <button type="submit" class="readon submit-btn" id="send_otp">Register</button>
                       </div>
                       <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                         <div class="users">Already have an account? <a href="https://overseaseducationlane.com/login">Login</a></div>
+                         <div class="users">Already have an account? <a href="{{route('user-login')}}">Login</a></div>
                          <hr>
                          <div>
-                            <a href="https://overseaseducationlane.com/franchise-register" class="url_link">Register as a Franchise</a>
+                            <a href="{{route('franchise-register')}}" class="url_link current">Register as a Franchise</a>
                          </div>
                          <div>
-                            <a href="https://overseaseducationlane.com/counselor_register" class="url_link">Register as a Counselor</a>
+                            <a href="{{route('counselor_register')}}" class="url_link">Register as a Counselor</a>
                          </div>
                          <hr>
                          <div class="users">
-                            By joining OEL, you agree to OEL's Student
-                            <a href="https://overseaseducationlane.com/privacy-policy">Privacy Policy</a>
+                            By joining OEL, you agree to OEL's <a href="https://overseaseducationlane.com/privacy-policy">Privacy Policy</a>
                          </div>
                       </div>
                    </div>
@@ -129,14 +259,44 @@
           </div>
        </div>
     </section>
-    <script type="text/javascript">
-       let buttons = document.querySelectorAll(".loading_button");
-       for(let i=0; i<buttons.length; i++){
-           let button = buttons[i];
-           button.addEventListener("click", function(){
-               button.firstElementChild.style.display = "inline-block";
-           });
-       }
-    </script>
  </div>
+ <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+<script>
+     $(document).ready(function() {
+         function setupCSRF() {
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 }
+             });
+         }
+         function fetchStates(country_id) {
+             $('.province_id').empty();
+             setupCSRF();
+             $.ajax({
+                 url: "{{ route('fetch-states.get') }}",
+                 method: 'get',
+                 data: {
+                     country_id: country_id
+                 },
+                 success: function(data) {
+                     if ($.isEmptyObject(data)) {
+                         $('.province_id').append(
+                             '<option value="">No records found</option>');
+                     } else {
+                         $.each(data, function(key, value) {
+                             $('.province_id').append('<option value="'+ key +'">' + value +
+                                 '</option>');
+                         });
+                     }
+                 }
+             });
+         }
+         fetchStates($('.country').val());
+         $('.country').change(function() {
+             var country_id = $(this).val();
+             fetchStates(country_id);
+            });
+        });
+</script>
 @endsection

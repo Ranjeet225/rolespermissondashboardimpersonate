@@ -185,7 +185,7 @@
                             $slider= $submenu->name === 'Slider';
 
                             $add_about_country= request()->routeIs('create.country.university');
-                            $edit_country= request()->routeIs('edit.country.university');
+                            $edit_about_country= request()->routeIs('edit.country.university');
                             $about_country= $submenu->name === 'About Country';
 
                             $create_program_details= request()->routeIs('create-new-program-details');
@@ -204,7 +204,7 @@
                                 (($edit_ads || $add_ads) && $ads) ||
                                 (($edit_master_service || $create_master_service) && $master_service) ||
                                 (($edit_slider || $add_slider) && $slider) ||
-                                (($edit_country || $add_about_country) && $about_country) ||
+                                (($edit_about_country || $add_about_country) && $about_country) ||
                                 ($student_guide_menu && ($student_guide || $create_student_guide || $edit_student_guide)) ||
                                 ($pending_leads_submenu && $pending_leads_filter) ||
                                 ($assi_leads_submenu && $assi_leads_filter) ||

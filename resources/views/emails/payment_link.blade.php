@@ -52,7 +52,8 @@
     <div class="container">
         <h1>Dear {{ $paymentData['name'] }},</h1>
         @php
-            $amountInRupees = $paymentData['amount'] * (1 / 0.013);
+
+            $amountInRupees = $paymentData['amount'];
         @endphp
         <p>Please proceed with your payment   <p>Amount: {{ number_format($amountInRupees, 2) }} INR</p> by clicking on the following Go to:</p>
         {{-- <p>Converted amount in INR: {{ number_format($amountInRupees, 2) }}</p> --}}

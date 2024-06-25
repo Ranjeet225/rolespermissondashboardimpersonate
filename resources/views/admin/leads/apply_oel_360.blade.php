@@ -131,10 +131,16 @@
                             </li>
                             <li class="step">
                                 <div class="
-                                    @if(!empty($progress->application) && $progress->application == 'accepted') bg-success
-                                    @elseif (!empty($progress->application) && $progress->application == 'rejected') bg-danger
-                                    @elseif (empty($progress->application) && $progress->application == 'inprogress') bg-warning
-                                    @endif">
+                                    @if(!empty($progress) && !empty($progress->application))
+                                        @if($progress->application == 'accepted')
+                                            bg-success
+                                        @elseif($progress->application == 'rejected')
+                                            bg-danger
+                                        @elseif($progress->application == 'inprogress')
+                                            bg-warning
+                                        @endif
+                                    @endif
+                                    ">
                                     <i class="fas fa-check"></i>
                                 </div>
                                 Application Status
@@ -153,10 +159,14 @@
                             </li>
                             <li class="step">
                                 <div class="
-                                @if(!empty($progress->visa_application) && $progress->visa_application == 'Accepted') bg-success
-                                @elseif (!empty($progress->visa_application) && $progress->visa_application == 'Rejected') bg-danger
-                                @elseif (empty($progress->visa_application) && $progress->visa_application == 'Inprogress') bg-warning
-                                @endif"><i class="fas fa-check"></i></div>
+                                @if(!empty($progress->visa_application) && $progress->visa_application == 'Accepted')
+                                    bg-success
+                                @elseif (!empty($progress->visa_application) && $progress->visa_application == 'Rejected')
+                                    bg-danger
+                                @elseif (!empty($progress->visa_application) && $progress->visa_application == 'Inprogress')
+                                    bg-warning
+                                @endif
+                                "><i class="fas fa-check"></i></div>
                                 Visa Status
                             </li>
                             <li class="step">

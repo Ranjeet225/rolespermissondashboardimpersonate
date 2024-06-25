@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '712ff27e1ef7a39434a5ee2ded51fe29bc754a6e',
+        'reference' => '91e9492b8ab1d5467ad8a0c341a9640c2bae3bf8',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -101,6 +101,17 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../egulias/email-validator',
             'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'everapi/freecurrencyapi-php' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '61514ca4124b6c5e4de823a546fe08a3dd8c3c9e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../everapi/freecurrencyapi-php',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
         'ezyang/htmlpurifier' => array(
@@ -412,7 +423,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '712ff27e1ef7a39434a5ee2ded51fe29bc754a6e',
+            'reference' => '91e9492b8ab1d5467ad8a0c341a9640c2bae3bf8',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
