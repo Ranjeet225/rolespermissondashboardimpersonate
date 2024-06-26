@@ -133,7 +133,7 @@
                                     <nav class="rs-menu">
                                         <ul class="nav-menu flexible_items">
                                             <li class="menu-item-has-children">
-                                                <a href="">Home</a>
+                                                <a href="{{url('/')}}">Home</a>
                                             </li>
                                             <li class="menu-item-has-children">
                                                 <a href="">About OEL</a>
@@ -198,7 +198,7 @@
                                     <nav class="rs-menu mobile_menu">
                                         <ul class="nav-menu">
                                             <li class="">
-                                                <a href="">Home</a>
+                                                <a href="{{url('/')}}">Home</a>
                                             </li>
                                             <li class="">
                                                 <a href="quick_search-1.html">Quick Search</a>

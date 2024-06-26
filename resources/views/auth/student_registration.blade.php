@@ -142,9 +142,9 @@
                          <div>
                             <a href="{{route('franchise-register')}}" class="url_link">Register as a Franchise</a>
                          </div>
-                         <div>
+                         {{-- <div>
                             <a href="{{route('counselor_register')}}" class="url_link">Register as a Counselor</a>
-                         </div>
+                         </div> --}}
                          <hr>
                          <div class="users">
                             By joining OEL, you agree to OEL's Student

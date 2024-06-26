@@ -40,6 +40,7 @@ Route::get('course-details/{id?}',[FrontendController::class,'course_details'])-
 Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_data'])->name('view-program-data');
 Route::get('apply-program-payment/{student_id}/{program_id}',[FrontendController::class,'apply_program_payment'])->name('apply-program-payment');
 Route::get('pay-later/{student_id}/{program_id}/{amount?}',[FrontendController::class,'pay_later'])->name('pay-later');
+Route::get('check-eligibility',[FrontendController::class,'check_eligibility'])->name('check-eligibility');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -505,7 +506,6 @@ Route::middleware('auth')->group(function () {
 
 
     });
-
     Route::get('/fetch-state', [LeadsManageCotroller::class, 'fetchStates'])->name('state.get');
 });
 Route::middleware(['auth'])->prefix('landing-page')->group(function () {

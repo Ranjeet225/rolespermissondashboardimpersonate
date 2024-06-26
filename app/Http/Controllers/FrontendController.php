@@ -246,7 +246,7 @@ class FrontendController extends Controller
     }
 
 
-    public function course_details($id)
+    public function course_details($id = null)
     {
         $program_data = Program::where('id', $id)->with('university_name','educationLevelprogram', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->first();
         $exam_text =DB::table('program_english_required')->where('program_id',$id)->first();
