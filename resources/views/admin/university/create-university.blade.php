@@ -590,21 +590,34 @@
       tabsize: 2,
       height: 100
     });
+    // const input = document.querySelector('.google-iframe-url');
+    // const iframe = document.getElementById('map-iframe');
+    // input.addEventListener('input', function(event) {
+    //     alert
+    //     iframe.src = event.target.value;
+
+    // });
+    document.addEventListener('DOMContentLoaded', function() {
     const input = document.querySelector('.google-iframe-url');
     const iframe = document.getElementById('map-iframe');
-    input.addEventListener('input', function(event) {
-        alert
-        iframe.src = event.target.value;
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        const input = document.querySelector('.google-iframe-url');
-        const iframe = document.getElementById('map-iframe');
-        function setIframeSrc() {
-            iframe.src = input.value;
-        }
-        setIframeSrc();
-        input.addEventListener('input', setIframeSrc);
-    });
+
+    function extractSrcFromIframeString(iframeString) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = iframeString;
+        const iframeElement = tempDiv.querySelector('iframe');
+        return iframeElement ? iframeElement.src : '';
+    }
+
+    function setIframeSrc() {
+        const src = extractSrcFromIframeString(input.value);
+        iframe.src = src;
+        console.log(src);
+    }
+
+    setIframeSrc();
+    input.addEventListener('input', setIframeSrc);
+});
+
   </script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>

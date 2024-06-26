@@ -1041,10 +1041,15 @@ class LeadsManageCotroller extends Controller
                 Mail::to($student->email)->send(new ApplyOel360Email($data));
             }
             if ($request->application_status == 'rejected') {
-                $status = 'Rejected';
+                $response = 'Rejected';
             } else {
                 $response = true;;
             }
+            $data = [
+                'success' => true,
+                'status' => $response,
+            ];
+            return response()->json($data);
         } elseif ($request->tab == 'tab4') {
             $validator = Validator::make($request->all(), [
                 'document' => 'image|mimes:jpeg,png,jpg,gif|max:6048'

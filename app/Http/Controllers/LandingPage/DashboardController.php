@@ -63,10 +63,17 @@ class DashboardController extends Controller
             'title'=>$request->title,
         ];
         if ($request->hasFile('image')) {
+            $deleted = Ads::where('id', $id)->first();
+            if($deleted->image){
+                $imagePath = public_path($deleted->image);
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
             $image = $request->file('image');
             $imagename = time() . '.' . $image->getClientOriginalExtension();
             $imagePath = 'assets/ads/' . $imagename;
-            $image->move(public_path('assets/ads/'), $imagePath);
+            $image->move(public_path('assets/ads/'), $imagename);
             $data['image']  =$imagePath;
         }
         Ads::where('id', $id)->update($data);
@@ -148,7 +155,7 @@ class DashboardController extends Controller
     }
     public function updateSlider(Request $request, $id)
     {
-     
+
         $slider = Slider::findOrFail($id);
         $slider->update([
             'country_id' => $request->country_id,
@@ -291,6 +298,7 @@ class DashboardController extends Controller
         if ($request->hasFile('image')) {
             $picture = $request->file('image');
             $profilePIcture = time() . '.' . $picture->getClientOriginalExtension();
+            $imagePath = 'admin/uploads/aboutcountry/' . $profilePIcture;
             $picture->move(public_path('admin/uploads/aboutcountry'), $profilePIcture);
         } else {
             return redirect()->back()->withInput()->withErrors(['image' => 'The image field is required.']);
@@ -298,7 +306,7 @@ class DashboardController extends Controller
         DB::table('country_universities')->insert([
             'country_id'=>$request->country_id,
             'aboutcountry'=>$request->aboutcountry,
-            'image'=>$profilePIcture,
+            'image'=>$imagePath,
         ]);
 
         return redirect()->route('country.university')->with('success', 'Country Added successfully.');
@@ -322,10 +330,18 @@ class DashboardController extends Controller
             'aboutcountry' => $request->aboutcountry,
         ];
         if ($request->hasFile('image')) {
+            $country = DB::table('country_universities')->find($id);
+            if ($country->image) {
+                $imagePath = public_path($country->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
             $picture = $request->file('image');
             $profilePIcture = time() . '.' . $picture->getClientOriginalExtension();
+            $imagePath = 'admin/uploads/aboutcountry/' . $profilePIcture;
             $picture->move(public_path('admin/uploads/aboutcountry'), $profilePIcture);
-            $updateData['image'] = $profilePIcture;
+            $updateData['image'] = $imagePath;
         }
         DB::table('country_universities')->where('id', $id)->update($updateData);
         return redirect()->route('country.university')->with('success', 'Country Updated successfully.');
@@ -333,8 +349,15 @@ class DashboardController extends Controller
 
     public function deleteCountryUniversity($id)
     {
-        $deleted = DB::table('country_universities')->where('id', $id)->delete();
-        if ($deleted) {
+        $country = DB::table('country_universities')->where('id', $id)->first();
+        if ($country) {
+            if ($country->image) {
+                $imagePath = public_path($country->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+            DB::table('country_universities')->where('id', $id)->delete();
             return redirect()->route('country.university')->with('success', 'Country deleted successfully.');
         } else {
             return redirect()->route('country.university')->with('error', 'Failed to delete country.');

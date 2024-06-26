@@ -52,6 +52,9 @@
                                             <label class="form-label">Feature Image</label>
                                             <input type="file" name="image" class="form-control" >
                                         </div>
+                                        <div>
+                                            <img src="{{asset($aboutCountry->image) }}" width="200px" height="150px">
+                                        </div>
                                     </div>
                                     <div class="col-xl-12">
                                         <div class="form-group">

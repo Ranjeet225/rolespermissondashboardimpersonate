@@ -51,6 +51,9 @@
                                                 {{$message}}
                                             @enderror
                                         </div>
+                                        <div>
+                                            <img src="{{asset($ads->image)}}" width="200px" height="200px">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="text-center mt-2">

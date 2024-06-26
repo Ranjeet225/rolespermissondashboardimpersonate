@@ -368,8 +368,13 @@
                         </form>
                         <script>
                         </script>
-                        <div class="col-md-12"><button type="button"
-                            class="btn btn-info  py-6 send_sms">Send Sms</button></div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-info py-6 send_sms" id="send_sms_btn">
+                                <span id="send_sms_spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true">
+                                </span>
+                                <span class="px-2">Send Sms</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -412,8 +417,14 @@
                                         <label for="attachment" class="form-label">Attachment</label>
                                     </div>
                                 </div>
-                        <div class="col-md-12"><button type="button"
-                            class="btn btn-info  py-6 send_email">Send Email</button></div>
+
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-info py-6 send_email" id="send_email_btn">
+                                <span id="send_email_spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true">
+                                </span>
+                                <span class="px-2">Send Email</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -489,6 +500,7 @@
                 })
             });
             $('.send_sms').on('click', function() {
+                $('#send_sms_spinner').removeClass('d-none');
                 $('.error-message').html('');
                 $('.send_sms').addClass('disabled');
                 var custom_templete = null;
@@ -509,6 +521,7 @@
                         leadIds:selectedLeads,template_id:template_id,custom_templete:custom_templete
                     },
                     success: function(response){
+                    $('#send_sms_spinner').addClass('d-none');
                       if(response.status == false){
                         var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     ${response.message}
@@ -523,6 +536,7 @@
                       $('.send_sms').removeClass('disabled');
                     },
                     error: function(response){
+                        $('#send_sms_spinner').addClass('d-none');
                         var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     ${response.responseJSON.message}
                                 </div>`;
@@ -534,6 +548,7 @@
             $('.send_email').on('click', function() {
             $('.error-message').html('');
             $('.send_email').addClass('disabled');
+                $('#send_email_spinner').removeClass('d-none');
                 var formData = new FormData($('#gmail')[0]);
                 var selectedLeads = [];
                 $('.lead-id:checked').each(function() {
@@ -547,6 +562,8 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        $('#send_email_spinner').addClass('d-none');
+                        $('.send_email').removeClass('disabled');
                         var message = response.message;
                         var alertType = response.status ? 'success' : 'danger';
                         var alertMessage = `<div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
@@ -559,6 +576,7 @@
                         }
                     },
                     error: function(response) {
+                        $('#send_email_spinner').addClass('d-none');
                         var errorMessage = response.responseJSON.message;
                         var errorHtml = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             ${errorMessage}

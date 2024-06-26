@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <button  type="submit" class="btn btn-primary w-25 float-right">Update</button>
+                                    <button  type="submit" class="btn btn-primary w-25 mx-auto d-block mt-2">Update</button>
                             </form>
                             <br>
                         </div>
