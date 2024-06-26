@@ -1162,7 +1162,7 @@
                 formData.append('subject_input',subject_input);
                 setupCSRF();
                 $.ajax({
-                    url: '{{ route('student-store') }}',
+                    url: '{{route('student/student-store')}}',
                     type: 'post',
                     data: formData,
                     contentType: false,
@@ -1330,6 +1330,7 @@
                     type: 'post',
                     data: formData,
                     success: function(response) {
+                        $('.greExam').removeClass('disabled');
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1337,9 +1338,9 @@
                                 // location.reload();
                             }, 1000);
                         }
-                        $('.greExam').removeClass('disabled');
                     },
                     error: function(xhr) {
+                        $('.greExam').removeClass('disabled');
                         var response = JSON.parse(xhr.responseText);
                     }
                 });
@@ -1355,6 +1356,7 @@
                     type: 'post',
                     data: formData,
                     success: function(response) {
+                        $('.gmat').removeClass('disabled');
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1362,7 +1364,6 @@
                                 // location.reload();
                             }, 1000);
                         }
-                        $('.greExam').removeClass('disabled');
                     },
                     error: function(xhr) {
                         var response = JSON.parse(xhr.responseText);
@@ -1380,6 +1381,7 @@
                     type: 'post',
                     data: formData,
                     success: function(response) {
+                        $('.testscore').removeClass('disabled');
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1401,7 +1403,7 @@
                 formData.append('student_id', student_id);
                 setupCSRF();
                 $.ajax({
-                    url: '{{ route('student-store') }}',
+                    url: '{{ route('student/student-store') }}',
                     type: 'POST',
                     data: formData,
                     processData: false,

@@ -494,7 +494,7 @@ Route::middleware('auth')->group(function () {
         Route::get('applied-program',[StudentController::class,'applied_program'])->name('applied-program');
         Route::get("my-profile",[StudentController::class,'student_profile'])->name('student-profile');
         Route::get("edit-profile",[StudentController::class,'edit_student'])->name('student-edit');
-        Route::post("store-profile",[StudentController::class,'store_student'])->name('student-store');
+        Route::post("store-profile",[StudentController::class,'store_student'])->name('student/student-store');
         Route::post("grading-scheme-list",[StudentController::class,'grading_scheme_list'])->name('grading-scheme-list');
         Route::post('update-attended-school', [StudentController::class, 'update_attendended_school'])->name('update-attended-school');
         Route::get('delete-student-attendence/{id?}', [StudentController::class, 'delete_attendended'])->name('delete-student-attendence');

@@ -122,6 +122,7 @@ class StudentController extends Controller
 
     public function store_student(Request $request)
     {
+        // dd($request->all());
        $student_id = Auth::user()->id;
        if(empty($student_id)) {
             abort(404);
@@ -242,6 +243,7 @@ class StudentController extends Controller
             'status_threesixty' => '1',
             'profile_complete'=>'1',
         ]);
+        dd('das');
         return response()->json(['status'=>true,'success'=>'Data inserted Successfully']);
        }
 
