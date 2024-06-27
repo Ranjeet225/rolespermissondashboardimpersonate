@@ -177,8 +177,6 @@ class StudentController extends Controller
             $validator = Validator::make($request->all(), [
                 'pref_countries'=>'required',
                 'education_level_id'=>'required',
-                'grading_average'=>'required',
-                'grading_scheme_id'=>'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
