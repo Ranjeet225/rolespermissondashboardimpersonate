@@ -24,8 +24,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
+use App\Models\Documents;
 use App\Models\EngProficiencyLevel;
 use App\Models\PaymentsLink;
+use App\Models\ProgramLevel;
 use Validator;
 use PDO;
 use Razorpay\Api\PaymentLink;
@@ -108,7 +110,7 @@ class StudentController extends Controller
             abort(404);
         }
         $countries = Country::all();
-        $progLabel = EducationLevel::All();
+        $progLabel = ProgramLevel::All();
         $student_attendence = StudentAttendence::with('country','province','student')->WHERE('student_id', $about_student->id)->get();
         $additional_qualification= DB::table('additional_qualification')->WHERE('student_id', $about_student->id)->where('type', 'GRE')->first();
         $gmat=  DB::table('additional_qualification')->WHERE('student_id', $about_student->id)->where('type', 'GMAT')->first();
@@ -196,7 +198,30 @@ class StudentController extends Controller
                 ]
             );
              return response()->json(['success'=>'Data inserted Successfully']);
-       }elseif($request->tab4){
+       }elseif($request->tab3){
+            $validator = Validator::make($request->all(), [
+                'organization_name' => 'required|max:250',
+                'position' => 'required|max:250',
+                'job_profile' => 'required|max:250',
+                'working_from' => 'required|max:250',
+                'working_upto' => 'required|max:250',
+                'mode_of_selary' => 'required|max:250',
+                'working_status' => 'required|max:250',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+            }
+            DB::table('student')->where('user_id',$student_id)->update([
+                'organization_name' => $request->organization_name,
+                'position' => $request->position,
+                'job_profile' => $request->job_profile,
+                'working_from' => $request->working_from,
+                'working_upto' => $request->working_upto,
+                'mode_of_selary' => $request->mode_of_selary,
+                'working_status' => $request->working_status,
+            ]);
+            return response()->json(['success'=>'Data inserted Successfully']);
+       }elseif($request->tab5){
                 $validator = Validator::make($request->all(), [
                     'ever_refused_visa'=>'required',
                     'has_visa'=>'required',
@@ -213,7 +238,7 @@ class StudentController extends Controller
                     'pref_subjects'=>$request->subject_input,
                 ]);
         return response()->json(['success'=>'Data inserted Successfully']);
-       }elseif($request->tab5){
+       }elseif($request->tab6){
             if ($request->document) {
                     $images = $request->file('document');
                     foreach($images as $uploadedImage) {
@@ -243,7 +268,7 @@ class StudentController extends Controller
             'status_threesixty' => '1',
             'profile_complete'=>'1',
         ]);
-        dd('das');
+        // dd('das');
         return response()->json(['status'=>true,'success'=>'Data inserted Successfully']);
        }
 
@@ -345,22 +370,46 @@ class StudentController extends Controller
     {
         $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
         $student_id = $student->id;
-        DB::table('school_attended')
-        ->insert([
-            'student_id' => $student_id,
-            'education_level_id' => $request->education_level_id,
-            'name' => $request->name,
-            'primary_language' => $request->primary_language,
-            'attended_from' => $request->attended_from,
-            'attended_to' => $request->attended_to,
-            'degree_awarded' => $request->degree_awarded,
-            'degree_awarded_on' => $request->degree_awarded_on,
-            'country_id' => $request->country_id,
-            'province' => $request->province,
-            'city' => $request->city,
-            'postal_zip' => $request->postal_zip,
-            'address' => $request->address
-        ]);
+        $school_attended = DB::table('school_attended')
+            ->where('student_id', $student_id)
+            ->where('education_level_id', $request->education_level_id)
+            ->first();
+
+        if($school_attended){
+            DB::table('school_attended')
+            ->WHERE('id', $school_attended->id)
+            ->update([
+                'education_level_id' => $request->education_level_id,
+                'name' => $request->name,
+                'primary_language' => $request->primary_language,
+                'attended_from' => $request->attended_from,
+                'attended_to' => $request->attended_to,
+                'degree_awarded' => $request->degree_awarded,
+                'degree_awarded_on' => $request->degree_awarded_on,
+                'country_id' => $request->country_id,
+                'province' => $request->province_id,
+                'city' => $request->city,
+                'postal_zip' => $request->postal_zip,
+                'address' => $request->address
+            ]);
+        } else {
+            DB::table('school_attended')
+            ->insert([
+                'student_id' => $student_id,
+                'education_level_id' => $request->education_level_id,
+                'name' => $request->name,
+                'primary_language' => $request->primary_language,
+                'attended_from' => $request->attended_from,
+                'attended_to' => $request->attended_to,
+                'degree_awarded' => $request->degree_awarded,
+                'degree_awarded_on' => $request->degree_awarded_on,
+                'country_id' => $request->country_id,
+                'province' => $request->province_id,
+                'city' => $request->city,
+                'postal_zip' => $request->postal_zip,
+                'address' => $request->address
+            ]);
+        }
         $data = [
             'status'=>true,
             'success'=>'Data Inserted Successfully',
@@ -412,22 +461,15 @@ class StudentController extends Controller
         }
     }
 
-    public function delete_attendended($id)
+    public function delete_attendended(Request $request, $id)
     {
         $schoolAttended = DB::table('school_attended')->where('id', $id)->first();
         if ($schoolAttended) {
             DB::table('school_attended')->where('id', $id)->delete();
-            $data = [
-                'tab2' => 'tab2',
-                'success' => 'Deleted Successfully',
-            ];
+            return response()->json(['success' => 'Deleted Successfully']);
         } else {
-            $data = [
-                'tab2' => 'tab2',
-                'error' => 'Id is not exist',
-            ];
+            return response()->json(['error' => 'Id is not exist']);
         }
-        return redirect()->route('student-edit')->with($data);
     }
 
 
@@ -483,7 +525,7 @@ class StudentController extends Controller
                 'error'=>'Id is not exist',
             ];
         }
-        return redirect()->route('student-edit')->with($data);
+        return response()->json($data);
     }
     /**
      * Update the specified resource in storage.
@@ -865,5 +907,38 @@ class StudentController extends Controller
         }
         PaymentsLink::find($id)?->delete();
         return redirect(url('student/applied-program'));
+    }
+
+    public function get_last_attendance(Request $request)
+    {
+        $user_id =Auth::user()->id;
+        $about_student =DB::table('student')->where('user_id',$user_id)->first();
+        $student_attendence = StudentAttendence::with('country','province','student')->where('student_id', $about_student->id)->get();
+        return response()->json(['success'=>true,'student_attendence'=>$student_attendence]);
+    }
+
+    public function check_student_attended(Request $request)
+    {
+        $document = Documents::where('program_level_id',$request->program_level_id)->count();
+        if($document == $request->checkedCount){
+             $status = True;
+        }else{
+             $status = false;
+        }
+        return response()->json(['success'=>true,'status'=>$status]);
+    }
+
+    public function get_student_attendence($id)
+    {
+        $school_attended =SchoolAttended::where('id',$id)->first();
+        return response()->json(['success'=>true,'school_attended'=>$school_attended]);
+    }
+
+    public function get_student_test_score(Request $request)
+    {
+        $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
+        $student_id = $student->id;
+       $test_score= DB::table('test_scores')->Where('student_id',$student_id)->get();
+       return response()->json(['success'=>true,'test_score'=>$test_score]);
     }
 }

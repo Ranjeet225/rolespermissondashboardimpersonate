@@ -43,7 +43,7 @@
                                 <br>
                                 <span class="octicon octicon-light-bulb">General Information </span>
                             </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
+                            <li class="nav-item flex-fill education_data" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Educaton History">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                     href="#step2" id="step2-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step2"
@@ -51,27 +51,35 @@
                                 <br>
                                 <span class="octicon octicon-light-bulb">Educaton History</span>
                             </li>
+                            <li class="nav-item flex-fill experience" role="presentation" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Work Experience">
+                                <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                    href="#step3" id="step3-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step3"
+                                    aria-selected="false"> 3 </a>
+                                <br>
+                                <span class="octicon octicon-light-bulb">Work Experience</span>
+                            </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Test Score">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step3" id="step3-tab"  @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step3"
-                                    aria-selected="false"> 3 </a>
+                                    href="#step4" id="step4-tab"  @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step4"
+                                    aria-selected="false"> 4 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Test Score</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="BackGround Information">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step4" id="step4-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step4"
-                                    aria-selected="false"> 4 </a>
+                                    href="#step5" id="step5-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step5"
+                                    aria-selected="false"> 5 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">BackGround Information</span>
                             </li>
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Document">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step5" id="step5-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step5"
-                                    aria-selected="false"> 5
+                                    href="#step6" id="step6-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step6"
+                                    aria-selected="false"> 6
                                 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Document</span>
@@ -361,6 +369,9 @@
                                             from most recent school</label>
                                     </div>
                                 </form>
+                                <div class="school-attended">
+
+                                </div>
                                 <div class="col-md-12 mt-2">
                                     <div class="card-stretch-full">
                                         <div class="card-header">
@@ -373,7 +384,7 @@
                                                         data-bs-toggle="offcanvas" data-bs-target="#viewlead"
                                                         aria-controls="viewlead"
                                                         student-id="{{ $about_student->user_id ?? null }}">
-                                                        <button type="button" class="btn btn-primary float-end"
+                                                        <button type="button" class="btn btn-primary float-end last_attended_school"
                                                             aria-controls="exampleOffcanvas">
                                                             Last Attended School <i
                                                                 class="las la-hands-helping"></i></button>
@@ -397,38 +408,16 @@
                                                         <th> City/Town</th>
                                                         <th> Address</th>
                                                         <th> Postal/Zip</th>
+                                                        <th> Edit </th>
                                                         <th>Delete</th>
+
                                                     </tr>
                                                 </thead>
                                                 @php
                                                     $i = 1;
                                                 @endphp
-                                                <tbody>
-                                                    @foreach ($student_attendence as $item)
-                                                        <tr>
-                                                            <td>{{ $i }}</td>
-                                                            <td>{{ $item->student->first_name ?? null }}</td>
-                                                            <td>{{ $item->primary_language ?? null }}</td>
-                                                            <td>{{ $item->attended_from ?? null }}</td>
-                                                            <td>{{ $item->attended_to ?? null }}</td>
-                                                            <td>{{ $item->degree_awarded ?? null }}</td>
-                                                            <td>{{ $item->degree_awarded_on ?? null }}</td>
-                                                            <td>{{ $item->country->name ?? null }}</td>
-                                                            <td>{{ $item->province->name ?? null }}</td>
-                                                            <td>{{ $item->city ?? null }}</td>
-                                                            <td>{{ $item->postal_zip ?? null }}</td>
-                                                            <td></td>
-                                                            <td>
-                                                                <a
-                                                                    href="{{ route('delete-student-attendence', $item->id) }}" class="btn btn-warning">
-                                                                   Delete
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        @php
-                                                            $i++;
-                                                        @endphp
-                                                    @endforeach
+                                                <tbody class="last-attended-school">
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -436,13 +425,110 @@
                                 </div>
                                 <div class="d-flex">
                                     <a class="btn btn btn-warning previous me-2 "> Back</a>
-                                    <a class="btn btn btn-primary next ">Continue
+                                    <a class="btn btn btn-primary next school">Continue
                                         <span class="spinner-grow spinner-grow-sm d-none" role="status"
                                             aria-hidden="true"></span>
                                     </a>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step3" aria-labelledby="step3-tab">
+                            <div class="tab-pane fade " role="tabpanel" id="step3" aria-labelledby="step3-tab">
+                                <div class="mb-4">
+                                    <h5>Work Experience</h5>
+                                </div>
+                                <form>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input
+                                                    value="{{ $about_student->organization_name ?? old('organization_name') }}"
+                                                    name="organization_name" type="text" class="form-control"
+                                                    placeholder="Name of Organization" autocomplete="organization_name">
+                                                <label for="organization_name" class="form-label">Name of Organization</label>
+                                                <span class="text-danger organization_name"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input type="hidden" name="tab3" value="tab3">
+                                                <input  name="position" type="text"
+                                                    class="form-control"
+                                                    value="{{ $about_student->position ?? old('position') }}"
+                                                    placeholder="Position" autocomplete="position">
+                                                <label for="position" class="form-label">Position</label>
+                                                <span class="text-danger position"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input
+                                                    value="{{ $about_student->job_profile ?? old('job_profile') }}"
+                                                    name="job_profile" type="text" class="form-control"
+                                                    placeholder="Job Profile" autocomplete="job_profile">
+                                                <label for="job_profile" class="form-label">Job Profile</label>
+                                                <span class="text-danger job_profile"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input  name="working_from" type="date"
+                                                    class="form-control"
+                                                    value="{{ $about_student->working_from ?? old('working_from') }}"
+                                                    placeholder="Working From" autocomplete="working_from">
+                                                <label for="working_from" class="form-label">Working From</label>
+                                                <span class="text-danger working_from"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input
+                                                    value="{{ $about_student->working_upto ?? old('working_upto') }}"
+                                                    name="working_upto" type="date" class="form-control"
+                                                    placeholder="Working Upto" autocomplete="working_upto">
+                                                <label for="lead-working_upto" class="form-label">Working Upto</label>
+                                                <span class="text-danger working_upto"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input  name="mode_of_selary" type="text"
+                                                    class="form-control"
+                                                    value="{{ $about_student->mode_of_selary ?? old('mode_of_selary') }}"
+                                                    placeholder="Middle Name" autocomplete="mode_of_selary">
+                                                <label for="mode_of_selary" class="form-label">Mode Of Salary</label>
+                                                <span class="text-danger mode_of_selary"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="working_status" id="working_status1" value="1" {{ isset($about_student->working_status) && $about_student->working_status == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="working_status1">
+                                                  I am working here
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="working_status" id="working_status2" value="2" {{ isset($about_student->working_status) && $about_student->working_status == 2 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="working_status2">
+                                                  I am not working here
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="d-flex">
+                                    <a class="btn btn btn-warning previous me-2 "> Back</a>
+                                    <a class="btn btn btn-primary next">Continue
+                                        <span class="spinner-grow spinner-grow-sm d-none" role="status"
+                                            aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" role="tabpanel" id="step4" aria-labelledby="step4-tab">
                                 <div class="mb-4">
                                     <h5>Test Score</h5>
                                 </div>
@@ -483,25 +569,8 @@
                                                         <th>Delete</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    @foreach ($test_score as $item)
-                                                        <tr>
-                                                            <td>{{$item->id}}</td>
-                                                            <td>{{$item->type}}</td>
-                                                            <td>{{$item->exam_date}}</td>
-                                                            <td>{{$item->listening_score}}</td>
-                                                            <td>{{$item->writing_score}}</td>
-                                                            <td>{{$item->reading_score}}</td>
-                                                            <td>{{$item->speaking_score}}</td>
-                                                            <td>{{$item->average_score}}</td>
-                                                            <td>
-                                                                <a
-                                                                    href="{{ route('delete-student-test-score', $item->id) }}" class="btn btn-warning">
-                                                                   Delete
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+                                                <tbody class="test-score">
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -514,7 +583,7 @@
                                             role="status" aria-hidden="true"></span> continue</a>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step4" aria-labelledby="step4-tab">
+                            <div class="tab-pane fade" role="tabpanel" id="step5" aria-labelledby="step5-tab">
                                 <div class="mb-4">
                                     <h5>Background Information</h5>
                                 </div>
@@ -531,7 +600,7 @@
                                             </div>
                                     </div>
                                     <div class="col-12">
-                                        <input type="hidden" name="tab4" value="tab4" >
+                                        <input type="hidden" name="tab5" value="tab5" >
                                         <label><b>Do you have a valid Study Permit / Visa?</b></label>
                                         <label>
                                         <input type="radio" name="has_visa" value="1" {{ $about_student->has_visa == "1" ? 'checked' : '' }}>&nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
@@ -574,7 +643,7 @@
                                             role="status" aria-hidden="true"></span>Continue</a>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step5" aria-labelledby="step3-tab">
+                            <div class="tab-pane fade" role="tabpanel" id="step6" aria-labelledby="step6-tab">
                                 <div class="mb-4">
                                     <h5>Documents</h5>
                                 </div>
@@ -606,7 +675,7 @@
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <input type="file" multiple class="form-control " name ="document[]" id="lead-document" placeholder="Document">
-                                                <input type="hidden" name="tab5" value="tab5">
+                                                <input type="hidden" name="tab6" value="tab6">
                                                 <label for="lead-address" class="form-label">Document</label>
                                             </div>
                                         </div>
@@ -682,59 +751,60 @@
                         <form id="myForm">
                             <div class="col-12 ">
                                 <div class="form-floating">
-                                    <select class="form-control " name="education_level_id"
+                                    <select class="form-control lead-education_level_id" name="education_level_id"
                                         id="lead-education_level_id" placeholder="Education Level">
-                                        @foreach ($progLabel as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
                                     </select>
                                     <label for="lead-education_level_id" class="form-label">Education Level</label>
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
-                                <div class="form-floating"><input name="name" type="text"
+                                <div class="form-floating">
+                                    <input name="name" type="text" id="institue_name"
                                         class="form-control " placeholder="Institute Name" autocomplete="name"
                                         value=""><label for="lead-name" class="form-label">Institute Name</label>
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
-                                <div class="form-floating"><input name="primary_language" type="text"
-                                        class="form-control " placeholder="Primary Language for Instruction"
+                                <div class="form-floating">
+                                    <input name="primary_language" type="text"
+                                        class="form-control " id="primary_language" placeholder="Primary Language for Instruction"
                                         autocomplete="primary_language" value=""><label for="lead-primary_language"
                                         class="form-label">Primary Language for Instruction</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="attended_from" type="date"
-                                        class="form-control " placeholder="Attended Institute From"
-                                        autocomplete="attended_from" value=""><label for="lead-attended_from"
+                                        class="form-control " id="attended_from" placeholder="Attended Institute From"
+                                        autocomplete="attended_from" value="">
+                                        <label for="lead-attended_from"
                                         class="form-label">Attended Institute From</label></div>
                             </div>
                             <div class="col-12 mt-2">
-                                <div class="form-floating"><input name="attended_to" type="date"
-                                        class="form-control " placeholder="Attendend Instutute To"
+                                <div class="form-floating">
+                                    <input name="attended_to" type="date"
+                                        class="form-control" id="attended_to" placeholder="Attendend Instutute To"
                                         autocomplete="attended_to" value=""><label for="lead-attended_to"
                                         class="form-label">Attendend Instutute To</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="degree_awarded" type="text"
-                                        class="form-control " placeholder="Degree Awarded"
+                                        class="form-control " id="degree_awarded" placeholder="Degree Awarded"
                                         autocomplete="degree_awarded" value=""><label for="lead-degree_awarded"
                                         class="form-label">Degree Awarded</label></div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating"><input name="degree_awarded_on" type="date"
-                                        class="form-control " placeholder="Degree Awareded On"
+                                        class="form-control " id="degree_awarded_on" placeholder="Degree Awareded On"
                                         autocomplete="degree_awarded_on" value=""><label
                                         for="lead-degree_awarded_on" class="form-label">Degree Awareded On</label></div>
                             </div>
                             <h4 class="m-2">School Address</h4>
                             <div class="col-12 mt-2">
                                 <div class="form-floating">
-                                    <select class="form-control country " name="country_id">
+                                    <select class="form-control country " name="country_id" id="country_id">
                                         <option value="">-- Select Country --</option>
                                         @foreach ($countries as $item)
                                             <option value="{{ $item->id }}"
-                                                {{ ($about_student->country_id ?? old('country_id')) == $item->id ? 'selected' : '' }}>
+                                                {{ (old('country_id')) == $item->id ? 'selected' : '' }}>
                                                 {{ $item->name }}</option>
                                         @endforeach
                                     </select>
@@ -742,29 +812,32 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
-                                <select name="province_id" class="form-control province_id  ">
+                                <select name="province_id" class="form-control province_id" id="province_id">
                                     <option value="">-State/Provision -</option>
                                 </select>
                             </div>
                             <div class="col-12 mt-2">
-                                <div class="form-floating"><input name="city" type="text"
+                                <div class="form-floating"><input name="city" type="text" id="city"
                                         class="form-control " placeholder="City/Town" autocomplete="city"
                                         value=""><label for="lead-city" class="form-label">City/Town</label></div>
                             </div>
                             <div class="col-12 mt-2">
-                                <div class="form-floating"><input name="address" type="text"
+                                <div class="form-floating"><input name="address" id="address" type="text"
                                         class="form-control " placeholder="Address" autocomplete="address"
                                         value=""><label for="lead-address" class="form-label">Address</label></div>
                             </div>
                             <div class="col-12 mt-2">
-                                <div class="form-floating"><input name="postal_zip" type="text"
+                                <div class="form-floating"><input name="postal_zip" id="postal_zip" type="text"
                                         class="form-control " placeholder="Postal Code/Zip"
                                         autocomplete="postal_zip" value=""><label for="lead-postal_zip"
                                         class="form-label">Postal Code/Zip</label></div>
                             </div>
                         </form>
                         <div class="col-md-12"><button type="button"
-                                class="btn btn-info  py-6 last_attendence">Submit</button></div>
+                                class="btn btn-info  py-6 last_attendence">Submit<span
+                                            class="spinner-grow spinner-grow-sm d-none" role="status"
+                                            aria-hidden="true"></button>
+                                        </div>
                     </div>
                 </div>
             </div>
@@ -1059,7 +1132,7 @@
               }
           }
     });
-  </script>
+</script>
     <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -1096,6 +1169,153 @@
                 var country_id = $(this).val();
                 fetchStates(country_id);
             });
+            function student_test_score(){
+                var student_id = $('.last_attended').attr('student-id');
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('get-student-test-score') }}',
+                    type: 'POST',
+                    data: { student_id: student_id },
+                    success: function(response) {
+                        var test_score_data = response.test_score;
+                        var tableRow = '';
+                        test_score_data.forEach(function(item) {
+                            tableRow += '<tr>';
+                            tableRow += '<td>' + item.id + '</td>';
+                            tableRow += '<td>' + item.type + '</td>';
+                            tableRow += '<td>' + item.exam_date + '</td>';
+                            tableRow += '<td>' + item.listening_score + '</td>';
+                            tableRow += '<td>' + item.writing_score + '</td>';
+                            tableRow += '<td>' + item.reading_score + '</td>';
+                            tableRow += '<td>' + item.speaking_score + '</td>';
+                            tableRow += '<td>' + item.average_score + '</td>';
+                            tableRow += `<td><a href="javascript:void(0)" class="text-danger test-score" data-id="${item.id}"><i class="fa-solid fa-trash"></i></a></td>`;
+                            tableRow += '</tr>';
+                        });
+                        $('.test-score').html(tableRow);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+            $(document).on('click', '.test-score', function(){
+                var id = $(this).data('id');
+                if(confirm('Are you sure you want to delete this Test Score?')){
+                    setupCSRF();
+                    $.ajax({
+                        url: '{{ url('student/delete-student-test-score')}}/'+id,
+                        type: 'GET',
+                        success: function(response){
+                            alert('Test Score deleted successfully');
+                            student_test_score();
+                        }
+                    });
+                }
+            });
+            student_test_score();
+            $('.education_level_id').change(function() {
+                var program_level_id = $(this).val();
+                var student_id = $('.last_attended').attr('student-id');
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('fetch-documents') }}',
+                    method: 'get',
+                    data: {
+                        program_level_id: program_level_id,
+                        student_id: student_id,
+                    },
+                    success: function(data) {
+                        $('.school-attended').empty();
+                        var documents = data.documents;
+                        var school_attended = data.school_attended;
+                        $.each(documents, function(key, value) {
+                            var isChecked = school_attended.includes(value.id) ? 'checked' : '';
+                            $('.school-attended').append(`
+                            <div class="form-check">
+                                <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
+                            </div>`);
+                        });
+                    }
+                });
+            });
+            function school_data(){
+                var program_level_id = $('.education_level_id').val();
+                var student_id = $('.last_attended').attr('student-id');
+                if(program_level_id){
+                    setupCSRF();
+                    $.ajax({
+                        url: '{{ route('fetch-documents') }}',
+                        method: 'get',
+                        data: {
+                            program_level_id: program_level_id,
+                            student_id: student_id,
+                        },
+                        success: function(data) {
+                            $('.school-attended').empty();
+                                var documents = data.documents;
+                                var school_attended = data.school_attended;
+                            $.each(documents, function(key, value) {
+                                var isChecked = school_attended.includes(value.id) ? 'checked' : '';
+                                $('.school-attended').append(`
+                                <div class="form-check">
+                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                    <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
+                                </div>`);
+                            });
+                        }
+                    });
+                }
+            }
+            school_data();
+            function checkEducationAttended(){
+                school_data();
+                let checkedCount = $('.school-attended input[type="checkbox"]:checked').length;
+                var program_level_id = $('.education_level_id').val();
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('check-education-attended') }}',
+                    method: 'get',
+                    data: {
+                        program_level_id: program_level_id,
+                        checkedCount: checkedCount
+                    },
+                    success: function(response) {
+                        if(response.status == true){
+                            $('.school').removeClass('disabled');
+                        }else{
+                            $('.school').addClass('disabled');
+                        }
+                    }
+                });
+            }
+            $('.education_data').on('click',function(){
+                school_data();
+                checkEducationAttended();
+            });
+            function lead_education_level_id(){
+                var program_level_id = $('.education_level_id').val();
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('fetch-documents') }}',
+                    method: 'get',
+                    data: {
+                        program_level_id: program_level_id
+                    },
+                    success: function(data) {
+                        var optionsHtml = '<option value="">-- Select --</option>';
+                        $.each(data.documents, function(key, value) {
+                            optionsHtml += '<option value="' + value.id + '">' + value.name +
+                                '</option>';
+                        });
+                        $('.lead-education_level_id').html(optionsHtml);
+                    }
+                });
+            }
+            $('.last_attended_school').on('click',function() {
+                lead_education_level_id();
+            });
             $('.selected-country, .education_level_id').change(function() {
                 var country_id = $('.selected-country').val();
                 var education_level_id = $('.education_level_id').val();
@@ -1111,7 +1331,6 @@
                         education_level_id: education_level_id
                     },
                     success: function(response) {
-                        console.log(response.data);
                         var optionsHtml = '<option value="">-- Select --</option>';
                         $.each(response.data, function(index, item) {
                             optionsHtml += '<option value="' + item.id + '">' + item.name +
@@ -1177,6 +1396,7 @@
                         }
                         spinner.classList.add('d-none');
                         $('.next').removeClass('disabled');
+                        checkEducationAttended();
                         handleNext();
                     },
                     error: function(xhr) {
@@ -1288,20 +1508,145 @@
                         }else{
                             $('.pref_subjects').html('');
                         }
+                        if(response.errors.job_profile){
+                            $('.job_profile').html(response.errors.job_profile);
+                        }else{
+                            $('.job_profile').html('');
+                        }
+                        if(response.errors.organization_name){
+                            $('.organization_name').html(response.errors.organization_name);
+                        }else{
+                            $('.organization_name').html('');
+                        }
+                        if(response.errors.mode_of_selary){
+                            $('.mode_of_selary').html(response.errors.mode_of_selary);
+                        }else{
+                            $('.mode_of_selary').html('');
+                        }
+                        if(response.errors.position){
+                            $('.position').html(response.errors.position);
+                        }else{
+                            $('.position').html('');
+                        }
+                        if(response.errors.working_from){
+                            $('.working_from').html(response.errors.working_from);
+                        }else{
+                            $('.working_from').html('');
+                        }
+                        if(response.errors.working_upto){
+                            $('.working_upto').html(response.errors.working_upto);
+                        }else{
+                            $('.working_upto').html('');
+                        }
                     }
                 });
             });
+            function last_attendance(){
+                var student_id = $('.last_attended').attr('student-id');
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('get-last-attendance') }}',
+                    type: 'get',
+                    data: {
+                        student_id: student_id
+                    },
+                    success: function(response){
+                        $('.last-attended-school').html('');
+                        $.each(response.student_attendence, function(i, data){
+                            $('.last-attended-school').append(`
+                                    <tr>
+                                        <td>${i+1}</td>
+                                        <td>${data.student?.first_name ?? null}</td>
+                                        <td>${data.primary_language ?? null}</td>
+                                        <td>${data.attended_from ?? null}</td>
+                                        <td>${data.attended_to ?? null}</td>
+                                        <td>${data.degree_awarded ?? null}</td>
+                                        <td>${data.degree_awarded_on ?? null}</td>
+                                        <td>${data.country?.name ?? null}</td>
+                                        <td>${data.province?.name ?? null}</td>
+                                        <td>${data.city ?? null}</td>
+                                        <td>${data.address ?? null}</td>
+                                        <td>${data.postal_zip ?? null}</td>
+                                        <td>
+                                            <div class="last_attended" data-tour="search"
+                                                data-bs-toggle="offcanvas" data-bs-target="#viewlead"
+                                                aria-controls="viewlead"
+                                                student-id="${data.id}">
+                                                    <i class="las la-pen"></i>
+                                            </div>
+                                        </td>
+                                        <td><a href="javascript:void(0)" class="text-danger delete-attendance" data-id="${data.id}"><i class="fa-solid fa-trash"></i></a></td>
+                                    </tr>
+                            `);
+                            school_data();
+                            checkEducationAttended();
+                        });
+                    }
+                });
+            }
+            $(document).on('click', '.last_attended', function(){
+                lead_education_level_id();
+                var student_id = $(this).attr('student-id');
+
+                setupCSRF();
+                $.ajax({
+                    url: '{{ url('student/get-student-attendence')}}/'+student_id,
+                    type: 'GET',
+                    success: function(response){
+                        $('.lead-education_level_id').val(response.school_attended.education_level_id);
+                        $('#institue_name').val(response.school_attended.name);
+                        $('#primary_language').val(response.school_attended.primary_language);
+                        $('#attended_from').val(response.school_attended.attended_from);
+                        $('#attended_to').val(response.school_attended.attended_to);
+                        $('#degree_awarded').val(response.school_attended.degree_awarded);
+                        $('#degree_awarded_on').val(response.school_attended.degree_awarded_on);
+                        $('#country_id').val(response.school_attended.country_id);
+                        fetchStates(response.school_attended.country_id);
+                        $('#province_id').val(response.school_attended.province_id);
+                        $('#city').val(response.school_attended.city);
+                        $('#address').val(response.school_attended.address);
+                        $('#postal_zip').val(response.school_attended.postal_zip);
+                    }
+                });
+            });
+            $(document).on('click', '.delete-attendance', function(){
+                var id = $(this).data('id');
+                if(confirm('Are you sure you want to delete this Schools Attended?')){
+                    school_data();
+                    setupCSRF();
+                    $.ajax({
+                        url: '{{ url('student/delete-student-attendence')}}/'+id,
+                        type: 'GET',
+                        success: function(response){
+                            alert('Schools Attended deleted successfully');
+                            last_attendance();
+                            school_data();
+                            checkEducationAttended();
+                        }
+                    });
+                }
+            });
+            last_attendance();
             $('.last_attendence').on('click', function(event) {
-                $('.last_attendence').addClass('disabled');
+                var education_level_id =$('.lead-education_level_id').val();
+                if(!education_level_id){
+                    alert('Please Select Education level');
+                    return false;
+                }
+                var spinner = this.querySelector('.spinner-grow');
+                spinner.classList.remove('d-none');
                 var student_id = $('.last_attended').attr('student-id');
                 var formData = $('#myForm').serialize();
                 formData += '&student_id=' + student_id;
                 setupCSRF();
+                $('.last_attendence').addClass('disabled');
                 $.ajax({
                     url: '{{ route('update-attended-school') }}',
                     type: 'post',
                     data: formData,
                     success: function(response) {
+                        spinner.classList.add('d-none');
+                        school_data();
                         if (response.status) {
                             $('#responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1309,12 +1654,12 @@
                             //     location.reload();
                             // }, 1000);
                         }
+                        last_attendance();
                         $('.last_attendence').removeClass('disabled');
-                        handleNext();
                     },
                     error: function(xhr) {
+                        $('.last_attendence').removeClass('disabled');
                         spinner.classList.add('d-none');
-                        $('.next').removeClass('disabled');
                         var response = JSON.parse(xhr.responseText);
                     }
                 });
@@ -1382,6 +1727,7 @@
                     data: formData,
                     success: function(response) {
                         $('.testscore').removeClass('disabled');
+                        student_test_score();
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');

@@ -18,7 +18,7 @@ class StudentAttendence extends Model
 
     public function province()
     {
-        return $this->hasOne(Province::class,'id', 'province_id');
+        return $this->hasOne(Province::class,'id', 'province');
     }
 
     public function student()

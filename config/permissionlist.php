@@ -541,6 +541,12 @@ return [
         'master_service.view',
         'master_service.update',
         'master_service.delete',
+       ],
+       'documents'=> [
+        'documents.create',
+        'documents.view',
+        'documents.update',
+        'documents.delete',
        ]
       ],
 ];

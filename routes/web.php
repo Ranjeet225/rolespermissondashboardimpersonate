@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
         Route::get('edit-student-guide/{id?}',[StudentController::class,'student_guide_edit'])->name('edit-student-guide');
         Route::post('update-student-guide/{id?}',[StudentController::class,'student_guide_update'])->name('update-student-guide');
         Route::get('delete-student-guide/{id?}',[StudentController::class,'student_guide_destroy'])->name('delete-student-guide');
+        Route::get('get-last-attendance',[StudentController::class,'get_last_attendance'])->name('get-last-attendance');
         // university
         Route::get("manage-university",[UniversityController::class,'manage_university'])->name('manage-university');
         Route::get("filter-university",[UniversityController::class,'manage_university'])->name('filter-university');
@@ -263,6 +264,15 @@ Route::middleware('auth')->group(function () {
         Route::get('create-new-program_level',[ProgramController::class,'program_level_create'])->name('create-new-program_level');
         Route::post('store-program-level',[ProgramController::class,'program_level_store'])->name('store-program-level');
 
+        // documents
+        Route::get('documents',[ProgramController::class,'documents'])->name('documents');
+        Route::get('edit-documents/{id?}',[ProgramController::class,'documents_edit'])->name('edit-documents');
+        Route::get('delete-documents/{id?}',[ProgramController::class,'documents_delete'])->name('delete-documents');
+        Route::post('update-documents/{id?}',[ProgramController::class,'documents_update'])->name('update-documents');
+        Route::get('create-new-documents',[ProgramController::class,'documents_create'])->name('create-documents');
+        Route::post('store-documents',[ProgramController::class,'documents_store'])->name('store-documents');
+
+
         // PROGRAM DISPLINE
 
         Route::get('program-discipline',[ProgramController::class,'program_discipline'])->name('program-discipline');
@@ -318,7 +328,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update-field-of-study/{id?}',[ProgramController::class,'field_of_study_update'])->name('update-field-of-study');
         Route::post('store-field-of-study',[ProgramController::class,'field_of_study_store'])->name('store-field-of-study');
         Route::get('delete-field-of-study/{id?}',[ProgramController::class,'field_of_study_delete'])->name('delete-field-of-study');
-
+        Route::get('fetch-documents',[ProgramController::class,'fetch_documents'])->name('fetch-documents');
         // subjects
         Route::get('subjects',[ProgramController::class,'subjects'])->name('subject');
         Route::get('subject-filter',[ProgramController::class,'subjects'])->name('subjects-filter');
@@ -422,7 +432,7 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-scholarship/{id?}',[StudentController::class,'scholarship_delete'])->name('delete-scholarship');
         Route::post('update-scholarship/{id?}',[StudentController::class,'scholarship_update'])->name('update-scholarship');
         Route::post('store-scholarship',[StudentController::class,'scholarship_store'])->name('store-scholarship');
-
+        Route::get('check-education-attended',[StudentController::class,'check_student_attended'])->name('check-education-attended');
              // Blogs
         Route::get('blogs/{id?}',[CmsController::class,'blogs'])->name('blogs');
         Route::get('blogs-filter',[CmsController::class,'blogs'])->name('blogs-filter');
@@ -503,6 +513,8 @@ Route::middleware('auth')->group(function () {
         Route::post('update-gmat-exam-data/{id?}', [StudentController::class, 'update_gmat_exam_data'])->name('update-gmat-exam-data');
         Route::post('update_test_core/{id?}', [StudentController::class, 'update_test_score'])->name('update-test-score');
         Route::get('delete-student-document/{id?}', [StudentController::class, 'delete_document'])->name('delete-student-document');
+        Route::get('get-student-attendence/{id?}', [StudentController::class, 'get_student_attendence'])->name('get-student-attendence');
+        Route::POST('get-student-test-score/{id?}', [StudentController::class, 'get_student_test_score'])->name('get-student-test-score');
 
 
     });

@@ -241,7 +241,7 @@
             "icon": "menu-icon tf-icons lab la-product-hunt",
             "slug": "programs",
             "permission":["program_sub_level.view","programs.view","proficiency_level.view","approve_program.approve_program_view",
-            "manage_program.manage_program_view","program_level_details.view","education_level.view","program_subdiscipline.view",
+            "manage_program.manage_program_view","program_level_details.view","education_level.view","program_subdiscipline.view","documents.view",
             "program_level.program_level_view","grading_scheme.view","exams.view","field_of_study.view","subject.view_view","manage_recommended_programs.manage_recommended_programs_view"],
             "submenu": [
                 {
@@ -320,6 +320,12 @@
                     "name": "Subjects",
                     "slug": "admin-subjects",
                     "permission":"subject.view"
+                },
+                {
+                    "url": "/admin/documents",
+                    "name": "Documents",
+                    "slug": "admin-documents",
+                    "permission":"documents.view"
                 }
             ]
         },

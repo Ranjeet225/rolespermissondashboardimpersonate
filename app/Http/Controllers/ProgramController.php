@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\Documents;
 use App\Models\EducationLevel;
 use App\Models\EngProficiencyLevel;
 use App\Models\Exam;
@@ -15,6 +16,7 @@ use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
 use App\Models\ProgramSubdiscipline;
 use App\Models\ProgramSubLevel;
+use App\Models\SchoolAttended;
 use App\Models\Subject;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -928,4 +930,68 @@ class ProgramController extends Controller
     }
 
 
+    public function documents(){
+        $documents = Documents::with('programlevel')->paginate(12);
+        return view('admin.program.documents.index',compact('documents'));
+    }
+
+    public function documents_edit($id = null){
+        $document = Documents::find($id);
+        return view('admin.program.documents.edit',compact('document'));
+    }
+
+    public function documents_delete($id = null){
+        Documents::find($id)->delete();
+        return redirect()->route('documents')->with('success','Data Deleted Successfully');
+    }
+
+    public function documents_update(Request $request, $id = null){
+        $request->validate([
+            'name' => 'required',
+            'program_level_id' => 'required',
+        ]);
+        $document = Documents::find($id)->update([
+            'name' => $request->name,
+            'program_level_id' => $request->program_level_id,
+        ]);
+        return redirect()->route('documents')->with('success','Data Updated Successfully');
+    }
+
+    public function documents_create(){
+        $programlevels =ProgramLevel::get();
+        return view('admin.program.documents.create',compact('programlevels'));
+    }
+
+    public function documents_store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'program_level_id' => 'required',
+        ]);
+        Documents::create([
+            'name' => $request->name,
+            'program_level_id' => $request->program_level_id,
+        ]);
+        return redirect()->route('documents')->with('success','Data Added Successfully');
+    }
+
+
+    public function fetch_documents(Request $request){
+        $documents = Documents::where('program_level_id',$request->program_level_id)->get();
+        $documents_id = Documents::where('program_level_id',$request->program_level_id)->pluck('id');
+        if($request->student_id){
+            $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
+            $student_id = $student->id;
+            $school_attended =SchoolAttended::whereIn('education_level_id',$documents_id)->where('student_id',$student_id)->pluck('education_level_id');
+            if($school_attended){
+                $school_attended = $school_attended;
+            }else{
+                $school_attended = NULL;
+            }
+        }else{
+            $school_attended = NULL;
+        }
+        return response()->json(['documents'=>$documents,'school_attended'=>$school_attended]);
+    }
+
+    
 }
