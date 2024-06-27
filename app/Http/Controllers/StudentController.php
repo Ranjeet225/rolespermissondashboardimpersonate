@@ -923,7 +923,7 @@ class StudentController extends Controller
         }else{
              $status = false;
         }
-        return response()->json(['success'=>true,'status'=>$status]);
+        return response()->json(['success'=>true,'status'=>$status,'document'=>$document]);
     }
 
     public function get_student_attendence($id)

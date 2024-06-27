@@ -326,7 +326,7 @@
                                                     >
                                                     <option value="">-- Education Level --</option>
                                                     @foreach ($progLabel as $item)
-                                                        <option value="{{ $item->id }}" {{ (isset($education_history->education_level_id)) == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                        <option value="{{ $item->id }}" {{ (isset($education_history->education_level_id) && $education_history->education_level_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 <label for="lead-source" class="form-label">Education Level</label>
@@ -1282,10 +1282,14 @@
                         checkedCount: checkedCount
                     },
                     success: function(response) {
-                        if(response.status == true){
-                            $('.school').removeClass('disabled');
-                        }else{
+                        if(response.document == 0){
                             $('.school').addClass('disabled');
+                        }else{
+                            if(response.status == true){
+                                $('.school').removeClass('disabled');
+                            }else{
+                                $('.school').addClass('disabled');
+                            }
                         }
                     }
                 });
