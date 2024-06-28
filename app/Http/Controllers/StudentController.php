@@ -118,13 +118,13 @@ class StudentController extends Controller
         $all_subject = Program::get();
         $student_document = DB::table('student_documents')->where('student_id', $auth_user)->get();
         $eng_prof_level=EngProficiencyLevel::where('status',1)->get();
-        $education_history = DB::table('education_history')->where('student_id', $auth_user)->first();
+        $education_history = DB::table('education_history')->where('student_id', $about_student->id)->first();
+        // dd($about_student->id);
         return view('admin.student.edit_student',compact('education_history','eng_prof_level','about_student','student_document','all_subject','gmat','test_score','countries','progLabel','student_attendence','additional_qualification'));
     }
 
     public function store_student(Request $request)
     {
-        // dd($request->all());
        $student_id = Auth::user()->id;
        if(empty($student_id)) {
             abort(404);
@@ -134,18 +134,8 @@ class StudentController extends Controller
             $validator = Validator::make($request->all(), [
                 'email' => 'unique:users,email,' . $student_id,
                 'first_name'=>'required|max:2000',
-                'middle_name'=>'required|max:2000',
-                'last_name'=>'required',
                 'gender'=>'required',
-                'maritial_status'=>'required',
-                'first_language'=>'required',
-                'passport_status'=>'required',
                 'dob'=>'required',
-                'country_id'=>'required',
-                'province_id'=>'required',
-                'city'=>'required',
-                'address'=>'required',
-                'zip'=>'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
@@ -168,6 +158,12 @@ class StudentController extends Controller
                 "zip" => $request->zip,
            ];
            DB::table('student')->where('user_id',$student_id)->update($student_data);
+           $education_history = DB::table('education_history')->where('student_id',$student->id)->first();
+           if($education_history){
+               DB::table('education_history')->where('student_id',$student->id)->update(['student_id'=>$student->id]);
+           }else{
+               DB::table('education_history')->insert(['student_id'=>$student->id]);
+           }
            DB::table('users')->where('id',$student_id)->update([
              "name" => $request->first_name,
              'email'=>$request->email,
@@ -175,7 +171,6 @@ class StudentController extends Controller
            return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab2){
             $validator = Validator::make($request->all(), [
-                'pref_countries'=>'required',
                 'education_level_id'=>'required',
             ]);
             if ($validator->fails()) {
@@ -197,18 +192,18 @@ class StudentController extends Controller
             );
              return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab3){
-            $validator = Validator::make($request->all(), [
-                'organization_name' => 'required|max:250',
-                'position' => 'required|max:250',
-                'job_profile' => 'required|max:250',
-                'working_from' => 'required|max:250',
-                'working_upto' => 'required|max:250',
-                'mode_of_selary' => 'required|max:250',
-                'working_status' => 'required|max:250',
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
-            }
+            // $validator = Validator::make($request->all(), [
+            //     'organization_name' => 'required|max:250',
+            //     'position' => 'required|max:250',
+            //     'job_profile' => 'required|max:250',
+            //     'working_from' => 'required|max:250',
+            //     'working_upto' => 'required|max:250',
+            //     'mode_of_selary' => 'required|max:250',
+            //     'working_status' => 'required|max:250',
+            // ]);
+            // if ($validator->fails()) {
+            //     return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+            // }
             DB::table('student')->where('user_id',$student_id)->update([
                 'organization_name' => $request->organization_name,
                 'position' => $request->position,
@@ -220,14 +215,14 @@ class StudentController extends Controller
             ]);
             return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab5){
-                $validator = Validator::make($request->all(), [
-                    'ever_refused_visa'=>'required',
-                    'has_visa'=>'required',
-                    'visa_details'=>'required',
-                ]);
-                if ($validator->fails()) {
-                    return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
-                }
+                // $validator = Validator::make($request->all(), [
+                //     'ever_refused_visa'=>'required',
+                //     'has_visa'=>'required',
+                //     'visa_details'=>'required',
+                // ]);
+                // if ($validator->fails()) {
+                //     return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+                // }
                 DB::table('student')->where('user_id',$student_id)
                 ->update([
                     'ever_refused_visa' => $request->ever_refused_visa,
@@ -235,23 +230,25 @@ class StudentController extends Controller
                     'visa_details' => $request->visa_details,
                     'pref_subjects'=>$request->subject_input,
                 ]);
+
         return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab6){
             if ($request->document) {
-                    $images = $request->file('document');
-                    foreach($images as $uploadedImage) {
-                        $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
-                        $imagePath = 'imagesapi/' . $imageName;
-                        $uploadedImage->move(public_path('imagesapi/'), $imageName);
-                        DB::table('student_documents')
-                        ->insert([
-                            'student_id' => $student_id,
+                $images = $request->file('document');
+                foreach($images as $uploadedImage) {
+                    $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
+                    $imagePath = 'imagesapi/' . $imageName;
+                    $uploadedImage->move(public_path('imagesapi/'), $imageName);
+                    DB::table('student_documents')
+                    ->updateOrInsert(
+                        ['student_id' => $student_id, 'document_type' => $request->visa_document_type],
+                        [
                             'image_url' => $imagePath,
-                            'document_type' => $request->visa_document_type,
                             'file_type' => $imageName,
                             'file_client_name' => $imageName,
-                        ]);
-                    }
+                        ]
+                    );
+                }
             }
         $student_email = Auth::user()->email;
         DB::table('student_by_agent')
@@ -266,10 +263,28 @@ class StudentController extends Controller
             'status_threesixty' => '1',
             'profile_complete'=>'1',
         ]);
-        // dd('das');
         return response()->json(['status'=>true,'success'=>'Data inserted Successfully']);
        }
 
+    }
+
+
+    public function get_student_document(Request $request)
+    {
+        $student_documents = DB::table('student_documents')
+                       ->select('student_documents.id','documents.name','student_documents.image_url')
+                       ->join('documents','student_documents.document_type' ,'=','documents.id')
+                       ->where('student_documents.student_id', $request->student_id)->get();
+        $student_documents_data = DB::table('student_documents')->where('document_type',0)
+                    ->where('student_documents.student_id', $request->student_id)->first();
+        // $educationLevelIds = DB::table('education_history')->where('student_id', Student::where('user_id', $request->student_id)->first()->id)->pluck('education_level_id');
+        // $documentsCount = Documents::whereIn('program_level_id', $educationLevelIds)->count();
+        // if($student_documents_counts == $documentsCount){
+        //     $disable_button=false;
+        // }else{
+        //     $disable_button=true;
+        // }
+        return response()->json(['success'=>true,'documents'=>$student_documents,'student_documents_data'=>$student_documents_data]);
     }
     public function update_gre_exam_data( Request $request)
     {
@@ -372,8 +387,8 @@ class StudentController extends Controller
             ->where('student_id', $student_id)
             ->where('education_level_id', $request->education_level_id)
             ->first();
-
         if($school_attended){
+            DB::table('education_history')->where('student_id',$student_id)->update(['education_level_id' => $request->program_level_id]);
             DB::table('school_attended')
             ->WHERE('id', $school_attended->id)
             ->update([
@@ -391,6 +406,7 @@ class StudentController extends Controller
                 'address' => $request->address
             ]);
         } else {
+            DB::table('education_history')->where('student_id',$student_id)->update(['education_level_id' => $request->program_level_id]);
             DB::table('school_attended')
             ->insert([
                 'student_id' => $student_id,
@@ -494,11 +510,14 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete_document($id)
+    public function delete_document(Request $request ,$id = null)
     {
-        $document = DB::table('student_documents')->where('id', $id)->first();
+        $document = DB::table('student_documents')->where('id', $request->id)->first();
         if ($document) {
-            DB::table('student_documents')->where('id', $id)->delete();
+            if(file_exists($document->image_url)){
+                unlink($document->image_url);
+            }
+            DB::table('student_documents')->where('id', $request->id)->delete();
             $data = [
                 'success' => 'Deleted Successfully',
             ];
@@ -507,7 +526,7 @@ class StudentController extends Controller
                 'error' => 'Id is not exist',
             ];
         }
-        return redirect()->route('student-edit')->with($data);
+        return response()->json($data);
     }
 
     public function delete_test_score($id)
@@ -850,23 +869,27 @@ class StudentController extends Controller
         $token 		= $controller->generateToken();
         $student=Student::where('id',$request->student_id)->first();
         $paymentLinkData = [
-            'token'	=> $token,
-            'user_id'=> $request->student_id,
-            'master_service'=>$request->master_service,
-            'email'=> $student->email,
-            'remarks'=>$request->remarks,
+            'token' => $token,
+            'user_id' => $request->student_id,
+            'master_service' => $request->master_service,
+            'email' => $student->email,
+            'remarks' => $request->remarks,
             'amount' => $amount,
-            'expired_in'=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
-            'fallowp_unique_id'=> $uniqueId,
+            'expired_in' => date('Y-m-d H:i:s', strtotime('+10 days')),
+            'fallowp_unique_id' => $uniqueId,
         ];
+        $attributes = [
+            'master_service' => $request->master_service,
+            'user_id' => $request->student_id,
+        ];
+        $data=PaymentsLink::updateOrCreate($attributes, $paymentLinkData);
         $paymentData =[
             'name'=>$student->first_name,
             'payment_link'=>url('/pay-now/c?token=' . $token),
             'amount'=>$amount,
         ];
-        Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
-        PaymentsLink::create($paymentLinkData);
-        return response()->json(['status'=>true,'message'=>'Payment link sent successfully']);
+        // Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
+        return response()->json(['status'=>true,'message'=>'Payment link sent successfully','student_id'=>$request->student_id]);
     }
 
     public function payment_link_details(Request $request)

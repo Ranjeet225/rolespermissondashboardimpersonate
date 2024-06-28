@@ -413,6 +413,9 @@
                                             </div>
                                         </div>
                                         <br>
+                                        @php
+                                            
+                                        @endphp
                                         <div class="d-flex">
                                             <a class="btn btn btn-primary next" id="tab1datasubmit">
                                                 <span class="spinner-grow spinner-grow-sm d-none" role="status"

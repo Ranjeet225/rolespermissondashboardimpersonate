@@ -38,7 +38,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title=" General Information ">
                                 <a class="nav-link active rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step1" id="step1-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step1"
+                                    href="#step1" id="step1-tab"   data-bs-toggle="tab" role="tab" aria-controls="step1"
                                     aria-selected="true"> 1 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">General Information </span>
@@ -46,7 +46,7 @@
                             <li class="nav-item flex-fill education_data" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Educaton History">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step2" id="step2-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step2"
+                                    href="#step2" id="step2-tab"   data-bs-toggle="tab" role="tab" aria-controls="step2"
                                     aria-selected="false"> 2 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Educaton History</span>
@@ -54,7 +54,7 @@
                             <li class="nav-item flex-fill experience" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Work Experience">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step3" id="step3-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step3"
+                                    href="#step3" id="step3-tab"   data-bs-toggle="tab" role="tab" aria-controls="step3"
                                     aria-selected="false"> 3 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Work Experience</span>
@@ -62,7 +62,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Test Score">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step4" id="step4-tab"  @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step4"
+                                    href="#step4" id="step4-tab"    data-bs-toggle="tab" role="tab" aria-controls="step4"
                                     aria-selected="false"> 4 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">Test Score</span>
@@ -70,7 +70,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="BackGround Information">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step5" id="step5-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step5"
+                                    href="#step5" id="step5-tab"   data-bs-toggle="tab" role="tab" aria-controls="step5"
                                     aria-selected="false"> 5 </a>
                                 <br>
                                 <span class="octicon octicon-light-bulb">BackGround Information</span>
@@ -78,7 +78,7 @@
                             <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Document">
                                 <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step6" id="step6-tab" @disabled(true)  data-bs-toggle="tab" role="tab" aria-controls="step6"
+                                    href="#step6" id="step6-tab"   data-bs-toggle="tab" role="tab" aria-controls="step6"
                                     aria-selected="false"> 6
                                 </a>
                                 <br>
@@ -103,8 +103,8 @@
                                                 <input
                                                     value="{{ $about_student->first_name ?? old('first_name') }}"
                                                     name="first_name" type="text" class="form-control"
-                                                    placeholder="Middle Name" autocomplete="first_name">
-                                                <label for="lead-first_name" class="form-label">First Name</label>
+                                                    placeholder="Name" autocomplete="first_name">
+                                                <label for="lead-first_name" class="form-label text-danger">First Name *</label>
                                                 <span class="text-danger first_name"></span>
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@
                                                     class="form-control"
                                                     value="{{ $about_student->email ?? old('email') }}"
                                                     placeholder="Email" autocomplete="Email">
-                                                <label for="lead-last_name" class="form-label">Email</label>
+                                                <label for="lead-last_name" class="form-label text-danger">Email*</label>
                                                 <span class="text-danger email-error"></span>
                                             </div>
                                         </div>
@@ -153,7 +153,7 @@
                                                         FeMale</option>
                                                 </select>
                                                 <span class="text-danger gender"></span>
-                                                <label for="lead-source" class="form-label">Gender</label>
+                                                <label for="lead-source" class="form-label text-danger">Gender *</label>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -213,7 +213,7 @@
                                             <div class="form-floating">
                                                 <input name="dob" type="date" class="form-control"
                                                     value="{{ $about_student->dob ?? old('dob') }}" >
-                                                <label for="lead-passport-number" class="form-label">Date of Birth</label>
+                                                <label for="lead-passport-number" class="form-label text-danger">Date of Birth *</label>
                                                 <span class="text-danger dob"></span>
                                             </div>
                                         </div>
@@ -329,7 +329,7 @@
                                                         <option value="{{ $item->id }}" {{ (isset($education_history->education_level_id) && $education_history->education_level_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                <label for="lead-source" class="form-label">Education Level</label>
+                                                <label for="lead-source" class="form-label text-danger">Education Level*</label>
                                                 <span class="text-danger education_level_id_error"></span>
                                             </div>
                                         </div>
@@ -653,20 +653,6 @@
                                             <div class="form-floating">
                                                 <select class="form-control " name="visa_document_type" id="lead-visa_document_type" placeholder="Document Type">
                                                     <option value="">--Select--</option>
-                                                    <option value="10th Mark sheet and Certificate">10th Mark sheet and Certificate</option>
-                                                    <option value="12th/Equivalant Mark sheet and Certficate">12th/Equivalant Mark sheet and Certficate</option>
-                                                    <option value="Bachelors Individual Marksheets">Bachelors Individual Marksheets</option>
-                                                    <option value="Bachelors Transcript/Consolidated Marsheet">Bachelors Transcript/Consolidated Marsheet</option>
-                                                    <option value="Bachelors Degree">Bachelors Degree</option>
-                                                    <option value="Two Letter Of Reccomondation">Two Letter Of Reccomondation</option>
-                                                    <option value="Statement Of Purpose">Statement Of Purpose</option>
-                                                    <option value="Resume/Cv">Resume/Cv</option>
-                                                    <option value="Valid Passport">Valid Passport</option>
-                                                    <option value="Medium Of Instruction Letter(If applicable)">Medium Of Instruction Letter(If applicable)</option>
-                                                    <option value="Language Profiency Test (IELTS/TOFEL/PTE/DET/GRE/GMAT)">Language Profiency Test (IELTS/TOFEL/PTE/DET/GRE/GMAT)</option>
-                                                    <option value="Work Exp Letter (If Applicable)">Work Exp Letter (If Applicable)</option>
-                                                    <option value="Gap Explanation Letter (If Applicable)">Gap Explanation Letter (If Applicable)</option>
-                                                    <option value="Backlog Certificate (if app;licable)">Backlog Certificate (if app;licable)</option>
                                                  </select>
                                                 <label for="lead-source" class="form-label">Document Type</label>
                                                 <span class="text-danger visa_document_type"></span>
@@ -674,7 +660,7 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-floating">
-                                                <input type="file" multiple class="form-control " name ="document[]" id="lead-document" placeholder="Document">
+                                                <input type="file"  class="form-control " name ="document[]" id="lead-document" placeholder="Document">
                                                 <input type="hidden" name="tab6" value="tab6">
                                                 <label for="lead-address" class="form-label">Document</label>
                                             </div>
@@ -700,19 +686,9 @@
                                                         <th>Delete</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody class="documents-data">
                                                     @foreach ($student_document as $item)
-                                                        <tr>
-                                                            <td>{{$item->id ?? null}}</td>
-                                                            <td>{{$item->document_type ?? null}}</td>
-                                                            <td><img src="{{asset($item->image_url ?? null)}}" style="width:150px;height:150px"></td>
-                                                            <td>
-                                                                <a
-                                                                    href="{{ route('delete-student-document', $item->id) }}" class="btn btn-warning">
-                                                                    Delete
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -1227,9 +1203,13 @@
                     },
                     success: function(data) {
                         $('.school-attended').empty();
+                        $('#lead-visa_document_type').empty();
                         var documents = data.documents;
                         var school_attended = data.school_attended;
+                        $('#lead-visa_document_type').append('<option value="">--Select Document--</option>');
+                        $('#lead-visa_document_type').append('<option value="0">Other Documents</option>');
                         $.each(documents, function(key, value) {
+                            $('#lead-visa_document_type').append(`<option value="${value.id}">${value.name}</option>`);
                             var isChecked = school_attended.includes(value.id) ? 'checked' : '';
                             $('.school-attended').append(`
                             <div class="form-check">
@@ -1254,9 +1234,13 @@
                         },
                         success: function(data) {
                             $('.school-attended').empty();
-                                var documents = data.documents;
-                                var school_attended = data.school_attended;
+                            $('#lead-visa_document_type').empty();
+                            var documents = data.documents;
+                            var school_attended = data.school_attended;
+                            $('#lead-visa_document_type').append('<option value="">--Select Document--</option>');
+                            $('#lead-visa_document_type').append('<option value="0">Other Documents</option>');
                             $.each(documents, function(key, value) {
+                                $('#lead-visa_document_type').append(`<option value="${value.id}">${value.name}</option>`);
                                 var isChecked = school_attended.includes(value.id) ? 'checked' : '';
                                 $('.school-attended').append(`
                                 <div class="form-check">
@@ -1318,6 +1302,7 @@
                 });
             }
             $('.last_attended_school').on('click',function() {
+                $('#myForm')[0].reset();
                 lead_education_level_id();
             });
             $('.selected-country, .education_level_id').change(function() {
@@ -1373,6 +1358,65 @@
             $('.skipform').on('click', function(event) {
                 handleNext();
             });
+            function deleteDocument(id) {
+                setupCSRF();
+                if (confirm('Are you sure you want to delete this document?')) {
+                    $.ajax({
+                        url: "{{ route('delete-student-document') }}",
+                        type: "get",
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            documents_list();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            }
+            function documents_list(){
+                var student_id = $('.last_attended').attr('student-id');
+                setupCSRF();
+                $.ajax({
+                    url: "{{ route('get-student-document') }}",
+                    type: "GET",
+                    data: {
+                        student_id: student_id
+                    },
+                    success: function(response) {
+                        var tableBody = $('.documents-data');
+                        tableBody.empty();
+                        var assetBaseUrl = "{{ asset('') }}";
+                        if(response?.student_documents_data){
+                            var tr = $('<tr>');
+                            tr.append($('<td>').text(response?.student_documents_data.id ?? null));
+                            tr.append($('<td>').text('Other Documents'));
+                            tr.append($('<td>').html(`<img src="${assetBaseUrl}${response?.student_documents_data.image_url ?? ''}" style="width:150px;height:150px">`));
+                            tr.append($('<td>').html(`<a href="#" class="btn btn-warning delete-document" data-id="${response?.student_documents_data.id}">Delete</a>`));
+                            tableBody.append(tr);
+                        }
+                        $.each(response.documents, function(index, item) {
+                            var tr = $('<tr>');
+                            tr.append($('<td>').text(item.id ?? null));
+                            tr.append($('<td>').text(item.name ?? null));
+                            tr.append($('<td>').html(`<img src="${assetBaseUrl}${item.image_url ?? ''}" style="width:150px;height:150px">`));
+                            tr.append($('<td>').html(`<a href="#" class="btn btn-warning delete-document" data-id="${item.id}">Delete</a>`));
+                            tableBody.append(tr);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+            $(document).on('click', '.delete-document', function(event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                deleteDocument(id);
+            });
+            documents_list();
             $('.next').on('click', function(event) {
                 event.preventDefault();
                 var spinner = this.querySelector('.spinner-grow');
@@ -1633,6 +1677,7 @@
             last_attendance();
             $('.last_attendence').on('click', function(event) {
                 var education_level_id =$('.lead-education_level_id').val();
+                var program_level_id = $('.education_level_id').val();
                 if(!education_level_id){
                     alert('Please Select Education level');
                     return false;
@@ -1641,7 +1686,7 @@
                 spinner.classList.remove('d-none');
                 var student_id = $('.last_attended').attr('student-id');
                 var formData = $('#myForm').serialize();
-                formData += '&student_id=' + student_id;
+                formData += '&student_id=' + student_id + '&program_level_id=' + program_level_id;
                 setupCSRF();
                 $('.last_attendence').addClass('disabled');
                 $.ajax({
@@ -1660,6 +1705,7 @@
                         }
                         last_attendance();
                         $('.last_attendence').removeClass('disabled');
+                        $('#myForm')[0].reset();
                     },
                     error: function(xhr) {
                         $('.last_attendence').removeClass('disabled');
@@ -1680,6 +1726,7 @@
                     data: formData,
                     success: function(response) {
                         $('.greExam').removeClass('disabled');
+                        $('#greExam')[0].reset();
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1732,6 +1779,7 @@
                     success: function(response) {
                         $('.testscore').removeClass('disabled');
                         student_test_score();
+                        $('#testscore')[0].reset();
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1748,6 +1796,7 @@
             });
             $('.documentForm').on('click', function(event) {
                 event.preventDefault();
+                $('.documentForm').addClass('disabled');
                 var student_id = $('.last_attended').attr('student-id');
                 var formData = new FormData($('#document')[0]);
                 formData.append('student_id', student_id);
@@ -1759,12 +1808,10 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        $('#document')[0].reset();
+                        documents_list();
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' + response.success + '</span>');
-                            setTimeout(() => {
-                                // Reload the page after 1 second
-                                location.reload();
-                            }, 1000);
                         }
                         $('.documentForm').removeClass('disabled');
                     },

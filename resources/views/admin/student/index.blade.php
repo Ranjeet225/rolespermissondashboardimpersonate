@@ -135,7 +135,7 @@
                             @endif
                             @if(!empty($item->email))
                             <td scope="col">
-                                <a href="" class="btn btn-primary btn-sm mx-1" id="score"  student-id="{{$item->id}}" data-tour="search"
+                                <a href="" class="btn btn-primary btn-sm mx-1 payment_model" id="score"  student-id="{{$item->id}}" data-tour="search"
                                 data-bs-toggle="offcanvas" data-bs-target="#gmat"
                                 aria-controls="gmat"><i class="la la-plus"></i>payment</a>
                             </td>
@@ -176,6 +176,7 @@
                                 <div class="col-12">
                                    <div class="form-floating">
                                       <select class="form-control " name="master_service" id="usr-fees_type" placeholder="Type" required>
+                                        <option value="">--Select Master Service--</option>
                                         @foreach ($master_service as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
@@ -194,6 +195,7 @@
                                 <div class="col-12">
                                    <div class="form-floating">
                                     <input id="usr-listening_score" name="remarks"  type="text" class="form-control" placeholder="Remarks"  required>
+                                    <input id="usr-listening_score remark_student" type="hidden" name="student_id">
                                     <label for="usr-listening_score" class="form-label">Remark</label>
                                     <span class="text-danger error-remark"></span>
                                    </div>
@@ -238,9 +240,7 @@
             }
             $('.score').on('click', function(event) {
                 $('.score').addClass('disabled');
-                var student_id = $('#score').attr('student-id');
                 var formData = $('#score-data').serialize();
-                formData += '&student_id=' + student_id;
                 setupCSRF();
                 $.ajax({
                     url: '{{ route('send-payment-link') }}',
@@ -248,9 +248,8 @@
                     data: formData,
                     success: function(response) {
                         if (response.status) {
-                            fetchscore();
-                            $('.responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
+                            fetchscore(response.student_id);
+                            $('.responseMessage').html('<span class="alert alert-success">Data Inserted Successfully</span>');
                             setTimeout(() => {
                                 // location.reload();
                             }, 1000);
@@ -279,10 +278,13 @@
                     }
                 });
             });
-
-            function fetchscore() {
+            $('.payment_model').on('click',function(){
+                var student_id =$(this).attr('student-id');
+                $('input[name="student_id"]').val(student_id);
+                fetchscore(student_id);
+            });
+            function fetchscore(student_id) {
                 $('.score-table').empty();
-                var student_id = $('#score').attr('student-id');
                 setupCSRF();
                 $.ajax({
                     url: "{{ route('fetch-student-payment') }}",
@@ -319,16 +321,14 @@
                             },
                             success: function(response){
                                 alert('Payment Deleted Successfully');
-                                fetchscore();
+                                setTimeout(function(){
+                                    location.reload();
+                                }, 100);
                             }
                         });
                     });
                 });
             }
-            $('#score').on('click', function(event) {
-                fetchscore();
-            });
-
         });
     </script>
 @endsection

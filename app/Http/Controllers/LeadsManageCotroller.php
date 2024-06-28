@@ -909,7 +909,7 @@ class LeadsManageCotroller extends Controller
         if(!$leadDetails || !$studentDetails){
             return view('errors.404');
         }
-        $university = University::where('country_id', $studentDetails->country_id)->get();
+        $university = University::get();
         $course = DB::table('program')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
         if ($threesixtee) {

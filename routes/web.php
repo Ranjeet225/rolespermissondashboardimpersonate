@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -515,8 +515,7 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-student-document/{id?}', [StudentController::class, 'delete_document'])->name('delete-student-document');
         Route::get('get-student-attendence/{id?}', [StudentController::class, 'get_student_attendence'])->name('get-student-attendence');
         Route::POST('get-student-test-score/{id?}', [StudentController::class, 'get_student_test_score'])->name('get-student-test-score');
-
-
+        Route::get('get-student-document',[StudentController::class,'get_student_document'])->name('get-student-document');
     });
     Route::get('/fetch-state', [LeadsManageCotroller::class, 'fetchStates'])->name('state.get');
 });
