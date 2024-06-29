@@ -438,6 +438,7 @@
                            <i class="fa fa-envelope" aria-hidden="true" style="height: 32px;padding: 0px 6px;font-size: 22px;color: #070758;"></i>
                            <input type="email" name="email" class="form-control" required id="email" aria-describedby="emailHelp" placeholder="Enter email">
                         </div>
+                        <span class="text-danger email_error"></span>
                         <span style="margin-left: 37px;margin-bottom: 50px !important;position: relative;top: -8px;font-size: 12px;">We'll never share your email with anyone else.</span>
                         <div class="row">
                          <div class="col-md-8">
@@ -553,7 +554,10 @@
             },
             error: function(xhr,status,error){
                 spinner.classList.add('d-none');
-                if(xhr.status == 401){
+                if(xhr.responseJSON.errors.email){
+                    $('.email_error').html(xhr.responseJSON.errors.email[0]);
+                }
+                if(xhr.status == 422){
                     $('.otp-error').html('Invalid OTP.');
                 }
             }

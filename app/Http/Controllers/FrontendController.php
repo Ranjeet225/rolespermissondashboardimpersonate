@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\PaymentsLink;
+use Illuminate\Support\Facades\Validator;
 
 class FrontendController extends Controller
 {
@@ -218,9 +219,19 @@ class FrontendController extends Controller
     }
     public function verify_otp(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'otp' => 'required|numeric',
+            'email' => [
+                'required',
+                'email',
+                'unique:users,email',
+                'unique:student,email',
+                'unique:student_by_agent,email',
+            ],
         ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+        }
         $storedOtp = session('otp');
         if ($request->otp == $storedOtp) {
             session()->forget('otp');
@@ -230,7 +241,6 @@ class FrontendController extends Controller
                 'phone_number' => $request->phone_number,
             ]);
             return response()->json(['message' => 'OTP verified successfully.','success'=>true]);
-
         } else {
             return response()->json(['message' => 'Invalid OTP.','success'=>false], 401);
         }

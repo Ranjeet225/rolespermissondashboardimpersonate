@@ -929,7 +929,16 @@ class LeadsManageCotroller extends Controller
             $course_in_three_sixtee = null;
             $table_three_sixtee_image = null;
         }
-        return view('admin.leads.apply_oel_360', compact('leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
+        $paymentStatuses = ['2' => 'application_fees', '3' => 'tution_fees', '4' => 'visa_fess'];
+        $paymentStatusDone = [];
+        foreach ($paymentStatuses as $masterService => $paymentStatus) {
+            $checkPayment = PaymentsLink::where('user_id', $id)->where('master_service', $masterService)->select('fallowp_unique_id')->first();
+            if ($checkPayment) {
+                $paymentDone = Payment::where('user_id', $id)->select('payment_status')->where('fallowp_unique_id', $checkPayment->fallowp_unique_id)->first();
+                $paymentStatusDone[$paymentStatus] = $paymentDone && $paymentDone->payment_status == 'success' ? 'Done' : 'Fail';
+            }
+        }
+        return view('admin.leads.apply_oel_360', compact('leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university','paymentStatusDone', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
     }
 
 

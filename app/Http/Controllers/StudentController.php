@@ -888,7 +888,7 @@ class StudentController extends Controller
             'payment_link'=>url('/pay-now/c?token=' . $token),
             'amount'=>$amount,
         ];
-        // Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
+        Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
         return response()->json(['status'=>true,'message'=>'Payment link sent successfully','student_id'=>$request->student_id]);
     }
 
