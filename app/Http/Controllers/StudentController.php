@@ -234,6 +234,7 @@ class StudentController extends Controller
         return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab6){
             if ($request->document) {
+                $document = Documents::count();
                 $images = $request->file('document');
                 foreach($images as $uploadedImage) {
                     $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
@@ -263,7 +264,11 @@ class StudentController extends Controller
             'status_threesixty' => '1',
             'profile_complete'=>'1',
         ]);
-        return response()->json(['status'=>true,'success'=>'Data inserted Successfully']);
+        $table_data_count= DB::table('student_documents')->where('student_id', $student_id)->count();
+        if($table_data_count == ($document+1)){
+            return response()->json(['status'=>true,'success'=>'Your Profile Completed','redirect'=>'user']);
+        }
+        return response()->json(['status'=>true,'success'=>'Please Submit all Your Data']);
        }
 
     }

@@ -120,6 +120,7 @@ class DashboardController extends Controller
     {
         $request->validate([
             'images' => 'required|max:2048',
+            'title' => 'max:199',
         ]);
 
         $slider = Slider::create([
@@ -155,7 +156,9 @@ class DashboardController extends Controller
     }
     public function updateSlider(Request $request, $id)
     {
-
+        $request->validate([
+            'title' => 'max:199',
+        ]);
         $slider = Slider::findOrFail($id);
         $slider->update([
             'country_id' => $request->country_id,

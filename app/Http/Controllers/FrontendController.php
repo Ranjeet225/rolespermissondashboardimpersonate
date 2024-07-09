@@ -60,9 +60,15 @@ class FrontendController extends Controller
         $eng_proficiency_level=EngProficiencyLevel::select('name','id')->get();
         if($request->ajax()){
             if($request->has('country') || $request->has('intake') || $request->has('other_exam') || $request->has('program_level') ||  $request->has('program_sub_level') ||  $request->has('education_level') ||  $request->has('program_displine') ||  $request->has('program_subdispline') ||  $request->has('eng_proficiency_level') ||  $request->has('eng_pro_input') ||  $request->has('other_exam')){
-                    $course = Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')
+
+                $course = Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')
                             ->when($request->has('program_level'), function ($query) use ($request) {
                                 return $query->whereIn('program_level_id', explode(',', $request->program_level));
+                            })
+                            ->when($request->has('country'), function ($query) use ($request) {
+                                return $query->whereHas('university_name', function ($query) use ($request) {
+                                    return $query->whereIn('country_id', explode(',', $request->country));
+                                });
                             })
                             ->when($request->has('intake'), function ($query) use ($request) {
                                 return $query->whereIn('intake', explode(',', $request->intake));
@@ -109,7 +115,6 @@ class FrontendController extends Controller
                                         $query->whereIn('program_subdiscipline', explode(',', $request->program_subdiscipline));
                                     });
                                 };
-
                             $universities = University::select('universities.*')
                                 ->selectSub(function ($query) use ($applyProgramFilters) {
                                     $query->from('program')
@@ -145,7 +150,7 @@ class FrontendController extends Controller
                                     ->whereHas('university_name', function ($query) use ($student_data) {
                                         $query->where('country_id', $student_data->country_id);
                                     })
-                                    ->toSql();
+                                    ->paginate(12);
                             $applyFilter = function ($query) use ($program_ids, $education_ids) {
                                 if (!empty($program_ids) || !empty($education_ids)) {
                                     $query->where(function ($query) use ($program_ids, $education_ids) {

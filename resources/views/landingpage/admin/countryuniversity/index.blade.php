@@ -53,7 +53,7 @@
                                 $country = DB::table('country')->find($item->country_id);
                                 @endphp
                                <td>{{ $country->name }}</td>
-                               <td>{!! $item->aboutcountry !!}</td>
+                               <td class="text-wrap">{!! $item->aboutcountry !!}</td>
                                 <td class="text-nowrap">
                                     <a title="Edit"
                                         href="{{route('edit.country.university',[$item->id])}}"

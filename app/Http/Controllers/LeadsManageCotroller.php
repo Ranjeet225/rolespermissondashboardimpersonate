@@ -44,6 +44,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
+use App\Models\ProgramLevel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -376,7 +377,8 @@ class LeadsManageCotroller extends Controller
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
-        $progLabel = EducationLevel::All();
+        // $progLabel = EducationLevel::All();
+        $progLabel = ProgramLevel::All();
         $preproLabel = Fieldsofstudytype::All();
         $interested = Intrested::WHERE('is_deleted', '0')->get();
         return view('admin.leads.add_lead', compact('preproLabel', 'castes', 'interested', 'subjects', 'countries', 'lead_status', 'source', 'progLabel'));
@@ -600,7 +602,7 @@ class LeadsManageCotroller extends Controller
 
     public function filterLeads($request)
     {
-        $lead_list = StudentByAgent::query();
+        $lead_list = StudentByAgent::latest('created_at');
         $user = Auth::user();
         $user_id = $user->id;
         if (($user->hasRole('agent'))) {

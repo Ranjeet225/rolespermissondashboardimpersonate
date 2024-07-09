@@ -82,7 +82,7 @@
         )->get();
         $program_discipline_name = App\Models\ProgramDiscipline::whereIn(
             'id',
-            explode(',', $_GET['program_displine'] ?? null),
+            explode(',', $_GET['program_discipline'] ?? null),
         )->get();
         $program_sub_discipline_name = App\Models\ProgramSubdiscipline::whereIn(
             'id',

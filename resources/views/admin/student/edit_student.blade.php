@@ -647,6 +647,7 @@
                                 <div class="mb-4">
                                     <h5>Documents</h5>
                                 </div>
+
                                 <form id="document">
                                     <div class="row">
                                         <div class="col-6">
@@ -676,6 +677,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="responseMessage"></div>
                                         <div class="card-body table-responsive">
                                             <table class="table table-modern table-hover">
                                                 <thead>
@@ -1813,9 +1815,15 @@
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' + response.success + '</span>');
                         }
+                        if(response.redirect){
+                            setTimeout(() => {
+                                window.location.href = "{{ route('dashboard') }}";
+                            }, 2000);
+                        }
                         $('.documentForm').removeClass('disabled');
                     },
                     error: function(xhr) {
+                        $('.documentForm').removeClass('disabled');
                         var response = JSON.parse(xhr.responseText);
                     }
                 });
