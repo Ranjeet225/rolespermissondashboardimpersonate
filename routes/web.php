@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {

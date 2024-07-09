@@ -45,6 +45,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
 use App\Models\ProgramLevel;
+use App\Models\VisaDocument;
+use App\Models\VisaSubDocument;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -914,6 +916,8 @@ class LeadsManageCotroller extends Controller
         $university = University::get();
         $course = DB::table('program')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
+        $visa_document=VisaDocument::get();
+        $visa_sub_document=VisaSubDocument::get();
         if ($threesixtee) {
             $agent = DB::table('agents')->get();
             $university_id = explode(',', $threesixtee->college);
@@ -940,7 +944,7 @@ class LeadsManageCotroller extends Controller
                 $paymentStatusDone[$paymentStatus] = $paymentDone && $paymentDone->payment_status == 'success' ? 'Done' : 'Fail';
             }
         }
-        return view('admin.leads.apply_oel_360', compact('leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university','paymentStatusDone', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
+        return view('admin.leads.apply_oel_360', compact('visa_document','visa_sub_document','leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university','paymentStatusDone', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
     }
 
 
@@ -1121,6 +1125,7 @@ class LeadsManageCotroller extends Controller
                     'portal_question' => $request->portal_question ?? null,
                     'portal_answer' => $request->portal_answer ?? null,
                     'visa_document_type' => $request->visa_document_type ?? null,
+                    'visa_sub_document_type' => $request->visa_sub_document_type ?? null,
                     'visa_application' => $request->visa_application ?? null
                 ]);
             } else {
@@ -1140,6 +1145,7 @@ class LeadsManageCotroller extends Controller
                         'portal_question' => $request->portal_question ?? null,
                         'portal_answer' => $request->portal_answer ?? null,
                         'visa_document_type' => $request->visa_document_type ?? null,
+                        'visa_sub_document_type' => $request->visa_sub_document_type ?? null,
                         'visa_application' => $request->visa_application ?? null
                     ]);
             }
@@ -1206,6 +1212,7 @@ class LeadsManageCotroller extends Controller
                 'portal_question' => $threesixetee->portal_question ?? null,
                 'portal_answer' => $threesixetee->portal_answer ?? null,
                 'visa_document_type' => $threesixetee->visa_document_type ?? null,
+                'visa_sub_document_type' => $threesixetee->visa_sub_document_type ?? null,
                 'visa_application' => $threesixetee->visa_application ?? null,
                 'visa_no' => $threesixetee->visa_no,
                 'visa_exp_date' => $threesixetee->visa_exp_date,

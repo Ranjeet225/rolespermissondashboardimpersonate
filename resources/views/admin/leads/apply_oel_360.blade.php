@@ -652,9 +652,9 @@
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="input-block mb-3">
-                                                    <label class="form-label">Document Type</label>
+                                                    <label class="form-label">Agent Type</label>
                                                     <select class="form-select" name="visa_document" id="visa_document">
-                                                        <option>Document Type</option>
+                                                        <option>Agent Type</option>
                                                         <option value="direct"
                                                             {{ isset($threesixtee) && $threesixtee->visa_document == 'direct' ? 'selected' : '' }}>
                                                             Direct</option>
@@ -736,7 +736,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a class="btn btn-primary w-100 my-2">Country Portal Faq</a>
+                                        {{-- <a class="btn btn-primary w-100 my-2">Country Portal Faq</a>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="input-block mb-3">
@@ -756,28 +756,37 @@
                                                         name="portal_answer" id="portal_answer">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <a class="btn btn-primary w-100 my-2">Visa Document</a>
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <div class="input-block mb-3">
                                                     <label class="form-label">Document Type</label>
                                                     <select class="form-select" name="visa_document_type"
                                                         id="visa_document_type">
                                                         <option value="">--Select--</option>
-                                                        <option value="Passport"
-                                                            {{ isset($threesixtee) && $threesixtee->visa_document_type == 'Passport' ? 'selected' : '' }}>
-                                                            Passport</option>
-                                                        <option value="SOP"
-                                                            {{ isset($threesixtee) && $threesixtee->visa_document_type == 'SOP' ? 'selected' : '' }}>
-                                                            SOP</option>
+                                                        @foreach ($visa_document as $item)
+                                                             <option value="{{$item->id}}" {{ isset($threesixtee) && $threesixtee->visa_document_type == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
+                                                <div class="input-block mb-3">
+                                                    <label class="form-label">Sub Document Type</label>
+                                                    <select class="form-select" name="visa_sub_document_type"
+                                                        id="visa_sub_document_type">
+                                                        <option value="">--Select--</option>
+                                                        @foreach ($visa_sub_document as $item)
+                                                                <option value="{{$item->id}}" {{ isset($threesixtee) && $threesixtee->visa_sub_document_type == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-expiration-input" class="form-label">
-                                                        Document</label>
+                                                         Document </label>
                                                     <input type="file" multiple class="form-control" name="lead-document"
                                                         id="lead-document">
                                                 </div>
@@ -1289,6 +1298,7 @@
                     var portal_question = $('#portal_question').val();
                     var portal_answer = $('#portal_answer').val();
                     var visa_document_type = $('#visa_document_type').val();
+                    var visa_sub_document_type = $('#visa_sub_document_type').val();
                     var visa_document = $('#visa_document').val();
                     var formData = new FormData();
                     formData.append('sba_id', sba_id);
@@ -1303,6 +1313,7 @@
                     formData.append('portal_question', portal_question);
                     formData.append('portal_answer', portal_answer);
                     formData.append('visa_document_type', visa_document_type);
+                    formData.append('visa_sub_document_type', visa_sub_document_type);
                     formData.append('visa_document', visa_document);
                     var files = $('#lead-document')[0].files;
                     for (var i = 0; i < files.length; i++) {
