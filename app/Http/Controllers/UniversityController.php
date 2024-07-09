@@ -624,4 +624,10 @@ class UniversityController extends Controller
         }
     }
 
+    public function view_university($id)
+    {
+        $about_university=University::with('Program','country:name,id','province:id,name','university_type:id,name')->where('id',$id)->first();
+        // dd($about_university);
+        return view('frontend.university-details',compact('about_university'));
+    }
 }

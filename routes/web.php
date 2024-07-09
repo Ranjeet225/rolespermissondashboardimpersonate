@@ -41,6 +41,8 @@ Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_da
 Route::get('apply-program-payment/{student_id}/{program_id}',[FrontendController::class,'apply_program_payment'])->name('apply-program-payment');
 Route::get('pay-later/{student_id}/{program_id}/{amount?}',[FrontendController::class,'pay_later'])->name('pay-later');
 Route::get('check-eligibility',[FrontendController::class,'check_eligibility'])->name('check-eligibility');
+Route::get("university-details/{id}",[UniversityController::class,'view_university'])->name('view-university');
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -191,7 +193,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get("un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('unapproved-university');
         Route::get("filter-un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('filter-unapproved-university');
-        Route::get("view-details-university",[UniversityController::class,'view_university'])->name('view-university');
         Route::get("updation-manage-university",[UniversityController::class,'update_university'])->name('update-university');
 
         // oel-review
@@ -412,6 +413,27 @@ Route::middleware('auth')->group(function () {
         Route::post('update-vas-service/{id?}',[OtherMasterDataController::class,'vas_service_update'])->name('update-vas-service');
         Route::post('store-vas-service',[OtherMasterDataController::class,'vas_service_store'])->name('store-vas-service');
         Route::get('delete-vas-service/{id?}',[OtherMasterDataController::class,'vas_service_delete'])->name('delete-vas-service');
+
+        //  other document type
+
+        Route::get('visa-document-type',[OtherMasterDataController::class,'visa_document_type'])->name('visa-document-type');
+        Route::get('visa-document-type-filter',[OtherMasterDataController::class,'visa_document_type'])->name('visa-document-type-filter');
+        Route::get('create-visa-document-type',[OtherMasterDataController::class,'visa_document_type_create'])->name('create-visa-document-type');
+        Route::get('edit-visa-document-type/{id?}',[OtherMasterDataController::class,'visa_document_type_edit'])->name('edit-visa-document-type');
+        Route::get('delete-visa-document-type/{id?}',[OtherMasterDataController::class,'visa_document_type_delete'])->name('delete-visa-document-type');
+        Route::post('update-visa-document-type/{id?}',[OtherMasterDataController::class,'visa_document_type_update'])->name('update-visa-document-type');
+        Route::post('store-visa-document-type',[OtherMasterDataController::class,'visa_document_type_store'])->name('store-visa-document-type');
+        Route::get('delete-visa-document-type/{id?}',[OtherMasterDataController::class,'visa_document_type_delete'])->name('delete-visa-document-type');
+
+
+        Route::get('visa-sub-document-type',[OtherMasterDataController::class,'visa_sub_document_type'])->name('visa-sub-document-type');
+        Route::get('visa-sub-document-type-filter',[OtherMasterDataController::class,'visa_sub_document_type'])->name('visa-sub-document-type-filter');
+        Route::get('create-visa-sub-document-type',[OtherMasterDataController::class,'visa_sub_document_type_create'])->name('create-visa-sub-document-type');
+        Route::get('edit-visa-sub-document-type/{id?}',[OtherMasterDataController::class,'visa_sub_document_type_edit'])->name('edit-visa-sub-document-type');
+        Route::get('delete-visa-sub-document-type/{id?}',[OtherMasterDataController::class,'visa_sub_document_type_delete'])->name('delete-visa-sub-document-type');
+        Route::post('update-visa-sub-document-type/{id?}',[OtherMasterDataController::class,'visa_sub_document_type_update'])->name('update-visa-sub-document-type');
+        Route::post('store-visa-sub-document-type',[OtherMasterDataController::class,'visa_sub_document_type_store'])->name('store-visa-sub-document-type');
+        Route::get('delete-visa-sub-document-type/{id?}',[OtherMasterDataController::class,'visa_sub_document_type_delete'])->name('delete-visa-sub-document-type');
 
 
         // Education Lane

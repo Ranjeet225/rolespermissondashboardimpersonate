@@ -543,10 +543,22 @@ return [
         'master_service.delete',
        ],
        'documents'=> [
-        'documents.create',
-        'documents.view',
-        'documents.update',
-        'documents.delete',
-       ]
+            'documents.create',
+            'documents.view',
+            'documents.update',
+            'documents.delete',
+       ],
+       'visa_documents_type'=> [
+            'visa_documents_type.create',
+            'visa_documents_type.view',
+            'visa_documents_type.update',
+            'visa_documents_type.delete',
+       ],
+       'visa_sub_document_type'=> [
+                'visa_sub_document_type.create',
+                'visa_sub_document_type.view',
+                'visa_sub_document_type.update',
+                'visa_sub_document_type.delete',
+        ],
       ],
 ];

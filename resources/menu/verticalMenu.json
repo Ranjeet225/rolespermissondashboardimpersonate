@@ -385,7 +385,7 @@
             "icon": "menu-icon tf-icons las la-tachometer-alt",
             "slug": "other-master-data",
             "permission":["specializations.view","source.view","interested.view","country.view","province.view","visa_type.view"
-            ,"faq.view","education_lane.view","manage_blogs.view","vas_services.view","master_service.view"],
+            ,"faq.view","education_lane.view","manage_blogs.view","vas_services.view","master_service.view","visa_documents_type.view","visa_sub_document_type.view"],
             "submenu": [
                 {
                     "url": "/admin/specializations",
@@ -422,6 +422,18 @@
                     "name": "Visa Type",
                     "slug": "admin-visa-type",
                     "permission":"visa_type.view"
+                },
+                {
+                    "url": "/admin/visa-document-type",
+                    "name": "Visa Document Type",
+                    "slug": "admin-visa-document-type",
+                    "permission":"visa_documents_type.view"
+                },
+                {
+                    "url": "/admin/visa-sub-document-type",
+                    "name": "Visa SubDocument Type",
+                    "slug": "admin-visa-sub-document-type",
+                    "permission":"visa_sub_document_type.view"
                 },
                 {
                     "url": "/admin/faqs",

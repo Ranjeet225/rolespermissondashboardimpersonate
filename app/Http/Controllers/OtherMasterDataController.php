@@ -10,6 +10,8 @@ use App\Models\Province;
 use App\Models\Source;
 use App\Models\Specialisations;
 use App\Models\VasService;
+use App\Models\VisaDocument;
+use App\Models\VisaSubDocument;
 use App\Models\VisaType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -520,6 +522,110 @@ class OtherMasterDataController extends Controller
           }else{
               return redirect()->route('education-lane')
                   ->with('error', 'Education lane not found');
+          }
+      }
+
+    //  Visa Document type
+      public function visa_document_type(Request $request)
+      {
+        $visa_document_type=VisaDocument::when($request->name, function ($query) use ($request) {
+                    $query->where('name', 'like', '%'.$request->name.'%');
+                })
+                ->latest()->paginate(12);
+          return view('admin.othermaster.visa-document.index',compact('visa_document_type'));
+      }
+      public function visa_document_type_create()
+      {
+          return view('admin.othermaster.visa-document.create');
+      }
+      public function visa_document_type_store(Request $request)
+      {
+          $request->validate([
+              'name' => 'required|max:200',
+              'status' => 'required',
+          ]);
+          $input = $request->except('_token');
+          VisaDocument::create($input);
+          return redirect()->route('visa-document-type')
+              ->with('success', 'Visa Document Type created successfully.');
+      }
+      public function visa_document_type_edit($id)
+      {
+          $visa_document_type = VisaDocument::find($id);
+          return view('admin.othermaster.visa-document.edit', compact('visa_document_type'));
+      }
+      public function visa_document_type_update(Request $request, $id)
+      {
+          $input = $request->except('_token');
+          $visa_document_type = VisaDocument::find($id);
+          $visa_document_type->update($input);
+          return redirect()->route('visa-document-type')
+              ->with('success', 'Visa Document Type updated successfully');
+      }
+      public function visa_document_type_delete(Request $request)
+      {
+          $visa_document_type = VisaDocument::find($request->id);
+          if($visa_document_type){
+              $visa_document_type->delete();
+              return redirect()->route('visa-document-type')
+                  ->with('success', 'Visa Document Type deleted successfully');
+          }else{
+              return redirect()->route('visa-document-type')
+                  ->with('error', 'Visa Document Type not found');
+          }
+      }
+
+
+      public function visa_sub_document_type(Request $request)
+      {
+          $visa_sub_document_type = VisaSubDocument::with('visa_documents')->when($request->visa_document_id, function ($query) use ($request) {
+                        $query->where('visa_document_id', $request->visa_document_id);
+                    })
+                    ->latest()->paginate(12);
+          return view('admin.othermaster.visa-sub-document.index',compact('visa_sub_document_type'));
+      }
+
+      public function visa_sub_document_type_create()
+      {
+          $visa_documents =VisaDocument::get();
+          return view('admin.othermaster.visa-sub-document.create',compact('visa_documents'));
+      }
+
+      public function visa_sub_document_type_store(Request $request)
+      {
+          $request->validate([
+              'visa_document_id' => 'required',
+              'name' => 'required|max:200',
+              'status' => 'required',
+          ]);
+          $input = $request->except('_token');
+          VisaSubDocument::create($input);
+          return redirect()->route('visa-sub-document-type')
+              ->with('success', 'Visa Sub Document Type created successfully.');
+      }
+      public function visa_sub_document_type_edit($id)
+      {
+          $visa_sub_document_type = VisaSubDocument::find($id);
+          $visa_documents =VisaDocument::get();
+          return view('admin.othermaster.visa-sub-document.edit', compact('visa_sub_document_type','visa_documents'));
+      }
+      public function visa_sub_document_type_update(Request $request, $id)
+      {
+          $input = $request->except('_token');
+          $visa_sub_document_type = VisaSubDocument::find($id);
+          $visa_sub_document_type->update($input);
+          return redirect()->route('visa-sub-document-type')
+              ->with('success', 'Visa Sub Document Type updated successfully');
+      }
+      public function visa_sub_document_type_delete(Request $request)
+      {
+          if ($visa_sub_document_type = VisaSubDocument::find($request->id)) {
+              $visa_sub_document_type->delete();
+              return redirect()->route('visa-sub-document-type')
+                  ->with('success', 'Visa Sub Document Type deleted successfully');
+          } else {
+              return redirect()->route('visa-sub-document-type')
+                  ->with('error', 'Visa Sub Document Type not found');
           }
       }
 }

@@ -196,6 +196,14 @@
                             $create_master_service= request()->routeIs('create-master-service');
                             $edit_master_service= request()->routeIs('edit-master-service');
                             $master_service= $submenu->name === 'Master Service';
+
+                            $create_visa_document= request()->routeIs('create-visa-document-type');
+                            $edit_visa_document= request()->routeIs('edit-visa-document-type');
+                            $visa_document_type= $submenu->name === 'Visa Document Type';
+
+                            $create_sub_visa_document= request()->routeIs('create-visa-sub-document-type');
+                            $edit_sub_visa_document= request()->routeIs('edit-visa-sub-document-type');
+                            $visa_sub_document_type= $submenu->name === 'Visa SubDocument Type';
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
@@ -203,6 +211,8 @@
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
                                 (($edit_program_details || $create_program_details) && $program_Details) ||
                                 (($edit_ads || $add_ads) && $ads) ||
+                                (($edit_visa_document || $create_visa_document) && $visa_document_type) ||
+                                (($edit_sub_visa_document || $create_sub_visa_document) && $visa_sub_document_type) ||
                                 (($edit_master_service || $create_master_service) && $master_service) ||
                                 (($edit_slider || $add_slider  || $show_slider) && $slider) ||
                                 (($edit_about_country || $add_about_country) && $about_country) ||

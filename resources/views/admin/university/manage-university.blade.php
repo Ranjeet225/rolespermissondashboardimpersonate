@@ -161,208 +161,208 @@
                     }
             });
         }
-        function fetchData(page = 1, search = '') {
-            csrf();
-            $.ajax({
-                url: '{{ route("manage-university") }}',
-                method: 'GET',
-                data: {
-                    page: page,
-                    search: search
-                },
-                success: function(response) {
-                    $('#tableBody').empty();
-                    if ($.isEmptyObject(response)) {
-                        $('#tableBody').append('<tr><td colspan="6" class="text-center">No records found</td></tr>');
-                    } else {
-                        var perPage = response.data.per_page;
-                        var startIndex = (page - 1) * perPage;
-                        $.each(response.data.data, function(key, value) {
-                            key = startIndex + key + 1;
-                            if(value.is_approved == 1){
-                               var  is_approved ='Approve';
-                            }else{
-                                var  is_approved ='Un Approve';
-                            }
-                            $('#tableBody').append(`
-                                <tr>
-                                    <td>${key}</td>
-                                    <td>${value.university_name}</td>
-                                    <td>${value.country.name}</td>
-                                    <td>${value.province.name}</td>
-                                    <td>
-                                        <select class="form-control approve" name="approvevalue" data-id="${value.id}" >
-                                            <option value="">--Select--</option>
-                                            <option value="1" ${value.is_approved == 1 ? 'selected' : ''}>Approve</option>
-                                            <option value="0" ${value.is_approved == 0 ? 'selected' : ''}>Unapprove</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-end">
-                                        <a class="dropdown-item " href="{{route('edit-university')}}/${value.id}" data-item-id="${value.id}">
-                                            <i class="fa-solid fa-pen "></i>  </a>
-                                    </td>
-                                    <td class="text-end">
-                                        <button class="dropdown-item deleteButton" data-item-id="${value.id}">
-                                            <i class="fa-solid fa-trash "></i>  </button>
-                                    </td>
-                                </tr>
-                            `);
-                        });
-                    }
-                    $('#pagination').html(response.links);
-                    $('.pagination a').on('click', function(event){
-                        event.preventDefault();
-                        var page = $(this).attr('href').split('page=')[1];
-                        fetchData(page); // Load universities for the clicked page
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('An error occurred: ' + error);
-                }
-            });
-        }
-        fetchData();
-        $('#searchInput').on('keyup', function() {
-            var query = $(this).val();
-            var page = 1, search = '';
-            csrf();
-            $.ajax({
-                url: '{{route('filter-university')}}',
-                method: 'get',
-                data: { search: query,page: page },
-                success: function(response) {
-                    $('#tableBody').empty();
-                    if ($.isEmptyObject(response)) {
-                        $('#tableBody').append('<tr><td colspan="6" class="text-center">No records found</td></tr>');
-                    } else {
-                        var perPage = response.data.per_page;
-                        var startIndex = (page - 1) * perPage;
-                        $.each(response.data.data, function(key, value) {
-                            key = startIndex + key + 1;
-                            if(value.is_approved == 1){
-                               var  is_approved ='Approve';
-                            }else{
-                                var  is_approved ='Un Approve';
-                            }
-                            $('#tableBody').append(`
-                                <tr>
-                                    <td>${key}</td>
-                                    <td>${value.university_name}</td>
-                                    <td>${value.country.name}</td>
-                                    <td>${value.province.name}</td>
-                                    <td>
-                                        <select class="form-control approve" name="approvevalue" data-id="${value.id}" >
-                                            <option value="">--Select--</option>
-                                            <option value="1" ${value.is_approved == 1 ? 'selected' : ''}>Approve</option>
-                                            <option value="0" ${value.is_approved == 0 ? 'selected' : ''}>Unapprove</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-end">
-                                        <a class="dropdown-item" href="{{route('edit-university')}}/${value.id}" data-item-id="${value.id}">
-                                            <i class="fa-solid fa-pen "></i>  </a>
-                                    </td>
-                                    <td class="text-end">
-                                        <button class="dropdown-item deleteButton" data-item-id="${value.id}">
-                                            <i class="fa-solid fa-trash "></i>  </button>
-                                    </td>
+        // function fetchData(page = 1, search = '') {
+        //     csrf();
+        //     $.ajax({
+        //         url: '{{ route("manage-university") }}',
+        //         method: 'GET',
+        //         data: {
+        //             page: page,
+        //             search: search
+        //         },
+        //         success: function(response) {
+        //             $('#tableBody').empty();
+        //             if ($.isEmptyObject(response)) {
+        //                 $('#tableBody').append('<tr><td colspan="6" class="text-center">No records found</td></tr>');
+        //             } else {
+        //                 var perPage = response.data.per_page;
+        //                 var startIndex = (page - 1) * perPage;
+        //                 $.each(response.data.data, function(key, value) {
+        //                     key = startIndex + key + 1;
+        //                     if(value.is_approved == 1){
+        //                        var  is_approved ='Approve';
+        //                     }else{
+        //                         var  is_approved ='Un Approve';
+        //                     }
+        //                     $('#tableBody').append(`
+        //                         <tr>
+        //                             <td>${key}</td>
+        //                             <td>${value.university_name}</td>
+        //                             <td>${value.country.name}</td>
+        //                             <td>${value.province.name}</td>
+        //                             <td>
+        //                                 <select class="form-control approve" name="approvevalue" data-id="${value.id}" >
+        //                                     <option value="">--Select--</option>
+        //                                     <option value="1" ${value.is_approved == 1 ? 'selected' : ''}>Approve</option>
+        //                                     <option value="0" ${value.is_approved == 0 ? 'selected' : ''}>Unapprove</option>
+        //                                 </select>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <a class="dropdown-item " href="{{route('edit-university')}}/${value.id}" data-item-id="${value.id}">
+        //                                     <i class="fa-solid fa-pen "></i>  </a>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <button class="dropdown-item deleteButton" data-item-id="${value.id}">
+        //                                     <i class="fa-solid fa-trash "></i>  </button>
+        //                             </td>
+        //                         </tr>
+        //                     `);
+        //                 });
+        //             }
+        //             $('#pagination').html(response.links);
+        //             $('.pagination a').on('click', function(event){
+        //                 event.preventDefault();
+        //                 var page = $(this).attr('href').split('page=')[1];
+        //                 fetchData(page); // Load universities for the clicked page
+        //             });
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('An error occurred: ' + error);
+        //         }
+        //     });
+        // }
+        // fetchData();
+        // $('#searchInput').on('keyup', function() {
+        //     var query = $(this).val();
+        //     var page = 1, search = '';
+        //     csrf();
+        //     $.ajax({
+        //         url: '{{route('filter-university')}}',
+        //         method: 'get',
+        //         data: { search: query,page: page },
+        //         success: function(response) {
+        //             $('#tableBody').empty();
+        //             if ($.isEmptyObject(response)) {
+        //                 $('#tableBody').append('<tr><td colspan="6" class="text-center">No records found</td></tr>');
+        //             } else {
+        //                 var perPage = response.data.per_page;
+        //                 var startIndex = (page - 1) * perPage;
+        //                 $.each(response.data.data, function(key, value) {
+        //                     key = startIndex + key + 1;
+        //                     if(value.is_approved == 1){
+        //                        var  is_approved ='Approve';
+        //                     }else{
+        //                         var  is_approved ='Un Approve';
+        //                     }
+        //                     $('#tableBody').append(`
+        //                         <tr>
+        //                             <td>${key}</td>
+        //                             <td>${value.university_name}</td>
+        //                             <td>${value.country.name}</td>
+        //                             <td>${value.province.name}</td>
+        //                             <td>
+        //                                 <select class="form-control approve" name="approvevalue" data-id="${value.id}" >
+        //                                     <option value="">--Select--</option>
+        //                                     <option value="1" ${value.is_approved == 1 ? 'selected' : ''}>Approve</option>
+        //                                     <option value="0" ${value.is_approved == 0 ? 'selected' : ''}>Unapprove</option>
+        //                                 </select>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <a class="dropdown-item" href="{{route('edit-university')}}/${value.id}" data-item-id="${value.id}">
+        //                                     <i class="fa-solid fa-pen "></i>  </a>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <button class="dropdown-item deleteButton" data-item-id="${value.id}">
+        //                                     <i class="fa-solid fa-trash "></i>  </button>
+        //                             </td>
 
-                                </tr>
-                            `);
-                        });
-                    }
-                    $('#pagination').html(response.links);
-                    $('.pagination a').on('click', function(event){
-                        event.preventDefault();
-                        var page = $(this).attr('href').split('page=')[1];
-                        fetchData(page); // Load universities for the clicked page
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('An error occurred: ' + error);
-                }
-            });
-        });
-        $('#search').on('input', function(){
-            fetchData(1, $(this).val());
-        });
-        $('#submit').click(function(){
-            $('#pagination').empty();
-            var page = 1, search = '';
-            var university_name =$('#university_name').val();
-            var country =$('#country').val();
-            var status =$('#status').val();
-            var approve =$('#approve').val();
-            $.ajax({
-                url: '{{route('filter-university')}}',
-                method: 'get',
-                data:{page:page,country:country,status:status,approve:approve,university_name:university_name,page:page,search:search},
-                success: function(response) {
-                    $('#tableBody').empty();
-                    if ($.isEmptyObject(response)) {
-                        $('#tableBody').append('<tr><td colspan="6" class="text-center">No records found</td></tr>');
-                    } else {
-                        var perPage = response.data.per_page;
-                        var startIndex = (page - 1) * perPage;
-                        $.each(response.data.data, function(key, value) {
-                            key = startIndex + key + 1;
-                            if(value.is_approved == 1){
-                               var  is_approved ='Approve';
-                            }else{
-                                var  is_approved ='Un Approve';
-                            }
-                            $('#tableBody').append(`
-                                <tr>
-                                    <td>${key}</td>
-                                    <td>${value.university_name}</td>
-                                    <td>${value.country.name}</td>
-                                    <td>${value.province.name}</td>
-                                    <td>
-                                        <select class="form-control approve" name="approvevalue" data-id="${value.id}" >
-                                            <option value="">--Select--</option>
-                                            <option value="1" ${value.is_approved == 1 ? 'selected' : ''}>Approve</option>
-                                            <option value="0" ${value.is_approved == 0 ? 'selected' : ''}>Unapprove</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-end">
-                                        <a class="dropdown-item " href="{{route('edit-university')}}/${value.id}" data-item-id="${value.id}">
-                                            <i class="fa-solid fa-pen "></i>  </a>
-                                    </td>
-                                    <td class="text-end">
-                                        <button class="dropdown-item deleteButton" data-item-id="${value.id}">
-                                            <i class="fa-solid fa-trash "></i>  </button>
-                                    </td>
-                                </tr>
-                            `);
-                        });
-                    }
-                    $('#pagination').html(response.links);
-                    $('.pagination a').on('click', function(event){
-                        event.preventDefault();
-                        var page = $(this).attr('href').split('page=')[1];
-                        fetchData(page); // Load universities for the clicked page
-                    });
-                },
-            });
-        })
-        $('#tableBody').on('click', '.deleteButton', function() {
-            if (confirm("Are you sure you want to delete?")) {
-                csrf();
-                var itemId = $(this).data('item-id');
-                $.ajax({
-                    url: `{{ route('delete-university') }}/${itemId}`,
-                    type: 'get',
-                    dataType: 'json',
-                    success: function(response) {
-                        fetchData();
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle error response here
-                        console.error('Delete request failed');
-                    }
-                });
-            }
-        });
-        $('#tableBody').on('click', '.approve', function() {
+        //                         </tr>
+        //                     `);
+        //                 });
+        //             }
+        //             $('#pagination').html(response.links);
+        //             $('.pagination a').on('click', function(event){
+        //                 event.preventDefault();
+        //                 var page = $(this).attr('href').split('page=')[1];
+        //                 fetchData(page); // Load universities for the clicked page
+        //             });
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('An error occurred: ' + error);
+        //         }
+        //     });
+        // });
+        // $('#search').on('input', function(){
+        //     fetchData(1, $(this).val());
+        // });
+        // $('#submit').click(function(){
+        //     $('#pagination').empty();
+        //     var page = 1, search = '';
+        //     var university_name =$('#university_name').val();
+        //     var country =$('#country').val();
+        //     var status =$('#status').val();
+        //     var approve =$('#approve').val();
+        //     $.ajax({
+        //         url: '{{route('filter-university')}}',
+        //         method: 'get',
+        //         data:{page:page,country:country,status:status,approve:approve,university_name:university_name,page:page,search:search},
+        //         success: function(response) {
+        //             $('#tableBody').empty();
+        //             if ($.isEmptyObject(response)) {
+        //                 $('#tableBody').append('<tr><td colspan="6" class="text-center">No records found</td></tr>');
+        //             } else {
+        //                 var perPage = response.data.per_page;
+        //                 var startIndex = (page - 1) * perPage;
+        //                 $.each(response.data.data, function(key, value) {
+        //                     key = startIndex + key + 1;
+        //                     if(value.is_approved == 1){
+        //                        var  is_approved ='Approve';
+        //                     }else{
+        //                         var  is_approved ='Un Approve';
+        //                     }
+        //                     $('#tableBody').append(`
+        //                         <tr>
+        //                             <td>${key}</td>
+        //                             <td>${value.university_name}</td>
+        //                             <td>${value.country.name}</td>
+        //                             <td>${value.province.name}</td>
+        //                             <td>
+        //                                 <select class="form-control approve" name="approvevalue" data-id="${value.id}" >
+        //                                     <option value="">--Select--</option>
+        //                                     <option value="1" ${value.is_approved == 1 ? 'selected' : ''}>Approve</option>
+        //                                     <option value="0" ${value.is_approved == 0 ? 'selected' : ''}>Unapprove</option>
+        //                                 </select>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <a class="dropdown-item " href="{{route('edit-university')}}/${value.id}" data-item-id="${value.id}">
+        //                                     <i class="fa-solid fa-pen "></i>  </a>
+        //                             </td>
+        //                             <td class="text-end">
+        //                                 <button class="dropdown-item deleteButton" data-item-id="${value.id}">
+        //                                     <i class="fa-solid fa-trash "></i>  </button>
+        //                             </td>
+        //                         </tr>
+        //                     `);
+        //                 });
+        //             }
+        //             $('#pagination').html(response.links);
+        //             $('.pagination a').on('click', function(event){
+        //                 event.preventDefault();
+        //                 var page = $(this).attr('href').split('page=')[1];
+        //                 fetchData(page); // Load universities for the clicked page
+        //             });
+        //         },
+        //     });
+        // })
+        // $('#tableBody').on('click', '.deleteButton', function() {
+        //     if (confirm("Are you sure you want to delete?")) {
+        //         csrf();
+        //         var itemId = $(this).data('item-id');
+        //         $.ajax({
+        //             url: `{{ route('delete-university') }}/${itemId}`,
+        //             type: 'get',
+        //             dataType: 'json',
+        //             success: function(response) {
+        //                 fetchData();
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 // Handle error response here
+        //                 console.error('Delete request failed');
+        //             }
+        //         });
+        //     }
+        // });
+        $('.approve').on('change', function() {
             var status = $(this).val();
             var university_id = $(this).attr("data-id");
             $.ajaxSetup({
@@ -376,7 +376,7 @@
                 data: {selectedValue:status,university_id:university_id},
                 success: function(response) {
                     setTimeout(() => {
-                        fetchData()
+                        window.location.reload();
                    }, 1000);
                 },
                 error: function(xhr, status, error) {
