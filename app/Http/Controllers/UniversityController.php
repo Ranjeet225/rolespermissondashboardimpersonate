@@ -626,8 +626,16 @@ class UniversityController extends Controller
 
     public function view_university($id)
     {
-        $about_university=University::with('Program','country:name,id','province:id,name','university_type:id,name')->where('id',$id)->first();
-        // dd($about_university);
+        $about_university = University::with([
+            'program' => function ($query) {
+                $query->limit(1);
+            },
+            'program.programLevel',
+            'country:id,name',
+            'province:id,name',
+            'university_type:id,name'
+        ])->where('id', $id)->first();
+        dd($about_university);
         return view('frontend.university-details',compact('about_university'));
     }
 }

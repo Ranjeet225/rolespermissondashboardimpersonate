@@ -15,6 +15,7 @@ use App\Models\MasterLeadStatus;
 use App\Models\ProgramPaymentCommission;
 use Spatie\Permission\Models\Role;
 use App\Models\Caste;
+use App\Models\VisaSubDocument;
 use App\Models\Subject;
 use App\Models\Country;
 use App\Models\Currency;
@@ -46,7 +47,6 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\PaymentLinkEmail;
 use App\Models\ProgramLevel;
 use App\Models\VisaDocument;
-use App\Models\VisaSubDocument;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -917,7 +917,7 @@ class LeadsManageCotroller extends Controller
         $course = DB::table('program')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
         $visa_document=VisaDocument::get();
-        $visa_sub_document=VisaSubDocument::get();
+        $visa_sub_document_three=VisaSubDocument::where('id',$threesixtee->visa_sub_document_type)->first();
         if ($threesixtee) {
             $agent = DB::table('agents')->get();
             $university_id = explode(',', $threesixtee->college);
@@ -944,7 +944,7 @@ class LeadsManageCotroller extends Controller
                 $paymentStatusDone[$paymentStatus] = $paymentDone && $paymentDone->payment_status == 'success' ? 'Done' : 'Fail';
             }
         }
-        return view('admin.leads.apply_oel_360', compact('visa_document','visa_sub_document','leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university','paymentStatusDone', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
+        return view('admin.leads.apply_oel_360', compact('visa_document','visa_sub_document_three','leadDetails','studentDetails', 'agent', 'table_three_sixtee_image', 'university','paymentStatusDone', 'course', 'threesixtee', 'university_in_three_sixtee', 'course_in_three_sixtee'));
     }
 
 
@@ -1621,4 +1621,11 @@ class LeadsManageCotroller extends Controller
         return response()->json($data);
     }
 
+    public function fetch_visa_sub_document(Request $request)
+    {
+        if ($request->ajax()) {
+            $visa_sub_documents = VisaSubDocument::where('visa_document_id', $request->visa_document_id)->get();
+            return response()->json(['data' => $visa_sub_documents]);
+        }
+    }
 }

@@ -762,7 +762,7 @@
                                             <div class="col-lg-4">
                                                 <div class="input-block mb-3">
                                                     <label class="form-label">Document Type</label>
-                                                    <select class="form-select" name="visa_document_type"
+                                                    <select class="form-select change-visa-document" name="visa_document_type"
                                                         id="visa_document_type">
                                                         <option value="">--Select--</option>
                                                         @foreach ($visa_document as $item)
@@ -776,13 +776,13 @@
                                                     <label class="form-label">Sub Document Type</label>
                                                     <select class="form-select" name="visa_sub_document_type"
                                                         id="visa_sub_document_type">
-                                                        <option value="">--Select--</option>
-                                                        @foreach ($visa_sub_document as $item)
-                                                                <option value="{{$item->id}}" {{ isset($threesixtee) && $threesixtee->visa_sub_document_type == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
-                                                        @endforeach
+                                                        @isset($visa_sub_document_three)
+                                                           <option value="{{$visa_sub_document_three->id}}">{{$visa_sub_document_three->name}}</option>
+                                                        @endisset
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="col-lg-4">
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-expiration-input" class="form-label">
@@ -1640,6 +1640,26 @@
                     },
                     error: function(xhr, status, error) {
                         // Handle error here
+                    }
+                });
+            });
+            $('.change-visa-document').change(function(){
+                var visa_document_id = $(this).val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ url('admin/fetch-visa-sub-document') }}",
+                    type: "GET",
+                    data: {visa_document_id:visa_document_id},
+                    success: function(data){
+                        $('#visa_sub_document_type').empty();
+                        $('#visa_sub_document_type').append(`<option>-- Select --</option>`);
+                        $.each(data.data, function(key, value){
+                            $('#visa_sub_document_type').append('<option value="'+ value.id +'">'+ value.name +'</option>')
+                        });
                     }
                 });
             });

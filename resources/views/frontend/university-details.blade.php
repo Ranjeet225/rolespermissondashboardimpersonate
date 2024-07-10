@@ -193,21 +193,21 @@
                                                         <div>
                                                            <div class="course_card_logo_sec d-flex">
                                                               <div class="img-part"><a href="course_details/27907">
-                                                                <img src="https://overseaseducationlane.com/public/university_logos/university_logo_1716012726.jpg" alt="university logo" class="img-thumbnail university_logo"></a></div>
+                                                                <img src="{{asset($about_university->logo)}}" alt="university logo" class="img-thumbnail university_logo"></a></div>
                                                               <div style="flex: 1 1 0%;">
-                                                                 <h5 class="mb-1"><a href="course_details/27907">BSc (Hons) Criminology and Criminal Justice (Undergraduate Foundation)</a></h5>
-                                                                 <a href="university_details/675" style="font-weight: 500; font-size: 14px;">Birkbeck, University of London</a>
+                                                                 <h5 class="mb-1"><a href="course_details/27907">{{$item->name}}</a></h5>
+                                                                 <a href="{{$about_university->website}}" style="font-weight: 500; font-size: 14px;">{{$about_university->university_name ?? null}}</a>
                                                               </div>
                                                            </div>
                                                            <div class="content-part">
                                                               <ul class="meta-part">
-                                                                 <li class="user"><i class="fa fa-graduation-cap"></i> <span class="info_bold">Level</span> <span>Undergraduate</span></li>
-                                                                 <li class="user"><i class="fa fa-clock-o"></i> <span class="info_bold">Duration</span> <span>9 month</span></li>
+                                                                 <li class="user"><i class="fa fa-graduation-cap"></i> <span class="info_bold">Level</span> <span>{{$item->program->programLevel->name ?? null}}</span></li>
+                                                                 <li class="user"><i class="fa fa-clock-o"></i> <span class="info_bold">Duration</span> <span>{{$item->program->length ?? null}}</span></li>
                                                                  <li class="user"><i class="fa fa-money"></i> <span class="info_bold">Application Fees</span> <span>FREE</span></li>
                                                                  <li class="user">
-                                                                    <i class="fa fa-money"></i> <span class="info_bold">1st Year Tuition Fees</span> <!----> <span>  £25,480.00</span>
+                                                                    <i class="fa fa-money"></i> <span class="info_bold">1st Year Tuition Fees</span> <!----> <span> {{$item->program->currency ?? null}} {{$item->program->tution_fee ?? null}}</span>
                                                                  </li>
-                                                                 <li class="user"><i class="fa fa-info-circle"></i> <span class="info_bold">Exams Required</span> <span><span class="exam_type_item">IELTS</span></span></li>
+                                                                 <li class="user"><i class="fa fa-info-circle"></i> <span class="info_bold">Exams Required</span> <span><span class="exam_type_item">{{$item->program->tution_fee ?? null}}</span></span></li>
                                                               </ul>
                                                               <hr class="mb-10 mt-10">
                                                               <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
@@ -273,12 +273,9 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
             </div>
             <div>
 

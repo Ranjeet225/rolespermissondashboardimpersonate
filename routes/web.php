@@ -111,6 +111,8 @@ Route::middleware('auth')->group(function () {
         Route::get('oel-360/', [LeadsManageCotroller::class, 'oel_360'])->name('oel_360');
         Route::get('lead-details', [LeadsManageCotroller::class, 'lead_details'])->name('lead-details');
         Route::get('apply-360/{id?}', [LeadsManageCotroller::class, 'aply_360'])->name('apply-360');
+        Route::get('fetch-visa-sub-document/{visa_document_id?}', [LeadsManageCotroller::class, 'fetch_visa_sub_document'])->name('fetch-visa-sub-document');
+
         Route::get('apply-oel-360', [LeadsManageCotroller::class, 'aply_360'])->name('apply-oel-360');
         Route::post('aply-lead-360/', [LeadsManageCotroller::class, 'store_lead_360'])->name('store-lead-360');
         Route::get('leads/{key}', [LeadsManageCotroller::class, 'fetch_leads'])->name('fetch-leads');
