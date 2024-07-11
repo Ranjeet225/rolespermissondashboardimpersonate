@@ -119,7 +119,6 @@ class StudentController extends Controller
         $student_document = DB::table('student_documents')->where('student_id', $auth_user)->get();
         $eng_prof_level=EngProficiencyLevel::where('status',1)->get();
         $education_history = DB::table('education_history')->where('student_id', $about_student->id)->first();
-        // dd($about_student->id);
         return view('admin.student.edit_student',compact('education_history','eng_prof_level','about_student','student_document','all_subject','gmat','test_score','countries','progLabel','student_attendence','additional_qualification'));
     }
 
@@ -233,8 +232,8 @@ class StudentController extends Controller
 
         return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab6){
+        $document = Documents::count();
             if ($request->document) {
-                $document = Documents::count();
                 $images = $request->file('document');
                 foreach($images as $uploadedImage) {
                     $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
@@ -264,8 +263,8 @@ class StudentController extends Controller
             'status_threesixty' => '1',
             'profile_complete'=>'1',
         ]);
-        $table_data_count= DB::table('student_documents')->where('student_id', $student_id)->count();
-        if($table_data_count == ($document+1)){
+        $table_data_count= DB::table('student_documents')->where('student_id', $student_id)->where('document_type','!=',0)->count();
+        if(($table_data_count == $document) || ($table_data_count == ($document+1))){
             return response()->json(['status'=>true,'success'=>'Your Profile Completed','redirect'=>'user']);
         }
         return response()->json(['status'=>true,'success'=>'Please Submit all Your Data']);
@@ -939,7 +938,7 @@ class StudentController extends Controller
     {
         $user_id =Auth::user()->id;
         $about_student =DB::table('student')->where('user_id',$user_id)->first();
-        $student_attendence = StudentAttendence::with('country','province','student')->where('student_id', $about_student->id)->get();
+        $student_attendence = StudentAttendence::with('country','province','student','documents:id,name')->where('student_id', $about_student->id)->get();
         return response()->json(['success'=>true,'student_attendence'=>$student_attendence]);
     }
 

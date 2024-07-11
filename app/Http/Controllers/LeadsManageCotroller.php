@@ -917,7 +917,7 @@ class LeadsManageCotroller extends Controller
         $course = DB::table('program')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
         $visa_document=VisaDocument::get();
-        $visa_sub_document_three=VisaSubDocument::where('id',$threesixtee->visa_sub_document_type)->first();
+        $visa_sub_document_three=VisaSubDocument::where('id',$threesixtee->visa_sub_document_type ?? null)->first();
         if ($threesixtee) {
             $agent = DB::table('agents')->get();
             $university_id = explode(',', $threesixtee->college);

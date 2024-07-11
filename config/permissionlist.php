@@ -560,5 +560,41 @@ return [
                 'visa_sub_document_type.update',
                 'visa_sub_document_type.delete',
         ],
+        'learning_franchise'=> [
+                'learning_franchise.create',
+                'learning_franchise.view',
+                'learning_franchise.update',
+                'learning_franchise.delete',
+        ],
+       'learning_agents'=> [
+                'learning_agents.create',
+                'learning_agents.view',
+                'learning_agents.update',
+                'learning_agents.delete',
+        ],
+        'learning_student'=> [
+                'learning_student.create',
+                'learning_student.view',
+                'learning_student.update',
+                'learning_student.delete',
+        ],
+        'training_franchise'=> [
+            'training_franchise.create',
+            'training_franchise.view',
+            'training_franchise.update',
+            'training_franchise.delete',
+       ],
+       'training_agents'=> [
+            'training_agents.create',
+            'training_agents.view',
+            'training_agents.update',
+            'training_agents.delete',
+       ],
+       'training_student'=> [
+            'training_student.create',
+            'training_student.view',
+            'training_student.update',
+            'training_student.delete',
+      ],
       ],
 ];

@@ -397,6 +397,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th width="1"> SNo</th>
+                                                        <th>Documents</th>
                                                         <th> Name</th>
                                                         <th> Language</th>
                                                         <th> AttendedFrom</th>
@@ -1215,7 +1216,7 @@
                             var isChecked = school_attended.includes(value.id) ? 'checked' : '';
                             $('.school-attended').append(`
                             <div class="form-check">
-                                <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
                                 <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
                             </div>`);
                         });
@@ -1246,7 +1247,7 @@
                                 var isChecked = school_attended.includes(value.id) ? 'checked' : '';
                                 $('.school-attended').append(`
                                 <div class="form-check">
-                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
                                     <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
                                 </div>`);
                             });
@@ -1294,9 +1295,14 @@
                         program_level_id: program_level_id
                     },
                     success: function(data) {
+                        var disabled_education_history = <?php $user_id = auth()->user()->id;
+                         $education_history = App\Models\EducationHistory::where('id', $user_id)->pluck('id')->toArray();
+                         echo json_encode($education_history); ?>;
+                        console.log(disabled_education_history);
                         var optionsHtml = '<option value="">-- Select --</option>';
                         $.each(data.documents, function(key, value) {
-                            optionsHtml += '<option value="' + value.id + '">' + value.name +
+                            var disabled = disabled_education_history.includes(value.id) ? 'disabled' : '';
+                            optionsHtml += '<option value="' + value.id + '"' + disabled + '>' + value.name +
                                 '</option>';
                         });
                         $('.lead-education_level_id').html(optionsHtml);
@@ -1606,6 +1612,7 @@
                             $('.last-attended-school').append(`
                                     <tr>
                                         <td>${i+1}</td>
+                                        <td>${data.documents?.name ?? null}</td>
                                         <td>${data.student?.first_name ?? null}</td>
                                         <td>${data.primary_language ?? null}</td>
                                         <td>${data.attended_from ?? null}</td>

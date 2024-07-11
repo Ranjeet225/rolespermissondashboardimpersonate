@@ -223,6 +223,58 @@
             ]
         },
         {
+            "name": "Learning",
+            "icon": "menu-icon tf-icons fas fa-graduation-cap",
+            "slug": "learning",
+            "permission":["learning_franchise.view","learning_agents.view","learning_student.view"],
+            "submenu": [
+                {
+                    "url": "admin/learning-franchise",
+                    "name": "Franchise",
+                    "slug": "admin-learning-franchise",
+                    "permission":"learning_franchise.view"
+                },
+                {
+                    "url": "admin/learning-agent",
+                    "name": "Agent",
+                    "slug": "admin-learning-agents",
+                    "permission":"learning_agents.view"
+                },
+                {
+                    "url": "admin/learning-student",
+                    "name": "Student",
+                    "slug": "admin-learning-student",
+                    "permission":"learning_student.view"
+                }
+            ]
+        },
+        {
+            "name": "Training Request",
+            "icon": "menu-icon tf-icons fas fa-graduation-cap",
+            "slug": "training-request",
+            "permission":["training_franchise.view","training_agents.view","training_student.view"],
+            "submenu": [
+                {
+                    "url": "admin/franchise-training",
+                    "name": "Franchise Request",
+                    "slug": "admin-franchise-training",
+                    "permission":"training_franchise.view"
+                },
+                {
+                    "url": "admin/agents-training",
+                    "name": "Agent Request",
+                    "slug": "admin-agents-training",
+                    "permission":"training_agents.view"
+                },
+                {
+                    "url": "admin/student-training",
+                    "name": "Student Request",
+                    "slug": "admin-student-training",
+                    "permission":"training_student.view"
+                }
+            ]
+        },
+        {
             "url": "/apply-program",
             "name": "Apply Program",
             "icon": "menu-icon tf-icons fa-solid fa-circle-check",
@@ -476,7 +528,6 @@
             "slug": "edit-profile",
             "permission":"my_profile.update"
         },
-
         {
             "name": "CMS",
             "icon": "menu-icon tf-icons las la-tachometer-alt",
@@ -503,7 +554,6 @@
                 }
             ]
         },
-
         {
             "url": "admin/apply-oel-360",
             "name": "oel 360",

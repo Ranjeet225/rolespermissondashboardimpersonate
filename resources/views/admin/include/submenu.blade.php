@@ -204,6 +204,19 @@
                             $create_sub_visa_document= request()->routeIs('create-visa-sub-document-type');
                             $edit_sub_visa_document= request()->routeIs('edit-visa-sub-document-type');
                             $visa_sub_document_type= $submenu->name === 'Visa SubDocument Type';
+                            // data
+                            $create_learning_student= request()->routeIs('learning-student.create');
+                            $edit_learning_student= request()->routeIs('learning-student.edit');
+                            $learning_student= $submenu->name === 'Student';
+
+                            $create_learning_franchise= request()->routeIs('learning-franchise.create');
+                            $edit_learning_franchise= request()->routeIs('learning-franchise.edit');
+                            $learning_franchise= $submenu->name === 'Franchise';
+
+                            $create_learning_agent= request()->routeIs('learning-agent.create');
+                            $edit_learning_agent= request()->routeIs('learning-agent.edit');
+                            $learning_agent= $submenu->name === 'Agent';
+
                         @endphp
                         <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
@@ -211,6 +224,9 @@
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
                                 (($edit_program_details || $create_program_details) && $program_Details) ||
                                 (($edit_ads || $add_ads) && $ads) ||
+                                (($edit_learning_franchise || $create_learning_franchise) && $learning_franchise) ||
+                                (($edit_learning_agent || $create_learning_agent) && $learning_agent) ||
+                                (($edit_learning_student || $create_learning_student) && $learning_student) ||
                                 (($edit_visa_document || $create_visa_document) && $visa_document_type) ||
                                 (($edit_sub_visa_document || $create_sub_visa_document) && $visa_sub_document_type) ||
                                 (($edit_master_service || $create_master_service) && $master_service) ||

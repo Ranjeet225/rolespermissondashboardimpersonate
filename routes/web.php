@@ -14,9 +14,10 @@ use App\Http\Controllers\OtherMasterDataController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\LearningTrainingController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -507,6 +508,39 @@ Route::middleware('auth')->group(function () {
         Route::post('store-sms-template',[MessageController::class,'sms_template_store'])->name('store-sms-template');
         Route::post('show-lead-sms',[MessageController::class,'show_msg'])->name('show-lead-sms');
         Route::post('show-lead-email',[MessageController::class,'show_email'])->name('show-lead-email');
+
+        Route::get('learning-franchise',[LearningTrainingController::class,'learning_franchise'])->name('learning-franchise.index');
+        Route::get('create-learning-franchise',[LearningTrainingController::class,'create_learning_franchise'])->name('learning-franchise.create');
+        Route::get('edit-learning-franchise/{id?}',[LearningTrainingController::class,'edit_learning_franchise'])->name('learning-franchise.edit');
+        Route::Post('store-learning-franchise',[LearningTrainingController::class,'store_learning_franchise'])->name('learning-franchise.store');
+        Route::post('update-learning-franchise/{id?}',[LearningTrainingController::class,'update_learning_franchise'])->name('learning-franchise.update');
+        Route::get('delete-learning-franchise/{id?}',[LearningTrainingController::class,'delete_learning_franchise'])->name('learning-franchise.delete');
+        Route::get('learning-franchise-request/{id?}',[LearningTrainingController::class,'request_learning_franchise'])->name('learning-franchise.request');
+
+
+        Route::get('learning-student',[LearningTrainingController::class,'learning_franchise'])->name('learning-student.index');
+        Route::get('create-learning-student',[LearningTrainingController::class,'create_learning_franchise'])->name('learning-student.create');
+        Route::get('edit-learning-student/{id?}',[LearningTrainingController::class,'edit_learning_franchise'])->name('learning-student.edit');
+        Route::Post('store-learning-student',[LearningTrainingController::class,'store_learning_franchise'])->name('learning-student.store');
+        Route::post('update-learning-student/{id?}',[LearningTrainingController::class,'update_learning_franchise'])->name('learning-student.update');
+        Route::get('delete-learning-student/{id?}',[LearningTrainingController::class,'delete_learning_franchise'])->name('learning-student.delete');
+        Route::get('learning-student-request/{id?}',[LearningTrainingController::class,'request_learning_franchise'])->name('learning-student.request');
+
+        Route::get('learning-agent',[LearningTrainingController::class,'learning_franchise'])->name('learning-agent.index');
+        Route::get('create-learning-agent',[LearningTrainingController::class,'create_learning_franchise'])->name('learning-agent.create');
+        Route::get('edit-learning-agent/{id?}',[LearningTrainingController::class,'edit_learning_franchise'])->name('learning-agent.edit');
+        Route::Post('store-learning-agent',[LearningTrainingController::class,'store_learning_franchise'])->name('learning-agent.store');
+        Route::post('update-learning-agent/{id?}',[LearningTrainingController::class,'update_learning_franchise'])->name('learning-agent.update');
+        Route::get('delete-learning-agent/{id?}',[LearningTrainingController::class,'delete_learning_franchise'])->name('learning-agent.delete');
+        Route::get('learning-agent-request/{id?}',[LearningTrainingController::class,'request_learning_franchise'])->name('learning-agent.request');
+        // training-request
+        Route::get('franchise-training',[LearningTrainingController::class,'training_request'])->name('franchise-training.index');
+        Route::get('franchise-training-delete/{id?}',[LearningTrainingController::class,'training_request_delete'])->name('franchise-training.delete');
+        Route::get('agent-training-delete/{id?}',[LearningTrainingController::class,'training_request_delete'])->name('agent-training.delete');
+        Route::get('student-training-delete/{id?}',[LearningTrainingController::class,'training_request_delete'])->name('student-training.delete');
+        Route::get('agents-training',[LearningTrainingController::class,'training_request'])->name('agents-training.index');
+        Route::get('student-training',[LearningTrainingController::class,'training_request'])->name('student-training.index');
+
 
     });
     Route::prefix('franchise')->group(function () {
