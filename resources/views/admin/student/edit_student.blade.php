@@ -32,6 +32,7 @@
                         <h4 class="text-center">{{ session('message') }}</h4>
                     </div>
                 @endif
+                
                 <div class="card-body">
                     <div class="wizard">
                         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -1295,13 +1296,9 @@
                         program_level_id: program_level_id
                     },
                     success: function(data) {
-                        var disabled_education_history = <?php $user_id = auth()->user()->id;
-                         $education_history = App\Models\EducationHistory::where('id', $user_id)->pluck('id')->toArray();
-                         echo json_encode($education_history); ?>;
-                        console.log(disabled_education_history);
-                        var optionsHtml = '<option value="">-- Select --</option>';
+                        var optionsHtml;
                         $.each(data.documents, function(key, value) {
-                            var disabled = disabled_education_history.includes(value.id) ? 'disabled' : '';
+                            var disabled = data.disabled_education_history.includes(value.id) ? 'disabled' : '';
                             optionsHtml += '<option value="' + value.id + '"' + disabled + '>' + value.name +
                                 '</option>';
                         });
@@ -1650,19 +1647,19 @@
                     url: '{{ url('student/get-student-attendence')}}/'+student_id,
                     type: 'GET',
                     success: function(response){
-                        $('.lead-education_level_id').val(response.school_attended.education_level_id);
-                        $('#institue_name').val(response.school_attended.name);
-                        $('#primary_language').val(response.school_attended.primary_language);
-                        $('#attended_from').val(response.school_attended.attended_from);
-                        $('#attended_to').val(response.school_attended.attended_to);
-                        $('#degree_awarded').val(response.school_attended.degree_awarded);
-                        $('#degree_awarded_on').val(response.school_attended.degree_awarded_on);
-                        $('#country_id').val(response.school_attended.country_id);
-                        fetchStates(response.school_attended.country_id);
-                        $('#province_id').val(response.school_attended.province_id);
-                        $('#city').val(response.school_attended.city);
-                        $('#address').val(response.school_attended.address);
-                        $('#postal_zip').val(response.school_attended.postal_zip);
+                        $('.lead-education_level_id').val(response.school_attended?.education_level_id);
+                        $('#institue_name').val(response.school_attended?.name);
+                        $('#primary_language').val(response.school_attended?.primary_language);
+                        $('#attended_from').val(response.school_attended?.attended_from);
+                        $('#attended_to').val(response.school_attended?.attended_to);
+                        $('#degree_awarded').val(response.school_attended?.degree_awarded);
+                        $('#degree_awarded_on').val(response.school_attended?.degree_awarded_on);
+                        $('#country_id').val(response.school_attended?.country_id);
+                        fetchStates(response.school_attended?.country_id);
+                        $('#province_id').val(response.school_attended?.province_id);
+                        $('#city').val(response.school_attended?.city);
+                        $('#address').val(response.school_attended?.address);
+                        $('#postal_zip').val(response.school_attended?.postal_zip);
                     }
                 });
             });
@@ -1678,6 +1675,7 @@
                             alert('Schools Attended deleted successfully');
                             last_attendance();
                             school_data();
+                            lead_education_level_id();
                             checkEducationAttended();
                         }
                     });
@@ -1713,12 +1711,14 @@
                             // }, 1000);
                         }
                         last_attendance();
+                        lead_education_level_id();
                         $('.last_attendence').removeClass('disabled');
                         $('#myForm')[0].reset();
                     },
                     error: function(xhr) {
                         $('.last_attendence').removeClass('disabled');
                         spinner.classList.add('d-none');
+                        lead_education_level_id();
                         var response = JSON.parse(xhr.responseText);
                     }
                 });

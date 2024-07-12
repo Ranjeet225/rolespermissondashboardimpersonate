@@ -52,6 +52,39 @@
             </div>
         </div>
         @endcan
+        @php
+            $user = Auth::user();
+            $user->hasRole('student')
+        @endphp
+        @if($user->hasRole('student'))
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4 mx-auto">
+            <div class="card dash-widget text-center">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5>Total Applied Program</h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['program_applied'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{route('applied-program')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @endif
         @can('total_student.total_student_view')
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
             <div class="card dash-widget">

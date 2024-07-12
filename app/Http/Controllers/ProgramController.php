@@ -17,6 +17,7 @@ use App\Models\ProgramLevel;
 use App\Models\ProgramSubdiscipline;
 use App\Models\ProgramSubLevel;
 use App\Models\SchoolAttended;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -990,7 +991,10 @@ class ProgramController extends Controller
         }else{
             $school_attended = NULL;
         }
-        return response()->json(['documents'=>$documents,'school_attended'=>$school_attended]);
+        $user_id = auth()->user()->id; 
+        $student_id_data = Student::where('user_id', $user_id)->pluck('id')->first();
+        $disabled_education_history = SchoolAttended::where('student_id', $student_id_data)->pluck('education_level_id')->toArray();
+        return response()->json(['documents'=>$documents,'school_attended'=>$school_attended,'disabled_education_history'=>$disabled_education_history]);
     }
 
     

@@ -391,6 +391,7 @@ class StudentController extends Controller
             ->where('student_id', $student_id)
             ->where('education_level_id', $request->education_level_id)
             ->first();
+
         if($school_attended){
             DB::table('education_history')->where('student_id',$student_id)->update(['education_level_id' => $request->program_level_id]);
             DB::table('school_attended')
@@ -410,7 +411,12 @@ class StudentController extends Controller
                 'address' => $request->address
             ]);
         } else {
-            DB::table('education_history')->where('student_id',$student_id)->update(['education_level_id' => $request->program_level_id]);
+            $education_history = DB::table('education_history')->where('student_id', $student_id)->first();
+            if($education_history){
+                DB::table('education_history')->where('student_id',$student_id)->update(['education_level_id' => $request->program_level_id]);
+            } else {
+                DB::table('education_history')->insert(['student_id' => $student_id, 'education_level_id' => $request->program_level_id]);
+            }
             DB::table('school_attended')
             ->insert([
                 'student_id' => $student_id,

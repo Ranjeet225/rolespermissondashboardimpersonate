@@ -140,7 +140,18 @@ class DashboardController extends Controller
             $total_unapprove_counceler = User::where('admin_type', 'counselor')->where('added_by', $user_ids)->where('profile_verify_for_agent', 0)->count();
             $total_approve_counceler = User::where('admin_type', 'counselor')->where('added_by', $user_ids)->where('profile_verify_for_agent', 1)->count();
         }
+        if($user_type == 'student') {
+            $student_user =Auth::user();
+            $student_id=Student::where('user_id',$student_user->id)->first();
+            if(empty($student_id)) {
+                abort(404);
+            }
+            $program_applied = PaymentsLink::orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->id)->count();
+        }else{
+            $program_applied = null;
+        }
         $data = array(
+            "program_applied"=>$program_applied,
             "total_leads" => $total_leads,
             "total_assigned_leads" => $total_assigned_leads,
             "total_non_allocated_leads" => $total_non_allocated_leads,
