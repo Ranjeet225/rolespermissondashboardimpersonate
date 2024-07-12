@@ -79,10 +79,10 @@
                         <td class="text-wrap">{{ $item->fees_type }}</td>
                         <td class="text-wrap">{{ $item->fees_amount }}</td>
                         @can('student_registration_fees.update')
-                            <td><a  href="{{route('edit-student-registration-fees',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                            <td><a  href="{{route('edit-student-registration-fees',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('student_registration_fees.delete')
-                            <td><a href="{{route('delete-student-registration-fees',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a href="{{route('delete-student-registration-fees',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

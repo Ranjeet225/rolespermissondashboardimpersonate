@@ -82,10 +82,10 @@
                         <td class="text-wrap">{!! $item->content !!}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                         @can('vas_services.update')
-                        <td><a  href="{{route('edit-vas-service',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-vas-service',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('vas_services.delete')
-                        <td><a href="{{route('delete-vas-service',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-vas-service',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

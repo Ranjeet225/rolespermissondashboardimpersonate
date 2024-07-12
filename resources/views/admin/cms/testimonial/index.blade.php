@@ -82,10 +82,10 @@
                         <td class="text-wrap">{{ $item->location }}</td>
                         <td>{{ $item->status == 1 ? 'Publish' : 'UnPublish' }}</td>
                         @can('testimonial.update')
-                           <td><a  href="{{route('edit-testimonial',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                           <td><a  href="{{route('edit-testimonial',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('testimonial.delete')
-                            <td><a href="{{route('delete-testimonial',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a href="{{route('delete-testimonial',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

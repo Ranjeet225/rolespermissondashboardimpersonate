@@ -100,13 +100,13 @@
                             </iframe>
                         </td>
                         @can('learning_franchise.update')
-                          <td><a  href="{{route('learning-franchise.edit',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                          <td><a  href="{{route('learning-franchise.edit',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('learning_franchise.delete')
-                          <td><a href="{{route('learning-franchise.delete',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                          <td><a href="{{route('learning-franchise.delete',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                         @if(!Auth::user()->hasRole('Administrator'))
-                        <td><a href="{{route('learning-franchise.request',$item->id)}}"><i class="fa-solid fa-hand-peace"></i></a></td>
+                        <td><a href="{{route('learning-franchise.request',$item->id)}}" class="btn btn-success"><i class="fa-solid fa-hand-peace"></i></a></td>
                         @endif
                     </tr>
                     @endforeach

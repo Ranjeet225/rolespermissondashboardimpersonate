@@ -78,10 +78,10 @@
                         <td>{{ $loop->index + (($visa_type->currentPage() - 1) * $visa_type->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->name }}</td>
                         @can('visa_type.update')
-                        <td><a  href="{{route('edit-visa-type',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-visa-type',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('visa_type.delete')
-                        <td><a href="{{route('delete-visa-type',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-visa-type',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

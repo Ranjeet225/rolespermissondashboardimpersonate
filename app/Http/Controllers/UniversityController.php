@@ -635,7 +635,6 @@ class UniversityController extends Controller
             'province:id,name',
             'university_type:id,name'
         ])->where('id', $id)->first();
-        dd($about_university);
         return view('frontend.university-details',compact('about_university'));
     }
 }

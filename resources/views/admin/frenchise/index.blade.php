@@ -163,17 +163,20 @@
                             <td class="txt-oflo">
                                 @if ($user && $user->email !== null && $user->password !== null)
                                     @if ($users->hasRole('Administrator'))
-                                        <a class="btn btn-info" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
-                                            Login To Member  {{ $user->name }}
+                                        <a class="btn btn-info" data-toggle="tooltip" title="Login as Frenchise" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
+                                            <i class="fa fa-sign-in-alt"></i>
                                         </a>
                                     @endif
                                 @else
 
                                 @endif
-                                <a href="" class="btn btn-info" style="margin-top: 5px;">Pincodes</a>
+                                {{-- <a href="" class="btn btn-info" style="margin-top: 5px;">Pincodes</a> --}}
                                 @can('franchise.update')
-                                    <a href="{{route('frenchise-edit',$item->id)}}" class="btn btn-info"
-                                        style="margin-top: 5px;">Franchise Profile</a>
+                                <a class="btn btn-info" data-toggle="tooltip" title="Franchise Profile" href="{{route('frenchise-edit',$item->id)}}" style="margin-top: 5px;">
+                                    <i class="fa fa-user"></i>
+                                </a>
+                                    {{-- <a href="{{route('frenchise-edit',$item->id)}}" class="btn btn-info"
+                                        style="margin-top: 5px;">Franchise Profile</a> --}}
                                 @endcan
                             </td>
                         </tr>

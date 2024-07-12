@@ -78,10 +78,10 @@
                         <td><img src="{{asset('imagesapi/'.$item->image)}}" width="100" alt=""></td>
                         <td>{{ $item->status == 1 ? 'Publish' : 'UnPublish' }}</td>
                         @can('blogs.update')
-                           <td><a  href="{{route('edit-blogs',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                           <td><a  href="{{route('edit-blogs',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('blogs.delete')
-                           <td><a href="{{route('delete-blogs',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                           <td><a href="{{route('delete-blogs',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

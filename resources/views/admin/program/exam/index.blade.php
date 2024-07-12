@@ -81,10 +81,10 @@
                         <td >{{$item->program_level->name ?? null}}</td>
                         <td>{{ $item->number }}</td>
                         @can('exams.update')
-                        <td><a  href="{{route('edit-exam',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-exam',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('exams.delete')
-                        <td><a href="{{route('delete-exam',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-exam',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

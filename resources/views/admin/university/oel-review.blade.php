@@ -86,8 +86,8 @@
                     <td><span class="badge bg-danger">Inactive</span></td>
                   @endif
                   <td>{{$review->details}}</td>
-                  <td><a href="{{route('edit-review')}}/{{$review->id}}"><i class="fa-solid fa-pen"></i></a></td>
-                  <td>  <a href="{{route('delete-review')}}/{{$review->id}}"><i class="fa-solid fa-trash"></i></a></td>
+                  <td><a href="{{route('edit-review')}}/{{$review->id}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
+                  <td>  <a href="{{route('delete-review')}}/{{$review->id}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                 </tr>
                 @endforeach
               </tbody>

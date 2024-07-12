@@ -117,7 +117,7 @@
                                 Commission</a>
                             </td>
                             @can('programs.create')
-                            <td><a class="btn btn-primary" href="{{route('edit-program',$item->id)}}"><i class="la la-pen">Edit</a></td>
+                            <td><a class="btn btn-info" href="{{route('edit-program',$item->id)}}"><i class="la la-pen"></i></a></td>
                             @endcan
                         </tr>
                         <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="testscrores">
@@ -402,7 +402,7 @@
                                     value.listening_score + '</td><td>' +
                                     value.writing_score + '</td><td>' +
                                     value.reading_score + '</td><td>' +
-                                    value.speaking_score + '</td><td><a href="#" class="btn btn-sm btn-danger delete-score" data-id="'+value.id+'">Delete</a></td></tr>');
+                                value.speaking_score + '</td><td><a href="#" class="btn btn-warning btn-danger delete-score" data-id="'+value.id+'"><i class="la la-trash"></i></a></td></tr>');
                             });
                         }
                     }

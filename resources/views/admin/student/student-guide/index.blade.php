@@ -76,10 +76,10 @@
                         <td class="text-wrap">{{ $item->title }}</td>
                         <td><img src="{{asset('imagesapi/'.$item->image)}}" width="100" alt=""></td>
                         @can('popular_student_guide.update')
-                           <td><a  href="{{route('edit-student-guide',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                           <td><a  href="{{route('edit-student-guide',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('popular_student_guide.delete')
-                            <td><a href="{{route('delete-student-guide',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a href="{{route('delete-student-guide',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

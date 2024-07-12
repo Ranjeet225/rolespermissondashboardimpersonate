@@ -84,10 +84,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         {{-- <td class="text-wrap">{{ $item->item_order }}</td> --}}
                         @can('education_level.update')
-                        <td><a  href="{{route('edit-education-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-education-level',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('education_level.delete')
-                        <td><a href="{{route('delete-education-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-education-level',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

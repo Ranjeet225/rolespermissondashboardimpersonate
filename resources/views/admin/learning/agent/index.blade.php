@@ -100,13 +100,13 @@
                             </iframe>
                         </td>
                         @can('learning_agents.update')
-                          <td><a  href="{{route('learning-agent.edit',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                          <td><a  href="{{route('learning-agent.edit',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('learning_agents.delete')
-                          <td><a href="{{route('learning-agent.delete',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                          <td><a href="{{route('learning-agent.delete',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                         @if(!Auth::user()->hasRole('Administrator'))
-                        <td><a href="{{route('learning-agent.request',$item->id)}}"><i class="fa-solid fa-hand-peace"></i></a></td>
+                        <td><a href="{{route('learning-agent.request',$item->id)}}" class="btn btn-success"><i class="fa-solid fa-hand-peace"></i></a></td>
                          @endif
                     </tr>
                     @endforeach

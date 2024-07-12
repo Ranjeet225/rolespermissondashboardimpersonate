@@ -115,17 +115,17 @@
                             <td class="text-wrap">{{ $value->country->name ?? null }}</td>
                             <td class="text-wrap">{{ $value->province->name ?? null  }}</td>
                             <td class="text-end">
-                                <a class="dropdown-item " href="{{ route('view-university', $value->id) }}" data-item-id="{{ $value->id }}">
+                                <a class=" btn btn-success" href="{{ route('view-university', $value->id) }}" data-item-id="{{ $value->id }}">
                                     <i class="fa-solid fa-eye "></i>  </a>
                             </td>
                             <td class="text-end">
-                                <a class="dropdown-item " href="{{ route('edit-university', $value->id) }}" data-item-id="{{ $value->id }}">
+                                <a class=" btn btn-info" href="{{ route('edit-university', $value->id) }}" data-item-id="{{ $value->id }}">
                                     <i class="fa-solid fa-pen "></i>  </a>
                             </td>
                             <td class="text-end">
-                                <a class="dropdown-item " href="{{ route('delete-university') }}/{{ $value->id }}" data-item-id="{{ $value->id }}">
+                                <a class=" btn btn-warning" href="{{ route('delete-university') }}/{{ $value->id }}" data-item-id="{{ $value->id }}">
                                     <i class="fa-solid fa-trash "></i>  </a>
-                                {{-- <button class="dropdown-item deleteButton" data-item-id="{{ $value->id }}">
+                                {{-- <button class=" deleteButton" data-item-id="{{ $value->id }}">
                                     <i class="fa-solid fa-trash "></i>  </button> --}}
                             </td>
                         </tr>
@@ -184,7 +184,7 @@
         //                             <td>${value.country.name}</td>
         //                             <td>${value.province.name}</td>
         //                             <td class="text-end">
-        //                                 <a class="dropdown-item " href="${value.id}" data-item-id="${value.id}">
+        //                                 <a class=" " href="${value.id}" data-item-id="${value.id}">
         //                                     <i class="fa-solid fa-eye "></i>  </a>
         //                             </td>
         //                         </tr>
@@ -228,7 +228,7 @@
         //                             <td>${value.country.name}</td>
         //                             <td>${value.province.name}</td>
         //                             <td class="text-end">
-        //                                 <a class="dropdown-item" href="" data-item-id="${value.id}">
+        //                                 <a class="" href="" data-item-id="${value.id}">
         //                                     <i class="fa-solid fa-eye "></i>  </a>
         //                             </td>
         //                         </tr>
@@ -282,7 +282,7 @@
         //                             <td>${value.country.name}</td>
         //                             <td>${value.province.name}</td>
         //                             <td class="text-end">
-        //                                 <a class="dropdown-item" href="" data-item-id="${value.id}">
+        //                                 <a class="" href="" data-item-id="${value.id}">
         //                                     <i class="fa-solid fa-eye "></i>  </a>
         //                             </td>
         //                         </tr>

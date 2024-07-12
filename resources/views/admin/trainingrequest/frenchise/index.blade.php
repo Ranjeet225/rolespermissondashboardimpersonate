@@ -49,7 +49,7 @@
                         <td class="text-wrap">{{ $item->phone }}</td>
                         <td class="text-wrap">{{ $item->email }}</td>
                         @can('training_franchise.delete')
-                          <td><a href="{{route('franchise-training.delete',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                          <td><a href="{{route('franchise-training.delete',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

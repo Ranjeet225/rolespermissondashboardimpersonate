@@ -73,10 +73,10 @@
                         <td>{{$item->home_program_levels->name ?? null }}</td>
                         <td class="text-wrap">{!! $item->description !!}</td>
                         @can('program_level_details.update')
-                        <td><a  href="{{route('edit-program-details',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-program-details',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('program_level_details.delete')
-                        <td><a href="{{route('delete-program-details',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-program-details',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

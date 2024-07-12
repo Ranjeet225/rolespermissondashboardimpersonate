@@ -117,16 +117,19 @@
                             <td class="txt-oflo">
                                 @if ($user && $user->email !== null && $user->password !== null)
                                     @if ($users->hasRole('Administrator'))
-                                        <a class="btn btn-primary btn-sm" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
+                                        {{-- <a class="btn btn-primary btn-sm" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
                                             Login To Student {{ $user->name }}
+                                        </a> --}}
+                                        <a class="btn btn-info" data-toggle="tooltip" title="Login as Student" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
+                                            <i class="fa fa-sign-in-alt"></i>
                                         </a>
                                     @endif
                                 @endif
                             </td>
                             @if ($item->status_threesixty)
                             <td class="txt-oflo">
-                                <a class="btn btn-primary btn-sm" href="{{ route('apply-360', $item->id) }}" style="margin-top: 5px;">
-                                    Apply Oel 360
+                                <a class="btn btn-info" data-toggle="tooltip" title=" Apply Oel 360" href="{{ route('apply-360', $item->id) }}" style="margin-top: 5px;">
+                                    <i class="fa fa-check"></i>
                                 </a>
                             </td>
                             @else
@@ -135,9 +138,10 @@
                             @endif
                             @if(!empty($item->email))
                             <td scope="col">
-                                <a href="" class="btn btn-primary btn-sm mx-1 payment_model" id="score"  student-id="{{$item->id}}" data-tour="search"
+                                <a href="" class="btn btn-primary btn-sm mx-1 payment_model" data-toggle="tooltip" title="Payment" id="score"  student-id="{{$item->id}}" data-tour="search"
                                 data-bs-toggle="offcanvas" data-bs-target="#gmat"
-                                aria-controls="gmat"><i class="la la-plus"></i>payment</a>
+                                aria-controls="gmat">
+                                <i class="fa fa-credit-card" aria-hidden="true"></i></a>
                             </td>
                             @endif
                         </tr>
@@ -304,7 +308,7 @@
                                     key + '</td><td>' +
                                     (value.master_service ? value.master_service.name : '') + '</td><td>' +
                                     value.amount + '</td><td>' +
-                                    value.remarks + '</td><td><a href="#" class="btn btn-sm btn-danger delete-score" data-id="'+value.id+'">Delete</a></td></tr>');
+                                    value.remarks + '</td><td><a href="#" class="btn btn-sm btn-danger delete-score" data-id="'+value.id+'"><i class="la la-trash"></i></a></td></tr>');
                             });
                         }
                     }

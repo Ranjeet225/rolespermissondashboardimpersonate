@@ -79,10 +79,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                         @can('source.update')
-                        <td><a  href="{{route('edit-source',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-source',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('source.delete')
-                        <td><a href="{{route('delete-source',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-source',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

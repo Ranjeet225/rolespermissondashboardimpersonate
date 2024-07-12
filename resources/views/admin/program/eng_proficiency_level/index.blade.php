@@ -79,10 +79,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->number }}</td>
                         @can('proficiency_level.update')
-                           <td><a  href="{{route('edit-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                           <td><a  href="{{route('edit-eng-proficiency-level',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('proficiency_level.delete')
-                           <td><a href="{{route('delete-eng-proficiency-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                           <td><a href="{{route('delete-eng-proficiency-level',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

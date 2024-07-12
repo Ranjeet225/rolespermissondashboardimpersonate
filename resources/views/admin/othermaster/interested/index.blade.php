@@ -81,12 +81,12 @@
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                         @can('interest.update')
                            <td>
-                             <a  href="{{route('edit-interested',$item->id)}}"><i class="fa-solid fa-pen"></i></a>
+                             <a  href="{{route('edit-interested',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
                           </td>
                         @endcan
                         @can('interest.delete')
                            <td>
-                              <a href="{{route('delete-interested',$item->id)}}"><i class="fa-solid fa-trash"></i></a>
+                              <a href="{{route('delete-interested',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a>
                            </td>
                         @endcan
                     </tr>

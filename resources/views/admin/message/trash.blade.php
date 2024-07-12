@@ -44,7 +44,7 @@
                 <table class="table table-striped custom-table mb-0">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" class="checked_all_lead"><a class="btn btn-primary mx-4 p-2 px-4 delete-message" >Delete Permanently</a></th>
+                            <th><input type="checkbox" class="checked_all_lead"><a class="btn btn-warning mx-4 p-2 delete-message" ><i class="fa fa-trash"></i></a></th>
                             <th>S.N</th>
                             <th> Email</th>
                             <th> Subject</th>

@@ -66,10 +66,10 @@
                                <td>{{($oldUniversities->currentPage()-1)*$oldUniversities->perPage() + $loop->iteration}}</td>
                                <td>{{$item->university_name}}</td>
                                <td>
-                                   <a href="{{route('edit-university')}}/{{$item->id}}"><i class="fa-solid fa-pen"></i></a>
+                                   <a class="btn btn-info" href="{{route('edit-university')}}/{{$item->id}}"><i class="fa-solid fa-pen"></i></a>
                                </td>
                                <td>
-                                   <a href="{{route('delete-university')}}/{{$item->id}}"><i class="fa-solid fa-trash"></i></a>
+                                   <a class="btn btn-warning" href="{{route('delete-university')}}/{{$item->id}}"><i class="fa-solid fa-trash"></i></a>
                                </td>
                            </tr>
                         @endforeach

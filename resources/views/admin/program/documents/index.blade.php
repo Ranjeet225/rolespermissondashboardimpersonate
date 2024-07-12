@@ -80,10 +80,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         {{-- <td class="text-wrap">{{ $item->orders }}</td> --}}
                         @can('documents.update')
-                            <td><a  href="{{route('edit-documents',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                            <td><a  href="{{route('edit-documents',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('documents.delete')
-                            <td><a href="{{route('delete-documents',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a href="{{route('delete-documents',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

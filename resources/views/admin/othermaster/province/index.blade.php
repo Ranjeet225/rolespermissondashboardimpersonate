@@ -88,10 +88,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td class="text-wrap">{{ $item->country->name }}</td>
                         @can('province.update')
-                        <td><a  href="{{route('edit-province',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-province',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('province.delete')
-                        <td><a href="{{route('delete-province',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-province',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

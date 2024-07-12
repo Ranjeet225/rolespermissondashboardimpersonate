@@ -81,10 +81,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         {{-- <td class="text-wrap">{{ $item->orders }}</td> --}}
                         @can('program_sub_level.update')
-                        <td><a  href="{{route('edit-program-sub-level',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-program-sub-level',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('program_sub_level.delete')
-                        <td><a href="{{route('delete-program-sub-level',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-program-sub-level',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

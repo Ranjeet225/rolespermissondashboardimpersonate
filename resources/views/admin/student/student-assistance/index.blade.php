@@ -77,10 +77,10 @@
                         <td>{{ $loop->index + (($student_assistance->currentPage() - 1) * $student_assistance->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->title }}</td>
                         @can('student_assistance.update')
-                          <td><a  href="{{route('edit-student-assistance',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                          <td><a  href="{{route('edit-student-assistance',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('student_assistance.delete')
-                            <td><a href="{{route('delete-student-assistance',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a href="{{route('delete-student-assistance',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

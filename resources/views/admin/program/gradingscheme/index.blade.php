@@ -109,10 +109,10 @@
                         <td class="text-wrap">{{ $item->country->name }}</td>
                         <td class="text-wrap">{{ $item->education_level->name ?? null }}</td>
                         @can('grading_scheme.update')
-                          <td><a  href="{{route('edit-grading-scheme',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                          <td><a  href="{{route('edit-grading-scheme',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('grading_scheme.delete')
-                        <td><a href="{{route('delete-grading-scheme',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-grading-scheme',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                          @endcan
                     </tr>
                     @endforeach

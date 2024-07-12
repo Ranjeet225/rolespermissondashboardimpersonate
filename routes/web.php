@@ -17,7 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\LearningTrainingController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -194,7 +194,7 @@ Route::middleware('auth')->group(function () {
         Route::get("approved-university",[UniversityController::class,'view_approve_university'])->name('view-approved-university');
         // Route::get("filter-approved-university",[UniversityController::class,'view_approve_university'])->name('filter-approved-university');
 
-        Route::get("un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('unapproved-university');
+        Route::get("un-approve-university/{id?}",[UniversityController::class,'view_unapprove_university'])->name('unapproved-university');
         Route::get("filter-un-approve-university",[UniversityController::class,'view_unapprove_university'])->name('filter-unapproved-university');
         Route::get("updation-manage-university",[UniversityController::class,'update_university'])->name('update-university');
 

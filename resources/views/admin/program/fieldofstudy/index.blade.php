@@ -88,10 +88,10 @@
                         <td class="text-wrap">{{ $item->name }}</td>
                         <td>{{ $item->status ? 'Active' : 'Inactive' }}</td>
                         @can('field_of_study.update')
-                        <td><a  href="{{route('edit-field-of-study',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-field-of-study',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('field_of_study.delete')
-                        <td><a href="{{route('delete-field-of-study',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-field-of-study',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

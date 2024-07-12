@@ -63,8 +63,8 @@
                     <tr>
                         <th>S.N</th>
                         <th>Name</th>
-
-
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -73,10 +73,10 @@
                         <td>{{ $loop->index + (($scholarship->currentPage() - 1) * $scholarship->perPage()) + 1 }}</td>
                         <td class="text-wrap">{{ $item->heading }}</td>
                         @can('scholorship.update')
-                        <td><a  href="{{route('edit-scholarship',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a  href="{{route('edit-scholarship',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('scholorship.delete')
-                        <td><a href="{{route('delete-scholarship',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                        <td><a href="{{route('delete-scholarship',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

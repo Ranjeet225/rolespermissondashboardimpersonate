@@ -81,10 +81,10 @@
                         <td class="text-wrap">{!! $item->body !!}</td>
                         <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                         @can('sms_template.update')
-                          <td><a  href="{{route('edit-sms-template',$item->id)}}"><i class="fa-solid fa-pen"></i></a></td>
+                          <td><a  href="{{route('edit-sms-template',$item->id)}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
                         @endcan
                         @can('sms_template.delete')
-                          <td><a href="{{route('delete-sms-template',$item->id)}}"><i class="fa-solid fa-trash"></i></a></td>
+                          <td><a href="{{route('delete-sms-template',$item->id)}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                         @endcan
                     </tr>
                     @endforeach

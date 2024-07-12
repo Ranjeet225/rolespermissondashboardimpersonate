@@ -74,8 +74,8 @@
                 <tr>
                   <td>{{ $loop->index + 1 + ($data->currentPage() - 1) * $data->perPage() }}</td>
                   <td>{{$type->name}}</td>
-                  <td><a href="{{route('edit-type')}}/{{$type->id}}"><i class="fa-solid fa-pen"></i></a></td>
-                  <td>  <a href="{{route('delete-type')}}/{{$type->id}}"><i class="fa-solid fa-trash"></i></a></td>
+                  <td><a href="{{route('edit-type')}}/{{$type->id}}" class="btn btn-info"><i class="fa-solid fa-pen"></i></a></td>
+                  <td>  <a href="{{route('delete-type')}}/{{$type->id}}" class="btn btn-warning"><i class="fa-solid fa-trash"></i></a></td>
                 </tr>
                 @endforeach
               </tbody>

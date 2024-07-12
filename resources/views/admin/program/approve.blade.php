@@ -80,7 +80,7 @@
                             <td>{{$item->name}}</td>
                             <td>{{$item->updated_at}}</td>
                             @can('programs.view')
-                              <td><a class="btn btn-primary" href="{{route('view-program',$item->id)}}">   View Details</a></td>
+                              <td><a class="btn btn-primary" href="{{route('view-program',$item->id)}}"> <i class="fa-solid fa-eye"></i></a></td>
                             @endcan
                         </tr>
                         @endforeach
