@@ -165,7 +165,9 @@ Route::middleware('auth')->group(function () {
         Route::get('edit-student-guide/{id?}',[StudentController::class,'student_guide_edit'])->name('edit-student-guide');
         Route::post('update-student-guide/{id?}',[StudentController::class,'student_guide_update'])->name('update-student-guide');
         Route::get('delete-student-guide/{id?}',[StudentController::class,'student_guide_destroy'])->name('delete-student-guide');
-        Route::get('get-last-attendance',[StudentController::class,'get_last_attendance'])->name('get-last-attendance');
+        Route::get('get-school-attendaned',[StudentController::class,'get_school_attendend'])->name('get-school-attendaned');
+        Route::post('check-student-attendend',[StudentController::class,'check_school_attendend_store'])->name('check-student-attendend');
+
         // university
         Route::get("manage-university",[UniversityController::class,'manage_university'])->name('manage-university');
         Route::get("filter-university",[UniversityController::class,'manage_university'])->name('filter-university');
@@ -332,7 +334,6 @@ Route::middleware('auth')->group(function () {
         Route::post('update-field-of-study/{id?}',[ProgramController::class,'field_of_study_update'])->name('update-field-of-study');
         Route::post('store-field-of-study',[ProgramController::class,'field_of_study_store'])->name('store-field-of-study');
         Route::get('delete-field-of-study/{id?}',[ProgramController::class,'field_of_study_delete'])->name('delete-field-of-study');
-        Route::get('fetch-documents',[ProgramController::class,'fetch_documents'])->name('fetch-documents');
         // subjects
         Route::get('subjects',[ProgramController::class,'subjects'])->name('subject');
         Route::get('subject-filter',[ProgramController::class,'subjects'])->name('subjects-filter');
@@ -458,6 +459,8 @@ Route::middleware('auth')->group(function () {
         Route::post('update-scholarship/{id?}',[StudentController::class,'scholarship_update'])->name('update-scholarship');
         Route::post('store-scholarship',[StudentController::class,'scholarship_store'])->name('store-scholarship');
         Route::get('check-education-attended',[StudentController::class,'check_student_attended'])->name('check-education-attended');
+        Route::get('fetch-documents',[StudentController::class,'fetch_documents'])->name('fetch-documents');
+
              // Blogs
         Route::get('blogs/{id?}',[CmsController::class,'blogs'])->name('blogs');
         Route::get('blogs-filter',[CmsController::class,'blogs'])->name('blogs-filter');
@@ -569,11 +572,12 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-student-test-score/{id?}', [StudentController::class, 'delete_test_score'])->name('delete-student-test-score');
         Route::post('update-gre-exam-data/{id?}', [StudentController::class, 'update_gre_exam_data'])->name('update-gre-exam-data');
         Route::post('update-gmat-exam-data/{id?}', [StudentController::class, 'update_gmat_exam_data'])->name('update-gmat-exam-data');
-        Route::post('update_test_core/{id?}', [StudentController::class, 'update_test_score'])->name('update-test-score');
+        Route::post('update-test-score/{id?}', [StudentController::class, 'update_test_score'])->name('update-test-score');
         Route::get('delete-student-document/{id?}', [StudentController::class, 'delete_document'])->name('delete-student-document');
         Route::get('get-student-attendence/{id?}', [StudentController::class, 'get_student_attendence'])->name('get-student-attendence');
         Route::POST('get-student-test-score/{id?}', [StudentController::class, 'get_student_test_score'])->name('get-student-test-score');
         Route::get('get-student-document',[StudentController::class,'get_student_document'])->name('get-student-document');
+        Route::post('fetch-eng-prof-level-score',[StudentController::class,'fetch_eng_prof_level_score'])->name('fetch-eng-prof-level-score');
     });
     Route::get('/fetch-state', [LeadsManageCotroller::class, 'fetchStates'])->name('state.get');
 });

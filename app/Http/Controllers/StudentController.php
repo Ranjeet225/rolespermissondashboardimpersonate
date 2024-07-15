@@ -133,7 +133,9 @@ class StudentController extends Controller
             $validator = Validator::make($request->all(), [
                 'email' => 'unique:users,email,' . $student_id,
                 'first_name'=>'required|max:2000',
+                'last_name'=>'required|max:2000',
                 'gender'=>'required',
+                'passport_number' => 'required|regex:/^[a-zA-Z0-9\s]+$/|max:20',
                 'dob'=>'required',
             ]);
             if ($validator->fails()) {
@@ -148,6 +150,7 @@ class StudentController extends Controller
                 "maritial_status" => $request->maritial_status,
                 "passport_status" => $request->passport_status,
                 "passport_number" =>  $request->passport_number,
+                "passport_expiry" =>  $request->passport_expiry,
                 "dob" =>$request->dob,
                 "first_language" => $request->first_language,
                 "country_id" => $request->country_id,
@@ -171,6 +174,8 @@ class StudentController extends Controller
        }elseif($request->tab2){
             $validator = Validator::make($request->all(), [
                 'education_level_id'=>'required',
+                'grading_scheme_id'=>'required',
+                'pref_countries'=>'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
@@ -180,13 +185,14 @@ class StudentController extends Controller
             ]);
             DB::table('education_history')
             ->updateOrInsert(
-                ['student_id' => $student_id],
+                ['student_id' => $student->id],
                 [
                     'country_id' => $request->pref_countries,
                     'education_level_id' => $request->education_level_id,
                     'grading_average' => $request->grading_average,
                     'grading_scheme_id' => $request->grading_scheme_id,
-                    'graduated_recently' => $request->graduated_recently
+                    'graduated_recently' => $request->graduated_recently,
+                    'max_score'=> $request->max_score,
                 ]
             );
              return response()->json(['success'=>'Data inserted Successfully']);
@@ -211,6 +217,7 @@ class StudentController extends Controller
                 'working_upto' => $request->working_upto,
                 'mode_of_selary' => $request->mode_of_selary,
                 'working_status' => $request->working_status,
+                'work_experience' => $request->work_experience,
             ]);
             return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab5){
@@ -229,27 +236,27 @@ class StudentController extends Controller
                     'visa_details' => $request->visa_details,
                     'pref_subjects'=>$request->subject_input,
                 ]);
-
         return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab6){
-        $document = Documents::count();
-            if ($request->document) {
-                $images = $request->file('document');
-                foreach($images as $uploadedImage) {
-                    $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
-                    $imagePath = 'imagesapi/' . $imageName;
-                    $uploadedImage->move(public_path('imagesapi/'), $imageName);
-                    DB::table('student_documents')
-                    ->updateOrInsert(
-                        ['student_id' => $student_id, 'document_type' => $request->visa_document_type],
-                        [
-                            'image_url' => $imagePath,
-                            'file_type' => $imageName,
-                            'file_client_name' => $imageName,
-                        ]
-                    );
-                }
+        $eudcation_level = EducationHistory::where('student_id',$student->id)->select('education_level_id')->first();
+        $document = Documents::where('program_level_id',$eudcation_level->education_level_id)->count();
+        if ($request->document) {
+            $images = $request->file('document');
+            foreach($images as $uploadedImage) {
+                $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
+                $imagePath = 'imagesapi/' . $imageName;
+                $uploadedImage->move(public_path('imagesapi/'), $imageName);
+                DB::table('student_documents')
+                ->updateOrInsert(
+                    ['student_id' => $student->id, 'document_type' => $request->visa_document_type],
+                    [
+                        'image_url' => $imagePath,
+                        'file_type' => $imageName,
+                        'file_client_name' => $imageName,
+                    ]
+                );
             }
+        }
         $student_email = Auth::user()->email;
         DB::table('student_by_agent')
         ->Where('email', $student_email)
@@ -263,7 +270,7 @@ class StudentController extends Controller
             'status_threesixty' => '1',
             'profile_complete'=>'1',
         ]);
-        $table_data_count= DB::table('student_documents')->where('student_id', $student_id)->where('document_type','!=',0)->count();
+        $table_data_count= DB::table('student_documents')->where('student_id', $student->id)->where('document_type','!=',0)->count();
         if(($table_data_count == $document) || ($table_data_count == ($document+1))){
             return response()->json(['status'=>true,'success'=>'Your Profile Completed','redirect'=>'user']);
         }
@@ -272,132 +279,26 @@ class StudentController extends Controller
 
     }
 
-
-    public function get_student_document(Request $request)
-    {
-        $student_documents = DB::table('student_documents')
-                       ->select('student_documents.id','documents.name','student_documents.image_url')
-                       ->join('documents','student_documents.document_type' ,'=','documents.id')
-                       ->where('student_documents.student_id', $request->student_id)->get();
-        $student_documents_data = DB::table('student_documents')->where('document_type',0)
-                    ->where('student_documents.student_id', $request->student_id)->first();
-        // $educationLevelIds = DB::table('education_history')->where('student_id', Student::where('user_id', $request->student_id)->first()->id)->pluck('education_level_id');
-        // $documentsCount = Documents::whereIn('program_level_id', $educationLevelIds)->count();
-        // if($student_documents_counts == $documentsCount){
-        //     $disable_button=false;
-        // }else{
-        //     $disable_button=true;
-        // }
-        return response()->json(['success'=>true,'documents'=>$student_documents,'student_documents_data'=>$student_documents_data]);
-    }
-    public function update_gre_exam_data( Request $request)
-    {
-        $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
-        $student_id = $student->id;
-        $test_score = DB::table('additional_qualification')->select('id')->where('student_id', $student_id)->where('type', 'GRE')->first();
-        if($test_score == null){
-            DB::table('additional_qualification')
-            ->insert([
-                'student_id' => $student_id,
-                'type' => 'GRE',
-                'date_of_exam' => $request->date_of_exam,
-                'verbal_score' => $request->verbal_score,
-                'verbal_rank' => $request->verbal_rank,
-                'quantitative_score' => $request->quantitative_score,
-                'quantitative_rank' => $request->quantitative_rank,
-                'writing_score' => $request->writing_score,
-                'writing_rank' => $request->writing_rank,
-                'total_score' => $request->total_score,
-                'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
-        } else {
-            DB::table('additional_qualification')
-            ->WHERE('student_id', $student_id)
-            ->where('type', $request->type)
-            ->update([
-                'student_id' => $student_id,
-                'type' => 'GRE',
-                'date_of_exam' => $request->date_of_exam,
-                'verbal_score' => $request->verbal_score,
-                'verbal_rank' => $request->verbal_rank,
-                'quantitative_score' => $request->quantitative_score,
-                'quantitative_rank' => $request->quantitative_rank,
-                'writing_score' => $request->writing_score,
-                'writing_rank' => $request->writing_rank,
-                'total_score' => $request->total_score,
-                'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
-        }
-        return response()->json(['success'=>'Data inserted Successfully']);
-    }
-    public function update_gmat_exam_data(Request $request)
-    {
-        $student = DB::table('student')
-            ->select('id')
-            ->where('user_id', $request->student_id)
-            ->first();
-        $student_id = $student->id;
-
-        $test_score = DB::table('additional_qualification')
-            ->select('id')
-            ->where('student_id', $student_id)
-            ->where('type', 'GMAT')
-            ->first();
-
-        if($test_score == null){
-            DB::table('additional_qualification')
-            ->insert([
-                'student_id' => $student_id,
-                'type' => 'GMAT',
-                'date_of_exam' => $request->date_of_exam,
-                'verbal_score' => $request->verbal_score,
-                'verbal_rank' => $request->verbal_rank,
-                'quantitative_score' => $request->quantitative_score,
-                'quantitative_rank' => $request->quantitative_rank,
-                'writing_score' => $request->writing_score,
-                'writing_rank' => $request->writing_rank,
-                'total_score' => $request->total_score,
-                'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
-        } else {
-            DB::table('additional_qualification')
-            ->WHERE('student_id', $student_id)
-            ->where('type', $request->type)
-            ->update([
-                'student_id' => $student_id,
-                'type' => 'GMAT',
-                'date_of_exam' => $request->date_of_exam,
-                'verbal_score' => $request->verbal_score,
-                'verbal_rank' => $request->verbal_rank,
-                'quantitative_score' => $request->quantitative_score,
-                'quantitative_rank' => $request->quantitative_rank,
-                'writing_score' => $request->writing_score,
-                'writing_rank' => $request->writing_rank,
-                'total_score' => $request->total_score,
-                'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
-        }
-    }
-
     public function update_attendended_school(Request $request)
     {
-        $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
+        $user_id =Auth::user()->id;
+        $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
         $student_id = $student->id;
         $school_attended = DB::table('school_attended')
             ->where('student_id', $student_id)
-            ->where('education_level_id', $request->education_level_id)
+            ->where('documents', $request->lead_documents_id)
+            ->where('education_level_id', $request->program_level_id)
             ->first();
 
         if($school_attended){
             DB::table('education_history')->where('student_id',$student_id)->update(['education_level_id' => $request->program_level_id]);
             DB::table('school_attended')
-            ->WHERE('id', $school_attended->id)
+            ->where('student_id', $student_id)
+            ->where('documents', $request->lead_documents_id)
+            ->where('education_level_id', $request->program_level_id)
             ->update([
-                'education_level_id' => $request->education_level_id,
+                'documents' => $request->lead_documents_id,
+                'education_level_id' => $request->program_level_id,
                 'name' => $request->name,
                 'primary_language' => $request->primary_language,
                 'attended_from' => $request->attended_from,
@@ -420,7 +321,8 @@ class StudentController extends Controller
             DB::table('school_attended')
             ->insert([
                 'student_id' => $student_id,
-                'education_level_id' => $request->education_level_id,
+                'documents' => $request->lead_documents_id,
+                'education_level_id' => $request->program_level_id,
                 'name' => $request->name,
                 'primary_language' => $request->primary_language,
                 'attended_from' => $request->attended_from,
@@ -441,11 +343,155 @@ class StudentController extends Controller
         return response()->json($data);
     }
 
-    public function update_test_score(Request $request){
+    public function fetch_documents(Request $request)
+    {
+        $documents = Documents::where('program_level_id',$request->program_level_id)->get();
+        $documents_id = Documents::where('program_level_id',$request->program_level_id)->pluck('id');
+        if($request->student_id){
+            $user_id=Auth::user()->id;
+            $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
+            $student_id = $student->id;
+            $school_attended =SchoolAttended::whereIn('documents',$documents_id)->where('student_id',$student_id)->pluck('documents');
+            if($school_attended){
+                $school_attended = $school_attended;
+            }else{
+                $school_attended = NULL;
+            }
+        }else{
+            $school_attended = NULL;
+        }
+        $user_id = auth()->user()->id;
+        $student_id_data = Student::where('user_id', $user_id)->pluck('id')->first();
+        $disabled_education_history = SchoolAttended::where('student_id', $student_id_data)->pluck('documents')->toArray();
+        return response()->json(['documents'=>$documents,'school_attended'=>$school_attended,'disabled_education_history'=>$disabled_education_history]);
+    }
+
+    public function get_student_document(Request $request)
+    {
+        $student_id=Student::where('user_id',Auth::user()->id)->pluck('id')->first();
+        $student_documents = DB::table('student_documents')
+                            ->select('student_documents.id','documents.name','student_documents.image_url')
+                            ->join('documents','student_documents.document_type' ,'=','documents.id')
+                            ->where('student_documents.student_id', $student_id)->get();
+        $student_documents_data = DB::table('student_documents')->where('document_type',0)
+                    ->where('student_documents.student_id',  $student_id)->first();
+        return response()->json(['success'=>true,'documents'=>$student_documents,'student_documents_data'=>$student_documents_data]);
+    }
+    public function update_gre_exam_data( Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
+        $student_id = $student->id;
+        $test_score = DB::table('additional_qualification')->select('id')->where('student_id', $student_id)->where('type', 'GRE')->first();
+        if($test_score == null){
+            DB::table('additional_qualification')
+            ->insert([
+                'student_id' => $student_id,
+                'type' => 'GRE',
+                'result_receive'=>$request->result_receive,
+                'date_of_exam' => $request->date_of_exam,
+                'verbal_score' => $request->verbal_score,
+                'verbal_rank' => $request->verbal_rank,
+                'quantitative_score' => $request->quantitative_score,
+                'quantitative_rank' => $request->quantitative_rank,
+                'writing_score' => $request->writing_score,
+                'writing_rank' => $request->writing_rank,
+                'total_score' => $request->total_score,
+                'total_rank' => $request->total_rank
+            ]);
+            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+        } else {
+            DB::table('additional_qualification')
+            ->WHERE('student_id', $student_id)
+            ->where('type', $request->type)
+            ->update([
+                'student_id' => $student_id,
+                'type' => 'GRE',
+                'date_of_exam' => $request->date_of_exam,
+                'result_receive'=>$request->result_receive,
+                'verbal_score' => $request->verbal_score,
+                'verbal_rank' => $request->verbal_rank,
+                'quantitative_score' => $request->quantitative_score,
+                'quantitative_rank' => $request->quantitative_rank,
+                'writing_score' => $request->writing_score,
+                'writing_rank' => $request->writing_rank,
+                'total_score' => $request->total_score,
+                'total_rank' => $request->total_rank
+            ]);
+            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+        }
+        return response()->json(['success'=>'Data inserted Successfully']);
+    }
+    public function update_gmat_exam_data(Request $request)
+    {
         $student = DB::table('student')
+                    ->select('id')
+                    ->where('user_id',Auth::user()->id)
+                    ->first();
+        $student_id = $student->id;
+        $test_score = DB::table('additional_qualification')
             ->select('id')
-            ->where('user_id', $request->student_id)
+            ->where('student_id', $student_id)
+            ->where('type', 'GMAT')
             ->first();
+        if($test_score == null){
+            DB::table('additional_qualification')
+            ->insert([
+                'student_id' => $student_id,
+                'type' => 'GMAT',
+                'date_of_exam' => $request->date_of_exam,
+                'result_receive'=>$request->gmat_result_receive,
+                'verbal_score' => $request->verbal_score,
+                'verbal_rank' => $request->verbal_rank,
+                'quantitative_score' => $request->quantitative_score,
+                'quantitative_rank' => $request->quantitative_rank,
+                'writing_score' => $request->writing_score,
+                'writing_rank' => $request->writing_rank,
+                'total_score' => $request->total_score,
+                'total_rank' => $request->total_rank
+            ]);
+            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+        } else {
+            DB::table('additional_qualification')
+            ->WHERE('student_id', $student_id)
+            ->where('type', $request->type)
+            ->update([
+                'student_id' => $student_id,
+                'type' => 'GMAT',
+                'date_of_exam' => $request->date_of_exam,
+                'result_receive'=>$request->gmat_result_receive,
+                'verbal_score' => $request->verbal_score,
+                'verbal_rank' => $request->verbal_rank,
+                'quantitative_score' => $request->quantitative_score,
+                'quantitative_rank' => $request->quantitative_rank,
+                'writing_score' => $request->writing_score,
+                'writing_rank' => $request->writing_rank,
+                'total_score' => $request->total_score,
+                'total_rank' => $request->total_rank
+            ]);
+            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+        }
+    }
+
+
+
+    public function update_test_score(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'exam_date'=>'required',
+            'type'=>'required',
+            'listening_score'=>'required',
+            'reading_score'=>'required',
+            'writing_score'=>'required',
+            'speaking_score'=>'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+        }
+        $student = Student::where('user_id', auth()->user()->id)->first();
+        $student->update([
+           'eng_prof_level_result'=>$request->eng_prof_level_result
+        ]);
         $student_id = $student->id;
         $test_score = DB::table('test_scores')
                     ->select('id')
@@ -459,6 +505,7 @@ class StudentController extends Controller
                 'student_id' => $student_id,
                 'type' => $request->type,
                 'exam_date' => $request->exam_date,
+                'eng_prof_level_result'=>$request->eng_prof_level_result,
                 'listening_score' => $request->listening_score,
                 'writing_score' => $request->writing_score,
                 'reading_score' => $request->reading_score,
@@ -475,6 +522,7 @@ class StudentController extends Controller
                 'student_id' => $student_id,
                 'type' => $request->type,
                 'exam_date' => $request->exam_date,
+                'eng_prof_level_result'=>$request->eng_prof_level_result,
                 'listening_score' => $request->listening_score,
                 'writing_score' => $request->writing_score,
                 'reading_score' => $request->reading_score,
@@ -485,6 +533,10 @@ class StudentController extends Controller
         }
     }
 
+    public function fetch_eng_prof_level_score(Request $request){
+        $score =EngProficiencyLevel::where('id',$request->eng_prof_level)->select('id','number')->where('status',1)->first();
+        return response()->json(['success'=>true,'score'=>$score]);
+    }
     public function delete_attendended(Request $request, $id)
     {
         $schoolAttended = DB::table('school_attended')->where('id', $id)->first();
@@ -940,12 +992,24 @@ class StudentController extends Controller
         return redirect(url('student/applied-program'));
     }
 
-    public function get_last_attendance(Request $request)
+    public function get_school_attendend(Request $request)
     {
         $user_id =Auth::user()->id;
         $about_student =DB::table('student')->where('user_id',$user_id)->first();
-        $student_attendence = StudentAttendence::with('country','province','student','documents:id,name')->where('student_id', $about_student->id)->get();
-        return response()->json(['success'=>true,'student_attendence'=>$student_attendence]);
+        $school_attendend = StudentAttendence::with('country:name,id','province:id,country_id,name','student:first_name,last_name,id','documents:id,name')->where('student_id', $about_student->id)->get();
+        return response()->json(['success'=>true,'school_attendend'=>$school_attendend]);
+    }
+
+    public function check_school_attendend_store(Request $request){
+        $user_id =Auth::user()->id;
+        $student_id =DB::table('student')->where('user_id',$user_id)->first();
+        $school_attendend = StudentAttendence::where('student_id', $student_id->id)->where('education_level_id', $request->program_level_id)->get();
+        if(count($school_attendend) > 0){
+            $success= true;
+        }else{
+            $success= false;
+        }
+        return response()->json(['success'=>$success]);
     }
 
     public function check_student_attended(Request $request)
@@ -967,8 +1031,9 @@ class StudentController extends Controller
 
     public function get_student_test_score(Request $request)
     {
-        $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
-        $student_id = $student->id;
+       $user_id =Auth::user()->id;
+       $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
+       $student_id = $student->id;
        $test_score= DB::table('test_scores')->Where('student_id',$student_id)->get();
        return response()->json(['success'=>true,'test_score'=>$test_score]);
     }

@@ -32,7 +32,7 @@
                         <h4 class="text-center">{{ session('message') }}</h4>
                     </div>
                 @endif
-                
+
                 <div class="card-body">
                     <div class="wizard">
                         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -126,7 +126,7 @@
                                                     class="form-control"
                                                     value="{{ $about_student->last_name ?? old('last_name') }}"
                                                     placeholder="Last Name" autocomplete="last_name">
-                                                <label for="lead-last_name" class="form-label">Last Name</label>
+                                                <label for="lead-last_name" class="form-label">Last Name*</label>
                                                 <span class="text-danger last_name"></span>
                                             </div>
                                         </div>
@@ -151,7 +151,10 @@
                                                         Male</option>
                                                     <option value="Female"
                                                         {{ ($about_student->gender ?? old('gender')) == 'Female' ? 'selected' : '' }}>
-                                                        FeMale</option>
+                                                        Female</option>
+                                                    <option value="Other"
+                                                    {{ ($about_student->gender ?? old('gender')) == 'Other' ? 'selected' : '' }}>
+                                                    Other</option>
                                                 </select>
                                                 <span class="text-danger gender"></span>
                                                 <label for="lead-source" class="form-label text-danger">Gender *</label>
@@ -180,9 +183,9 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-4">
+                                        <div class="col-4 mt-3">
                                             <div class="form-floating">
-                                                <select class="form-control" name="passport_status"
+                                                <select class="form-control" name="passport_status" id="passport_status"
                                                     placeholder="Passport Status">
                                                     <option value="">-- Select --</option>
                                                     <option value="I have"
@@ -199,18 +202,28 @@
                                                 <span class="text-danger passport_status"></span>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 mt-3" style="display: none" id="passport_number">
                                             <div class="form-floating">
                                                 <input  name="passport_number"
                                                     value="{{ $about_student->passport_number ?? old('passport_number') }}"
                                                     type="text" class="form-control" placeholder="Middle Name"
-                                                    autocomplete="passport-number">
+                                                    autocomplete="passport-number" pattern="[A-Za-z0-9]" title="Only letters and numbers are allowed">
                                                 <label for="lead-passport-number" class="form-label">Passport
                                                     Number</label>
                                                 <span class="text-danger passport_number"></span>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 mt-3" style="display: none" id="passport_expiry">
+                                            <div class="form-floating">
+                                                <input  name="passport_expiry"
+                                                    value="{{ $about_student->passport_expiry ?? old('passport_expiry') }}"
+                                                    type="date" class="form-control" placeholder="Passport Expiry Date"
+                                                    autocomplete="off" min="{{ now()->toDateString() }}">
+                                                <label for="passport_expiry" class="form-label">Passport Expiry Date</label>
+                                                <span class="text-danger">{{ $errors->first('passport_expiry') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 mt-3">
                                             <div class="form-floating">
                                                 <input name="dob" type="date" class="form-control"
                                                     value="{{ $about_student->dob ?? old('dob') }}" >
@@ -309,19 +322,22 @@
                                 </div>
                                 <form>
                                     <div class="row">
-                                        <div class="col-3">
+                                        <div class="col-3 mt-2">
                                             <div class="form-floating">
                                                 <select class="form-control selected-country" name="pref_countries">
                                                     <option value="">-- Select Country --</option>
                                                     @foreach ($countries as $item)
-                                                        <option value="{{ $item->id }}"  {{ (isset($education_history->country_id)) == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                        <option value="{{ $item->id }}"
+                                                        {{ (isset($about_student->pref_countries) &&  $about_student->pref_countries == $item->id) || (old('pref_countries') == $item->id) ? 'selected' : '' }}>
+                                                        {{ $item->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
-                                                <label for="lead-source" class="form-label">Country</label>
+                                                <label for="lead-source text-danger" class="form-label">Country*</label>
                                                 <span class="text-danger pref_countries"></span>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3 mt-2">
                                             <div class="form-floating">
                                                 <select class="form-control education_level_id" name="education_level_id"
                                                     >
@@ -334,7 +350,7 @@
                                                 <span class="text-danger education_level_id_error"></span>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3 mt-2">
                                             <div class="form-floating">
                                                 @php
                                                 $grading_scheme = DB::table('grading_scheme')
@@ -342,28 +358,33 @@
                                                         ->first();
                                                 @endphp
                                             <select name="grading_scheme_id" id="grading_scheme_id"
-                                                class="form-control grading_scheme_id grading-scheme" required>
-                                                @if (!empty($education_history->grading_scheme_id))
-                                                    <option value="{{ $education_history->grading_scheme_id }}" grading-data="{{$grading_scheme->name}}"
-                                                        {{ ($education_history->grading_scheme_id ?? old('grading_scheme_id'))}}>
-                                                        {{ $grading_scheme->name }}</option>
-                                                @else
-                                                  <option value="">--Grading Scheme --</option>
-                                                @endif
+                                                class="form-control grading_scheme_id grading-scheme" >
+                                                    <option value="0-100" {{ (isset($education_history->grading_scheme_id) && $education_history->grading_scheme_id == '0-100') ? 'selected' : '' }} grading-data= "0-100">0 - 100 out of</option>
+                                                    <option value="0-45" {{ (isset($education_history->grading_scheme_id) && $education_history->grading_scheme_id == '0-45') ? 'selected' : '' }} grading-data= "0-45">0 - 45 out of</option>
+                                                    <option value="0-10" {{ (isset($education_history->grading_scheme_id) && $education_history->grading_scheme_id == '0-10') ? 'selected' : '' }} grading-data="0-10">0 - 10 out of</option>
+                                                    <option value="other" {{ (isset($education_history->grading_scheme_id) && $education_history->grading_scheme_id == 'other') ? 'selected' : '' }} grading-data="other">Other</option>
                                             </select>
-                                                 <label for="lead-source" class="form-label">Grading Scheme</label>
+                                                 <label for="lead-source" class="form-label text-danger">Grading Scheme*</label>
                                                 <span class="text-danger grading_scheme_id_error"></span>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3 mt-2" style="display: none" id="max_score" >
+                                            <div class="form-floating">
+                                                <input name="max_score"  value="{{ $education_history->max_score ?? null }}" type="number" class="form-control">
+                                                <label for="lead-address" class="form-label">Max Score </label>
+                                                <span class="text-danger max_score"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mt-2">
                                             <div class="form-floating">
                                                 <input name="grading_average" id="lead-grading_number" value="{{ $education_history->grading_average ?? null }}" type="number" class="form-control">
                                                 <input type="hidden" name="tab2" value="tab2">
-                                                <label for="lead-address" class="form-label">Grading Average</label>
+                                                <label for="lead-address" class="form-label">Grading Score</label>
                                                 <span class="text-danger grading_average"></span>
                                                 <div id="grading_input_error" class="text-danger"  style="display: none;">Invalid grade. Please enter a value within the selected grading scheme.</div>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="col-12 m-2"><label>
                                             <input type="checkbox" name="graduated_recently" value="Yes">Graduated
@@ -381,7 +402,8 @@
                                                     <h4>Schools Attended</h4>
                                                 </div>
                                                 <div class="col-md-6 ">
-                                                    <div class="last_attended" data-tour="search"
+                                                     {{-- class="last_attended" --}}
+                                                    <div data-tour="search"
                                                         data-bs-toggle="offcanvas" data-bs-target="#viewlead"
                                                         aria-controls="viewlead"
                                                         student-id="{{ $about_student->user_id ?? null }}">
@@ -392,7 +414,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                          </div>
                                         <div class="card-body table-responsive">
                                             <table class="table table-modern table-hover">
                                                 <thead>
@@ -439,6 +461,18 @@
                                 </div>
                                 <form>
                                     <div class="row mb-3">
+                                        <div class="col-lg-4">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input " type="radio" name="work_experience" id="work_experience_1" value="1"  @if ($about_student->work_experience == 1) checked @endif>
+                                                <label class="form-check-label" for="work_experience_1">Yes, I have work experience</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="work_experience" id="work_experience_0" value="0" @if ($about_student->work_experience == 0) checked @endif >
+                                                <label class="form-check-label" for="work_experience_0">No, I have not any work experience</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3 experience_details" style="display: none">
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <input
@@ -461,7 +495,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="row mb-3 experience_details"  style="display: none">
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <input
@@ -483,7 +517,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="row mb-3 experience_details"  style="display: none">
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <input
@@ -505,7 +539,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="row mb-3 experience_details"  style="display: none">
                                         <div class="col-12">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="working_status" id="working_status1" value="1" {{ isset($about_student->working_status) && $about_student->working_status == 1 ? 'checked' : '' }}>
@@ -590,17 +624,21 @@
                                     <h5>Background Information</h5>
                                 </div>
                                 <div class="alert-image-error"> </div>
-                                <form>
-                                    <div class="col-12">
-                                        <label><b>Have you been refused a visa from Canada, the USA, the United Kingdom, New Zealand or Australia?</b></label>
-                                        <div class="col-6">
-                                            <label>
-                                                <input type="radio" name="ever_refused_visa" value="Yes"  {{ $about_student->ever_refused_visa === "Yes" ? 'checked' : '' }}>
-                                                &nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
-                                                <input type="radio" name="ever_refused_visa" value="No" {{ $about_student->ever_refused_visa === "No" ? 'checked' : '' }}>&nbsp; No</label>
-                                                <span class="text-danger ever_refused_visa"></span>
-                                            </div>
+                            <form>
+                                <div class="col-12">
+                                    <label>
+                                        <b>Have you been refused a visa from Canada, the USA, the United Kingdom, New Zealand or Australia?</b>
+                                    </label>
+                                    <div class="col-6">
+                                        <label>
+                                            <input type="radio" name="ever_refused_visa" value="Yes"  {{ $about_student->ever_refused_visa === "Yes" ? 'checked' : '' }} onclick="showVisaDetails(this.value)">
+                                            &nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
+                                            <input type="radio" name="ever_refused_visa" value="No" {{ $about_student->ever_refused_visa === "No" ? 'checked' : '' }} onclick="showVisaDetails(this.value)">&nbsp; No</label>
+                                            <span class="text-danger ever_refused_visa"></span>
+                                        </div>
                                     </div>
+
+
                                     <div class="col-12">
                                         <input type="hidden" name="tab5" value="tab5" >
                                         <label><b>Do you have a valid Study Permit / Visa?</b></label>
@@ -610,16 +648,15 @@
                                         <span class="text-danger has_visa"></span>
                                     </div>
                                     <br>
-                                    <div class="col-12">
+                                    <div class="col-12 visa_details_info" style="display: {{ $about_student->ever_refused_visa === "Yes" ? 'block' : 'none' }};">
                                         <div class="form-floating">
                                             <input name="visa_details" value="{{ $about_student->visa_details ?? null }}"  type="text" class="form-control" >
                                             <label for="lead-address" class="form-label">Visa Details</label>
                                             <span class="text-danger visa_details"></span>
-
                                         </div>
                                     </div>
                                     <br>
-                                    <div class="col-12 mb-3">
+                                    {{-- <div class="col-12 mb-3">
                                         <div class="form-floating">
                                             <select class="form-control  selectpicker" name="subject_input"
                                                 id="lead-subject_input" multiple placeholder="Education Level">
@@ -633,10 +670,10 @@
                                                     <option value="{{ $item->id }}" {{ $selected }}>{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
-                                            <label for="lead-education_level_id" class="form-label">Subject</label>
+                                            <label for="lead_documents_id" class="form-label">Subject</label>
                                             <span class="text-danger subject_input"></span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </form>
                                 <div class="d-flex">
                                     <a class="btn btn-warning previous me-2 ">Previous</a>
@@ -731,10 +768,11 @@
                         <form id="myForm">
                             <div class="col-12 ">
                                 <div class="form-floating">
-                                    <select class="form-control lead-education_level_id" name="education_level_id"
-                                        id="lead-education_level_id" placeholder="Education Level">
+                                    <select class="form-control lead_documents_id" name="lead_documents_id"
+                                        id="lead_documents_id" placeholder="Education Level">
+                                        <option> --Select Document--</option>
                                     </select>
-                                    <label for="lead-education_level_id" class="form-label">Education Level</label>
+                                    <label for="lead_documents_id" class="form-label"> Select Documents</label>
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
@@ -814,10 +852,10 @@
                             </div>
                         </form>
                         <div class="col-md-12"><button type="button"
-                                class="btn btn-info  py-6 last_attendence">Submit<span
-                                            class="spinner-grow spinner-grow-sm d-none" role="status"
-                                            aria-hidden="true"></button>
-                                        </div>
+                        class="btn btn-info  py-6 last_attendence">Submit<span
+                                    class="spinner-grow spinner-grow-sm d-none" role="status"
+                                    aria-hidden="true"></button>
+                                </div>
                     </div>
                 </div>
             </div>
@@ -841,65 +879,76 @@
                 <div class="card-stretch-full">
                     <div class="row g-4">
                         <form id="greExam">
+                            <label class="form-check-label" for="result_receive">Result Receive</label><br>
+                            <div class="col-lg-12">
+                                <div class="form-check ">
+                                    <input class="form-check-input " id="result_receive1" type="radio" name="result_receive"  value="1"  @if (isset($additional_qualification) && $additional_qualification->result_receive == 1) checked @endif>
+                                    <label class="form-check-label" for="result_receive1">Yes</label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="result_receive"  value="0" @if (isset($additional_qualification) && $additional_qualification->result_receive  == 0) checked @endif >
+                                    <label class="form-check-label" for="result_receive">No</label>
+                                </div>
+                            </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating">
                                     <input name="date_of_exam" type="date" value="{{ $additional_qualification->date_of_exam ?? \Carbon\Carbon::now()->toDateString() }}" class="form-control ">
                                     <label for="lead-name" class="form-label">Exam Date</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row result_receive_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
                                         <input type="hidden" name="type" value="GRE">
-                                        <input name="verbal_score" type="number"  class="form-control " value="{{$additional_qualification->verbal_score  ?? null}}">
+                                        <input name="verbal_score" type="number"  class="form-control gre_score"  value="{{$additional_qualification->verbal_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="verbal_rank" type="number"  class="form-control " value="{{$additional_qualification->verbal_rank  ?? null}}">
+                                        <input name="verbal_rank" type="number"  class="form-control gre_score" value="{{$additional_qualification->verbal_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Rank</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row result_receive_details" style="display:none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_score" type="number"  class="form-control " value="{{$additional_qualification->quantitative_score  ?? null}}">
+                                        <input name="quantitative_score" type="number"  class="form-control gre_score" value="{{$additional_qualification->quantitative_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_rank" type="number"  class="form-control " value="{{$additional_qualification->quantitative_rank  ?? null}}">
+                                        <input name="quantitative_rank" type="number"  class="form-control gre_score" value="{{$additional_qualification->quantitative_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Rank</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row result_receive_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_score" type="number"  class="form-control "  value="{{$additional_qualification->writing_score  ?? null}}">
+                                        <input name="writing_score" type="number"  class="form-control gre_score"  value="{{$additional_qualification->writing_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_rank" type="number"  class="form-control " value="{{$additional_qualification->writing_rank  ?? null}}">
+                                        <input name="writing_rank" type="number"  class="form-control gre_score" value="{{$additional_qualification->writing_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Rank</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row result_receive_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_score" type="number"  class="form-control " value="{{$additional_qualification->total_score  ?? null}}">
+                                        <input name="total_score" type="number"  class="form-control gre_score" value="{{$additional_qualification->total_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_rank" type="number"  class="form-control " value="{{$additional_qualification->total_rank  ?? null}}">
+                                        <input name="total_rank" type="number"  class="form-control gre_score" value="{{$additional_qualification->total_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Rank</label>
                                     </div>
                                 </div>
@@ -930,65 +979,76 @@
                 <div class="card-stretch-full">
                     <div class="row g-4">
                         <form id="gmatform">
+                            <label class="form-check-label" for="gmat_result_receive">Result Receive</label><br>
+                            <div class="col-lg-12">
+                                <div class="form-check ">
+                                    <input class="form-check-input " id="gmat_result_receive1" type="radio" name="gmat_result_receive"  value="1"  @if ($gmat && $gmat->result_receive == 1) checked @endif>
+                                    <label class="form-check-label" for="gmat_result_receive1">Yes</label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="gmat_result_receive"  value="0" @if ($gmat && $gmat->result_receive == 0) checked @endif >
+                                    <label class="form-check-label" for="gmat_result_receive">No</label>
+                                </div>
+                            </div>
                             <div class="col-12 mt-2">
                                 <div class="form-floating">
                                     <input name="date_of_exam" type="date" value="{{ $gmat->date_of_exam ?? \Carbon\Carbon::now()->toDateString() }}" class="form-control ">
                                     <label for="lead-name" class="form-label">Exam Date</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row gmat_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
                                         <input type="hidden" name="type" value="GMAT">
-                                        <input name="verbal_score" type="number"  class="form-control " value="{{$gmat->verbal_score ?? null}}">
+                                        <input name="verbal_score" type="number"  class="form-control gmat_score" value="{{$gmat->verbal_score ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="verbal_rank" type="number"  class="form-control " value="{{$gmat->verbal_rank  ?? null}}">
+                                        <input name="verbal_rank" type="number"  class="form-control gmat_score" value="{{$gmat->verbal_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Verbal Rank</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row gmat_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_score" type="number"  class="form-control " value="{{$gmat->quantitative_score  ?? null}}">
+                                        <input name="quantitative_score" type="number"  class="form-control gmat_score" value="{{$gmat->quantitative_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="quantitative_rank" type="number"  class="form-control " value="{{$gmat->quantitative_rank  ?? null}}">
+                                        <input name="quantitative_rank" type="number"  class="form-control gmat_score" value="{{$gmat->quantitative_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Quantitative Rank</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row gmat_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_score" type="number"  class="form-control "  value="{{$gmat->writing_score  ?? null}}">
+                                        <input name="writing_score" type="number"  class="form-control gmat_score"  value="{{$gmat->writing_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="writing_rank" type="number"  class="form-control " value="{{$gmat->writing_rank  ?? null}}">
+                                        <input name="writing_rank" type="number"  class="form-control gmat_score" value="{{$gmat->writing_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Writing Rank</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row gmat_details" style="display: none">
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_score" type="number"  class="form-control " value="{{$gmat->total_score  ?? null}}">
+                                        <input name="total_score" type="number"  class="form-control gmat_score" value="{{$gmat->total_score  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Score</label>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-2">
                                     <div class="form-floating">
-                                        <input name="total_rank" type="number"  class="form-control " value="{{$gmat->total_rank  ?? null}}">
+                                        <input name="total_rank" type="number"  class="form-control gmat_score" value="{{$gmat->total_rank  ?? null}}">
                                         <label for="lead-name" class="form-label">Total Rank</label>
                                     </div>
                                 </div>
@@ -1019,52 +1079,71 @@
                 <div class="card-stretch-full">
                     <div class="row g-4">
                         <form id="testscore">
-                            <div class="row">
+                            <label class="form-check-label" for="eng_prof_level_result">Result Receive</label><br>
+                            <div class="col-lg-12">
+                                <div class="form-check ">
+                                    <input class="form-check-input " id="eng_prof_level_result1" type="radio" name="eng_prof_level_result"  value="1"  @if ($about_student && $about_student->eng_prof_level_result == 1) checked @endif>
+                                    <label class="form-check-label" for="eng_prof_level_result1">Yes</label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="eng_prof_level_result"  value="0" @if ($about_student && $about_student->eng_prof_level_result == 0) checked @endif >
+                                    <label class="form-check-label" for="eng_prof_level_result">No</label>
+                                </div>
+                            </div>
+                            <div class="row " >
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
-                                        <select class="form-control " name="type" id="lead-type" placeholder="Exam Type">
+                                        <select class="form-control eng_prof_level" name="type" id="lead-type" placeholder="Exam Type">
                                             <option value="">--Select--</option>
                                             @foreach ($eng_prof_level as $item)
                                               <option value="{{$item->id}}">{{$item->name}}</option>
                                             @endforeach
                                         </select>
                                         <label for="lead-name" class="form-label">Exam Type</label>
+                                        <span class="text-danger type"></span>
                                     </div>
                                 </div>
+                                <input type="hidden" name="eng_prof_level_score" value="" id="eng_prof_level_score">
                                 <div class="col-12 mt-2">
                                     <div class="form-floating">
                                         <input id="lead-exam_date" name="exam_date" type="date" class="form-control " placeholder="Date of Exam" autocomplete="exam_date" value="">
                                         <label for="lead-name" class="form-label">Exam Date</label>
+                                        <span class="text-danger exam_date"></span>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-2 eng_prof_level_details" style="display: none">
                                     <div class="form-floating">
-                                        <input id="lead-listening_score" name="listening_score" type="number" class="form-control " placeholder="Listening" autocomplete="listening_score" value="">
+                                        <input id="lead-listening_score" name="listening_score" type="number" class="form-control eng_prof_score" placeholder="Listening" autocomplete="listening_score" value="">
                                         <label for="lead-name" class="form-label">Listening</label>
+                                        <span class="text-danger listening_score"></span>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-2 eng_prof_level_details" style="display: none">
                                     <div class="form-floating">
-                                        <input id="lead-writing_score" name="writing_score" type="number" class="form-control " placeholder="Writing" autocomplete="writing_score" value="">
+                                        <input id="lead-writing_score" name="writing_score" type="number" class="form-control eng_prof_score" placeholder="Writing" autocomplete="writing_score" value="">
                                         <label for="lead-name" class="form-label">Writing</label>
+                                        <span class="text-danger writing_score"></span>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-2 eng_prof_level_details" style="display: none">
                                     <div class="form-floating">
-                                        <input id="lead-reading_score" name="reading_score" type="number" class="form-control " placeholder="Reading" autocomplete="reading_score" value="">
+                                        <input id="lead-reading_score" name="reading_score" type="number" class="form-control eng_prof_score" placeholder="Reading" autocomplete="reading_score" value="">
                                         <label for="lead-name" class="form-label">Reading</label>
+                                        <span class="text-danger reading_score"></span>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-2 eng_prof_level_details" style="display: none">
                                     <div class="form-floating">
-                                        <input id="lead-speaking_score" name="speaking_score" type="number" class="form-control " placeholder="Speaking" autocomplete="speaking_score" value="">
+                                        <input id="lead-speaking_score" name="speaking_score" type="number" class="form-control eng_prof_score" placeholder="Speaking" autocomplete="speaking_score" value="">
                                         <label for="lead-name" class="form-label">Speaking</label>
+                                        <span class="text-danger speaking_score"></span>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-2 eng_prof_level_details" style="display: none">
                                     <div class="form-floating">
-                                        <input id="lead-average_score" name="average_score" type="number" class="form-control " placeholder="Average" autocomplete="average_score" value="">
+                                        <input id="lead-average_score" name="average_score" type="number" class="form-control eng_prof_score" placeholder="Average" autocomplete="average_score" value="">
                                         <label for="lead-name" class="form-label">Average</label>
+                                        <span class="text-danger average_score"></span>
                                     </div>
                                 </div>
                             </div>
@@ -1093,9 +1172,15 @@
               const match = value.match(/(\d+)$/);
               return match ? parseInt(match[0], 10) : null;
           }
+
           function validateInput() {
               const selectedOption = gradingSchemeSelect.options[gradingSchemeSelect.selectedIndex];
               const selectedScheme = selectedOption.getAttribute('grading-data');
+              if(selectedScheme == 'other'){
+                $('#max_score').show();
+              }else{
+                $('#max_score').hide();
+              }
               const inputValue = gradingInput.value;
               if (selectedScheme && inputValue !== '') {
                   const maxGrade = extractMaxGrade(selectedScheme);
@@ -1111,6 +1196,37 @@
                   $('#grading_input_error').hide();
               }
           }
+          validateInput();
+    });
+    function showVisaDetails(value) {
+        var visaDetails = document.getElementsByClassName('visa_details_info');
+        if (value == 'Yes') {
+            for (var i = 0; i < visaDetails.length; i++) {
+                visaDetails[i].style.display = 'block';
+            }
+        } else {
+            for (var i = 0; i < visaDetails.length; i++) {
+                visaDetails[i].style.display = 'none';
+            }
+        }
+    }
+
+    $(document).ready(function() {
+        var passport_status = $('#passport_status').val();
+        if(passport_status == 'I have') {
+            $('#passport_number').show();
+            $('#passport_expiry').show();
+        }
+    });
+    $('#passport_status').change(function() {
+        var passport_stauts=$(this).val();
+        if($(this).val() == 'I have') {
+            $('#passport_number').show();
+            $('#passport_expiry').show();
+        } else {
+            $('#passport_number').hide();
+            $('#passport_expiry').hide();
+        }
     });
 </script>
     <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
@@ -1199,7 +1315,7 @@
                 var student_id = $('.last_attended').attr('student-id');
                 setupCSRF();
                 $.ajax({
-                    url: '{{ route('fetch-documents') }}',
+                    url: '{{ route('fetch-documents')}}',
                     method: 'get',
                     data: {
                         program_level_id: program_level_id,
@@ -1214,12 +1330,14 @@
                         $('#lead-visa_document_type').append('<option value="0">Other Documents</option>');
                         $.each(documents, function(key, value) {
                             $('#lead-visa_document_type').append(`<option value="${value.id}">${value.name}</option>`);
-                            var isChecked = school_attended.includes(value.id) ? 'checked' : '';
-                            $('.school-attended').append(`
-                            <div class="form-check">
-                                <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
-                                <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
-                            </div>`);
+                            if(school_attended){
+                                var isChecked = school_attended.includes(String(value.id)) ? 'checked' : '';
+                                $('.school-attended').append(`
+                                <div class="form-check">
+                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                    <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
+                                </div>`);
+                            }
                         });
                     }
                 });
@@ -1245,21 +1363,23 @@
                             $('#lead-visa_document_type').append('<option value="0">Other Documents</option>');
                             $.each(documents, function(key, value) {
                                 $('#lead-visa_document_type').append(`<option value="${value.id}">${value.name}</option>`);
-                                var isChecked = school_attended.includes(value.id) ? 'checked' : '';
-                                $('.school-attended').append(`
-                                <div class="form-check">
-                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
-                                    <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
-                                </div>`);
+                                if(school_attended){
+                                    var isChecked = school_attended.includes(String(value.id)) ? 'checked' : '';
+                                    $('.school-attended').append(`
+                                    <div class="form-check">
+                                        <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                        <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
+                                    </div>`);
+                                }
                             });
                         }
                     });
                 }
             }
-            school_data();
             function checkEducationAttended(){
                 school_data();
                 let checkedCount = $('.school-attended input[type="checkbox"]:checked').length;
+                alert(checkedCount);
                 var program_level_id = $('.education_level_id').val();
                 setupCSRF();
                 $.ajax({
@@ -1283,7 +1403,6 @@
                 });
             }
             $('.education_data').on('click',function(){
-                school_data();
                 checkEducationAttended();
             });
             function lead_education_level_id(){
@@ -1296,13 +1415,13 @@
                         program_level_id: program_level_id
                     },
                     success: function(data) {
-                        var optionsHtml;
+                        var optionsHtml =`<option disabled>--Select Document--</option>`;
                         $.each(data.documents, function(key, value) {
-                            var disabled = data.disabled_education_history.includes(value.id) ? 'disabled' : '';
+                            var disabled = data.disabled_education_history.includes(String(value.id)) ? 'disabled' : '';
                             optionsHtml += '<option value="' + value.id + '"' + disabled + '>' + value.name +
                                 '</option>';
                         });
-                        $('.lead-education_level_id').html(optionsHtml);
+                        $('.lead_documents_id').html(optionsHtml);
                     }
                 });
             }
@@ -1310,33 +1429,33 @@
                 $('#myForm')[0].reset();
                 lead_education_level_id();
             });
-            $('.selected-country, .education_level_id').change(function() {
-                var country_id = $('.selected-country').val();
-                var education_level_id = $('.education_level_id').val();
-                fetchData(country_id, education_level_id);
-            });
-            function fetchData(country_id, education_level_id) {
-                setupCSRF();
-                $.ajax({
-                    url: '{{ route('grading-scheme-list') }}',
-                    method: 'Post',
-                    data: {
-                        country_id: country_id,
-                        education_level_id: education_level_id
-                    },
-                    success: function(response) {
-                        var optionsHtml = '<option value="">-- Select --</option>';
-                        $.each(response.data, function(index, item) {
-                            optionsHtml += '<option value="' + item.id + '">' + item.name +
-                                '</option>';
-                        });
-                        $('.grading-scheme').html(optionsHtml);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
+            // $('.selected-country, .education_level_id').change(function() {
+            //     var country_id = $('.selected-country').val();
+            //     var education_level_id = $('.education_level_id').val();
+            //     fetchData(country_id, education_level_id);
+            // });
+            // function fetchData(country_id, education_level_id) {
+            //     setupCSRF();
+            //     $.ajax({
+            //         url: '{{ route('grading-scheme-list') }}',
+            //         method: 'Post',
+            //         data: {
+            //             country_id: country_id,
+            //             education_level_id: education_level_id
+            //         },
+            //         success: function(response) {
+            //             var optionsHtml = '<option value="">-- Select --</option>';
+            //             $.each(response.data, function(index, item) {
+            //                 optionsHtml += '<option value="' + item.id + '">' + item.name +
+            //                     '</option>';
+            //             });
+            //             $('.grading-scheme').html(optionsHtml);
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //         }
+            //     });
+            // }
             function handleNext() {
                 const activeTab = $('.tab-pane.active');
                 const nextTab = activeTab.next('.tab-pane');
@@ -1466,6 +1585,11 @@
                         }else{
                             $('.middle_name').html('');
                         }
+                        if(response.errors.passport_number){
+                            $('.passport_number').html(response.errors.passport_number);
+                        }else{
+                            $('.passport_number').html('');
+                        }
                         if(response.errors.last_name){
                             $('.last_name').html(response.errors.last_name);
                         }else{
@@ -1594,18 +1718,18 @@
                     }
                 });
             });
-            function last_attendance(){
+            function get_school_attendend(){
                 var student_id = $('.last_attended').attr('student-id');
                 setupCSRF();
                 $.ajax({
-                    url: '{{ route('get-last-attendance') }}',
+                    url: '{{ route('get-school-attendaned') }}',
                     type: 'get',
                     data: {
                         student_id: student_id
                     },
                     success: function(response){
                         $('.last-attended-school').html('');
-                        $.each(response.student_attendence, function(i, data){
+                        $.each(response.school_attendend, function(i, data){
                             $('.last-attended-school').append(`
                                     <tr>
                                         <td>${i+1}</td>
@@ -1632,22 +1756,47 @@
                                         <td><a href="javascript:void(0)" class="text-danger delete-attendance" data-id="${data.id}"><i class="fa-solid fa-trash"></i></a></td>
                                     </tr>
                             `);
-                            school_data();
                             checkEducationAttended();
                         });
                     }
                 });
             }
+            get_school_attendend();
+            $('.education_level_id').change(function() {
+                var program_level_id = $('.education_level_id').val();
+                var student_id = $('.last_attended').attr('student-id');
+                setupCSRF();
+                $.ajax({
+                    url: '{{ url('admin/check-student-attendend')}}',
+                    type: 'POST',
+                    data: {
+                        'program_level_id': program_level_id,'student_id':student_id,
+                    },
+                    success: function(response){
+                        if(response.success){
+                            get_school_attendend();
+                        }else{
+                            $('.last-attended-school').empty();
+                        }
+                    }
+                });
+            });
             $(document).on('click', '.last_attended', function(){
                 lead_education_level_id();
                 var student_id = $(this).attr('student-id');
-
                 setupCSRF();
                 $.ajax({
                     url: '{{ url('student/get-student-attendence')}}/'+student_id,
                     type: 'GET',
                     success: function(response){
-                        $('.lead-education_level_id').val(response.school_attended?.education_level_id);
+                        var selectedValues = response.school_attended?.documents;
+                        if (!Array.isArray(selectedValues)) {
+                            selectedValues = selectedValues ? [selectedValues] : [];
+                        }
+                        selectedValues.forEach(function(value) {
+                            $('.lead_documents_id option[value="' + value + '"]').prop('disabled', false);
+                        });
+                        $('.lead_documents_id').val(selectedValues);
                         $('#institue_name').val(response.school_attended?.name);
                         $('#primary_language').val(response.school_attended?.primary_language);
                         $('#attended_from').val(response.school_attended?.attended_from);
@@ -1673,20 +1822,18 @@
                         type: 'GET',
                         success: function(response){
                             alert('Schools Attended deleted successfully');
-                            last_attendance();
-                            school_data();
+                            get_school_attendend();
                             lead_education_level_id();
                             checkEducationAttended();
                         }
                     });
                 }
             });
-            last_attendance();
             $('.last_attendence').on('click', function(event) {
-                var education_level_id =$('.lead-education_level_id').val();
+                var document_id =$('.lead_documents_id').val();
                 var program_level_id = $('.education_level_id').val();
-                if(!education_level_id){
-                    alert('Please Select Education level');
+                if(!document_id){
+                    alert('Please Select Document  level');
                     return false;
                 }
                 var spinner = this.querySelector('.spinner-grow');
@@ -1710,7 +1857,7 @@
                             //     location.reload();
                             // }, 1000);
                         }
-                        last_attendance();
+                        get_school_attendend();
                         lead_education_level_id();
                         $('.last_attendence').removeClass('disabled');
                         $('#myForm')[0].reset();
@@ -1722,6 +1869,16 @@
                         var response = JSON.parse(xhr.responseText);
                     }
                 });
+            });
+            $('.gre_score').on('input', function(){
+                var gre_score =$(this).val();
+                if(gre_score < 0){
+                    $(this).val(0);
+                }
+                if(gre_score > 340){
+                    $(this).val(340);
+                    alert('Sorry! You cannot enter greater than 340');
+                }
             });
             $('.greExam').on('click', function(event) {
                 $('.greExam').addClass('disabled');
@@ -1750,6 +1907,49 @@
                     }
                 });
             });
+            $('.eng_prof_level').on('change', function(){
+                var eng_prof_level =$(this).val();
+                $.ajax({
+                    url: '{{ route('fetch-eng-prof-level-score') }}',
+                    type: 'post',
+                    data: {eng_prof_level: eng_prof_level},
+                    success: function(response) {
+                        $('#eng_prof_level_score').val(response.score.number);
+                    },
+                    error: function(xhr) {
+                        var response = JSON.parse(xhr.responseText);
+                    }
+                });
+            });
+            $('.eng_prof_score').on('input', function() {
+                var eng_prof_level = $('.eng_prof_level').val();
+                if (eng_prof_level) {
+                    var eng_prof_score = parseFloat($(this).val());
+                    var eng_score = parseFloat($('#eng_prof_level_score').val());
+
+                    if (eng_prof_score < 0) {
+                        $(this).val(0);
+                    }
+                    if (eng_prof_score > eng_score) {
+                        $(this).val(eng_score);
+                        console.log('Sorry! You cannot enter greater than ' + eng_score);
+                        alert('Sorry! You cannot enter greater than ' + eng_score);
+                    }
+                } else {
+                    alert('Please Select English Proficiency Level');
+                    return false;
+                }
+            });
+            $('.gmat_score').on('input', function(){
+                var gmat_score =$(this).val();
+                if(gmat_score < 0){
+                    $(this).val(0);
+                }
+                if(gmat_score > 805){
+                    $(this).val(805);
+                    alert('Sorry! You cannot enter greater than 805');
+                }
+            });
             $('.gmat').on('click', function(event) {
                 $('.gmat').addClass('disabled');
                 var student_id = $('.last_attended').attr('student-id');
@@ -1770,8 +1970,8 @@
                             }, 1000);
                         }
                     },
-                    error: function(xhr) {
-                        var response = JSON.parse(xhr.responseText);
+                    error: function(response) {
+                        $('.gmat').removeClass('disabled');
                     }
                 });
             });
@@ -1796,10 +1996,40 @@
                                 // location.reload();
                             }, 1000);
                         }
-                        $('.greExam').removeClass('disabled');
                     },
                     error: function(xhr) {
+                        $('.testscore').removeClass('disabled');
                         var response = JSON.parse(xhr.responseText);
+                        if(response.errors.exam_date){
+                            $('.exam_date').html(response.errors.exam_date);
+                        }else{
+                            $('.exam_date').html('');
+                        }
+                        if(response.errors.listening_score){
+                            $('.listening_score').html(response.errors.listening_score);
+                        }else{
+                            $('.listening_score').html('');
+                        }
+                        if(response.errors.speaking_score){
+                            $('.speaking_score').html(response.errors.speaking_score);
+                        }else{
+                            $('.speaking_score').html('');
+                        }
+                        if(response.errors.reading_score){
+                            $('.reading_score').html(response.errors.reading_score);
+                        }else{
+                            $('.reading_score').html('');
+                        }
+                        if(response.errors.type){
+                            $('.type').html(response.errors.type);
+                        }else{
+                            $('.type').html('');
+                        }
+                        if(response.errors.writing_score){
+                            $('.writing_score').html(response.errors.writing_score);
+                        }else{
+                            $('.writing_score').html('');
+                        }
                     }
                 });
             });
@@ -1835,7 +2065,19 @@
                     }
                 });
             });
-
+            function toggleDetails(inputName, inputId, detailClass) {
+                $(`input[name="${inputName}"]`).on('change', function() {
+                    if ($(`#${inputId}`).is(':checked')) {
+                        $(`.${detailClass}`).show();
+                    } else {
+                        $(`.${detailClass}`).hide();
+                    }
+                }).trigger('change');
+            }
+            toggleDetails('work_experience', 'work_experience_1', 'experience_details');
+            toggleDetails('result_receive', 'result_receive1', 'result_receive_details');
+            toggleDetails('gmat_result_receive', 'gmat_result_receive1', 'gmat_details');
+            toggleDetails('eng_prof_level_result', 'eng_prof_level_result1', 'eng_prof_level_details');
         });
     </script>
 @endsection

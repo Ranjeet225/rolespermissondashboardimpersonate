@@ -976,26 +976,11 @@ class ProgramController extends Controller
     }
 
 
-    public function fetch_documents(Request $request){
-        $documents = Documents::where('program_level_id',$request->program_level_id)->get();
-        $documents_id = Documents::where('program_level_id',$request->program_level_id)->pluck('id');
-        if($request->student_id){
-            $student = DB::table('student')->select('id')->where('user_id', $request->student_id)->first();
-            $student_id = $student->id;
-            $school_attended =SchoolAttended::whereIn('education_level_id',$documents_id)->where('student_id',$student_id)->pluck('education_level_id');
-            if($school_attended){
-                $school_attended = $school_attended;
-            }else{
-                $school_attended = NULL;
-            }
-        }else{
-            $school_attended = NULL;
-        }
-        $user_id = auth()->user()->id; 
-        $student_id_data = Student::where('user_id', $user_id)->pluck('id')->first();
-        $disabled_education_history = SchoolAttended::where('student_id', $student_id_data)->pluck('education_level_id')->toArray();
-        return response()->json(['documents'=>$documents,'school_attended'=>$school_attended,'disabled_education_history'=>$disabled_education_history]);
-    }
+ 
 
-    
+
+
+
+
+
 }

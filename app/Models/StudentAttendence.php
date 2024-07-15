@@ -28,6 +28,6 @@ class StudentAttendence extends Model
 
     public function documents()
     {
-        return $this->hasOne(Documents::class,'id','education_level_id');
+        return $this->hasOne(Documents::class,'id','documents');
     }
 }
