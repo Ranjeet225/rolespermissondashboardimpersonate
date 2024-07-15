@@ -1330,14 +1330,12 @@
                         $('#lead-visa_document_type').append('<option value="0">Other Documents</option>');
                         $.each(documents, function(key, value) {
                             $('#lead-visa_document_type').append(`<option value="${value.id}">${value.name}</option>`);
-                            if(school_attended){
-                                var isChecked = school_attended.includes(String(value.id)) ? 'checked' : '';
-                                $('.school-attended').append(`
-                                <div class="form-check">
-                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
-                                    <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
-                                </div>`);
-                            }
+                            var isChecked = school_attended ? (school_attended.includes(String(value.id)) ? 'checked' : '') : '';
+                            $('.school-attended').append(`
+                            <div class="form-check">
+                                <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
+                            </div>`);
                         });
                     }
                 });
@@ -1363,14 +1361,12 @@
                             $('#lead-visa_document_type').append('<option value="0">Other Documents</option>');
                             $.each(documents, function(key, value) {
                                 $('#lead-visa_document_type').append(`<option value="${value.id}">${value.name}</option>`);
-                                if(school_attended){
-                                    var isChecked = school_attended.includes(String(value.id)) ? 'checked' : '';
-                                    $('.school-attended').append(`
-                                    <div class="form-check">
-                                        <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
-                                        <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
-                                    </div>`);
-                                }
+                                var isChecked = school_attended ? (school_attended.includes(String(value.id)) ? 'checked' : '') : '';
+                                $('.school-attended').append(`
+                                <div class="form-check">
+                                    <input class="form-check-input already_filled_data" ${isChecked} name="education_level_id[]" disabled type="checkbox" id="education_level_id_${value.id}" value="${value.id}">
+                                    <label class="form-check-label" for="education_level_id_${value.id}">${value.name}</label>
+                                </div>`);
                             });
                         }
                     });
