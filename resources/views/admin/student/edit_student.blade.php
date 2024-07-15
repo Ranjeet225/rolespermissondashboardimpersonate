@@ -1379,7 +1379,6 @@
             function checkEducationAttended(){
                 school_data();
                 let checkedCount = $('.school-attended input[type="checkbox"]:checked').length;
-                alert(checkedCount);
                 var program_level_id = $('.education_level_id').val();
                 setupCSRF();
                 $.ajax({
