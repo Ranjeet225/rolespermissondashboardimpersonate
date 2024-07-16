@@ -33,7 +33,7 @@ class ProgramController extends Controller
                 if ($request->univerisity_name) {
                     $query->where('university_name', 'LIKE', "%{$request->univerisity_name}%");
                 }
-            });
+            })->latest();
         $user=Auth::user();
         if(!($user->hasRole('Administrator'))){
             $program->where('user_id',$user->id);
@@ -99,7 +99,6 @@ class ProgramController extends Controller
             'programType' => 'required|max:200',
             'programCampus' => 'required|max:200',
             'lang_spec_for_program' => 'required|max:200',
-            'total_credits' => 'required|max:200',
             'application_fee' => 'required|max:200',
             'application_apply_date' => 'required|max:200',
             'application_closing_date' => 'required|max:200',
@@ -129,7 +128,6 @@ class ProgramController extends Controller
             'grading_number' => $request->grading_number  ?? null,
             'description' => $request->details  ?? null,
             'grading_scheme_id' => $request->grading_scheme_id  ?? null,
-            'total_credits' => $request->total_credits  ?? null,
             'application_fee' => $request->application_fee  ?? null,
             'application_apply_date' => $request->application_apply_date  ?? null,
             'application_closing_date' => $request->application_closing_date  ?? null,
@@ -193,7 +191,6 @@ class ProgramController extends Controller
             'programCampus' => 'required|max:200',
             'lang_spec_for_program' => 'required|max:200',
             'program_level' => 'required|max:200',
-            'total_credits' => 'required|max:200',
             'application_fee' => 'required|max:200',
             'application_apply_date' => 'required|max:200',
             'application_closing_date' => 'required|max:200',
@@ -228,7 +225,6 @@ class ProgramController extends Controller
             'program_sub_level'=>$request->program_sub_level  ?? null,
             'education_level_id'=>$request->education_level,
             'grading_scheme_id' => $request->grading_scheme_id,
-            'total_credits' => $request->total_credits,
             'application_fee' => $request->application_fee,
             'other_exam'=>$request->other_exam,
             'application_apply_date' => $request->application_apply_date,
@@ -976,7 +972,7 @@ class ProgramController extends Controller
     }
 
 
- 
+
 
 
 
