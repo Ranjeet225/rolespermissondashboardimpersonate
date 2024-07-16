@@ -213,6 +213,17 @@
                                                 <span class="text-danger passport_number"></span>
                                             </div>
                                         </div>
+                                        <div class="col-4 mt-3" style="display: none" id="passport_document">
+                                            <div class="form-floating">
+                                                <input  name="passport_document"
+                                                    value="{{ $about_student->passport_document ?? old('passport_document') }}"
+                                                    type="file" class="form-control"
+                                                    >
+                                                <label for="lead-passport-number" class="form-label">Passport
+                                                    Document</label>
+                                                <span class="text-danger passport_document"></span>
+                                            </div>
+                                        </div>
                                         <div class="col-4 mt-3" style="display: none" id="passport_expiry">
                                             <div class="form-floating">
                                                 <input  name="passport_expiry"
@@ -538,6 +549,16 @@
                                                 <span class="text-danger mode_of_selary"></span>
                                             </div>
                                         </div>
+                                        <div class="col-6 mt-3">
+                                            <div class="form-floating">
+                                                <input  name="working_experience_document" type="file"
+                                                    class="form-control"
+                                                    value="{{ $about_student->working_experience_document ?? old('working_experience_document') }}"
+                                                    >
+                                                <label for="working_experience_document" class="form-label">Working Experience Document</label>
+                                                <span class="text-danger working_experience_document"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row mb-3 experience_details"  style="display: none">
                                         <div class="col-12">
@@ -597,12 +618,13 @@
                                                         <th>S.NO</th>
                                                         <th>Exam Type</th>
                                                         <th>Date of Exam</th>
-                                                        <th>Listening</th>
+                                                        <th>Listening/Verbal</th>
                                                         <th>Writing</th>
-                                                        <th>Reading</th>
+                                                        <th>Reading/Quantitative</th>
                                                         <th>Speaking</th>
                                                         <th>Average</th>
-                                                        <th>Delete</th>
+                                                        <th>Document</th>
+                                                        <th>Edit</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="test-score">
@@ -629,29 +651,49 @@
                                     <label>
                                         <b>Have you been refused a visa from Canada, the USA, the United Kingdom, New Zealand or Australia?</b>
                                     </label>
-                                    <div class="col-6">
-                                        <label>
-                                            <input type="radio" name="ever_refused_visa" value="Yes"  {{ $about_student->ever_refused_visa === "Yes" ? 'checked' : '' }} onclick="showVisaDetails(this.value)">
-                                            &nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
-                                            <input type="radio" name="ever_refused_visa" value="No" {{ $about_student->ever_refused_visa === "No" ? 'checked' : '' }} onclick="showVisaDetails(this.value)">&nbsp; No</label>
-                                            <span class="text-danger ever_refused_visa"></span>
+                                        <div class="col-12">
+                                            <label>
+                                                <input type="radio" name="ever_refused_visa" value="Yes"  {{ $about_student->ever_refused_visa === "Yes" ? 'checked' : '' }} onclick="showVisaDetails(this.value)">
+                                                &nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
+                                                <input type="radio" name="ever_refused_visa" value="No" {{ $about_student->ever_refused_visa === "No" ? 'checked' : '' }} onclick="showVisaDetails(this.value)">&nbsp; No</label>
+                                                <span class="text-danger ever_refused_visa"></span>
+                                        </div>
+                                        <div class="col-12 visa_details_info" style="display: {{ $about_student->ever_refused_visa === "Yes" ? 'block' : 'none' }};">
+                                            <div class="form-floating">
+                                                <input name="visa_details" value="{{ $about_student->visa_details ?? null }}"  type="text" class="form-control" >
+                                                <label for="lead-address" class="form-label">Visa Details</label>
+                                                <span class="text-danger visa_details"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 visa_details_info mt-2" style="display: {{ $about_student->ever_refused_visa === "Yes" ? 'block' : 'none' }};" >
+                                            <div class="form-floating">
+                                                <input name="visa_documents" value="{{ $about_student->visa_documents ?? null }}"  type="file" class="form-control" >
+                                                <label for="lead-address" class="form-label">Upload Documents</label>
+                                                <span class="text-danger visa_details"></span>
+                                            </div>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-12">
+                                    <hr>
+                                    <div class="col-12 mt-2">
                                         <input type="hidden" name="tab5" value="tab5" >
                                         <label><b>Do you have a valid Study Permit / Visa?</b></label>
                                         <label>
-                                        <input type="radio" name="has_visa" value="1" {{ $about_student->has_visa == "1" ? 'checked' : '' }}>&nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
-                                        <input type="radio" name="has_visa" value="0" {{ $about_student->has_visa == "0" ? 'checked' : '' }}>&nbsp; No</label>
+                                        <input type="radio" name="has_visa" value="1" {{ $about_student->has_visa == "1" ? 'checked' : '' }} onclick="studypermit(this.value)">&nbsp; Yes &nbsp;&nbsp;&nbsp;</label><label>
+                                        <input type="radio" name="has_visa" value="0" {{ $about_student->has_visa == "0" ? 'checked' : '' }} onclick="studypermit(this.value)">&nbsp; No</label>
                                         <span class="text-danger has_visa"></span>
                                     </div>
                                     <br>
-                                    <div class="col-12 visa_details_info" style="display: {{ $about_student->ever_refused_visa === "Yes" ? 'block' : 'none' }};">
+                                    <div class="col-12 study_permit" style="display: {{ $about_student->has_visa == "1" ? 'block' : 'none' }};">
                                         <div class="form-floating">
-                                            <input name="visa_details" value="{{ $about_student->visa_details ?? null }}"  type="text" class="form-control" >
-                                            <label for="lead-address" class="form-label">Visa Details</label>
+                                            <input name="study_permit" value="{{ $about_student->study_permit ?? null }}"  type="text" class="form-control" >
+                                            <label for="lead-address" class="form-label">Study Permit  Details</label>
+                                            <span class="text-danger study_permit"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 study_permit mt-2" style="display: {{ $about_student->has_visa == "1" ? 'block' : 'none' }};">
+                                        <div class="form-floating">
+                                            <input name="study_permit_documents" value="{{ $about_student->study_permit_documents ?? null }}"  type="file" class="form-control" >
+                                            <label for="lead-address" class="form-label">Upload Documents</label>
                                             <span class="text-danger visa_details"></span>
                                         </div>
                                     </div>
@@ -866,6 +908,7 @@
         <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">
             <div class="sidebar-headersets">
                 <h5>GRE exam scores</h5>
+               <div class="responseMessage"></div>
             </div>
             <div class="sidebar-headerclose">
                 <a data-bs-dismiss="offcanvas" aria-label="Close">
@@ -874,7 +917,6 @@
             </div>
         </div>
         <div class="offcanvas-body">
-            <div class="responseMessage"></div>
             <div class="row">
                 <div class="card-stretch-full">
                     <div class="row g-4">
@@ -953,6 +995,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row result_receive_details" style="display: none">
+                                <div class="col-12 mt-2">
+                                    <div class="form-floating">
+                                        <input name="exam_document" type="file"  class="form-control gre_score" value="{{$additional_qualification->exam_document  ?? null}}">
+                                        <label for="lead-name" class="form-label">Gre Exam Document</label>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                         <div class="col-md-12"><button type="button"
                             class="btn btn-info  py-6 greExam">Submit</button></div>
@@ -966,6 +1016,7 @@
         <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">
             <div class="sidebar-headersets">
                 <h5>GMAT exam scores</h5>
+               <div class="responseMessage"></div>
             </div>
             <div class="sidebar-headerclose">
                 <a data-bs-dismiss="offcanvas" aria-label="Close">
@@ -974,7 +1025,6 @@
             </div>
         </div>
         <div class="offcanvas-body">
-            <div class="responseMessage"></div>
             <div class="row">
                 <div class="card-stretch-full">
                     <div class="row g-4">
@@ -1053,6 +1103,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row gmat_details" style="display: none">
+                                <div class="col-12 mt-2">
+                                    <div class="form-floating">
+                                        <input name="exam_document" type="file"  class="form-control gmat_score" value="{{$gmat->exam_document  ?? null}}">
+                                        <label for="lead-name" class="form-label">Exam Document</label>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                         <div class="col-md-12"><button type="button"
                             class="btn btn-info  py-6 gmat">Submit</button></div>
@@ -1066,6 +1124,7 @@
         <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">
             <div class="sidebar-headersets">
                 <h5>Add Test Score</h5>
+                <div class="responseMessage"></div>
             </div>
             <div class="sidebar-headerclose">
                 <a data-bs-dismiss="offcanvas" aria-label="Close">
@@ -1074,7 +1133,6 @@
             </div>
         </div>
         <div class="offcanvas-body">
-            <div class="responseMessage"></div>
             <div class="row">
                 <div class="card-stretch-full">
                     <div class="row g-4">
@@ -1146,6 +1204,13 @@
                                         <span class="text-danger average_score"></span>
                                     </div>
                                 </div>
+                                <div class="col-12 mt-2 eng_prof_level_details" style="display: none">
+                                    <div class="form-floating">
+                                        <input id="lead-exam_document" name="exam_document" type="file" class="form-control eng_prof_score" placeholder="Average" autocomplete="exam_document" value="">
+                                        <label for="lead-name" class="form-label">Exam Document</label>
+                                        <span class="text-danger exam_document"></span>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                         <div class="col-md-12"><button type="button"
@@ -1210,12 +1275,25 @@
             }
         }
     }
+    function studypermit(value) {
+        var visaDetails = document.getElementsByClassName('study_permit');
+        if (value == '1') {
+            for (var i = 0; i < visaDetails.length; i++) {
+                visaDetails[i].style.display = 'block';
+            }
+        } else {
+            for (var i = 0; i < visaDetails.length; i++) {
+                visaDetails[i].style.display = 'none';
+            }
+        }
+    }
 
     $(document).ready(function() {
         var passport_status = $('#passport_status').val();
         if(passport_status == 'I have') {
             $('#passport_number').show();
             $('#passport_expiry').show();
+            $('#passport_document').show();
         }
     });
     $('#passport_status').change(function() {
@@ -1223,6 +1301,7 @@
         if($(this).val() == 'I have') {
             $('#passport_number').show();
             $('#passport_expiry').show();
+            $('#passport_document').show();
         } else {
             $('#passport_number').hide();
             $('#passport_expiry').hide();
@@ -1275,17 +1354,30 @@
                     success: function(response) {
                         var test_score_data = response.test_score;
                         var tableRow = '';
-                        test_score_data.forEach(function(item) {
+                        var assetBaseUrl = "{{ asset('') }}";
+                        test_score_data.forEach(function(item,index) {
+                            var key = index + 1;
                             tableRow += '<tr>';
-                            tableRow += '<td>' + item.id + '</td>';
+                            tableRow += '<td>' + key + '</td>';
                             tableRow += '<td>' + item.type + '</td>';
-                            tableRow += '<td>' + item.exam_date + '</td>';
-                            tableRow += '<td>' + item.listening_score + '</td>';
+                            tableRow += '<td>' + (item.exam_date ? item.exam_date : item.date_of_exam) + '</td>';
+                            tableRow += '<td>' +(item.listening_score ? item.listening_score : item.verbal_score)+ '</td>';
                             tableRow += '<td>' + item.writing_score + '</td>';
-                            tableRow += '<td>' + item.reading_score + '</td>';
+                            tableRow += '<td>' +(item.reading_score ? item.reading_score : item.quantitative_score)+ '</td>';
                             tableRow += '<td>' + item.speaking_score + '</td>';
                             tableRow += '<td>' + item.average_score + '</td>';
-                            tableRow += `<td><a href="javascript:void(0)" class="text-danger test-score" data-id="${item.id}"><i class="fa-solid fa-trash"></i></a></td>`;
+                            if (item.exam_document) {
+                                tableRow += `<td><a target="_blank" href="${assetBaseUrl}${item.exam_document ?? ''}"><img src="${assetBaseUrl}${item.exam_document ?? ''}" alt="${item.type}" width="100" height="100"></a></td>`;
+                            } else {
+                                tableRow += '<td></td>';
+                            }
+                            if(item.type == 'GRE'){
+                                tableRow += `<td><a href="" class="btn btn-primary btn-sm mx-1"  data-bs-toggle="offcanvas" data-bs-target="#gre_exam" aria-controls="gre_exam"><i class="las la-pen"></i></a></td>`;
+                            }else if(item.type == 'GMAT'){
+                                tableRow += `<td><a href="" class="btn btn-primary btn-sm mx-1"  data-bs-toggle="offcanvas" data-bs-target="#gmat" aria-controls="gmat"><i class="las la-pen"></i></a></td>`;
+                            }else{
+                                tableRow += `<td><a href="" class="btn btn-primary btn-sm mx-1 test-score-delete"  data-id="${item.id}" data><i class="fa-solid fa-trash"></i></a></td>`;
+                            }
                             tableRow += '</tr>';
                         });
                         $('.test-score').html(tableRow);
@@ -1295,7 +1387,7 @@
                     }
                 });
             }
-            $(document).on('click', '.test-score', function(){
+            $(document).on('click', '.test-score-delete', function(){
                 var id = $(this).data('id');
                 if(confirm('Are you sure you want to delete this Test Score?')){
                     setupCSRF();
@@ -1878,16 +1970,19 @@
             $('.greExam').on('click', function(event) {
                 $('.greExam').addClass('disabled');
                 var student_id = $('.last_attended').attr('student-id');
-                var formData = $('#greExam').serialize();
-                formData += '&student_id=' + student_id;
+                var formData = new FormData($('#greExam')[0]);
+                formData.append('student_id', student_id);
                 setupCSRF();
                 $.ajax({
                     url: '{{ route('update-gre-exam-data') }}',
                     type: 'post',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $('.greExam').removeClass('disabled');
                         $('#greExam')[0].reset();
+                        student_test_score();
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1948,15 +2043,18 @@
             $('.gmat').on('click', function(event) {
                 $('.gmat').addClass('disabled');
                 var student_id = $('.last_attended').attr('student-id');
-                var formData = $('#gmatform').serialize();
-                formData += '&student_id=' + student_id;
+                var formData = new FormData($('#gmatform')[0]);
+                formData.append('student_id', student_id);
                 setupCSRF();
                 $.ajax({
                     url: '{{ route('update-gmat-exam-data') }}',
                     type: 'post',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $('.gmat').removeClass('disabled');
+                        student_test_score();
                         if (response.status) {
                             $('.responseMessage').html('<span class="alert alert-success">' +
                                 response.success + '</span>');
@@ -1973,13 +2071,15 @@
             $('.testscore').on('click', function(event) {
                 $('.testscore').addClass('disabled');
                 var student_id = $('.last_attended').attr('student-id');
-                var formData = $('#testscore').serialize();
-                formData += '&student_id=' + student_id;
+                var formData = new FormData($('#testscore')[0]);
+                formData.append('student_id', student_id);
                 setupCSRF();
                 $.ajax({
                     url: '{{ route('update-test-score') }}',
                     type: 'post',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $('.testscore').removeClass('disabled');
                         student_test_score();

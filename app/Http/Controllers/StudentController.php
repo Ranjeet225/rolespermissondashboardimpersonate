@@ -28,6 +28,7 @@ use App\Models\Documents;
 use App\Models\EngProficiencyLevel;
 use App\Models\PaymentsLink;
 use App\Models\ProgramLevel;
+use App\Models\AdditionalQualification;
 use Validator;
 use PDO;
 use Razorpay\Api\PaymentLink;
@@ -135,13 +136,13 @@ class StudentController extends Controller
                 'first_name'=>'required|max:2000',
                 'last_name'=>'required|max:2000',
                 'gender'=>'required',
-                'passport_number' => 'required|regex:/^[a-zA-Z0-9\s]+$/|max:20',
+                'passport_number' => 'nullable|regex:/^[a-zA-Z0-9]*$/|max:12',
                 'dob'=>'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
             }
-           $student_data =[
+            $student_data =[
                 "first_name" => $request->first_name,
                 "middle_name" =>  $request->middle_name,
                 "last_name" =>  $request->last_name,
@@ -158,7 +159,20 @@ class StudentController extends Controller
                 "city" =>  $request->city,
                 "address" => $request->address,
                 "zip" => $request->zip,
-           ];
+            ];
+            if($request->hasFile('passport_document')){
+                $file = $request->file('passport_document');
+                $filename = time().'_'.$file->getClientOriginalName();
+                $passport_image = 'imagesapi/' . $filename;
+                $file->move(public_path('imagesapi/'), $filename);
+                $student_data['passport_document'] = $passport_image;
+                if($student->passport_document){
+                    $old_image_path = public_path($student->passport_document);
+                    if(file_exists($old_image_path)){
+                        unlink($old_image_path);
+                    }
+                }
+            }
            DB::table('student')->where('user_id',$student_id)->update($student_data);
            $education_history = DB::table('education_history')->where('student_id',$student->id)->first();
            if($education_history){
@@ -209,6 +223,18 @@ class StudentController extends Controller
             // if ($validator->fails()) {
             //     return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
             // }
+            if($request->hasFile('working_experience_document')){
+                $file = $request->file('working_experience_document');
+                $filename = time().'_'.$file->getClientOriginalName();
+                $working_experience_document = 'imagesapi/' . $filename;
+                $file->move(public_path('imagesapi/'), $filename);
+                if($student->working_experience_document){
+                    $old_image_path = public_path($student->working_experience_document);
+                    if(file_exists($old_image_path)){
+                        unlink($old_image_path);
+                    }
+                }
+            }
             DB::table('student')->where('user_id',$student_id)->update([
                 'organization_name' => $request->organization_name,
                 'position' => $request->position,
@@ -218,6 +244,7 @@ class StudentController extends Controller
                 'mode_of_selary' => $request->mode_of_selary,
                 'working_status' => $request->working_status,
                 'work_experience' => $request->work_experience,
+                'working_experience_document'=> $working_experience_document ?? null,
             ]);
             return response()->json(['success'=>'Data inserted Successfully']);
        }elseif($request->tab5){
@@ -229,9 +256,36 @@ class StudentController extends Controller
                 // if ($validator->fails()) {
                 //     return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
                 // }
+                if($request->hasFile('visa_documents')){
+                    $file = $request->file('visa_documents');
+                    $filename = time().'_'.$file->getClientOriginalName();
+                    $visa_documents = 'imagesapi/' . $filename;
+                    $file->move(public_path('imagesapi/'), $filename);
+                    if($student->visa_documents){
+                        $old_image_path = public_path($student->visa_documents);
+                        if(file_exists($old_image_path)){
+                            unlink($old_image_path);
+                        }
+                    }
+                }
+                if($request->hasFile('study_permit_documents')){
+                    $file = $request->file('study_permit_documents');
+                    $filename = time().'_'.$file->getClientOriginalName();
+                    $study_permit_documents = 'imagesapi/' . $filename;
+                    $file->move(public_path('imagesapi/'), $filename);
+                    if($student->study_permit_documents){
+                        $old_image_path = public_path($student->study_permit_documents);
+                        if(file_exists($old_image_path)){
+                            unlink($old_image_path);
+                        }
+                    }
+                }
                 DB::table('student')->where('user_id',$student_id)
                 ->update([
                     'ever_refused_visa' => $request->ever_refused_visa,
+                    'visa_documents' => $visa_documents,
+                    'study_permit'=>$request->study_permit,
+                    'study_permit_documents' => $study_permit_documents,
                     'has_visa' => $request->has_visa,
                     'visa_details' => $request->visa_details,
                     'pref_subjects'=>$request->subject_input,
@@ -377,38 +431,149 @@ class StudentController extends Controller
                     ->where('student_documents.student_id',  $student_id)->first();
         return response()->json(['success'=>true,'documents'=>$student_documents,'student_documents_data'=>$student_documents_data]);
     }
-    public function update_gre_exam_data( Request $request)
+    // public function update_gre_exam_data( Request $request)
+    // {
+    //     $user_id = Auth::user()->id;
+    //     $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
+    //     $student_id = $student->id;
+    //     $test_score = DB::table('additional_qualification')->select('id','exam_document')->where('student_id', $student_id)->where('type', 'GRE')->first();
+    //     if($test_score == null){
+    //         if($request->result_receive == 0){
+    //             DB::table('additional_qualification')
+    //             ->WHERE('student_id', $student_id)
+    //             ->where('type', $request->type)
+    //             ->update([
+    //                 'student_id' => $student_id,
+    //                 'type' => 'GRE',
+    //                 'date_of_exam' => null,
+    //                 'exam_document' =>  null,
+    //                 'result_receive'=>$request->result_receive,
+    //                 'verbal_score' => null,
+    //                 'verbal_rank' => null,
+    //                 'quantitative_score' => null,
+    //                 'quantitative_rank' => null,
+    //                 'writing_score' => null,
+    //                 'writing_rank' => null,
+    //                 'total_score' => null,
+    //                 'total_rank' => null
+    //             ]);
+    //         }else{
+    //             if($request->hasFile('exam_document')){
+    //                 $file = $request->file('exam_document');
+    //                 $filename = time().'_'.$file->getClientOriginalName();
+    //                 $exam_document = 'imagesapi/' . $filename;
+    //                 $file->move(public_path('imagesapi/'), $filename);
+    //                 if($test_score->exam_document){
+    //                     $old_image_path = public_path($test_score->exam_document);
+    //                     if(file_exists($old_image_path)){
+    //                         unlink($old_image_path);
+    //                     }
+    //                 }
+    //             }
+    //             DB::table('additional_qualification')
+    //             ->insert([
+    //                 'student_id' => $student_id,
+    //                 'type' => 'GRE',
+    //                 'result_receive'=>$request->result_receive,
+    //                 'date_of_exam' => $request->date_of_exam,
+    //                 'exam_document' => $exam_document ?? null,
+    //                 'verbal_score' => $request->verbal_score,
+    //                 'verbal_rank' => $request->verbal_rank,
+    //                 'quantitative_score' => $request->quantitative_score,
+    //                 'quantitative_rank' => $request->quantitative_rank,
+    //                 'writing_score' => $request->writing_score,
+    //                 'writing_rank' => $request->writing_rank,
+    //                 'total_score' => $request->total_score,
+    //                 'total_rank' => $request->total_rank
+    //             ]);
+    //         }
+    //         return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+    //     } else {
+    //         if($request->result_receive == 0){
+    //             DB::table('additional_qualification')
+    //             ->WHERE('student_id', $student_id)
+    //             ->where('type', $request->type)
+    //             ->update([
+    //                 'student_id' => $student_id,
+    //                 'type' => 'GRE',
+    //                 'date_of_exam' => null,
+    //                 'exam_document' =>  null,
+    //                 'result_receive'=>$request->result_receive,
+    //                 'verbal_score' => null,
+    //                 'verbal_rank' => null,
+    //                 'quantitative_score' => null,
+    //                 'quantitative_rank' => null,
+    //                 'writing_score' => null,
+    //                 'writing_rank' => null,
+    //                 'total_score' => null,
+    //                 'total_rank' => null
+    //             ]);
+    //         }else{
+    //             if($request->hasFile('exam_document')){
+    //                 $file = $request->file('exam_document');
+    //                 $filename = time().'_'.$file->getClientOriginalName();
+    //                 $exam_document = 'imagesapi/' . $filename;
+    //                 $file->move(public_path('imagesapi/'), $filename);
+    //                 if($test_score->exam_document){
+    //                     $old_image_path = public_path($test_score->exam_document);
+    //                     if(file_exists($old_image_path)){
+    //                         unlink($old_image_path);
+    //                     }
+    //                 }
+    //             }
+    //             DB::table('additional_qualification')
+    //             ->WHERE('student_id', $student_id)
+    //             ->where('type', $request->type)
+    //             ->update([
+    //                 'student_id' => $student_id,
+    //                 'type' => 'GRE',
+    //                 'date_of_exam' => $request->date_of_exam,
+    //                 'exam_document' => $exam_document ?? null,
+    //                 'result_receive'=>$request->result_receive,
+    //                 'verbal_score' => $request->verbal_score,
+    //                 'verbal_rank' => $request->verbal_rank,
+    //                 'quantitative_score' => $request->quantitative_score,
+    //                 'quantitative_rank' => $request->quantitative_rank,
+    //                 'writing_score' => $request->writing_score,
+    //                 'writing_rank' => $request->writing_rank,
+    //                 'total_score' => $request->total_score,
+    //                 'total_rank' => $request->total_rank
+    //             ]);
+    //         }
+    //         return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+    //     }
+    //     return response()->json(['success'=>'Data inserted Successfully']);
+    // }
+    public function update_gre_exam_data(Request $request)
     {
         $user_id = Auth::user()->id;
-        $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
+        $student = Student::where('user_id', $user_id)->firstOrFail();
         $student_id = $student->id;
-        $test_score = DB::table('additional_qualification')->select('id')->where('student_id', $student_id)->where('type', 'GRE')->first();
-        if($test_score == null){
-            DB::table('additional_qualification')
-            ->insert([
+        $test_score = AdditionalQualification::where('student_id', $student_id)
+                                            ->where('type', 'GRE')
+                                            ->first();
+        if ($request->result_receive == 0) {
+            $dataToUpdate = [
                 'student_id' => $student_id,
                 'type' => 'GRE',
-                'result_receive'=>$request->result_receive,
                 'date_of_exam' => $request->date_of_exam,
-                'verbal_score' => $request->verbal_score,
-                'verbal_rank' => $request->verbal_rank,
-                'quantitative_score' => $request->quantitative_score,
-                'quantitative_rank' => $request->quantitative_rank,
-                'writing_score' => $request->writing_score,
-                'writing_rank' => $request->writing_rank,
-                'total_score' => $request->total_score,
-                'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+                'exam_document' => null,
+                'result_receive' => $request->result_receive,
+                'verbal_score' => null,
+                'verbal_rank' => null,
+                'quantitative_score' => null,
+                'quantitative_rank' => null,
+                'writing_score' => null,
+                'writing_rank' => null,
+                'total_score' => null,
+                'total_rank' => null
+            ];
         } else {
-            DB::table('additional_qualification')
-            ->WHERE('student_id', $student_id)
-            ->where('type', $request->type)
-            ->update([
+            $dataToUpdate = [
                 'student_id' => $student_id,
                 'type' => 'GRE',
+                'result_receive' => $request->result_receive,
                 'date_of_exam' => $request->date_of_exam,
-                'result_receive'=>$request->result_receive,
                 'verbal_score' => $request->verbal_score,
                 'verbal_rank' => $request->verbal_rank,
                 'quantitative_score' => $request->quantitative_score,
@@ -417,45 +582,52 @@ class StudentController extends Controller
                 'writing_rank' => $request->writing_rank,
                 'total_score' => $request->total_score,
                 'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+            ];
+            if ($request->hasFile('exam_document')) {
+                $file = $request->file('exam_document');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $exam_document = 'imagesapi/' . $filename;
+                $file->move(public_path('imagesapi/'), $filename);
+                if ($test_score && $test_score->exam_document) {
+                    $old_image_path = public_path($test_score->exam_document);
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+                }
+                $dataToUpdate['exam_document'] = $exam_document;
+            }
         }
-        return response()->json(['success'=>'Data inserted Successfully']);
+        if ($test_score) {
+            $test_score->update($dataToUpdate);
+        } else {
+            AdditionalQualification::create($dataToUpdate);
+        }
+        return response()->json(['status' => true, 'success' => 'Data updated successfully']);
     }
     public function update_gmat_exam_data(Request $request)
     {
-        $student = DB::table('student')
-                    ->select('id')
-                    ->where('user_id',Auth::user()->id)
-                    ->first();
+        $user_id = Auth::user()->id;
+        $student = Student::where('user_id', $user_id)->firstOrFail();
         $student_id = $student->id;
-        $test_score = DB::table('additional_qualification')
-            ->select('id')
-            ->where('student_id', $student_id)
-            ->where('type', 'GMAT')
-            ->first();
-        if($test_score == null){
-            DB::table('additional_qualification')
-            ->insert([
+        $test_score = AdditionalQualification::where('student_id', $student_id)->where('type', 'GMAT')->first();
+        if ($request->gmat_result_receive == 0) {
+            $dataToUpdate = [
                 'student_id' => $student_id,
                 'type' => 'GMAT',
                 'date_of_exam' => $request->date_of_exam,
+                'exam_document' => null,
                 'result_receive'=>$request->gmat_result_receive,
-                'verbal_score' => $request->verbal_score,
-                'verbal_rank' => $request->verbal_rank,
-                'quantitative_score' => $request->quantitative_score,
-                'quantitative_rank' => $request->quantitative_rank,
-                'writing_score' => $request->writing_score,
-                'writing_rank' => $request->writing_rank,
-                'total_score' => $request->total_score,
-                'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+                'verbal_score' => null,
+                'verbal_rank' => null,
+                'quantitative_score' => null,
+                'quantitative_rank' => null,
+                'writing_score' => null,
+                'writing_rank' => null,
+                'total_score' => null,
+                'total_rank' => null
+            ];
         } else {
-            DB::table('additional_qualification')
-            ->WHERE('student_id', $student_id)
-            ->where('type', $request->type)
-            ->update([
+            $dataToUpdate = [
                 'student_id' => $student_id,
                 'type' => 'GMAT',
                 'date_of_exam' => $request->date_of_exam,
@@ -468,10 +640,79 @@ class StudentController extends Controller
                 'writing_rank' => $request->writing_rank,
                 'total_score' => $request->total_score,
                 'total_rank' => $request->total_rank
-            ]);
-            return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+            ];
+            if ($request->hasFile('exam_document')) {
+                $file = $request->file('exam_document');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $exam_document = 'imagesapi/' . $filename;
+                $file->move(public_path('imagesapi/'), $filename);
+                if ($test_score && $test_score->exam_document) {
+                    $old_image_path = public_path($test_score->exam_document);
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+                }
+                $dataToUpdate['exam_document'] = $exam_document;
+            }
         }
+        if ($test_score) {
+            $test_score->update($dataToUpdate);
+        } else {
+            AdditionalQualification::create($dataToUpdate);
+        }
+        return response()->json(['status' => true, 'success' => 'Data updated successfully']);
     }
+
+    // public function update_gmat_exam_data(Request $request)
+    // {
+    //     $student = DB::table('student')
+    //                 ->select('id')
+    //                 ->where('user_id',Auth::user()->id)
+    //                 ->first();
+    //     $student_id = $student->id;
+    //     $test_score = DB::table('additional_qualification')
+    //         ->select('id')
+    //         ->where('student_id', $student_id)
+    //         ->where('type', 'GMAT')
+    //         ->first();
+    //     if($test_score == null){
+    //         DB::table('additional_qualification')
+    //         ->insert([
+    //             'student_id' => $student_id,
+    //             'type' => 'GMAT',
+    //             'date_of_exam' => $request->date_of_exam,
+    //             'result_receive'=>$request->gmat_result_receive,
+    //             'verbal_score' => $request->verbal_score,
+    //             'verbal_rank' => $request->verbal_rank,
+    //             'quantitative_score' => $request->quantitative_score,
+    //             'quantitative_rank' => $request->quantitative_rank,
+    //             'writing_score' => $request->writing_score,
+    //             'writing_rank' => $request->writing_rank,
+    //             'total_score' => $request->total_score,
+    //             'total_rank' => $request->total_rank
+    //         ]);
+    //         return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+    //     } else {
+    //         DB::table('additional_qualification')
+    //         ->WHERE('student_id', $student_id)
+    //         ->where('type', $request->type)
+    //         ->update([
+    //             'student_id' => $student_id,
+    //             'type' => 'GMAT',
+    //             'date_of_exam' => $request->date_of_exam,
+    //             'result_receive'=>$request->gmat_result_receive,
+    //             'verbal_score' => $request->verbal_score,
+    //             'verbal_rank' => $request->verbal_rank,
+    //             'quantitative_score' => $request->quantitative_score,
+    //             'quantitative_rank' => $request->quantitative_rank,
+    //             'writing_score' => $request->writing_score,
+    //             'writing_rank' => $request->writing_rank,
+    //             'total_score' => $request->total_score,
+    //             'total_rank' => $request->total_rank
+    //         ]);
+    //         return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
+    //     }
+    // }
 
 
 
@@ -500,12 +741,25 @@ class StudentController extends Controller
                     ->first();
 
         if($test_score == null){
+            if ($request->hasFile('exam_document')) {
+                $file = $request->file('exam_document');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $exam_document = 'imagesapi/' . $filename;
+                $file->move(public_path('imagesapi/'), $filename);
+                if ($test_score && $test_score->exam_document) {
+                    $old_image_path = public_path($test_score->exam_document);
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+                }
+            }
             DB::table('test_scores')
             ->insert([
                 'student_id' => $student_id,
                 'type' => $request->type,
                 'exam_date' => $request->exam_date,
                 'eng_prof_level_result'=>$request->eng_prof_level_result,
+                'exam_document'=>$exam_document ?? null,
                 'listening_score' => $request->listening_score,
                 'writing_score' => $request->writing_score,
                 'reading_score' => $request->reading_score,
@@ -515,6 +769,18 @@ class StudentController extends Controller
 
             return response()->json(['status' =>true,'success'=>'Data inserted Successfully']);
         } else {
+            if ($request->hasFile('exam_document')) {
+                $file = $request->file('exam_document');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $exam_document = 'imagesapi/' . $filename;
+                $file->move(public_path('imagesapi/'), $filename);
+                if ($test_score && $test_score->exam_document) {
+                    $old_image_path = public_path($test_score->exam_document);
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+                }
+            }
             DB::table('test_scores')
             ->WHERE('student_id', $student_id)
             ->where('type', $request->type)
@@ -522,6 +788,7 @@ class StudentController extends Controller
                 'student_id' => $student_id,
                 'type' => $request->type,
                 'exam_date' => $request->exam_date,
+                'exam_document'=>$request->exam_document ?? null,
                 'eng_prof_level_result'=>$request->eng_prof_level_result,
                 'listening_score' => $request->listening_score,
                 'writing_score' => $request->writing_score,
@@ -1034,7 +1301,12 @@ class StudentController extends Controller
        $user_id =Auth::user()->id;
        $student = DB::table('student')->select('id')->where('user_id', $user_id)->first();
        $student_id = $student->id;
-       $test_score= DB::table('test_scores')->Where('student_id',$student_id)->get();
+       $test_score = DB::table('test_scores')
+                        ->where('student_id',$student_id)
+                        ->get()
+                        ->merge(DB::table('additional_qualification')
+                            ->where('student_id',$student_id)
+                            ->get());
        return response()->json(['success'=>true,'test_score'=>$test_score]);
     }
 }
