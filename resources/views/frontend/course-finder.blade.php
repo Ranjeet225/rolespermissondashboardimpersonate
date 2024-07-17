@@ -106,6 +106,11 @@
 @endif
     <section>
         <div class="container ">
+            @if(session()->has('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
             <div class="d-flex">
                 <div class="country_name">
                     @foreach ($country_name as $item)
@@ -581,7 +586,7 @@
                                                 <li class="user meta_item">
                                                     <i class="fa fa-tasks"></i>
                                                     <span class="info_bold">Total Program: </span>
-                                                    <span><a href="{{ url('view-program-data') }}/${item.id}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
+                                                    <span><a href="{{ url('view-program-data') }}/${item.id}?${url_param}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
                                                 </li>
                                             </ul>
                                             <hr class="mb-10 mt-10">
@@ -680,6 +685,7 @@
                         let html = '';
                         let course_data ='';
                         $.each(response.data.data, function(index, item) {
+                                var url_param =getParams();
                                 html += `
                                  <div class="university-item course-logo">
                                     <div>
@@ -713,7 +719,7 @@
                                                 <li class="user meta_item">
                                                     <i class="fa fa-tasks"></i>
                                                     <span class="info_bold">Total Program: </span>
-                                                    <span><a href="{{ url('view-program-data') }}/${item.id}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
+                                                    <span><a href="{{ url('view-program-data') }}/${item.id}?${url_param}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
                                                 </li>
                                             </ul>
                                             <hr class="mb-10 mt-10">

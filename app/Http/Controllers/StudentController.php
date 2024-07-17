@@ -283,9 +283,9 @@ class StudentController extends Controller
                 DB::table('student')->where('user_id',$student_id)
                 ->update([
                     'ever_refused_visa' => $request->ever_refused_visa,
-                    'visa_documents' => $visa_documents,
+                    'visa_documents' => $visa_documents ?? null,
                     'study_permit'=>$request->study_permit,
-                    'study_permit_documents' => $study_permit_documents,
+                    'study_permit_documents' => $study_permit_documents ?? null,
                     'has_visa' => $request->has_visa,
                     'visa_details' => $request->visa_details,
                     'pref_subjects'=>$request->subject_input,
@@ -1217,7 +1217,11 @@ class StudentController extends Controller
             'payment_link'=>url('/pay-now/c?token=' . $token),
             'amount'=>$amount,
         ];
-        Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
+        try {
+            Mail::to($student->email)->send(new PaymentLinkEmail($paymentData));
+        } catch (\Exception $e) {
+            return response()->json(['status'=>false,'message'=>'Something went wrong']);
+        }
         return response()->json(['status'=>true,'message'=>'Payment link sent successfully','student_id'=>$request->student_id]);
     }
 
@@ -1246,7 +1250,7 @@ class StudentController extends Controller
         if(empty($student_id)) {
             abort(404);
         }
-        $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->id)->get();
+        $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->user_id)->get();
         return view('admin.student.applied-program',compact('program_applied'));
     }
 

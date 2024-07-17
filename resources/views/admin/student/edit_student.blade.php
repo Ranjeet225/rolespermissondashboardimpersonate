@@ -16,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select.css') }}">
 @endsection
@@ -1222,6 +1223,7 @@
     </div>
 @endsection
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
           const gradingSchemeSelect = document.getElementById('grading_scheme_id');
@@ -1372,11 +1374,11 @@
                                 tableRow += '<td></td>';
                             }
                             if(item.type == 'GRE'){
-                                tableRow += `<td><a href="" class="btn btn-primary btn-sm mx-1"  data-bs-toggle="offcanvas" data-bs-target="#gre_exam" aria-controls="gre_exam"><i class="las la-pen"></i></a></td>`;
+                                tableRow += `<td><a href="javascript:void(0)" class="btn btn-primary btn-sm mx-1"  data-bs-toggle="offcanvas" data-bs-target="#gre_exam" aria-controls="gre_exam"><i class="las la-pen"></i></a></td>`;
                             }else if(item.type == 'GMAT'){
-                                tableRow += `<td><a href="" class="btn btn-primary btn-sm mx-1"  data-bs-toggle="offcanvas" data-bs-target="#gmat" aria-controls="gmat"><i class="las la-pen"></i></a></td>`;
+                                tableRow += `<td><a href="javascript:void(0)" class="btn btn-primary btn-sm mx-1"  data-bs-toggle="offcanvas" data-bs-target="#gmat" aria-controls="gmat"><i class="las la-pen"></i></a></td>`;
                             }else{
-                                tableRow += `<td><a href="" class="btn btn-primary btn-sm mx-1 test-score-delete"  data-id="${item.id}" data><i class="fa-solid fa-trash"></i></a></td>`;
+                                tableRow += `<td><a href="javascript:void(0)" class="btn btn-primary btn-sm mx-1 test-score-delete"  data-id="${item.id}" data><i class="fa-solid fa-trash"></i></a></td>`;
                             }
                             tableRow += '</tr>';
                         });
@@ -1389,17 +1391,31 @@
             }
             $(document).on('click', '.test-score-delete', function(){
                 var id = $(this).data('id');
-                if(confirm('Are you sure you want to delete this Test Score?')){
-                    setupCSRF();
-                    $.ajax({
-                        url: '{{ url('student/delete-student-test-score')}}/'+id,
-                        type: 'GET',
-                        success: function(response){
-                            alert('Test Score deleted successfully');
-                            student_test_score();
-                        }
-                    });
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setupCSRF();
+                        $.ajax({
+                            url: '{{ url('student/delete-student-test-score')}}/'+id,
+                            type: 'GET',
+                            success: function(response){
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Test Score has been deleted.',
+                                    'success'
+                                );
+                                student_test_score();
+                            }
+                        });
+                    }
+                })
             });
             student_test_score();
             $('.education_level_id').change(function() {
@@ -1570,22 +1586,37 @@
                 handleNext();
             });
             function deleteDocument(id) {
-                setupCSRF();
-                if (confirm('Are you sure you want to delete this document?')) {
-                    $.ajax({
-                        url: "{{ route('delete-student-document') }}",
-                        type: "get",
-                        data: {
-                            id: id
-                        },
-                        success: function(response) {
-                            documents_list();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setupCSRF();
+                        $.ajax({
+                            url: "{{ route('delete-student-document') }}",
+                            type: "get",
+                            data: {
+                                id: id
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Document has been deleted.',
+                                    'success'
+                                );
+                                documents_list();
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                })
             }
             function documents_list(){
                 var student_id = $('.last_attended').attr('student-id');
@@ -1605,7 +1636,7 @@
                             tr.append($('<td>').text(response?.student_documents_data.id ?? null));
                             tr.append($('<td>').text('Other Documents'));
                             tr.append($('<td>').html(`<img src="${assetBaseUrl}${response?.student_documents_data.image_url ?? ''}" style="width:150px;height:150px">`));
-                            tr.append($('<td>').html(`<a href="#" class="btn btn-warning delete-document" data-id="${response?.student_documents_data.id}">Delete</a>`));
+                            tr.append($('<td>').html(`<a href="#" class="btn btn-warning delete-document" data-id="${response?.student_documents_data.id}"><i class="fa-solid fa-trash"></i></a>`));
                             tableBody.append(tr);
                         }
                         $.each(response.documents, function(index, item) {
@@ -1613,7 +1644,7 @@
                             tr.append($('<td>').text(item.id ?? null));
                             tr.append($('<td>').text(item.name ?? null));
                             tr.append($('<td>').html(`<img src="${assetBaseUrl}${item.image_url ?? ''}" style="width:150px;height:150px">`));
-                            tr.append($('<td>').html(`<a href="#" class="btn btn-warning delete-document" data-id="${item.id}">Delete</a>`));
+                            tr.append($('<td>').html(`<a href="#" class="btn btn-warning delete-document" data-id="${item.id}"><i class="fa-solid fa-trash"></i></a>`));
                             tableBody.append(tr);
                         });
                     },
@@ -1647,11 +1678,13 @@
                     processData: false,
                     success: function(response) {
                         if (response.status) {
-                            $('#responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
-                            setTimeout(() => {
-
-                            }, 1000);
+                            Swal.fire({
+                                title: 'Success',
+                                text: response.success,
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
                         }
                         spinner.classList.add('d-none');
                         $('.next').removeClass('disabled');
@@ -1901,26 +1934,44 @@
             });
             $(document).on('click', '.delete-attendance', function(){
                 var id = $(this).data('id');
-                if(confirm('Are you sure you want to delete this Schools Attended?')){
-                    school_data();
-                    setupCSRF();
-                    $.ajax({
-                        url: '{{ url('student/delete-student-attendence')}}/'+id,
-                        type: 'GET',
-                        success: function(response){
-                            alert('Schools Attended deleted successfully');
-                            get_school_attendend();
-                            lead_education_level_id();
-                            checkEducationAttended();
-                        }
-                    });
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        school_data();
+                        setupCSRF();
+                        $.ajax({
+                            url: '{{ url('student/delete-student-attendence')}}/'+id,
+                            type: 'GET',
+                            success: function(response){
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Schools Attended deleted successfully.',
+                                    'success'
+                                );
+                                get_school_attendend();
+                                lead_education_level_id();
+                                checkEducationAttended();
+                            }
+                        });
+                    }
+                })
             });
             $('.last_attendence').on('click', function(event) {
                 var document_id =$('.lead_documents_id').val();
                 var program_level_id = $('.education_level_id').val();
                 if(!document_id){
-                    alert('Please Select Document  level');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Select Document  level'
+                    });
                     return false;
                 }
                 var spinner = this.querySelector('.spinner-grow');
@@ -1938,8 +1989,11 @@
                         spinner.classList.add('d-none');
                         school_data();
                         if (response.status) {
-                            $('#responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
+                            Swal.fire(
+                                'Updated!',
+                                response.success,
+                                'success'
+                            );
                             // setTimeout(() => {
                             //     location.reload();
                             // }, 1000);
@@ -1954,6 +2008,11 @@
                         spinner.classList.add('d-none');
                         lead_education_level_id();
                         var response = JSON.parse(xhr.responseText);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message
+                        });
                     }
                 });
             });
@@ -1964,7 +2023,11 @@
                 }
                 if(gre_score > 340){
                     $(this).val(340);
-                    alert('Sorry! You cannot enter greater than 340');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Sorry! You cannot enter greater than 340'
+                    });
                 }
             });
             $('.greExam').on('click', function(event) {
@@ -1984,8 +2047,11 @@
                         $('#greExam')[0].reset();
                         student_test_score();
                         if (response.status) {
-                            $('.responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
+                            Swal.fire(
+                                'Updated!',
+                                response.success,
+                                'success'
+                            );
                             setTimeout(() => {
                                 // location.reload();
                             }, 1000);
@@ -2022,22 +2088,33 @@
                     }
                     if (eng_prof_score > eng_score) {
                         $(this).val(eng_score);
-                        console.log('Sorry! You cannot enter greater than ' + eng_score);
-                        alert('Sorry! You cannot enter greater than ' + eng_score);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Sorry! You cannot enter greater than ' + eng_score
+                        });
                     }
                 } else {
-                    alert('Please Select English Proficiency Level');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Select English Proficiency Level'
+                    });
                     return false;
                 }
             });
-            $('.gmat_score').on('input', function(){
-                var gmat_score =$(this).val();
-                if(gmat_score < 0){
+            $('.gmat_score').on('input', function() {
+                var gmat_score = $(this).val();
+                if (gmat_score < 0) {
                     $(this).val(0);
                 }
-                if(gmat_score > 805){
+                if (gmat_score > 805) {
                     $(this).val(805);
-                    alert('Sorry! You cannot enter greater than 805');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Sorry! You cannot enter greater than 805'
+                    });
                 }
             });
             $('.gmat').on('click', function(event) {
@@ -2056,8 +2133,11 @@
                         $('.gmat').removeClass('disabled');
                         student_test_score();
                         if (response.status) {
-                            $('.responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
+                            Swal.fire(
+                                'Updated!',
+                                response.success,
+                                'success'
+                            );
                             setTimeout(() => {
                                 // location.reload();
                             }, 1000);
@@ -2085,11 +2165,11 @@
                         student_test_score();
                         $('#testscore')[0].reset();
                         if (response.status) {
-                            $('.responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
-                            setTimeout(() => {
-                                // location.reload();
-                            }, 1000);
+                            Swal.fire(
+                                'Updated!',
+                                response.success,
+                                'success'
+                            );
                         }
                     },
                     error: function(xhr) {
@@ -2145,12 +2225,18 @@
                         $('#document')[0].reset();
                         documents_list();
                         if (response.status) {
-                            $('.responseMessage').html('<span class="alert alert-success">' + response.success + '</span>');
-                        }
-                        if(response.redirect){
-                            setTimeout(() => {
-                                window.location.href = "{{ route('dashboard') }}";
-                            }, 2000);
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.success,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(function() {
+                                if(response.redirect){
+                                    setTimeout(() => {
+                                        window.location.href = "{{ route('dashboard') }}";
+                                    }, 2000);
+                                }
+                            });
                         }
                         $('.documentForm').removeClass('disabled');
                     },

@@ -17,7 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\LearningTrainingController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -43,7 +43,7 @@ Route::get('apply-program-payment/{student_id}/{program_id}',[FrontendController
 Route::get('pay-later/{student_id}/{program_id}/{amount?}',[FrontendController::class,'pay_later'])->name('pay-later');
 Route::get('check-eligibility',[FrontendController::class,'check_eligibility'])->name('check-eligibility');
 Route::get("university-details/{id}",[UniversityController::class,'view_university'])->name('view-university');
-
+Route::get('continue-course/{student_id}/{program_id}/{amount?}',[FrontendController::class,'continue_course'])->name('continue-course');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

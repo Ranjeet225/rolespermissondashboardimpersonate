@@ -661,13 +661,11 @@ class LeadsManageCotroller extends Controller
         $studentAgentData = StudentByAgent::with('country')->findOrFail($id);
         $student_id = $id;
         $masterLeadStatus = MasterLeadStatus::get();
-
         $follow_up_list = DB::table('user_follow_up')
-                        ->join('users', 'user_follow_up.user_id', '=', 'users.id')
+                        ->join('student_by_agent', 'user_follow_up.student_id', '=', 'student_by_agent.id')
                         ->where('student_id', $id)
-                        ->select('user_follow_up.*','users.name','users.email')
+                        ->select('user_follow_up.*','student_by_agent.name','student_by_agent.email')
                         ->get();
-            // dd($follow_up_list,$id,Auth::user()->id);
         return view('admin.leads.manage-leads', compact('studentAgentData', 'student_id', 'masterLeadStatus', 'follow_up_list'));
     }
 
@@ -726,8 +724,8 @@ class LeadsManageCotroller extends Controller
                 'payment_link'=>url('/pay-now/c?token=' . $token),
                 'amount'=>$amount,
             ];
-            // Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
-            Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
+            Mail::to($studentdata->email)->send(new PaymentLinkEmail($paymentData));
+            // Mail::to('ranjeetmaurya2033@gmail.com')->send(new PaymentLinkEmail($paymentData));
             PaymentsLink::create($paymentLinkData);
         }
         $data = [
@@ -888,27 +886,6 @@ class LeadsManageCotroller extends Controller
         if(!$studentDetails) {
             return view('errors.404');
         }
-        // if($id == null){
-        //     $id=Auth::user()->id;
-        //     $studentDetails = Student::where('id',$id)->first();
-        //     if(!$studentDetails) {
-        //         return view('errors.404');
-        //     }
-        //     $id =$studentDetails->id;
-        // }else{
-        //     $user=Auth::user();
-        //     if($user->hasRole('Administrator') || $user->hasRole('visa')){
-        //         $studentDetails = Student::where('id',$id)->first();
-        //         if(!$studentDetails) {
-        //             return view('errors.404');
-        //         }
-        //     }else{
-        //         $studentDetails = Student::where('id',$id)->first();
-        //         if(!$studentDetails) {
-        //             return view('errors.404');
-        //         }
-        //     }
-        // }
         $leadDetails = StudentByAgent::with('caste_data', 'subject', 'country', 'state')->orwhere('student_user_id',$id)->first();
         if(!$leadDetails || !$studentDetails){
             return view('errors.404');
@@ -916,6 +893,9 @@ class LeadsManageCotroller extends Controller
         $university = University::get();
         $course = DB::table('program')->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
+        $student_course_exit = PaymentsLink::where('user_id', $studentDetails->user_id)->pluck('program_id')->toArray();
+        $student_course_exit = $student_course_exit ?? [];
+        $student_university = Program::whereIn('id', $student_course_exit)->pluck('school_id')->toArray();
         $visa_document=VisaDocument::get();
         $visa_sub_document_three=VisaSubDocument::where('id',$threesixtee->visa_sub_document_type ?? null)->first();
         if ($threesixtee) {
@@ -923,16 +903,16 @@ class LeadsManageCotroller extends Controller
             $university_id = explode(',', $threesixtee->college);
             $three_course_id = explode(',', $threesixtee->courses);
             $student_course_id = explode(',', $studentDetails->pref_subjects);
-            $course_id = array_unique(array_merge($three_course_id, $student_course_id));
-            $university_in_three_sixtee = University::wherein('id', $university_id)->get();
+            $course_id = array_unique(array_merge($three_course_id, $student_course_id,$student_course_exit ?? null));
+            $university_in_three_sixtee = University::wherein('id', array_merge($university_id, $student_university ?? null))->get();
             $course_in_three_sixtee = DB::table('program')->wherein('id', $course_id)->get();
             $table_three_sixtee_image = DB::table('tbl_three_sixtee_image')->where('image_type', 'offer')->where('sba_id', $id)->get();
         } else {
             $agent = DB::table('agents')->get();
             $university_id = null;
             $course_id = null;
-            $university_in_three_sixtee = null;
-            $course_in_three_sixtee = null;
+            $university_in_three_sixtee =University::wherein('id', $student_university ?? [] )->get() ?? null;
+            $course_in_three_sixtee = DB::table('program')->wherein('id', $student_course_exit ?? [] )->get() ?? null;
             $table_three_sixtee_image = null;
         }
         $paymentStatuses = ['2' => 'application_fees', '3' => 'tution_fees', '4' => 'visa_fess'];

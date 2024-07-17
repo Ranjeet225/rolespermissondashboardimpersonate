@@ -22,7 +22,7 @@
                                            <th>Payment Status</th>
                                            <th>Applied On</th>
                                            <th>Delete</th>
-                                           <th></th>
+                                           <th> Application-Details</th>
                                         </tr>
                                      </thead>
                                      <tbody>
@@ -39,11 +39,10 @@
                                             @endif
                                             </td>
                                            <td>{{$item->created_at}}</td>
-                                           <td><a class="btn btn-info" href="{{route('delete-program',[$item->id])}}" style="margin-top:5px;">Delete</a>
+                                           <td><a class="btn btn-info" href="{{route('delete-program',[$item->id])}}" style="margin-top:5px;"><i class="fa-solid fa-trash"></i></a>
                                            </td>
                                            <td>
-                                              <a class="btn btn-info" href="student_application_status/171888157666740d2888ae2" style="margin-top:5px;">Application Status</a>
-                                              <a class="btn btn-info" href="{{route('apply-program-payment',[$item->user_id,$item->program_id])}}" style="margin-top:5px;">Application-Details</a>
+                                              <a class="btn btn-info" data-toggle="tooltip" title="Application Details" href="{{route('apply-program-payment',[App\Models\Student::where('user_id',$item->user_id)->first()->id,$item->program_id])}}" style="margin-top:5px;"><i class="fa fa-info"></i></a>
                                            </td>
                                         </tr>
                                         @endforeach

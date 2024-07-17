@@ -503,16 +503,22 @@
                                     <hr>
                                     <form id ="tab3DataForm">
                                         <div class="row">
-                                            <div class="col-lg-4">
-                                                <label class="form-label">Accepted
-                                                </label>
-                                                <input type="hidden" name="sba_id" class="sba_id"
-                                                    value="{{$leadDetails->student_user_id ?? null  }}">
-                                                <input type="radio" name="application_status"
-                                                    {{ isset($threesixtee) && $threesixtee->application == 'accepted' ? 'checked' : '' }}
-                                                    value="accepted" id="accepted">
+                                            <div class="col-lg-12">
+                                                <label class="form-label">Application Status</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="application_status" value="accepted" id="accepted" {{ isset($threesixtee) && $threesixtee->application == 'accepted' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="accepted">Accepted</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="application_status" value="rejected" id="rejected" {{ isset($threesixtee) && $threesixtee->application == 'rejected' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="rejected">Rejected</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="application_status" value="in_progress" id="in_progress" {{ isset($threesixtee) && $threesixtee->application == 'in_progress' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="in_progress">In Progress</label>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-4">
+                                            {{-- <div class="col-lg-4">
                                                 <div class="input-block mb-3">
                                                     <label class="form-label">Rejected</label>
                                                     <input type="radio" name="application_status" value="rejected"
@@ -528,7 +534,7 @@
                                                         {{ isset($threesixtee) && $threesixtee->application == 'inprogress' ? 'checked' : '' }}
                                                         id="inprogress">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="row " id ="tab3remarks" style="display: none">
                                             <div class="input-block mb-3">

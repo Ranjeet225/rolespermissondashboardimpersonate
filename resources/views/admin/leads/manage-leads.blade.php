@@ -205,7 +205,7 @@
                             <td class="text-capitalize">{{$payment_status->payment_status ?? null}}</td>
                             <td class="text-capitalize">
                                 <a href="{{route('delete-user-follow-up',$item->id)}}" class="btn btn-warning" >
-                                    Delete
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             </td>
                         <tr>

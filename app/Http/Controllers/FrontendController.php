@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\EducationLevel;
 use App\Models\EngProficiencyLevel;
 use App\Models\Fieldsofstudytype;
+use App\Models\Payment;
 use App\Models\Program;
 use App\Models\ProgramDiscipline;
 use App\Models\ProgramLevel;
@@ -60,7 +61,6 @@ class FrontendController extends Controller
         $eng_proficiency_level=EngProficiencyLevel::select('name','id')->get();
         if($request->ajax()){
             if($request->has('country') || $request->has('intake') || $request->has('other_exam') || $request->has('program_level') ||  $request->has('program_sub_level') ||  $request->has('education_level') ||  $request->has('program_displine') ||  $request->has('program_subdispline') ||  $request->has('eng_proficiency_level') ||  $request->has('eng_pro_input') ||  $request->has('other_exam')){
-
                 $course = Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')
                             ->when($request->has('program_level'), function ($query) use ($request) {
                                 return $query->whereIn('program_level_id', explode(',', $request->program_level));
@@ -251,9 +251,38 @@ class FrontendController extends Controller
         }
     }
 
-    public function view_program_data($id)
+    public function view_program_data(Request $request ,$id)
     {
-        $program_data = Program::where('school_id',$id)->with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->get();
+        $program_data = Program::where('school_id',$id)->with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')
+                        ->when($request->has('program_level'), function ($query) use ($request) {
+                            return $query->whereIn('program_level_id', explode(',', $request->program_level));
+                        })
+                        ->when($request->has('country'), function ($query) use ($request) {
+                            return $query->whereHas('university_name', function ($query) use ($request) {
+                                return $query->whereIn('country_id', explode(',', $request->country));
+                            });
+                        })
+                        ->when($request->has('intake'), function ($query) use ($request) {
+                            return $query->whereIn('intake', explode(',', $request->intake));
+                        })
+                        ->when($request->has('other_exam'), function ($query) use ($request) {
+                            return $query->whereIn('other_exam', explode(',', $request->other_exam));
+                        })
+                        ->when($request->has('program_sub_level'), function ($query) use ($request) {
+                            return $query->whereIn('program_sub_level', explode(',', $request->program_sub_level));
+                        })
+                        ->when($request->has('education_level'), function ($query) use ($request) {
+                            return $query->whereIn('education_level_id', explode(',', $request->education_level));
+                        })
+                        ->when($request->has('program_displine'), function ($query) use ($request) {
+                            return $query->whereIn('program_discipline', explode(',', $request->program_displine));
+                        })
+                        ->when($request->has('program_subdispline'), function ($query) use ($request) {
+                            return $query->whereIn('program_subdiscipline', explode(',', $request->program_subdispline));
+                        })
+                        ->when($request->has('other_exam'), function ($query) use ($request) {
+                            return $query->whereIn('other_exam', explode(',', $request->other_exam));
+                        })->get();
         if ($program_data->isEmpty()) {
             abort(404);
         }
@@ -303,7 +332,7 @@ class FrontendController extends Controller
             ['program_id' => $program_data->id],
             [
                 'token'					=> $token,
-                'user_id'				=> $student_details->id,
+                'user_id'				=> $student_details->user_id,
                 'email'					=> $student_details->email,
                 'payment_type'			=> null,
                 'payment_type_remarks' 	=> "applied_program",
@@ -330,7 +359,7 @@ class FrontendController extends Controller
             ['program_id' => $program_data->id],
             [
                 'token'					=> $token,
-                'user_id'				=> $student_details->id,
+                'user_id'				=> $student_details->user_id,
                 'email'					=> $student_details->email,
                 'payment_type'			=> null,
                 'payment_type_remarks' 	=> "applied_program_pay_later",
@@ -344,5 +373,38 @@ class FrontendController extends Controller
         return redirect(url('student/applied-program'));
     }
 
-
+    public function continue_course($student_id,$program_id,$amount)
+    {
+        $fee = Crypt::decrypt($amount);
+        $student_details=Student::where('id',$student_id)->first();
+        $program_data=Program::with('university_name')->select('id')->where('id',$program_id)->first();
+        PaymentsLink::updateOrCreate(
+            ['program_id' => $program_data->id],
+            [
+                'token'					=> 'token',
+                'user_id'				=> $student_details->user_id,
+                'email'					=> $student_details->email,
+                'payment_type'			=> null,
+                'payment_type_remarks' 	=> "applied_program",
+                'payment_mode'  		=> null,
+                'payment_mode_remarks' 	=> "",
+                'amount' 				=> $fee,
+                'expired_in'			=> date('Y-m-d H:i:s',strtotime('+ 10 days')),
+                'fallowp_unique_id'=> 'free',
+            ]
+        );
+        Payment::create([
+            'payment_id' => 'free',
+            'payment_method' => 'free',
+            'currency' => $fee,
+            'fallowp_unique_id' =>'free',
+            'customer_name'=>$student_details->name,
+            'user_id'=>$student_details->user_id,
+            'customer_email' => $student_details->email,
+            'amount' =>$fee,
+            'payment_status' => 'free',
+            'json_response' => 'free'
+        ]);
+        return redirect(url('apply-program'))->with('success', 'Program Applied Successfully!');
+    }
 }
