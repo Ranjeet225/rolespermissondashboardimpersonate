@@ -22,6 +22,7 @@
                                            <th>Payment Status</th>
                                            <th>Applied On</th>
                                            <th>Delete</th>
+                                           <th> Application-Status</th>
                                            <th> Application-Details</th>
                                         </tr>
                                      </thead>
@@ -35,11 +36,26 @@
                                              @if((!empty($item->payments->payment_status) == 'success'))
                                                 {{'Success'}}
                                             @else
-                                            {{'Pending'}}
+                                                {{'Pending'}}
                                             @endif
                                             </td>
                                            <td>{{$item->created_at}}</td>
                                            <td><a class="btn btn-info" href="{{route('delete-program',[$item->id])}}" style="margin-top:5px;"><i class="fa-solid fa-trash"></i></a>
+                                           </td>
+
+                                           <td>
+                                            <ul style="list-style-type: none;">
+                                                <li >
+                                                    @if(isset($applied_application[$item->program->id]))
+                                                       <div class="badge bg-success">Application Status - {{$applied_application[$item->program->id]}}</div>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    @if(isset($visa_application))
+                                                       <div class="badge bg-info mt-2">Visa Status - {{$visa_application}}</div>
+                                                    @endif
+                                                </li>
+                                            </ul>
                                            </td>
                                            <td>
                                               <a class="btn btn-info" data-toggle="tooltip" title="Application Details" href="{{route('apply-program-payment',[App\Models\Student::where('user_id',$item->user_id)->first()->id,$item->program_id])}}" style="margin-top:5px;"><i class="fa fa-info"></i></a>

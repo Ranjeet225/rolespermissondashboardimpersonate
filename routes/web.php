@@ -17,7 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\LearningTrainingController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 
 Route::fallback(function () {
@@ -113,7 +113,8 @@ Route::middleware('auth')->group(function () {
         Route::get('lead-details', [LeadsManageCotroller::class, 'lead_details'])->name('lead-details');
         Route::get('apply-360/{id?}', [LeadsManageCotroller::class, 'aply_360'])->name('apply-360');
         Route::get('fetch-visa-sub-document/{visa_document_id?}', [LeadsManageCotroller::class, 'fetch_visa_sub_document'])->name('fetch-visa-sub-document');
-
+        Route::get('get-lead-360-images', [LeadsManageCotroller::class, 'get_lead_360_images'])->name('get-lead-360-images');
+        Route::get('delete-lead-360-image', [LeadsManageCotroller::class, 'delete_lead_360_image'])->name('delete-lead-360-image');
         Route::get('apply-oel-360', [LeadsManageCotroller::class, 'aply_360'])->name('apply-oel-360');
         Route::post('aply-lead-360/', [LeadsManageCotroller::class, 'store_lead_360'])->name('store-lead-360');
         Route::get('leads/{key}', [LeadsManageCotroller::class, 'fetch_leads'])->name('fetch-leads');

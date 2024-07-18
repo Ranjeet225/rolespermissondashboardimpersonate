@@ -1246,12 +1246,28 @@ class StudentController extends Controller
     public function applied_program()
     {
         $student_user =Auth::user();
-        $student_id=Student::where('user_id',$student_user->id)->first();
+        $student_id=Student::where('user_id',$student_user->id)->select('user_id','id')->first();
         if(empty($student_id)) {
             abort(404);
         }
+        $table_three_sixtee =DB::table('tbl_three_sixtee')->where('sba_id',$student_id->id)->select('application','visa_application')->first();
+        if(isset($table_three_sixtee->application) && $table_three_sixtee->application != 'null' && isset($table_three_sixtee->visa_application) && $table_three_sixtee->visa_application != 'null'){
+            $application=json_decode($table_three_sixtee->application,true);
+            $visa_application = $table_three_sixtee->visa_application;
+            $applied_application = [];
+            foreach ($application['program_ids'] as $program_id) {
+                $status_key = $program_id . '_application_status';
+                $remarks_key = 'remarks_' . $program_id;
+                if (isset($application[$status_key])) {
+                    $applied_application[$program_id] = $application[$status_key];
+                }
+            }
+        }else{
+            $applied_application=[];
+            $visa_application=null;
+        }
         $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->user_id)->get();
-        return view('admin.student.applied-program',compact('program_applied'));
+        return view('admin.student.applied-program',compact('program_applied','table_three_sixtee','applied_application','visa_application'));
     }
 
 
@@ -1313,4 +1329,6 @@ class StudentController extends Controller
                             ->get());
        return response()->json(['success'=>true,'test_score'=>$test_score]);
     }
+
+
 }

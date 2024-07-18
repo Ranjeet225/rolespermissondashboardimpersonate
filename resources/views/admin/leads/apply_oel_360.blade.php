@@ -2,6 +2,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <style>
         .octicon.octicon-light-bulb {
@@ -151,6 +152,15 @@
                             </li>
                             <li class="step">
                                 <div class="
+                                @if(!empty($progress->fee_payment_mode) &&
+                                !empty($progress->fee_amount) &&
+                                !empty($progress->fee_payment_by))
+                                bg-success @else  bg-primary2 @endif"
+                                ><i class="fas fa-check"></i></div>
+                                Fees Details
+                            </li>
+                            <li class="step">
+                                <div class="
                                 @if(!empty($progress->visa_document) &&
                                 !empty($progress->visa_apply_date))
                                 bg-success @else  bg-primary2 @endif"
@@ -169,15 +179,7 @@
                                 "><i class="fas fa-check"></i></div>
                                 Visa Status
                             </li>
-                            <li class="step">
-                                <div class="
-                                @if(!empty($progress->fee_payment_mode) &&
-                                !empty($progress->fee_amount) &&
-                                !empty($progress->fee_payment_by))
-                                bg-success @else  bg-primary2 @endif"
-                                ><i class="fas fa-check"></i></div>
-                                Fees Details
-                            </li>
+
                             <li class="step">
                                 <div class="
                                 @if(!empty($progress->flight_name) &&
@@ -211,7 +213,6 @@
                         </ul>
 
                     </div>
-
                     <div class="list-group  float-end ms-auto mr-5 mb-0" style="width: 200px">
                         @php
                          $application_status =['In Progress','Completed','Rejected'];
@@ -280,15 +281,31 @@
                                     <span class="octicon octicon-light-bulb">Offer Detail</span>
                                 </li>
                             @endcan
+                            @can('fee_details.create')
+                                <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="Fees Details">
+                                    <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                        href="#step5" id="step5-tab"
+                                        @if (
+                                            !$user->hasRole('Administrator') &&
+                                                (empty($threesixtee->visa_application ?? null) ||
+                                                    empty($threesixtee->visa_no ?? null) ||
+                                                    empty($threesixtee->visa_exp_date ?? null))) @disabled(true) @endif
+                                        data-bs-toggle="tab" role="tab" aria-controls="step5" aria-selected="false"> 5
+                                    </a>
+                                    <br>
+                                    <span class="octicon octicon-light-bulb"> Fees Details</span>
+                                </li>
+                            @endcan
                             @can('visa_application.create')
                                 <li class="nav-item flex-fill " role="presentation" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Visa Application">
                                     <a class="nav-link @if ($user->hasRole('visa')) active @endif rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                        href="#step5" id="step5-tab" data-bs-toggle="tab"
+                                        href="#step6" id="step6-tab" data-bs-toggle="tab"
                                         @if (
                                             !$user->hasRole('Administrator') &&
                                                 empty($threesixtee->joining_date ?? (null && $threesixtee->offer_amount ?? null))) @disabled(true) @endif role="tab"
-                                        aria-controls="step5" aria-selected="false"> 5
+                                        aria-controls="step6" aria-selected="false"> 6
                                     </a>
                                     <br>
                                     <span class="octicon octicon-light-bulb">Visa Application</span>
@@ -298,32 +315,17 @@
                                 <li class="nav-item flex-fill"role="presentation" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Visa Status">
                                     <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                        href="#step6" id="step6-tab"
+                                        href="#step7" id="step7-tab"
                                         @if (
                                             !$user->hasRole('Administrator') &&
                                                 empty($threesixtee->visa_document ?? (null && $threesixtee->visa_agent ?? null))) @disabled(true) @endif
-                                        data-bs-toggle="tab" role="tab" aria-controls="step6" aria-selected="false"> 6
+                                        data-bs-toggle="tab" role="tab" aria-controls="step7" aria-selected="false"> 7
                                     </a>
                                     <br>
                                     <span class="octicon octicon-light-bulb"> Visa Status</span>
                                 </li>
                             @endcan
-                            @can('fee_details.create')
-                                <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Fees Details">
-                                    <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                        href="#step7" id="step7-tab"
-                                        @if (
-                                            !$user->hasRole('Administrator') &&
-                                                (empty($threesixtee->visa_application ?? null) ||
-                                                    empty($threesixtee->visa_no ?? null) ||
-                                                    empty($threesixtee->visa_exp_date ?? null))) @disabled(true) @endif
-                                        data-bs-toggle="tab" role="tab" aria-controls="step7" aria-selected="false"> 7
-                                    </a>
-                                    <br>
-                                    <span class="octicon octicon-light-bulb"> Fees Details</span>
-                                </li>
-                            @endcan
+
                             @can('flight_details.create')
                                 <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title=" Flight Details">
@@ -504,44 +506,12 @@
                                     <form id ="tab3DataForm">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <label class="form-label">Application Status</label>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="application_status" value="accepted" id="accepted" {{ isset($threesixtee) && $threesixtee->application == 'accepted' ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="accepted">Accepted</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="application_status" value="rejected" id="rejected" {{ isset($threesixtee) && $threesixtee->application == 'rejected' ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="rejected">Rejected</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="application_status" value="in_progress" id="in_progress" {{ isset($threesixtee) && $threesixtee->application == 'in_progress' ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="in_progress">In Progress</label>
+                                                <div class="row select_course">
+
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-lg-4">
-                                                <div class="input-block mb-3">
-                                                    <label class="form-label">Rejected</label>
-                                                    <input type="radio" name="application_status" value="rejected"
-                                                        {{ isset($threesixtee) && $threesixtee->application == 'rejected' ? 'checked' : '' }}
-                                                        id="rejected">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="input-block mb-3">
-                                                    <label for="basicpill-expiration-input"
-                                                        class="form-label">InProgress</label>
-                                                    <input type="radio" name="application_status" value="inprogress"
-                                                        {{ isset($threesixtee) && $threesixtee->application == 'inprogress' ? 'checked' : '' }}
-                                                        id="inprogress">
-                                                </div>
-                                            </div> --}}
-                                        </div>
-                                        <div class="row " id ="tab3remarks" style="display: none">
-                                            <div class="input-block mb-3">
-                                                <label for="basicpill-expiration-input" class="form-label">Remarks</label>
-                                                <input type="text" maxlength ="150" class="form-control" name="remarks"
-                                                    id="remarksdata" value="{{ $threesixtee->remarks ?? '' }}">
-                                            </div>
+                                            <input type="hidden" name="sba_id" class="sba_id" value="{{$leadDetails->student_user_id ?? null  }}">
+                                            <input type="hidden" name="tab3" value="tab3">
                                         </div>
                                     </form>
                                     <div class="d-flex">
@@ -597,20 +567,38 @@
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-cardno-input" class="form-label">Course
                                                         Details</label>
-                                                    <input type="text" maxlength ="150" class="form-control"
-                                                        id="course_details" value="{{ $threesixtee->cource_details ?? '' }}"
-                                                        name="course_details">
+                                                    <select class="form-select" name="course_details"
+                                                        id="course_details">
+                                                        <option value="">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-cardno-input" class="form-label">Document</label>
-                                                    <input type="file" class="form-control" id="document" multiple
+                                                    <input type="file" class="form-control" id="document"
                                                         name="document">
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Document Name</th>
+                                                    <th scope="col">Document</th>
+                                                    <th scope="col">Delete</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody class="course_details_document_table">
+
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="d-flex">
@@ -626,24 +614,121 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                @if (!empty($table_three_sixtee_image))
-                                                    @foreach ($table_three_sixtee_image as $item)
-                                                        <div class="col-4">
-                                                            <img src="{{ asset($item->image) }}"
-                                                                style="height: 100px;width:100%" alt="">
-                                                        </div>
-                                                    @endforeach
-                                                @endif
+
+                                    </div>
+                                </div>
+                            @endcan
+                            @can('fee_details.create')
+                                <div class="tab-pane fade" role="tabpanel" id="step5" aria-labelledby="step5-tab">
+                                    <div class="mb-4">
+                                        <h5> Payment Details</h5>
+                                    </div>
+                                    <h4>Payment Status</h4>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="paid"
+                                            @if (!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done') checked @endif>
+                                        <label class="form-check-label" for="paid">@if (!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done') Paid @else Unpaid @endif</label>
+                                    </div>
+                                    <hr>
+                                    <form id ="tab7DataForm">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="fees_details" id="prepaid" value="Prepaid"  {{ (isset($threesixtee->fees_details) && $threesixtee->fees_details == 'Prepaid') ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="prepaid">Prepaid</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="fees_details" id="postpaid" value="Postpaid"  {{ (isset($threesixtee->fees_details) && $threesixtee->fees_details == 'Postpaid') ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="postpaid">Postpaid</label>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="row prepaid">
+                                            <div class="col-lg-6">
+                                                <div class="input-block mb-3">
+                                                    <input type="hidden" class="form-control" name="tab" id="tab7"
+                                                        value="tab7">
+                                                    <input type="hidden" name="sba_id" class="sba_id"
+                                                        value="{{$leadDetails->student_user_id ?? null  }}">
+                                                    <label for="basicpill-namecard-input" class="form-label">Payment
+                                                        Mode</label>
+                                                    <input type="text" maxlength ="150"
+                                                        value="{{ $threesixtee->fee_payment_mode ?? '' }}"
+                                                        placeholder="payment mode" name ="fee_payment_mode"
+                                                        id="fee_payment_mode" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-block mb-3">
+                                                    <label for="basicpill-namecard-input" class="form-label">Fee
+                                                        Amount</label>
+                                                    <input type="text" maxlength ="150"
+                                                        value="{{ $threesixtee->fee_amount ?? '' }}" placeholder="fee amount"
+                                                        name ="fee_amount" id="fee_amount" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row prepaid">
+                                            <div class="col-lg-6">
+                                                <div class="input-block mb-3">
+                                                    <label class="form-label">Transferred By</label>
+                                                    <select class="form-select" id="fee_payment_by" name="fee_payment_by">
+                                                        <option value="">-Select -</option>
+                                                        <option value="agent"
+                                                            {{ isset($threesixtee) && $threesixtee->fee_payment_by == 'agent' ? 'selected' : '' }}>
+                                                            Agent</option>
+                                                        <option value="direct"
+                                                            {{ isset($threesixtee) && $threesixtee->fee_payment_by == 'direct' ? 'selected' : '' }}>
+                                                            Direct</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6" style="display: none" id="feeagent">
+                                                <div class="input-block mb-3">
+                                                    <label class="form-label">Agent</label>
+                                                    <select class="form-select" id="fee_agent" name="fee_agent">
+                                                        <option value="">--Select--</option>
+                                                        <option value="1"
+                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '1' ? 'selected' : '' }}>
+                                                            IDFC</option>
+                                                        <option value="2"
+                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '2' ? 'selected' : '' }}>
+                                                            HSBC</option>
+                                                        <option value="3"
+                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '3' ? 'selected' : '' }}>
+                                                            ICICI</option>
+                                                        <option value="4"
+                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '4' ? 'selected' : '' }}>
+                                                            HDFC</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row prepaid">
+                                            <div class="col-lg-12">
+                                                <div class="input-block mb-3">
+                                                    <label for="basicpill-namecard-input" class="form-label">Remarks</label>
+                                                    <input type="text" name ="fee_remarks" id="fee_remarks"
+                                                        placeholder="remarks" value="{{ $threesixtee->fee_remarks ?? '' }}"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="d-flex">
+                                        <a class="btn btn-warning previous me-2">Previous</a>
+                                        @if ((!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done'))
+                                        <a class="btn btn-primary next" data-bs-toggle="modal"
+                                            data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none"
+                                                role="status" aria-hidden="true"></span>Continue</a>
+                                        @endif
                                     </div>
                                 </div>
                             @endcan
                             @can('visa_application.create')
                                 <div class="tab-pane fade @if ($user->hasRole('visa')) show active @endif"
-                                    role="tabpanel" id="step5" aria-labelledby="step3-tab">
+                                    role="tabpanel" id="step6" aria-labelledby="step6-tab">
                                     <div class="mb-4">
                                         <h5> Visa Application Details</h5>
                                     </div>
@@ -810,7 +895,7 @@
                                 </div>
                             @endcan
                             @can('visa_status.create')
-                                <div class="tab-pane fade" role="tabpanel" id="step6" aria-labelledby="step3-tab">
+                                <div class="tab-pane fade" role="tabpanel" id="step7" aria-labelledby="step7-tab">
                                     <div class="mb-4">
                                         <h5>Visa status</h5>
                                     </div>
@@ -858,7 +943,7 @@
                                             <div class="input-block mb-3">
                                                 <label for="basicpill-expiration-input" class="form-label">Remarks</label>
                                                 <input type="text" maxlength ="150" class="form-control"
-                                                    value="{{ $threesixtee->remarks ?? '' }}" name="remarks" id="remarks">
+                                                    value="{{ $threesixtee->visa_remarks ?? '' }}" name="visa_remarks" id="remarks">
                                             </div>
                                         </div>
                                         <div class="row visa-data" style="display: none">
@@ -886,102 +971,6 @@
                                         <a class="btn btn-primary next" data-bs-toggle="modal"
                                         data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none"
                                             role="status" aria-hidden="true"></span>Continue</a>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endcan
-                            @can('fee_details.create')
-                                <div class="tab-pane fade" role="tabpanel" id="step7" aria-labelledby="step3-tab">
-                                    <div class="mb-4">
-                                        <h5> Payment Details</h5>
-                                    </div>
-                                    <h4>Payment Status</h4>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="paid"
-                                            @if (!empty($paymentStatusDone['visa_fess']) && $paymentStatusDone['visa_fess'] == 'Done') checked @endif>
-                                        <label class="form-check-label" for="paid">@if (!empty($paymentStatusDone['visa_fess']) && $paymentStatusDone['visa_fess'] == 'Done') Paid @else Unpaid @endif</label>
-                                    </div>
-                                    <hr>
-                                    <form id ="tab7DataForm">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="input-block mb-3">
-                                                    <input type="hidden" class="form-control" name="tab" id="tab7"
-                                                        value="tab7">
-                                                    <input type="hidden" name="sba_id" class="sba_id"
-                                                        value="{{$leadDetails->student_user_id ?? null  }}">
-                                                    <label for="basicpill-namecard-input" class="form-label">Payment
-                                                        Mode</label>
-                                                    <input type="text" maxlength ="150"
-                                                        value="{{ $threesixtee->fee_payment_mode ?? '' }}"
-                                                        placeholder="payment mode" name ="fee_payment_mode"
-                                                        id="fee_payment_mode" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="input-block mb-3">
-                                                    <label for="basicpill-namecard-input" class="form-label">Fee
-                                                        Amount</label>
-                                                    <input type="text" maxlength ="150"
-                                                        value="{{ $threesixtee->fee_amount ?? '' }}" placeholder="fee amount"
-                                                        name ="fee_amount" id="fee_amount" class="form-control">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="form-label">Transferred By</label>
-                                                    <select class="form-select" id="fee_payment_by" name="fee_payment_by">
-                                                        <option value="">-Select -</option>
-                                                        <option value="agent"
-                                                            {{ isset($threesixtee) && $threesixtee->fee_payment_by == 'agent' ? 'selected' : '' }}>
-                                                            Agent</option>
-                                                        <option value="direct"
-                                                            {{ isset($threesixtee) && $threesixtee->fee_payment_by == 'direct' ? 'selected' : '' }}>
-                                                            Direct</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6" style="display: none" id="feeagent">
-                                                <div class="input-block mb-3">
-                                                    <label class="form-label">Agent</label>
-                                                    <select class="form-select" id="fee_agent" name="fee_agent">
-                                                        <option value="">--Select--</option>
-                                                        <option value="1"
-                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '1' ? 'selected' : '' }}>
-                                                            IDFC</option>
-                                                        <option value="2"
-                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '2' ? 'selected' : '' }}>
-                                                            HSBC</option>
-                                                        <option value="3"
-                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '3' ? 'selected' : '' }}>
-                                                            ICICI</option>
-                                                        <option value="4"
-                                                            {{ isset($threesixtee) && $threesixtee->fee_agent == '4' ? 'selected' : '' }}>
-                                                            HDFC</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="input-block mb-3">
-                                                    <label for="basicpill-namecard-input" class="form-label">Remarks</label>
-                                                    <input type="text" name ="fee_remarks" id="fee_remarks"
-                                                        placeholder="remarks" value="{{ $threesixtee->fee_remarks ?? '' }}"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div class="d-flex">
-                                        <a class="btn btn-warning previous me-2">Previous</a>
-                                        @if ((!empty($paymentStatusDone['visa_fess']) && $paymentStatusDone['visa_fess'] == 'Done'))
-                                        <a class="btn btn-primary next" data-bs-toggle="modal"
-                                            data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none"
-                                                role="status" aria-hidden="true"></span>Continue</a>
                                         @endif
                                     </div>
                                 </div>
@@ -1117,17 +1106,11 @@
                                                     <label class="form-label">Hostel</label>
                                                     <select class="form-select" name="hostel" id="hostel">
                                                         <option value="Personal"
-                                                            {{ isset($threesixtee) && $threesixtee->hostel == 'Personal' ? 'selected' : '' }}>
-                                                            Personal</option>
+                                                            {{ isset($threesixtee) && $threesixtee->hostel == 'Oel' ? 'selected' : '' }}>
+                                                            Oel</option>
                                                         <option value="Address"
-                                                            {{ isset($threesixtee) && $threesixtee->hostel == 'Address' ? 'selected' : '' }}>
-                                                            Address</option>
-                                                        <option value="Contact Number"
-                                                            {{ isset($threesixtee) && $threesixtee->hostel == 'Contact Number' ? 'selected' : '' }}>
-                                                            Contact Number</option>
-                                                        <option value="Email Id"
-                                                            {{ isset($threesixtee) && $threesixtee->hostel == 'Email Id' ? 'selected' : '' }}>
-                                                            Email Id</option>
+                                                            {{ isset($threesixtee) && $threesixtee->hostel == 'Direct' ? 'selected' : '' }}>
+                                                            Direct</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1191,6 +1174,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"
         integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
+<script>
+    $(document).ready(function(){
+        if($('input[name="fees_details"]:checked').val() == 'Prepaid'){
+            $('.prepaid').removeClass('d-none');
+        }
+        $('input[name="fees_details"]').on('change',function(){
+            if($(this).val() == 'Prepaid'){
+                $('.prepaid').removeClass('d-none');
+            }else{
+                $('.prepaid').addClass('d-none');
+            }
+        });
+    });
+</script>
     <script>
         $(document).ready(function() {
             function handleNext() {
@@ -1253,25 +1251,7 @@
                         tab2: tab2
                     };
                 } else if ('tab3DataForm' == activeFormId) {
-                    var tab3 = 'tab3';
-                    const radioButtons = document.getElementsByName("application_status");
-                    let selectedValue = "";
-                    radioButtons.forEach(radioButton => {
-                        if (radioButton.checked) {
-                            selectedValue = radioButton.id;
-                        }
-                    });
-                    if ($('#tab3remarks').is(':visible')) {
-                        var remarksdata = $('#remarksdata').val();
-                    } else {
-                        var remarksdata = '';
-                    }
-                    var formData = {
-                        sba_id: sba_id,
-                        application_status: selectedValue,
-                        tab3: tab3,
-                        remarks: remarksdata
-                    };
+                    var formData = $('#tab3DataForm').serialize();
                 } else if ('tab4DataForm' == activeFormId) {
                     var tab = 'tab4';
                     var joining_date = $('#joining_date').val();
@@ -1339,6 +1319,7 @@
                         success: function(response) {
                             spinner.classList.add('d-none');
                             $('.next').removeClass('disabled');
+
                             if (response.success) {
                                 if (response.status != 'Rejected') {
                                     handleNext();
@@ -1406,6 +1387,64 @@
                     success: function(response) {
                         spinner.classList.add('d-none');
                         $('.next').removeClass('disabled');
+                        if (response.program && response.table_three_sixtee) {
+                            $('.select_course').empty();
+                            let selected_program = response.table_three_sixtee.selected_program;
+                            let selectedProgramIds = selected_program.split(',').map(id => parseInt(id.trim()));
+                            let remarks = JSON.parse(response.table_three_sixtee.remarks);
+                            let application = JSON.parse(response.table_three_sixtee.application);
+                            response.program.forEach(function(course) {
+                                $('.select_course').append(`
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline">
+                                            <p><input class="form-check-input course-checkbox" name="program_ids[]" ${selectedProgramIds.includes((course.id)) ? 'checked' : ''} type="checkbox" value="${course.id}">${course.name}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="accepted" id="accepted${course.id}"  ${application[`${course.id}_application_status`] === 'accepted' ? 'checked' : ''}>
+                                            <label class="form-check-label" for="accepted${course.id}">Accepted</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="rejected" id="rejected${course.id}" ${application[`${course.id}_application_status`] === 'rejected' ? 'checked' : ''}>
+                                            <label class="form-check-label" for="rejected${course.id}">Rejected</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="in_progress" id="in_progress${course.id}"  ${application[`${course.id}_application_status`] === 'in_progress' ? 'checked' : ''}>
+                                            <label class="form-check-label" for="in_progress${course.id}">In Progress</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row" id="tab3remarks_${course.id}" style="${application[`${course.id}_application_status`] === 'rejected' || application[`${course.id}_application_status`] === 'in_progress' ? 'display: block;' : 'display: none;'}">
+                                            <div class="input-block mb-3">
+                                                <label for="basicpill-expiration-input" class="form-label">Remarks</label>
+                                                <input type="text" maxlength="150" class="form-control remarks-input" placeholder="Remarks" name="remarks_${course.id}" id="remarksdata_${course.id}" value="${application[`remarks_${course.id}`] || ''}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                `);
+                                $(`input[name='${course.id}_application_status']`).on('change', function() {
+                                    let status = $(this).val();
+                                    if (status === 'rejected' || status === 'in_progress') {
+                                        $(`#tab3remarks_${course.id}`).show();
+                                    } else {
+                                        $(`#tab3remarks_${course.id}`).hide();
+                                    }
+                                });
+                                $(`input[name='${course.id}_application_status']:checked`).trigger('change');
+                            });
+                        }
+                        if(response.program){
+                            $('#course_details').empty();
+                            $('#course_details').append(`
+                                    <option value="">--Select Course--</option>
+                                `);
+                            $.each(response.program, function(index, item) {
+                                $('#course_details').append(`
+                                    <option value="${item.id}">${item.name}</option>
+                                `);
+                            });
+                        }
                         if (response.hasOwnProperty('university')) {
                             $('#universitySelected').empty();
                             $('#universitySelected').append(`
@@ -1422,6 +1461,7 @@
                             `);
                         }
                         if (response.success) {
+                            console.log(response.success);
                             if (response.status != 'Rejected') {
                                 handleNext();
                             } else {
@@ -1466,7 +1506,16 @@
 
                     }
                 });
-                return false;
+                    return false;
+                });
+            $('input[type="radio"]').on('change', function() {
+                let status = $(this).val();
+                let courseId = $(this).attr('name').split('_')[0];
+                if (status === 'rejected' || status === 'in_progress') {
+                    $(`#tab3remarks_${courseId}`).show();
+                } else {
+                    $(`#tab3remarks_${courseId}`).hide();
+                }
             });
             $('.upload-image').on('click', function() {
                 $('.upload-image').addClass('disabled');
@@ -1491,7 +1540,19 @@
                     success: function(response) {
                         spinner.classList.add('d-none');
                         $('.upload-image').removeClass('disabled');
-                        console.log(response);
+                        var table_data = response.table_three_sixtee_image;
+                        var tableBody = $('.course_details_document_table');
+                        tableBody.empty();
+                        var assetBaseUrl = "{{ asset('') }}";
+                        table_data.forEach(function(row) {
+                            var tr = $('<tr>');
+                            tr.append($('<td>').text(row.id));
+                            tr.append($('<td>').text(row.program_name));
+                            tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                            tr.append($('<td>').html(`<a href="javascript:void(0)" class="btn btn-warning delete-document" data-id="${row.id}"><i class="fa-solid fa-trash"></i></a>`));
+                            tableBody.append(tr);
+                        });
+
                     },
                     error: function(xhr) {
                         var response = JSON.parse(xhr.responseText);
@@ -1508,7 +1569,66 @@
                     }
                 });
             });
-
+            $(document).on('click', '.delete-document', function(event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('delete-lead-360-image') }}',
+                            type: 'GET',
+                            data: {
+                                id: id
+                            },
+                            success: function(response) {
+                                if (response.status) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Document has been deleted.',
+                                        'success'
+                                    );
+                                    get_lead_360_images();
+                                }
+                            }
+                        });
+                    }
+                })
+            });
+            function get_lead_360_images() {
+                var sba_id = $('.sba_id').val();
+                $.ajax({
+                    url: '{{ route('get-lead-360-images') }}',
+                    type: 'GET',
+                    data: {
+                        sba_id: sba_id
+                    },
+                    success: function(response) {
+                        var assetBaseUrl = "{{ asset('') }}";
+                        if (response.status) {
+                            var table_data = response.table_three_sixtee_image;
+                            var tableBody = $('.course_details_document_table');
+                            tableBody.empty();
+                            table_data.forEach(function(row) {
+                                var tr = $('<tr>');
+                                tr.append($('<td>').text(row.id));
+                                tr.append($('<td>').text(row.program_name));
+                                tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                                tr.append($('<td>').html(`<a href="javascript:void(0)" class="btn btn-warning delete-document" data-id="${row.id}"><i class="fa-solid fa-trash"></i></a>`));
+                                tableBody.append(tr);
+                            });
+                        }
+                    }
+                });
+            }
+            get_lead_360_images();
             $('#visa_document').on('change', function() {
                 var selectedValue = $(this).val();
                 if (selectedValue == 'agent') {
@@ -1531,14 +1651,8 @@
                 }
             });
 
-            $('#rejected').on('click', function() {
-                $('#tab3remarks').show();
-            });
-            if ($('#rejected').is(':checked')) {
-                $('#tab3remarks').show();
-            }
-            $('#accepted').on('click', function() {
-                $('#tab3remarks').hide();
+            $('#rejected, #accepted').on('click', function() {
+                $('#tab3remarks').toggle($(this).is(':checked'));
             });
             $('#Accepted').on('click', function() {
                 $('.remarks').hide();
@@ -1552,17 +1666,22 @@
                 $('.remarks').show();
                 $('.visa-data').hide();
             }
+            if ($('#Inprogress').is(':checked')) {
+                $('.remarks').show();
+                $('.visa-data').hide();
+            }
             if ($('#Accepted').is(':checked')) {
                 $('.remarks').hide();
                 $('.visa-data').show();
             }
+            $('#Inprogress').on('click', function() {
+                $('.remarks').show();
+                $('.visa-data').hide();
+            });
             $('#inprogress').on('click', function() {
                 $('#tab3remarks').hide();
             });
-            $('#Inprogress').on('click', function() {
-                $('.remarks').hide();
-                $('.visa-data').hide();
-            });
+
             $('#universitySelect').change(function() {
                 $('#selectedValues').empty();
                 $('#universitySelect option:selected').each(function() {

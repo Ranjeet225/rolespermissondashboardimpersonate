@@ -974,8 +974,8 @@ class LeadsManageCotroller extends Controller
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
             }
             $course = implode(',', $request->courseValues);
-            $univerty = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
-            if ($univerty == NULL) {
+            $table_three_sixtee = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
+            if ($table_three_sixtee == NULL) {
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
@@ -997,7 +997,15 @@ class LeadsManageCotroller extends Controller
                         'courses' => $course
                     ]);
             }
-            $response = true;;
+            $program=Program::whereIn('id',explode(',',$table_three_sixtee->courses))->select('id','name')->get();
+            $response = true;
+            $data = [
+                'success' => true,
+                'status' => $response,
+                'program' => $program,
+                'table_three_sixtee' => $table_three_sixtee
+            ];
+            return response()->json($data);
         } elseif ($request->tab3) {
             $status = DB::table('tbl_three_sixtee')
                 ->where('sba_id', $request->sba_id)
@@ -1006,8 +1014,9 @@ class LeadsManageCotroller extends Controller
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
-                    'application' => $request->application_status,
-                    'remarks' => $request->remarks
+                    'application' => json_encode($request->all()),
+                    'remarks' => json_encode($request->all()),
+                    'selected_program' =>implode(',', $request->program_ids)
                 ]);
             } else {
                 DB::table('tbl_three_sixtee')
@@ -1015,8 +1024,9 @@ class LeadsManageCotroller extends Controller
                     ->update([
                         'sba_id' => $request->sba_id,
                         'user_id' => $user_id,
-                        'application' => $request->application_status,
-                        'remarks' => $request->remarks
+                        'application' => json_encode($request->all()),
+                        'remarks' =>  json_encode($request->all()),
+                        'selected_program' =>implode(',', $request->program_ids)
                     ]);
             }
             $student = StudentByAgent::where('id', $request->sba_id)->select('email', 'name')->first();
@@ -1040,9 +1050,11 @@ class LeadsManageCotroller extends Controller
             } else {
                 $response = true;;
             }
+            $program=Program::whereIn('id',explode(',',$threesixetee->courses))->select('id','name')->get();
             $data = [
                 'success' => true,
                 'status' => $response,
+                'program'=>$program
             ];
             return response()->json($data);
         } elseif ($request->tab == 'tab4') {
@@ -1083,11 +1095,26 @@ class LeadsManageCotroller extends Controller
                             'sba_id' => $request->sba_id,
                             'user_id' =>  $user_id,
                             'image' => $imagePath,
-                            'image_type' => 'offer'
+                            'image_type' => 'offer',
+                            'selected_course'=>$request->course_details  ?? null,
                         ]);
                 }
             }
-            $response = true;
+            $table_three_sixtee_image= DB::table('tbl_three_sixtee_image')
+            ->join('program', 'tbl_three_sixtee_image.selected_course', '=', 'program.id')
+            ->select('tbl_three_sixtee_image.*', 'program.name as program_name', 'program.id as program_id', 'tbl_three_sixtee_image.image')
+            ->where('sba_id', $request->sba_id)->get();
+                $data = [
+                    'success' => true,
+                    'status' => true,
+                    'table_three_sixtee_image'=>$table_three_sixtee_image
+                ];
+            $data = [
+                'success' => true,
+                'status' => $response,
+                'table_three_sixtee_image'=>$table_three_sixtee_image
+            ];
+            return response()->json($data);
         } elseif ($request->tab == 'tab5') {
             $status = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
             if ($status == NULL) {
@@ -1146,16 +1173,16 @@ class LeadsManageCotroller extends Controller
             }
             $response = true;;
         } elseif ($request->tab == 'tab6') {
-            $status = DB::table('tbl_three_sixtee')
+            $data = DB::table('tbl_three_sixtee')
                 ->where('sba_id', $request->sba_id)
                 ->first();
-            if ($status == NULL) {
+            if ($data == NULL) {
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
                     'visa_no' => $request->visa_no ?? null,
                     'visa_exp_date' => $request->visa_exp_date ?? null,
-                    'remarks' => $request->remarks ?? null,
+                    'visa_remarks' => $request->visa_remarks ?? null,
                     'visa_application' => $request->visa_application ?? null
                 ]);
             } else {
@@ -1166,7 +1193,7 @@ class LeadsManageCotroller extends Controller
                         'user_id' => $user_id,
                         'visa_no' => $request->visa_no ?? null,
                         'visa_exp_date' => $request->visa_exp_date ?? null,
-                        'remarks' => $request->remarks ?? null,
+                        'visa_remarks' => $request->visa_remarks ?? null,
                         'visa_application' => $request->visa_application ?? null
                     ]);
             }
@@ -1196,7 +1223,7 @@ class LeadsManageCotroller extends Controller
                 'visa_application' => $threesixetee->visa_application ?? null,
                 'visa_no' => $threesixetee->visa_no,
                 'visa_exp_date' => $threesixetee->visa_exp_date,
-                'remarks' => $threesixetee->remarks,
+                'visa_remarks' => $threesixetee->visa_remarks,
                 'student' => $student->name
             ];
             if ($data) {
@@ -1216,6 +1243,7 @@ class LeadsManageCotroller extends Controller
                     'fee_payment_by' => $request->fee_payment_by ?? null,
                     'fee_agent' => $request->fee_agent ?? null,
                     'fee_remarks' => $request->fee_remarks ?? null,
+                    'fees_details'=>$request->fees_details ?? null
                 ]);
             } else {
                 DB::table('tbl_three_sixtee')
@@ -1228,6 +1256,7 @@ class LeadsManageCotroller extends Controller
                         'fee_payment_by' => $request->fee_payment_by ?? null,
                         'fee_agent' => $request->fee_agent ?? null,
                         'fee_remarks' => $request->fee_remarks ?? null,
+                        'fees_details'=>$request->fees_details ?? null
                     ]);
             }
             $response = true;;
@@ -1335,6 +1364,30 @@ class LeadsManageCotroller extends Controller
         return response()->json($data);
     }
 
+    public function get_lead_360_images(Request $request)
+    {
+        $table_three_sixtee_image= DB::table('tbl_three_sixtee_image')
+                ->join('program', 'tbl_three_sixtee_image.selected_course', '=', 'program.id')
+                ->select('tbl_three_sixtee_image.*', 'program.name as program_name', 'program.id as program_id', 'tbl_three_sixtee_image.image')
+                ->where('sba_id', $request->sba_id)->get();
+                    $data = [
+                        'success' => true,
+                        'status' => true,
+                        'table_three_sixtee_image'=>$table_three_sixtee_image
+                    ];
+        return response()->json($data);
+    }
+
+    public function delete_lead_360_image(Request $request)
+    {
+        $id = $request->id;
+        DB::table('tbl_three_sixtee_image')->where('id', $id)->delete();
+        $data = [
+            'success' => true,
+            'status' => true,
+        ];
+        return response()->json($data);
+    }
 
 
     public function bulk_upload()
