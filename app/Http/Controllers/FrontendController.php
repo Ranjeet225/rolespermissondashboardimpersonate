@@ -71,7 +71,10 @@ class FrontendController extends Controller
                                 });
                             })
                             ->when($request->has('intake'), function ($query) use ($request) {
-                                return $query->whereIn('intake', explode(',', $request->intake));
+                                $intakes = array_map(function($intake) {
+                                    return str_pad($intake, 2, "0", STR_PAD_LEFT);
+                                }, explode(',', $request->intake));
+                                 $query->whereIn('intake', $intakes);
                             })
                             ->when($request->has('other_exam'), function ($query) use ($request) {
                                 return $query->whereIn('other_exam', explode(',', $request->other_exam));

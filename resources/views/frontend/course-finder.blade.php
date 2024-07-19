@@ -553,6 +553,7 @@
                             let html = '';
                             let course_data ='';
                             $.each(response.data.data, function(index, item) {
+                                var url_param =getParams();
                                 html += `
                                  <div class="university-item course-logo">
                                     <div>
@@ -965,6 +966,7 @@
                         program_id: selectedProgramLevelOptions
                     },
                     success: function(response) {
+                        $('.other_exam_show').empty();
                         $.each(response, function(index, value) {
                             var other_exam_name = <?php echo json_encode($other_exam_name); ?>;
                             var otherExam = other_exam_name.map(function(other_exam_name) {
