@@ -218,7 +218,7 @@
                                 @foreach ($attended_school as $item)
                                 <div class="card card-stretch-full">
                                     <div class="card-header">
-                                       <h4>{{$item->educationLevel->name ?? null }}</h4>
+                                       <h4>{{$item->document->name ?? null }}</h4>
                                     </div>
                                     <div class="card-body table-responsive">
                                        <table class="table table-modern table-hover">
@@ -311,6 +311,18 @@
                                                 <th> Speaking</th>
                                                 <td> {{$item->speaking_score ?? null }}</td>
                                              </tr>
+                                             <tr>
+                                                <th>Exam Document</th>
+                                                <td>
+                                                    @if ($item->exam_document)
+                                                        <a href="{{ asset($item->exam_document) }}" target="_blank">
+                                                            <img src="{{ asset($item->exam_document) }}" alt="Exam Document" width="100" height="100">
+                                                        </a>
+                                                    @else
+                                                        No Document Found
+                                                    @endif
+                                                </td>
+                                             </tr>
                                           </tbody>
                                        </table>
                                     </div>
@@ -352,6 +364,18 @@
                                                 <th> Total</th>
                                                 <td>Score: {{$item->total_score}}<br>Rank: {{$item->total_rank}}</td>
                                              </tr>
+                                             <tr>
+                                                <th>Exam Document</th>
+                                                <td>
+                                                    @if ($item->exam_document)
+                                                        <a href="{{ asset($item->exam_document) }}" target="_blank">
+                                                            <img src="{{ asset($item->exam_document) }}" alt="Exam Document" width="100" height="100">
+                                                        </a>
+                                                    @else
+                                                        No Document Found
+                                                    @endif
+                                                </td>
+                                             </tr>
                                           </tbody>
                                        </table>
                                     </div>
@@ -374,12 +398,40 @@
                                                <td>{{$about_student->ever_refused_visa ?? null }}</td>
                                             </tr>
                                             <tr>
+                                               <th>Visa Documents</th>
+                                               <td>
+                                                    @if (!empty($about_student->visa_documents))
+                                                        @if (basename($about_student->visa_documents) != "")
+                                                            <img src="{{ asset($about_student->visa_documents) }}" style="width:150px;height:150px">
+                                                        @endif
+                                                    @else
+                                                        No Document Found
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Visa Details</th>
+                                                <td>{{$about_student->visa_details ?? null }}</td>
+                                             </tr>
+                                            <tr>
                                                <th>Do you have a valid Study Permit / Visa?</th>
                                                <td>{{$about_student->has_visa ?? null }}</td>
                                             </tr>
                                             <tr>
+                                                <th>Visa Documents</th>
+                                                <td>
+                                                    @if (!empty($about_student->study_permit_documents))
+                                                        @if (basename($about_student->study_permit_documents) != "")
+                                                            <img src="{{ asset($about_student->study_permit_documents) }}" style="width:150px;height:150px">
+                                                        @endif
+                                                    @else
+                                                        No Document Found
+                                                    @endif
+                                                 </td>
+                                             </tr>
+                                            <tr>
                                                <th>Visa Details</th>
-                                               <td>{{$about_student->visa_details ?? null }}</td>
+                                               <td>{{$about_student->study_permit ?? null }}</td>
                                             </tr>
                                          </tbody>
                                       </table>
@@ -401,38 +453,6 @@
                                 </div>
                                 <div class="d-flex mt-2">
                                     <a class="btn btn-warning previous me-2 ">Previous</a>
-                                    <a class="btn btn-primary next " data-bs-toggle="modal"
-                                        data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Continue</a>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step9" aria-labelledby="step3-tab">
-                                <div class="mb-4">
-                                    <h5> Take Off</h5>
-                                </div>
-                                <div class="d-flex">
-                                    <a class="btn btn-warning previous   me-2">Previous</a>
-                                    <a class="btn btn-primary next " data-bs-toggle="modal"
-                                        data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Continue</a>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step10" aria-labelledby="step3-tab">
-                                <div class="mb-4">
-                                    <h5> Borading</h5>
-                                </div>
-                                <div class="d-flex">
-                                    <a class="btn btn-warning previous me-2  ">Previous</a>
-                                    <a class="btn btn-primary next " data-bs-toggle="modal"
-                                        data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Continue</a>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step11" aria-labelledby="step3-tab">
-                                <div class="mb-4">
-                                    <h5> 5Payment Details</h5>
-                                </div>
-                                <div class="d-flex">
-                                    <a class="btn btn-warning previous me-2  ">Previous</a>
-                                    <a class="btn btn-primary" href="{{route('oel_360')}}"
-                                       >Back To 360</a>
                                 </div>
                             </div>
                         </div>

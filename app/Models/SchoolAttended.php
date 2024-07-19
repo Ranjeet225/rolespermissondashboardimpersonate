@@ -29,10 +29,15 @@ class SchoolAttended extends Model
     {
         return $this->hasOne(Student::class,'id', 'student_id');
     }
-    
+
     public function province()
     {
         return $this->hasOne(Province::class,'id', 'province_id');
     }
 
+    public function document(){
+        return $this->belongsTo(Documents::class,'documents','id' );
+    }
+
+  
 }

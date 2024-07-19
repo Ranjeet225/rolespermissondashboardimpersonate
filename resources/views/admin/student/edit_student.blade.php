@@ -2233,7 +2233,7 @@
                             }).then(function() {
                                 if(response.redirect){
                                     setTimeout(() => {
-                                        window.location.href = "{{ route('dashboard') }}";
+                                        window.location.href = "{{ route('student-profile') }}";
                                     }, 2000);
                                 }
                             });

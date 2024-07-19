@@ -84,16 +84,16 @@ class StudentController extends Controller
             abort(404);
         }
         $about_student =Student::with('country','province')->where('user_id',$auth_user)->first();
-        $education_history = EducationHistory::with('country','educationLevel','gradingScheme')->where('student_id',$auth_user)->first();
+        $education_history = EducationHistory::with('country','educationLevel','gradingScheme')->where('student_id',$about_student->id)->first();
         $student = DB::table('student')->select('id')->where('user_id', $auth_user)->first();
         if(empty($student)) {
             abort(404);
         }
         $student_id = $student->id;
         $test_score= DB::table('test_scores')->where('student_id',$student_id)->get();
-        $attended_school =SchoolAttended::with('country','educationLevel','Student','province')->where('student_id',$student_id)->get();
+        $attended_school =SchoolAttended::with('country:id,name','document','educationLevel:id,name,program_level_id,program_sublevel_id','Student:id,user_id,first_name,last_name,country_id','province')->where('student_id',$student_id)->get();
         $additional_qualification = DB::table('additional_qualification')->where('student_id', $student_id)->whereIn('type', ['GRE', 'GMAT'])->get();
-        $student_document = DB::table('student_documents')->where('student_id',$auth_user)->get();
+        $student_document = DB::table('student_documents')->where('student_id',$student_id)->get();
         return view('admin.student.myprofile',compact('additional_qualification','student_document','about_student','test_score','education_history','attended_school'));
     }
 
