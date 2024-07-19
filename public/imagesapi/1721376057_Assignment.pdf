@@ -1,0 +1,20 @@
+Assignment 1.  Create three table Employee(ecode,name),Salary(amount),Designation(designation),Address(state,city,country,pin,street,flr)create crud function 
+               and then display data with employee  name,designation,salary,address with the halp of ECODE searching.
+Assignment 2.  Create country and Student table then add country as static/dynamic in database then create a form fetch all country in dropdown and submit button,           		select one country or multiple country then on submit button click insert data in Student with comma seprated and display all Student with muliple    			country in sequence.
+
+
+Table store data Student country_id id =1 [101,202,204,205]
+                                     id =2 [202,101,204,206]
+
+                             
+                    As example select country 101
+                       then display 
+                                   101
+                                   101
+				    
+				    
+                   Again select country 206, 205
+
+                                  show list 206
+                                            205
+				   

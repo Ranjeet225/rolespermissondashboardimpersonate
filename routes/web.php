@@ -129,6 +129,8 @@ Route::middleware('auth')->group(function () {
         // Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise']);
         Route::get("student-list",[StudentController::class,'student_list'])->name('student-list');
         // Route::get('cehckout/{say}',[LeadsManageCotroller::class,'with_parameter'])->name('parameter');
+        Route::get('get-visa-document',[LeadsManageCotroller::class,'get_visa_document'])->name('get-visa-document');
+        Route::get('delete-visa-document-three',[LeadsManageCotroller::class,'delete_visa_document'])->name('delete-visa-document-three');
 
         Route::post('university-course',[LeadsManageCotroller::class,'university_course'])->name('university.courses');
         // student registration fees

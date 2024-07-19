@@ -331,10 +331,8 @@
                                     data-bs-placement="top" title=" Flight Details">
                                     <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                         href="#step8" id="step8-tab"
-                                        @if (
-                                            (!$user->hasRole('Administrator') && empty($threesixtee->fee_payment_mode)) ||
-                                                empty($threesixtee->fee_amount) ||
-                                                empty($threesixtee->fee_payment_by)) @disabled(true) @endif
+                                        @if ((!$user->hasRole('Administrator') && empty($threesixtee->fee_payment_mode)) &&
+                                                empty($threesixtee->fee_amount)) @disabled(true) @endif
                                         data-bs-toggle="tab" role="tab" aria-controls="step8" aria-selected="false"> 8
                                     </a>
                                     <br>
@@ -532,8 +530,8 @@
                                     <h4>Payment Status</h4>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="paid"
-                                            @if (!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done') checked @endif>
-                                        <label class="form-check-label" for="paid">@if (!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done') Paid @else Unpaid @endif</label>
+                                            @if (!empty($paymentStatusDone['application_fees']) && $paymentStatusDone['application_fees'] == 'Done') checked @endif>
+                                        <label class="form-check-label" for="paid">@if (!empty($paymentStatusDone['application_fees']) && $paymentStatusDone['application_fees'] == 'Done') Paid @else Unpaid @endif</label>
                                     </div>
                                     <hr>
                                     <div class="alert-image-error"> </div>
@@ -606,7 +604,7 @@
                                                 <a class="btn btn-success upload-image me-2">
                                                     <span class="spinner-grow spinner-grow-sm d-none" role="status"
                                                         aria-hidden="true"></span>Uplaod image</a>
-                                                @if ((!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done'))
+                                                @if ((!empty($paymentStatusDone['application_fees']) && $paymentStatusDone['application_fees'] == 'Done'))
                                                     <a class="btn btn-primary next " data-bs-toggle="modal"
                                                     data-bs-target="#save_modal"><span
                                                         class="spinner-grow spinner-grow-sm d-none" role="status"
@@ -626,8 +624,8 @@
                                     <h4>Payment Status</h4>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="paid"
-                                            @if (!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done') checked @endif>
-                                        <label class="form-check-label" for="paid">@if (!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done') Paid @else Unpaid @endif</label>
+                                            @if (!empty($paymentStatusDone['application_fees']) && $paymentStatusDone['application_fees'] == 'Done') checked @endif>
+                                        <label class="form-check-label" for="paid">@if (!empty($paymentStatusDone['application_fees']) && $paymentStatusDone['application_fees'] == 'Done') Paid @else Unpaid @endif</label>
                                     </div>
                                     <hr>
                                     <form id ="tab7DataForm">
@@ -662,7 +660,7 @@
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-namecard-input" class="form-label">Fee
                                                         Amount</label>
-                                                    <input type="text" maxlength ="150"
+                                                    <input type="number" maxlength ="150"
                                                         value="{{ $threesixtee->fee_amount ?? '' }}" placeholder="fee amount"
                                                         name ="fee_amount" id="fee_amount" class="form-control">
                                                 </div>
@@ -718,7 +716,7 @@
                                     </form>
                                     <div class="d-flex">
                                         <a class="btn btn-warning previous me-2">Previous</a>
-                                        @if ((!empty($paymentStatusDone['tution_fees']) && $paymentStatusDone['tution_fees'] == 'Done'))
+                                        @if ((!empty($paymentStatusDone['application_fees']) && $paymentStatusDone['application_fees'] == 'Done'))
                                         <a class="btn btn-primary next" data-bs-toggle="modal"
                                             data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none"
                                                 role="status" aria-hidden="true"></span>Continue</a>
@@ -827,27 +825,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- <a class="btn btn-primary w-100 my-2">Country Portal Faq</a>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="input-block mb-3">
-                                                    <label for="basicpill-expiration-input" class="form-label">
-                                                        Question</label>
-                                                    <input type="text" maxlength ="150" class="form-control"
-                                                        value="{{ $threesixtee->portal_question ?? '' }}"
-                                                        id="portal_question" name="portal_question">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="input-block mb-3">
-                                                    <label for="basicpill-expiration-input" class="form-label">
-                                                        Answer</label>
-                                                    <input type="text" maxlength ="150"
-                                                        value="{{ $threesixtee->portal_answer ?? '' }}" class="form-control"
-                                                        name="portal_answer" id="portal_answer">
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                         <a class="btn btn-primary w-100 my-2">Visa Document</a>
                                         <div class="row">
                                             <div class="col-lg-4">
@@ -878,14 +855,34 @@
                                                 <div class="input-block mb-3">
                                                     <label for="basicpill-expiration-input" class="form-label">
                                                          Document </label>
-                                                    <input type="file" multiple class="form-control" name="lead-document"
-                                                        id="lead-document">
+                                                    <input type="file" multiple class="form-control" name="lead_document"
+                                                        id="lead_document">
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Document Type </th>
+                                                    <th scope="col">Sub Document</th>
+                                                    <th scope="col">Delete</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody class="visa_document_table">
+
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                    </div>
                                     <div class="d-flex">
                                         <a class="btn btn-warning previous me-2">Previous</a>
+                                        <a class="btn btn-success upload-visa-document me-2">
+                                            <span class="spinner-grow spinner-grow-sm d-none" role="status"
+                                                aria-hidden="true"></span>Uplaod Document</a>
                                         @if ((!empty($paymentStatusDone['visa_fess']) && $paymentStatusDone['visa_fess'] == 'Done'))
                                         <a class="btn btn-primary next" data-bs-toggle="modal"
                                         data-bs-target="#save_modal"><span class="spinner-grow spinner-grow-sm d-none"
@@ -1301,7 +1298,7 @@
                     formData.append('visa_document_type', visa_document_type);
                     formData.append('visa_sub_document_type', visa_sub_document_type);
                     formData.append('visa_document', visa_document);
-                    var files = $('#lead-document')[0].files;
+                    var files = $('#lead_document')[0].files;
                     for (var i = 0; i < files.length; i++) {
                         formData.append('images[]', files[i]);
                     }
@@ -1550,7 +1547,12 @@
                             var tr = $('<tr>');
                             tr.append($('<td>').text(row.id));
                             tr.append($('<td>').text(row.program_name));
-                            tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                            if (row.image && row.image.endsWith('.pdf')) {
+                                tr.append($('<td>').html(`<a href="${assetBaseUrl}${row.image}" target="_blank">View PDF</a>`));
+                            } else {
+                                tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                            }
+
                             tr.append($('<td>').html(`<a href="javascript:void(0)" class="btn btn-warning delete-document" data-id="${row.id}"><i class="fa-solid fa-trash"></i></a>`));
                             tableBody.append(tr);
                         });
@@ -1558,15 +1560,15 @@
                     },
                     error: function(xhr) {
                         var response = JSON.parse(xhr.responseText);
+                        spinner.classList.add('d-none');
                         $('.upload-image').removeClass('disabled');
                         if (response.errors.document) {
-                            var documents = ` <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <strong>${response.errors.document}</strong>
-                                            </div>`;
-                            $('.alert-image-error').html(documents);
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.errors.document,
+                                icon: 'warning',
+                                confirmButtonText: 'Ok'
+                            });
                         }
                     }
                 });
@@ -1622,7 +1624,11 @@
                                 var tr = $('<tr>');
                                 tr.append($('<td>').text(row.id));
                                 tr.append($('<td>').text(row.program_name));
-                                tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                                if (row.image && row.image.endsWith('.pdf')) {
+                                    tr.append($('<td>').html(`<a href="${assetBaseUrl}${row.image}" target="_blank">View PDF</a>`));
+                                } else {
+                                    tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                                }
                                 tr.append($('<td>').html(`<a href="javascript:void(0)" class="btn btn-warning delete-document" data-id="${row.id}"><i class="fa-solid fa-trash"></i></a>`));
                                 tableBody.append(tr);
                             });
@@ -1789,6 +1795,132 @@
                         });
                     }
                 });
+            });
+            $('.upload-visa-document').on('click', function() {
+                $('.upload-visa-document').addClass('disabled');
+                var tab5 = 'tab5';
+                var spinner = this.querySelector('.spinner-grow');
+                spinner.classList.remove('d-none');
+                var formData = new FormData($('#tab5DataForm')[0]);
+                var files = $('#lead_document')[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('images[]', files[i]);
+                }
+                formData.append('tab5', tab5);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route('store-lead-360') }}',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        spinner.classList.add('d-none');
+                        $('.upload-visa-document').removeClass('disabled');
+                        var assetBaseUrl = "{{ asset('') }}";
+                        if (response.status) {
+                            var table_data = response.visa_document;
+                            var tableBody = $('.visa_document_table');
+                            tableBody.empty();
+                            table_data.forEach(function(row) {
+                                var tr = $('<tr>');
+                                tr.append($('<td>').text(row.id));
+                                tr.append($('<td>').text(row.visa_document_name));
+                                tr.append($('<td>').text(row.visa_sub_document_name));
+                                if (row.image && row.image.endsWith('.pdf')) {
+                                    tr.append($('<td>').html(`<a href="${assetBaseUrl}${row.image}" target="_blank">View PDF</a>`));
+                                } else {
+                                    tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                                }
+                                tr.append($('<td>').html(`<a href="javascript:void(0)" class="btn btn-warning delete-visa-document" data-id="${row.id}"><i class="fa-solid fa-trash"></i></a>`));
+                                tableBody.append(tr);
+                            });
+                        }
+
+                    },
+                    error: function(xhr) {
+                        var response = JSON.parse(xhr.responseText);
+                        spinner.classList.add('d-none');
+                        $('.upload-visa-document').removeClass('disabled');
+                        if (response.errors.document) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.errors.document,
+                                icon: 'warning',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    }
+                });
+            });
+            function get_visa_document() {
+                var sba_id = $('.sba_id').val();
+                $.ajax({
+                    url: '{{ route('get-visa-document') }}',
+                    type: 'GET',
+                    data: {
+                        sba_id: sba_id
+                    },
+                    success: function(response) {
+                        var assetBaseUrl = "{{ asset('') }}";
+                        if (response.data.status) {
+                            var table_data = response.data.visa_document;
+                            var tableBody = $('.visa_document_table');
+                            tableBody.empty();
+                            table_data.forEach(function(row) {
+                                var tr = $('<tr>');
+                                tr.append($('<td>').text(row.id));
+                                tr.append($('<td>').text(row.visa_document_name));
+                                tr.append($('<td>').text(row.visa_sub_document_name));
+                                if (row.image && row.image.endsWith('.pdf')) {
+                                    tr.append($('<td>').html(`<a href="${assetBaseUrl}${row.image}" target="_blank">View PDF</a>`));
+                                } else {
+                                    tr.append($('<td>').html(`<img src="${assetBaseUrl}${row.image ?? ''}" style="width:150px;height:150px">`));
+                                }
+                                tr.append($('<td>').html(`<a href="javascript:void(0)" class="btn btn-warning delete-visa-document" data-id="${row.id}"><i class="fa-solid fa-trash"></i></a>`));
+                                tableBody.append(tr);
+                            });
+                        }
+                    }
+                });
+            }
+            get_visa_document();
+            $(document).on('click', '.delete-visa-document', function(event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('delete-visa-document-three') }}',
+                            type: 'GET',
+                            data: {
+                                id: id
+                            },
+                            success: function(response) {
+                                if (response.status) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Document has been deleted.',
+                                        'success'
+                                    );
+                                    get_visa_document();
+                                }
+                            }
+                        });
+                    }
+                })
             });
         });
     </script>
