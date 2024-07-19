@@ -146,7 +146,7 @@ class DashboardController extends Controller
             if(empty($student_id)) {
                 abort(404);
             }
-            $program_applied = PaymentsLink::orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->id)->count();
+            $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->user_id)->count();
         }else{
             $program_applied = null;
         }

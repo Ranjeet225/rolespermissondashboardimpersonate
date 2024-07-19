@@ -979,7 +979,8 @@ class LeadsManageCotroller extends Controller
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
-                    'courses' => $course
+                    'courses' => $course,
+                    'selected_program'=>$course
                 ]);
             } else {
                 DB::table('tbl_three_sixtee')
@@ -987,14 +988,14 @@ class LeadsManageCotroller extends Controller
                 ->update([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
-                    'courses' => null
+                    'courses' => $course,
                 ]);
                 DB::table('tbl_three_sixtee')
                     ->Where('sba_id', $request->sba_id)
                     ->update([
                         'sba_id' => $request->sba_id,
                         'user_id' => $user_id,
-                        'courses' => $course
+                        'selected_program'=>$course
                     ]);
             }
             $program=Program::whereIn('id',explode(',',$table_three_sixtee->courses))->select('id','name')->get();

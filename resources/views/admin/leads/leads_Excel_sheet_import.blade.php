@@ -44,7 +44,10 @@
               </div>
               <div class="col-md-12">
                 <br>
-                <a href="{{ asset('leads.xlsx') }}" class="btn btn-success" download>Download Excel File</a>
+                <a href="{{ asset('leads.xlsx') }}" class="btn btn-success" download>
+                  <i class="fa-solid fa-download"></i> 
+                </a>
+
                 <button type="submit" class="mybtn px-5">Upload</button>
               </div>
             </div>

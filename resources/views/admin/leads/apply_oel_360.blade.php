@@ -1387,13 +1387,15 @@
                     success: function(response) {
                         spinner.classList.add('d-none');
                         $('.next').removeClass('disabled');
-                        if (response.program && response.table_three_sixtee) {
+                        if (response.program && response.table_three_sixtee ) {
                             $('.select_course').empty();
                             let selected_program = response.table_three_sixtee.selected_program;
+                            console.log(response.table_three_sixtee);
                             let selectedProgramIds = selected_program.split(',').map(id => parseInt(id.trim()));
                             let remarks = JSON.parse(response.table_three_sixtee.remarks);
                             let application = JSON.parse(response.table_three_sixtee.application);
                             response.program.forEach(function(course) {
+                                console.log(selectedProgramIds);
                                 $('.select_course').append(`
                                     <div class="col-6">
                                         <div class="form-check form-check-inline">
@@ -1402,26 +1404,26 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="accepted" id="accepted${course.id}"  ${application[`${course.id}_application_status`] === 'accepted' ? 'checked' : ''}>
+                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="accepted" id="accepted${course.id}" ${(application && application[`${course.id}_application_status`] === 'accepted') ? 'checked' : ''}>
                                             <label class="form-check-label" for="accepted${course.id}">Accepted</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="rejected" id="rejected${course.id}" ${application[`${course.id}_application_status`] === 'rejected' ? 'checked' : ''}>
+                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="rejected" id="rejected${course.id}" ${(application && application[`${course.id}_application_status`] === 'rejected') ? 'checked' : ''}>
                                             <label class="form-check-label" for="rejected${course.id}">Rejected</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="in_progress" id="in_progress${course.id}"  ${application[`${course.id}_application_status`] === 'in_progress' ? 'checked' : ''}>
+                                            <input class="form-check-input" type="radio" name="${course.id}_application_status" value="in_progress" id="in_progress${course.id}"  ${(application && application[`${course.id}_application_status`] === 'in_progress') ? 'checked' : ''}>
                                             <label class="form-check-label" for="in_progress${course.id}">In Progress</label>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="row" id="tab3remarks_${course.id}" style="${application[`${course.id}_application_status`] === 'rejected' || application[`${course.id}_application_status`] === 'in_progress' ? 'display: block;' : 'display: none;'}">
-                                            <div class="input-block mb-3">
-                                                <label for="basicpill-expiration-input" class="form-label">Remarks</label>
-                                                <input type="text" maxlength="150" class="form-control remarks-input" placeholder="Remarks" name="remarks_${course.id}" id="remarksdata_${course.id}" value="${application[`remarks_${course.id}`] || ''}">
-                                            </div>
+                                <div class="col-12">
+                                    <div class="row" id="tab3remarks_${course.id}" style="${(application && (application[`${course.id}_application_status`] === 'rejected' || application[`${course.id}_application_status`] === 'in_progress')) ? 'display: block;' : 'display: none;'}">
+                                        <div class="input-block mb-3">
+                                            <label for="remarksdata_${course.id}" class="form-label">Remarks</label>
+                                            <input type="text" maxlength="150" class="form-control remarks-input" placeholder="Remarks" name="remarks_${course.id}" id="remarksdata_${course.id}" value="${application && application[`remarks_${course.id}`] ? application[`remarks_${course.id}`] : ''}">
                                         </div>
                                     </div>
+                                </div>
                                 `);
                                 $(`input[name='${course.id}_application_status']`).on('change', function() {
                                     let status = $(this).val();
