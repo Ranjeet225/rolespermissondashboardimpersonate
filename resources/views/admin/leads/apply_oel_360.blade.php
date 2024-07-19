@@ -797,7 +797,7 @@
                                                 <div class="input-block mb-3">
                                                     <label for="portal_url" class="form-label">Portal Url</label>
                                                     <input type="url" maxlength ="255" class="form-control"
-                                                        name="portal_url" value="{{ $threesixtee->portal_url ?? '' }}"
+                                                        name="portal_url" value="{{ $threesixtee->portal_url ?? 'https://www.vfsglobal.com/en/individuals/index.html' }}"
                                                         id="portal_url">
                                                 </div>
                                             </div>
