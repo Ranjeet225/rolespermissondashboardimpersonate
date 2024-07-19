@@ -1051,7 +1051,16 @@ class LeadsManageCotroller extends Controller
             } else {
                 $response = true;;
             }
-            $program=Program::whereIn('id',explode(',',$threesixetee->courses))->select('id','name')->get();
+            $acceptedProgramIds = [];
+            $programIds = $request->input('program_ids', []);
+            foreach ($programIds as $programId) {
+                $applicationStatus = $request->input("{$programId}_application_status");
+
+                if ($applicationStatus === "accepted") {
+                    $acceptedProgramIds[] = $programId;
+                }
+            }
+            $program=Program::whereIn('id',$acceptedProgramIds)->select('id','name')->get();
             $data = [
                 'success' => true,
                 'status' => $response,
@@ -1110,15 +1119,10 @@ class LeadsManageCotroller extends Controller
                     'status' => true,
                     'table_three_sixtee_image'=>$table_three_sixtee_image
                 ];
-            $data = [
-                'success' => true,
-                'status' => $response,
-                'table_three_sixtee_image'=>$table_three_sixtee_image
-            ];
             return response()->json($data);
-        } elseif ($request->tab == 'tab5') {
-            $status = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
-            if ($status == NULL) {
+        } elseif ($request->tab5 == 'tab5') {
+            $three_sixtee = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
+            if ($three_sixtee == NULL) {
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
@@ -1157,22 +1161,33 @@ class LeadsManageCotroller extends Controller
                         'visa_application' => $request->visa_application ?? null
                     ]);
             }
-            if ($request->hasFile('lead-document')) {
-                $images = $request->file('lead-document');
-                foreach ($images as $uploadedImage) {
-                    $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
-                    $imagePath = 'imagesapi/' . $imageName;
-                    $uploadedImage->move(public_path('imagesapi/'), $imageName);
-                    DB::table('tbl_three_sixtee_image')
-                        ->insert([
-                            'sba_id' => $request->sba_id,
-                            'user_id' =>  $user_id,
-                            'image' => $imagePath,
-                            'image_type' => 'visa_application'
-                        ]);
-                }
+            if ($request->hasFile('lead_document')) {
+                $uploadedImage = $request->file('lead_document');
+                $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
+                $imagePath = 'imagesapi/' . $imageName;
+                $uploadedImage->move(public_path('imagesapi/'), $imageName);
+                DB::table('tbl_three_sixtee_image')
+                    ->insert([
+                        'sba_id' => $request->sba_id,
+                        'user_id' =>  $user_id,
+                        'image' => $imagePath,
+                        'visa_document_type'=>$request->visa_document_type,
+                        'visa_sub_document_type'=>$request->visa_sub_document_type,
+                        'image_type' => 'visa_application_document',
+                ]);
             }
-            $response = true;;
+            $visa_document = DB::table('tbl_three_sixtee_image')
+                    ->select('tbl_three_sixtee_image.id','tbl_three_sixtee_image.image', 'visa_documents.name AS visa_document_name', 'visa_sub_documents.name AS visa_sub_document_name')
+                    ->join('visa_documents', 'tbl_three_sixtee_image.visa_document_type', '=', 'visa_documents.id')
+                    ->join('visa_sub_documents', 'tbl_three_sixtee_image.visa_sub_document_type', '=', 'visa_sub_documents.id')
+                    ->where('sba_id', $request->sba_id)
+                    ->where('image_type', 'visa_application_document')->get();
+                    $data = [
+                        'success' => true,
+                        'status' => true,
+                        'visa_document'=>$visa_document
+                    ];
+            return response()->json($data);
         } elseif ($request->tab == 'tab6') {
             $data = DB::table('tbl_three_sixtee')
                 ->where('sba_id', $request->sba_id)
@@ -1662,4 +1677,32 @@ class LeadsManageCotroller extends Controller
             return response()->json(['data' => $visa_sub_documents]);
         }
     }
+
+    public function get_visa_document(Request $request)
+    {
+        if ($request->ajax()) {
+            $visa_document = DB::table('tbl_three_sixtee_image')
+            ->select('tbl_three_sixtee_image.id','tbl_three_sixtee_image.image', 'visa_documents.name AS visa_document_name', 'visa_sub_documents.name AS visa_sub_document_name')
+            ->join('visa_documents', 'tbl_three_sixtee_image.visa_document_type', '=', 'visa_documents.id')
+            ->join('visa_sub_documents', 'tbl_three_sixtee_image.visa_sub_document_type', '=', 'visa_sub_documents.id')
+            ->where('sba_id', $request->sba_id)
+            ->where('image_type', 'visa_application_document')->get();
+            $data = [
+                'success' => true,
+                'status' => true,
+                'visa_document'=>$visa_document
+            ];
+            return response()->json(['data' => $data]);
+        }
+    }
+
+
+    public function delete_visa_document(Request $request)
+    {
+        if ($request->ajax()) {
+            $visa_document = DB::table('tbl_three_sixtee_image')->where('id', $request->id)->delete();
+            return response()->json(['success' => true, 'status' => true]);
+        }
+    }
+
 }
