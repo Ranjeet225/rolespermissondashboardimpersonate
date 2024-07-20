@@ -1,4 +1,7 @@
 @extends('admin.include.app')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
     <div class="row">
         <div class="card card-buttons">
@@ -346,6 +349,8 @@
 @endsection
 @section('scripts')
     <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
+
     <script>
         $(document).ready(function() {
             function setupCSRF() {
@@ -431,10 +436,29 @@
                         leadIds: checkedIds,agentId:recordId
                     },
                     success: function(response){
-                      var data = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    <strong>${response}</strong>
-                                </div>`;
-                      $('.error-message').html(data);
+                        if(response.status){
+                                Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value) {
+                                    location.reload();
+                                }
+                            });
+                        }else{
+                            Swal.fire({
+                            title: 'Warning!',
+                            text: response.message,
+                            icon: 'warning',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }
+                        });
+                        }
                     }
                 });
             });

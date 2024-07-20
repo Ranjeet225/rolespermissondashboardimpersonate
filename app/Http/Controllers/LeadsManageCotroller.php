@@ -596,7 +596,6 @@ class LeadsManageCotroller extends Controller
         $preproLabel = Fieldsofstudytype::All();
         $interested = Intrested::WHERE('is_deleted', '0')->get();
         $studentData = StudentByAgent::where('id', $id)->first();
-        // dd($studentData);
         return view('admin.leads.edit_lead', compact('studentData', 'preproLabel', 'castes', 'interested', 'subjects', 'countries', 'lead_status', 'source', 'progLabel'));
 
     }
@@ -1553,7 +1552,7 @@ class LeadsManageCotroller extends Controller
         if(!empty($request->leadIds)){
             $std_by_id = DB::table('student_by_agent')->whereIn('id', $request->leadIds)->whereNotNull('zip')->get();
             if ($std_by_id->isEmpty()) {
-                $data = "You can not assign without Pincode !!!!";
+                $data = ['status' => false, 'message' => "You can not assign without Pincode ! "];
                 return response()->json($data);
             }else{
                 $user= User::where('id',$request->agentId)->select('id','added_by')->first();
@@ -1570,7 +1569,7 @@ class LeadsManageCotroller extends Controller
                         ];
                         Mail::to($franchise_user->email)->send(new assignLeadsMail($data));
                     }
-                    $data = "Franchise Updated Successfully !!!!";
+                    $data = ['status' => true, 'message' => "Franchise Updated Successfully ! "];
                 }else if($users->hasRole('agent')){
                     StudentByAgent::whereIn('id',$request->leadIds)->update([
                         'assigned_to' =>$request->agentId,
@@ -1583,13 +1582,13 @@ class LeadsManageCotroller extends Controller
                         ];
                         Mail::to($franchise_user->email)->send(new assignLeadsMail($data));
                     }
-                    $data = "Agent Updated Successfully !!!!";
+                    $data = ['status' => true, 'message' => "Agent Updated Successfully !"];
                 } else {
-                    $data = "Something Went Wrong !!!!";
+                    $data = ['status' => false, 'message' => "Something Went Wrong !"];
                 }
             }
-        }else{
-            $data = "Please Select leads";
+        } else {
+            $data = ['status' => false, 'message' => "Please Select leads"];
         }
         return response()->json($data);
     }

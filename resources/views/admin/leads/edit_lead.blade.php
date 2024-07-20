@@ -1,4 +1,7 @@
 @extends('admin.include.app')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
 <div class="page-header">
     <div class="row">
@@ -396,32 +399,9 @@
 @endsection
 @section('scripts')
 <script src="{{asset('assets/js/jquery-3.7.1.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
 <script>
     $(document).ready(function(){
-       /* $('.nav-link').click(function(){
-            if($(this).attr('href') === "#basictab1") {
-                $('#basictab2').hide();
-                $('#basictab3').hide();
-                $('#basictab4').hide();
-                $('#basictab1').show();
-                $('#intake').addClass('active');
-            }else if($(this).attr('href') === "#basictab2") {
-                $('#basictab1').hide();
-                $('#basictab3').hide();
-                $('#basictab4').hide();
-                $('#basictab2').show();
-            }else if ($(this).attr('href') === "#basictab3") {
-                $('#basictab1').hide();
-                $('#basictab2').hide();
-                $('#basictab4').hide();
-                $('#basictab3').show();
-            }else{
-                $('#basictab2').hide();
-                $('#basictab3').hide();
-                $('#basictab1').hide();
-                $('#basictab4').show();
-            }
-        }); */
         function fetchStates(country_id) {
             $('.province_id').empty();
             $.ajaxSetup({
@@ -463,8 +443,12 @@
                 type: 'post',
                 data: tab1formData,
                 success: function(response) {
-                    console.log(response.id);
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     $('.uniquevalue').val(response.id);
                     if(response.tab1 == 'tab1'){
                      $('#basictab1').hide();
@@ -503,7 +487,12 @@
                 type: 'post',
                 data: tab2formData,
                 success: function(response) {
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     if(response.tab2 == 'tab2'){
                     $('#basictab1').hide();
                     $('#basictab2').hide();
@@ -532,7 +521,12 @@
                 type: 'post',
                 data: tab3formData,
                 success: function(response) {
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     if(response.tab3 == 'tab3'){
                     $('#basictab1').hide();
                     $('#basictab2').hide();
@@ -561,7 +555,12 @@
                 type: 'post',
                 data: tab4formData,
                 success: function(response) {
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     setTimeout(() => {
                         location.reload();
                     }, 1000);

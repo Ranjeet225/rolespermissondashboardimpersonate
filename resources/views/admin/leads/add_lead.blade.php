@@ -1,4 +1,7 @@
 @extends('admin.include.app')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
 <div class="page-header">
     <div class="row">
@@ -391,11 +394,8 @@
 @endsection
 @section('scripts')
 <script src="{{asset('assets/js/jquery-3.7.1.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
 <script>
-// sorry for rubbish coding in this  page
-// sorry for rubbish coding in this  page
-// sorry for rubbish coding in this  page
-
     $(document).ready(function(){
         function fetchStates(country_id) {
             $('.province_id').empty();
@@ -438,9 +438,13 @@
                 type: 'post',
                 data: tab1formData,
                 success: function(response) {
-                    console.log(response.id);
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
                     $('.uniquevalue').val(response.id);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     if(response.tab1 == 'tab1'){
                      $('#basictab1').hide();
                      $('#basictab3').hide();
@@ -478,7 +482,12 @@
                 type: 'post',
                 data: tab2formData,
                 success: function(response) {
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     if(response.tab2 == 'tab2'){
                     $('#basictab1').hide();
                     $('#basictab2').hide();
@@ -507,7 +516,12 @@
                 type: 'post',
                 data: tab3formData,
                 success: function(response) {
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
                     if(response.tab3 == 'tab3'){
                     $('#basictab1').hide();
                     $('#basictab2').hide();
@@ -536,14 +550,22 @@
                 type: 'post',
                 data: tab4formData,
                 success: function(response) {
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
-                    setTimeout(() => {
-                        var originUrl = window.location.origin;
-                        window.location.href = originUrl + '/admin/leads-lists';
-                    },1000);
+                    Swal.fire({
+                        title: response.message,
+                        icon: 'success',
+                    }).then((result) => {
+                        if (result.value) {
+                            var originUrl = window.location.origin;
+                            window.location.href = originUrl + '/admin/leads-lists';
+                        }
+                    });
                 },
                 error: function(xhr) {
                     var response = JSON.parse(xhr.responseText);
+                    Swal.fire({
+                        title: response.message,
+                        icon: 'error',
+                    });
                 }
             });
         });

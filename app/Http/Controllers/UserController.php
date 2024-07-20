@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $user = User::query();
+$user = User::orderBy('id', 'desc');
         if($request->status == 'Active'){
             $active_Status = 1;
         }else{

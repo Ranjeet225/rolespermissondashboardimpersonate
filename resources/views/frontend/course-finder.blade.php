@@ -856,7 +856,6 @@
                 fetchProgramSubLevel(id);
             }
             checkAndCall();
-
             $('#education_level').on('click', function() {
                 var selectedOptions = [];
                 $.each($("input[name='program_level[]']:checked"), function() {
@@ -1156,6 +1155,9 @@
             var checkedCountries = $("input[name='country[]']:checked").map(function() {
                 return this.value;
             }).get().join(',');
+            var checkedCountriesName = $("input[name='country[]']:checked").map(function() {
+                return $(this).closest('label').text().trim();
+            }).get().join(',');
             var url = window.location.origin + window.location.pathname;
             if(window.location.search){
                 var params = new URLSearchParams(window.location.search);
@@ -1175,13 +1177,19 @@
             loadData(1);
             $('.country_name').empty();
             if (checkedCountries) {
-                $('.country_name').append(`<span class="badge badge-primary">${itemName}</span>`);
+                var countryNames = checkedCountriesName.split(',');
+                countryNames.forEach(function(countryName) {
+                    $('.country_name').append(`<span class="badge badge-primary">${countryName}</span>`);
+                });
             }
         });
         $('.program_level_value').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
             var program_level = $("input[name='program_level[]']:checked").map(function(){
                 return this.value;
+            }).get().join(',');
+            var program_level_name = $("input[name='program_level[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
             }).get().join(',');
             var url = window.location.origin + window.location.pathname;
             if(window.location.search){
@@ -1202,13 +1210,19 @@
             loadData(1);
             $('.program_level_name').empty();
             if (program_level) {
-                $('.program_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
+                var programLevel = program_level_name.split(',');
+                programLevel.forEach(function(programlevel) {
+                    $('.program_level_name').append(`<span class="badge badge-primary">${programlevel}</span>`);
+                });
             }
         });
         $(document).on('click', '.program-sub-level-check', function() {
             var itemName = $(this).closest('label').text().trim();
             var program_sub_level = $("input[name='program_sub_level[]']:checked").map(function(){
                 return this.value;
+            }).get().join(',');
+            var program_sub_level_name = $("input[name='program_sub_level[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
             }).get().join(',');
             var url = window.location.origin + window.location.pathname;
             if(window.location.search){
@@ -1229,47 +1243,53 @@
             loadData(1);
             $('.program_sub_level_name').empty();
             if (program_sub_level) {
-                $('.program_sub_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
+                var programSubLevel = program_sub_level_name.split(',');
+                programSubLevel.forEach(function(programsublevel) {
+                    $('.program_sub_level_name').append(`<span class="badge badge-primary">${programsublevel}</span>`);
+                });
             }
         });
         $(document).on('click', '.education_level_check', function() {
             var itemName = $(this).closest('label').text().trim();
             var education_level = $("input[name='education_level[]']:checked").map(function(){
                 return this.value;
-            }).get();
+            }).get().join(',');
+            var education_level_name = $("input[name='education_level[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
+            }).get().join(',');
             var url = window.location.origin + window.location.pathname;
             if(window.location.search){
                 var params = new URLSearchParams(window.location.search);
                 params.delete('education_level');
-                if (education_level.length > 0) {
-                    params.append('education_level', education_level.join(','));
+                if (education_level) {
+                    params.append('education_level', education_level);
                 }
                 url += '?' + params.toString();
             } else {
-                if (education_level.length > 0) {
-                    url += '?education_level=' + education_level.join(',');
+                if (education_level) {
+                    url += '?education_level=' + education_level;
                 }
             }
             window.history.pushState(null, '', url);
             $('#university').empty();
             $('.course_data').empty();
             loadData(1);
-            $('.education-level-name').empty();
-            if (education_level.length > 0) {
-                education_level.forEach(function(level) {
-                    $('.education-level-name').append(`<span class="badge badge-primary">${level}</span>`);
+            $('.education_level_name').empty();
+            if (education_level) {
+                console.log(education_level_name);
+                var educationlevel = education_level_name.split(',');
+                educationlevel.forEach(function(education) {
+                    $('.education_level_name').append(`<span class="badge badge-primary">${education}</span>`);
                 });
-            }
-            if ($(this).is(':checked')) {
-                $('.education-level-name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            } else {
-                $('.education-level-name .badge:contains("' + itemName + '")').remove();
             }
         });
         $('.intake-name-data').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
             var intake_name = $("input[name='intake[]']:checked").map(function(){
                 return this.value;
+            }).get().join(',');
+            var intake = $("input[name='intake[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
             }).get().join(',');
             var url = window.location.origin + window.location.pathname;
             if(window.location.search){
@@ -1290,30 +1310,31 @@
             loadData(1);
             $('.intake_name').empty();
             if (intake_name) {
-                $('.intake_name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            }
-            if ($(this).is(':checked')) {
-                $('.intake_name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            } else {
-                $('.intake_name .badge:contains("' + itemName + '")').remove();
+                var intake_data = intake.split(',');
+                intake_data.forEach(function(intake) {
+                    $('.intake_name').append(`<span class="badge badge-primary">${intake}</span>`);
+                });
             }
         });
         $('.program_discipline_checkbox').on('click', function() {
             var itemName = $(this).closest('label').text().trim();
             var program_displine = $("input[name='program_discipline[]']:checked").map(function(){
                 return this.value;
-            }).get();
+            }).get().join(',');
+            var program_displine_name = $("input[name='program_discipline[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
+            }).get().join(',');
             var url = window.location.origin + window.location.pathname;
-            if (window.location.search) {
+            if(window.location.search){
                 var params = new URLSearchParams(window.location.search);
                 params.delete('program_discipline');
-                if (program_displine.length > 0) {
-                    params.append('program_discipline', program_displine.join(','));
+                if (program_displine) {
+                    params.append('program_discipline', program_displine);
                 }
                 url += '?' + params.toString();
             } else {
-                if (program_displine.length > 0) {
-                    url += '?program_discipline=' + program_displine.join(',');
+                if (program_displine) {
+                    url += '?program_discipline=' + program_displine;
                 }
             }
             window.history.pushState(null, '', url);
@@ -1321,33 +1342,32 @@
             $('#university').empty();
             $('.course_data').empty();
             loadData(1);
-            if (program_displine.length > 0) {
-                program_displine.forEach(function(discipline) {
-                    $('.program_discipline_name').append(`<span class="badge badge-primary">${$(`input[name='program_discipline[]'][value='${discipline}']`).closest('label').text().trim()}</span>`);
+            if (program_displine) {
+                var program = program_displine_name.split(',');
+                program.forEach(function(data) {
+                    $('.program_discipline_name').append(`<span class="badge badge-primary">${data}</span>`);
                 });
-            }
-            if ($(this).is(':checked')) {
-                $('.program_discipline_name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            } else {
-                $('.program_discipline_name .badge:contains("' + itemName + '")').remove();
             }
         });
         $(document).on('click', '.program-sub-discipline-checkbox', function() {
             var itemName = $(this).closest('label').text().trim();
             var program_subdispline = $("input[name='program_sub_discipline[]']:checked").map(function(){
                 return this.value;
-            }).get();
+            }).get().join(',');
+            var program_subdispline_name = $("input[name='program_sub_discipline[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
+            }).get().join(',');
             var url = window.location.origin + window.location.pathname;
-            if (window.location.search) {
+            if(window.location.search){
                 var params = new URLSearchParams(window.location.search);
                 params.delete('program_subdispline');
-                if (program_subdispline.length > 0) {
-                    params.append('program_subdispline', program_subdispline.join(','));
+                if (program_subdispline) {
+                    params.append('program_subdispline', program_subdispline);
                 }
                 url += '?' + params.toString();
             } else {
-                if (program_subdispline.length > 0) {
-                    url += '?program_subdispline=' + program_subdispline.join(',');
+                if (program_subdispline) {
+                    url += '?program_subdispline=' + program_subdispline;
                 }
             }
             window.history.pushState(null, '', url);
@@ -1355,33 +1375,32 @@
             $('#university').empty();
             $('.course_data').empty();
             loadData(1);
-            if (program_subdispline.length > 0) {
-                program_subdispline.forEach(function(discipline) {
-                    $('.program_sub_discipline_name').append(`<span class="badge badge-primary">${$(`input[name='program_sub_discipline[]'][value='${discipline}']`).closest('label').text().trim()}</span>`);
+            if (program_subdispline) {
+                var subdispline = program_subdispline_name.split(',');
+                subdispline.forEach(function(data) {
+                    $('.program_sub_discipline_name').append(`<span class="badge badge-primary">${data}</span>`);
                 });
-            }
-            if ($(this).is(':checked')) {
-                $('.program_sub_discipline_name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            } else {
-                $('.program_sub_discipline_name .badge:contains("' + itemName + '")').remove();
             }
         });
         $(document).on('click', '.eng-pro', function() {
             var itemName = $(this).closest('label').text().trim();
             var eng_proficiency_level = $("input[name='end_profiency_level[]']:checked").map(function(){
                 return this.value;
-            }).get();
+            }).get().join(',');
+            var eng_proficiency_level_name = $("input[name='end_profiency_level[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
+            }).get().join(',');
             var url = window.location.origin + window.location.pathname;
-            if (window.location.search) {
+            if(window.location.search){
                 var params = new URLSearchParams(window.location.search);
                 params.delete('eng_proficiency_level');
-                if (eng_proficiency_level.length > 0) {
-                    params.append('eng_proficiency_level', eng_proficiency_level.join(','));
+                if (eng_proficiency_level) {
+                    params.append('eng_proficiency_level', eng_proficiency_level);
                 }
                 url += '?' + params.toString();
             } else {
-                if (eng_proficiency_level.length > 0) {
-                    url += '?eng_proficiency_level=' + eng_proficiency_level.join(',');
+                if (eng_proficiency_level) {
+                    url += '?eng_proficiency_level=' + eng_proficiency_level;
                 }
             }
             window.history.pushState(null, '', url);
@@ -1389,56 +1408,46 @@
             $('#university').empty();
             $('.course_data').empty();
             loadData(1);
-            if (eng_proficiency_level.length > 0) {
-                eng_proficiency_level.forEach(function(level) {
-                    $('.eng_proficiency_level_name').append(`<span class="badge badge-primary">${$(`input[name='end_profiency_level[]'][value='${level}']`).closest('label').text().trim()}</span>`);
+            if (eng_proficiency_level) {
+                var eng_prof = eng_proficiency_level_name.split(',');
+                eng_prof.forEach(function(data) {
+                    $('.eng_proficiency_level_name').append(`<span class="badge badge-primary">${data}</span>`);
                 });
-            }
-            if ($(this).is(':checked')) {
-                $('.eng_proficiency_level_name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            } else {
-                $('.eng_proficiency_level_name .badge:contains("' + itemName + '")').remove();
             }
         });
         $(document).on('click', '.other_exam_check', function() {
             var itemName = $(this).closest('label').text().trim();
             var other_exam = $("input[name='other_exam[]']:checked").map(function(){
                 return this.value;
-            }).get();
+            }).get().join(',');
+            var other_exam_name = $("input[name='other_exam[]']:checked").map(function(){
+                return $(this).closest('label').text().trim();
+            }).get().join(',');
             var url = window.location.origin + window.location.pathname;
-            if (window.location.search) {
+            if(window.location.search){
                 var params = new URLSearchParams(window.location.search);
                 params.delete('other_exam');
-                if (other_exam.length > 0) {
-                    params.append('other_exam', other_exam.join(','));
+                if (other_exam) {
+                    params.append('other_exam', other_exam);
                 }
                 url += '?' + params.toString();
             } else {
-                if (other_exam.length > 0) {
-                    url += '?other_exam=' + other_exam.join(',');
+                if (other_exam) {
+                    url += '?other_exam=' + other_exam;
                 }
             }
             window.history.pushState(null, '', url);
             $('#university').empty();
             $('.course_data').empty();
+            $('.other_exam_name').empty();
             loadData(1);
-            if ($(this).is(':checked')) {
-                $('.other_exam_name').append(`<span class="badge badge-primary">${itemName}</span>`);
-            } else {
-                $('.other_exam_name .badge:contains("' + itemName + '")').remove();
+            if (other_exam) {
+                var other = other_exam_name.split(',');
+                other.forEach(function(data) {
+                    $('.other_exam_name').append(`<span class="badge badge-primary">${data}</span>`);
+                });
             }
         });
-
-        // $("input[name='program_level[]'], input[name='program_sub_level[]'], input[name='education_level[]'],input[name='program_discipline[]'],input[name='program_sub_discipline[]'],input[name='other_exam[]'],input[name='country[]'],input[name='intake[]'],input[name='end_profiency_level[]'],input[name='schlorship[]'],input[name='tution_fees[]']").change(function() {
-        //     collectSelectedOptions();
-        // });
-        // $(document).on('change',
-        //     "input[name='program_level[]'], input[name='program_sub_level[]'], input[name='education_level[]'], input[name='program_discipline[]'], input[name='program_sub_discipline[]'], input[name='other_exam[]'], input[name='country[]'], input[name='intake[]'], input[name='end_profiency_level[]'], input[name='schlorship[]'], input[name='tution_fees[]']",
-        //     function() {
-        //         collectSelectedOptions();
-        //     });
-
-        // collectSelectedOptions();
         });
     </script>
 @endsection

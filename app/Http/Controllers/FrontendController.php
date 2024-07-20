@@ -95,6 +95,7 @@ class FrontendController extends Controller
                                 return $query->whereIn('other_exam', explode(',', $request->other_exam));
                             })
                     ->paginate(12);
+
                     $applyProgramFilters = function ($query) use ($request) {
                                     $query->when($request->program_level, function ($query) use ($request) {
                                         $query->whereIn('program_level_id', explode(',', $request->program_level));
@@ -119,6 +120,7 @@ class FrontendController extends Controller
                                     });
                                 };
                             $universities = University::select('universities.*')
+                                ->with('country', 'university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
                                 ->selectSub(function ($query) use ($applyProgramFilters) {
                                     $query->from('program')
                                         ->selectRaw('COUNT(*)')
@@ -128,11 +130,14 @@ class FrontendController extends Controller
                                 ->when($request->has('country'), function ($query) use ($request) {
                                     return $query->whereIn('country_id', explode(',', $request->country));
                                 })
-                                ->whereExists(function ($query) use ($applyProgramFilters) {
-                                    $query->from('program')
-                                        ->whereColumn('universities.id', 'program.school_id');
+                                 ->whereExists(function ($query) use ($applyProgramFilters) {
+                                     $query->from('program');
+                                        // ->whereColumn('universities.id', 'program.school_id');
                                     $applyProgramFilters($query);
                                 })
+                                // ->orwhereHas('program', function ($query) use ($applyProgramFilters) {
+                                //     $applyProgramFilters($query);
+                                // })
                                 ->paginate(12);
                 return response()->json(['data' => $universities,'course_data'=>$course]);
             }else{
@@ -167,6 +172,7 @@ class FrontendController extends Controller
                                 }
                             };
                             $universities = University::select('universities.*')
+                                        ->with('country', 'university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
                                         ->selectSub(function ($query) use ($applyFilter) {
                                             $query->from('program')
                                                 ->selectRaw('COUNT(*)')

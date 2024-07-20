@@ -1,4 +1,7 @@
 @extends('admin.include.app')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
     <div class="row">
         <div class="card card-buttons">
@@ -228,6 +231,7 @@
 @endsection
 @section('scripts')
  <script src="{{asset('assets/js/jquery-3.7.1.js')}}"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
  <script>
     $(document).ready(function(){
         $('.btnDiv').on('click', function() {
@@ -333,10 +337,16 @@
                 },
                 success: function(response) {
                     $('.btnDiv').removeClass('disabled');
-                    $('#responseMessage').html('<span class="alert alert-success">' + response.message + '</span>');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 100);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.value) {
+                            location.reload();
+                        }
+                    });
                 },
                 error: function(xhr) {
                     var response = JSON.parse(xhr.responseText);

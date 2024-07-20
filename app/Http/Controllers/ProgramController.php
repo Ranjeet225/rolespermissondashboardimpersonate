@@ -921,7 +921,7 @@ class ProgramController extends Controller
     public function other_exam(Request $request)
     {
         if($request->ajax()){
-            $other_exam = Exam::where('program_level_id',$request->program_id)->get();
+            $other_exam = Exam::whereIn('program_level_id',$request->program_id)->get();
             return response()->json($other_exam);
         }
     }
