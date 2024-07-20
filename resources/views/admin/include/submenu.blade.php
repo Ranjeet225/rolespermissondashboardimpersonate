@@ -5,7 +5,8 @@
                 @if (auth()->user()->can($submenu->permission))
                     <li class="menu-item ">
                         @php
-                            $currentUrl = request()->url();
+                            $currentUrl = app()->environment() === 'local' ? request()->url() : str_replace('http://', 'https://', request()->url());
+                            $currentUrl = $currentUrl;
                             $apply_360 = request()->routeIs('apply-360');
                             $isApply360Submenu = $submenu->name === 'oel 360';
 

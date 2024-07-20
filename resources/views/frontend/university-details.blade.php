@@ -144,16 +144,18 @@
                                                                 <div class="tab-pane fade show active" role="tabpanel"
                                                                     aria-labelledby="map-tab">
                                                                     <div id="map">
-                                                                        @php
+                                                                    @php
                                                                         $src = explode('src="', $about_university->map_location);
-                                                                        $src = explode('"', $src[1]);
-                                                                        $src = isset($src[0]) ? $src[0] : '';
-                                                                        @endphp
-                                                                        @if(!empty($src))
-                                                                        <iframe src="{{$src}}" width="100%" frameborder="0"></iframe>
-                                                                        @else
-                                                                        <iframe src="{{$about_university->map_location}}" width="100%" frameborder="0"></iframe>
-                                                                        @endif
+                                                                        $src_data = $about_university->map_location; // Default value
+                                                                        if (count($src) > 1 && isset($src[1])) {
+                                                                            $src_data = $src[1];
+                                                                        }
+                                                                    @endphp
+                                                                    @if(count($src) > 1 && isset($src[1]))
+                                                                        <iframe src="{{ $src_data }}" width="100%" frameborder="0"></iframe>
+                                                                    @else
+                                                                        <iframe src="{{ $about_university->map_location }}" width="100%" frameborder="0"></iframe>
+                                                                    @endif
                                                                     </div>
                                                                 </div>
                                                                 <div class="tab-pane fade" id="street" role="tabpanel"
