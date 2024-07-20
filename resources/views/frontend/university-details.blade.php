@@ -257,7 +257,7 @@
                                                 <div class="col-md-4 col-sm-6" style="margin: 15px 0px;">
                                                     <img class="img-fluid galary_image_item"
                                                         onclick="openModal(parseInt('0') + 1)"
-                                                        src="{{$image->file_name}}">
+                                                        src="{{asset($image->file_name)}}" alt="{{$image->file_name}}">
                                                 </div>
                                                 @endforeach
                                             </div>
