@@ -67,6 +67,7 @@ return array(
     'App\\Mail\\UserNotification' => $baseDir . '/app/Mail/UserNotification.php',
     'App\\Mail\\WelcomeMail' => $baseDir . '/app/Mail/WelcomeMail.php',
     'App\\Mail\\assignLeadsMail' => $baseDir . '/app/Mail/assignLeadsMail.php',
+    'App\\Models\\AdditionalQualification' => $baseDir . '/app/Models/AdditionalQualification.php',
     'App\\Models\\Ads' => $baseDir . '/app/Models/Ads.php',
     'App\\Models\\Agent' => $baseDir . '/app/Models/Agent.php',
     'App\\Models\\ApplicationsApplied' => $baseDir . '/app/Models/ApplicationsApplied.php',

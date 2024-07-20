@@ -713,6 +713,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'App\\Mail\\UserNotification' => __DIR__ . '/../..' . '/app/Mail/UserNotification.php',
         'App\\Mail\\WelcomeMail' => __DIR__ . '/../..' . '/app/Mail/WelcomeMail.php',
         'App\\Mail\\assignLeadsMail' => __DIR__ . '/../..' . '/app/Mail/assignLeadsMail.php',
+        'App\\Models\\AdditionalQualification' => __DIR__ . '/../..' . '/app/Models/AdditionalQualification.php',
         'App\\Models\\Ads' => __DIR__ . '/../..' . '/app/Models/Ads.php',
         'App\\Models\\Agent' => __DIR__ . '/../..' . '/app/Models/Agent.php',
         'App\\Models\\ApplicationsApplied' => __DIR__ . '/../..' . '/app/Models/ApplicationsApplied.php',
