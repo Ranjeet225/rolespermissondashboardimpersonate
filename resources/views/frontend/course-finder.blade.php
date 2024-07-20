@@ -96,14 +96,14 @@
         $state = App\Models\Province::where('id', $university->state ?? null)->get();
         $university_type = App\Models\SchoolType::where('id', $university->type_of_university ?? null)->get();
     @endphp
-@if(Auth::check())
-@php
-    $user=Auth::user();
-    $student_data=DB::table('student')->select('country_id','id')->where('user_id',$user->id)->first();
-    $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id ?? null)->first();
-    $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id  ?? null)->first();
-@endphp
-@endif
+    @if(Auth::check())
+    @php
+        $user=Auth::user();
+        $student_data=DB::table('student')->select('country_id','id')->where('user_id',$user->id)->first();
+        $program_id=DB::table('student_by_agent')->select('program_label')->where('student_user_id',$student_data->id ?? null)->first();
+        $education_id=DB::table('education_history')->select('education_level_id')->where('student_id',$student_data->id  ?? null)->first();
+    @endphp
+    @endif
     <section>
         <div class="container ">
             @if(session()->has('success'))
@@ -590,16 +590,16 @@
                                                     <span><a href="{{ url('view-program-data') }}/${item.id}?${url_param}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
                                                 </li>
                                             </ul>
-                                            <hr class="mb-10 mt-10">
                                             <div class="bottom-part">
                                                 <div class="info-meta" style="flex: 1 1 0%;"></div>
                                                 <div class="btn-part">
-                                                    <a href="${item.university_name ? item.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                    <a href="university-details/${item.id ? item.id : ''}">View Details <i class="flaticon-right-arrow"></i></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                 </div>
+                                 <hr class="mt-10">
                                 `;
                             });
                             $.each(response.course_data.data, function(index, item) {
@@ -644,9 +644,7 @@
                                                             <span>A$${item.tution_fee }</span>
                                                         </li>
                                                     </ul>
-                                                    <hr class="mb-10 mt-10">
                                                     <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
-                                                    <hr class="mb-10 mt-10">
                                                     <div class="bottom-part">
                                                         <div class="info-meta">
                                                             <ul>
@@ -659,10 +657,17 @@
                                                             </ul>
                                                         </div>
                                                     </div>
+                                                    <div class="bottom-part">
+                                                        <div class="info-meta" style="flex: 1 1 0%;"></div>
+                                                        <div class="btn-part">
+                                                            <a href="course-details/${item.id ? item.id : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <hr class=" mt-10">
                                 `);
                             });
                             $('#university').append(html);
@@ -723,16 +728,16 @@
                                                     <span><a href="{{ url('view-program-data') }}/${item.id}?${url_param}" class="badge badge-primary">${item.program_count ? item.program_count : '0'} View Programs</a></span>
                                                 </li>
                                             </ul>
-                                            <hr class="mb-10 mt-10">
                                             <div class="bottom-part">
                                                 <div class="info-meta" style="flex: 1 1 0%;"></div>
                                                 <div class="btn-part">
-                                                    <a href="${item.university_name ? item.website : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                    <a href="university-details/${item.id ? item.id : ''}">View Details <i class="flaticon-right-arrow"></i></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <hr class="mt-10">
                             `;
                         });
                         $.each(response.course_data.data, function(index, item) {
@@ -776,9 +781,7 @@
                                                         <span>A$${item.tution_fee }</span>
                                                     </li>
                                                 </ul>
-                                                <hr class="mb-10 mt-10">
                                                 <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
-                                                <hr class="mb-10 mt-10">
                                                 <div class="bottom-part">
                                                     <div class="info-meta">
                                                         <ul>
@@ -791,10 +794,17 @@
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                 <div class="bottom-part">
+                                                    <div class="info-meta" style="flex: 1 1 0%;"></div>
+                                                    <div class="btn-part">
+                                                        <a href="course-details/${item.id ? item.id : ''}">View Details <i class="flaticon-right-arrow"></i></a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <hr class="mt-10">
                             `);
                         });
                         $('#university').append(html);

@@ -144,7 +144,16 @@
                                                                 <div class="tab-pane fade show active" role="tabpanel"
                                                                     aria-labelledby="map-tab">
                                                                     <div id="map">
-                                                                       <iframe src="{{$about_university->map_location}}" width="100%" frameborder="0"></iframe>
+                                                                        @php
+                                                                        $src = explode('src="', $about_university->map_location);
+                                                                        $src = explode('"', $src[1]);
+                                                                        $src = isset($src[0]) ? $src[0] : '';
+                                                                        @endphp
+                                                                        @if(!empty($src))
+                                                                        <iframe src="{{$src}}" width="100%" frameborder="0"></iframe>
+                                                                        @else
+                                                                        <iframe src="{{$about_university->map_location}}" width="100%" frameborder="0"></iframe>
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                                 <div class="tab-pane fade" id="street" role="tabpanel"
@@ -164,7 +173,7 @@
 
                             <div class="tab-pane tab" id="programs" role="tabpanel" aria-labelledby="programs-tab">
                                 <div class="">
-                                    <div class="my-2">
+                                    {{-- <div class="my-2">
                                         <div class="r-w-s">
                                             <h3 class="mb-10 c-desc-t-h-r" id="features">Programs</h3>
                                             <form action="https://overseaseducationlane.com/university_details/710"
@@ -181,13 +190,13 @@
                                                 </span>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="my-2">
                                         <div class="r-w-s">
                                             <h3 class="mb-10 c-desc-t-h-r" id="program">All Courses offered</h3>
                                             <div class="row">
                                                 @forelse ($about_university->program as $item )
-                                                <div class="col-md-12 mb-20">
+                                                <div class="col-md-12 mb-20 border  ">
                                                     {{$item->name}}
                                                     <div class="courses-item course-logo">
                                                         <div>
@@ -209,21 +218,20 @@
                                                                  </li>
                                                                  <li class="user"><i class="fa fa-info-circle"></i> <span class="info_bold">Exams Required</span> <span><span class="exam_type_item">{{$item->program->tution_fee ?? null}}</span></span></li>
                                                               </ul>
-                                                              <hr class="mb-10 mt-10">
                                                               <p class="mb-0" style="font-size: 13px;">fees may vary according to university current structure and policy</p>
-                                                              <hr class="mb-10 mt-10">
                                                               <div class="bottom-part">
                                                                  <div class="info-meta">
                                                                     <ul>
                                                                        <li class="user"><i class="fa fa-flag"></i> <span>United Kingdom</span> <span>-</span> <span>Full Time</span></li>
                                                                     </ul>
                                                                  </div>
-                                                                 <div class="btn-part"><a href="course_details/27907">View Details<i class="flaticon-right-arrow"></i></a></div>
+                                                                 <div class="btn-part"><a href="{{url('course-details/'.$item->id)}}" class="btn btn-primary">View Details<i class="flaticon-right-arrow"></i></a></div>
                                                               </div>
                                                            </div>
                                                         </div>
                                                      </div>
                                                 </div>
+                                                <hr class="mb-20">
                                                 @empty
                                                 <div class="nodata">
                                                     No Program or Courses are currently offered by this university
@@ -242,11 +250,16 @@
                                         <div class="r-w-s">
                                             <h3 class="mb-10 c-desc-t-h-r" id="features">Gallery</h3>
                                             <div class="galary_images row">
+                                                @php
+                                                    $images= DB::table('university_galary_images')->where('university_id',$about_university->id)->get();
+                                                @endphp
+                                                @foreach ($images as $image)
                                                 <div class="col-md-4 col-sm-6" style="margin: 15px 0px;">
                                                     <img class="img-fluid galary_image_item"
                                                         onclick="openModal(parseInt('0') + 1)"
-                                                        src="https://overseaseducationlane.com/public/university_galary_images/galary_image_0_1717654207.jpg">
+                                                        src="{{$image->file_name}}">
                                                 </div>
+                                                @endforeach
                                             </div>
                                             <div class="galary_videos">
                                             </div>
@@ -254,21 +267,12 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
                             <div class="tab-pane tab" id="notes" role="tabpanel" aria-labelledby="notes-tab">
                                 <div class="">
                                     <div class="my-2">
                                         <div class="r-w-s">
                                             <h3 class="mb-10 c-desc-t-h-r" id="location">Notes</h3>
-                                            <p>The Academic structure of the university consists of 16 faculties including
-                                                medical education faculty and more. PskovSU today includes more than 10,000
-                                                students and over 500 teachers, among them there are Honored Teachers of
-                                                Russia, Honorary Workers of secondary vocational education, and Candidates
-                                                of Science.</p>
+                                            <p>{!! $about_university->notes !!}.</p>
                                         </div>
                                     </div>
                                 </div>

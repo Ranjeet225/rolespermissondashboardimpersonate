@@ -626,11 +626,7 @@ class UniversityController extends Controller
 
     public function view_university($id)
     {
-        $about_university = University::with([
-            'program' => function ($query) {
-                $query->limit(1);
-            },
-            'program.programLevel',
+        $about_university = University::with(['program','program.programLevel',
             'country:id,name',
             'province:id,name',
             'university_type:id,name'
