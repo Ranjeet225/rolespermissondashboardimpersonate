@@ -1,7 +1,13 @@
 @extends('frontend.layouts.main')
 @section('title', 'Universities')
-
 @section('content')
+<style>
+    .courses-item.course-logo {
+        margin: 0px 2px;
+        border: 2px solid #dee2e6;
+        padding: 0px 10px !important;
+    }
+</style>
 <div class="rs-course-breadcrumbs breadcrumbs-overlay">
     <div class="breadcrumbs-img">
        <img src="{{asset('frontend/courses.jpg')}}" alt="Breadcrumbs Image">
@@ -124,7 +130,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                </div>
+                                 </div>
                                 `;
                             });
                             $('#university-data').append(html);
