@@ -52,7 +52,6 @@ class FrontendController extends Controller
 
     public function course_university(Request $request)
     {
-
         $course = Program::paginate(1);
         $country =Country::select('name','id')->get();
         $program_level =ProgramLevel::select('name','id')->get();
@@ -415,5 +414,63 @@ class FrontendController extends Controller
             'json_response' => 'free'
         ]);
         return redirect(url('apply-program'))->with('success', 'Program Applied Successfully!');
+    }
+
+    public function universities(Request $request)
+    {
+        $country =Country::select('name','id')->get();
+        $universities =University::select('id','university_name')->get();
+        if($request->ajax()) {
+            if($request->has('university_name') || $request->has('country')){
+                $universities = University::select('universities.*')->with('country', 'province','university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram');
+                if(!empty($request->university_name)){
+                    $universities = $universities->where('id',$request->university_name);
+                }
+                if(!empty($request->country)){
+                    $universities = $universities->where('country_id',$request->country);
+                }
+                $universities = $universities->latest()->paginate(12);
+            }else{
+             $universities = University::select('universities.*')->with('country', 'province','university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
+                 ->latest()->paginate(12);
+            }
+            return response()->json(['data' => $universities]);
+        }
+        return view('frontend.universities',compact('country','universities'));
+    }
+
+
+    public function programs(Request $request)
+    {
+        $programs=Program::get();
+        $country =Country::select('name','id')->get();
+        $universities =University::select('id','university_name')->get();
+        if($request->ajax()) {
+            if($request->has('university_id') || $request->has('country') || $request->has('program_id')){
+                $programs = Program::with(['university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name'])
+                    ->when(!empty($request->country), function ($query) use ($request) {
+                        $query->whereHas('university_name', function ($subquery) use ($request) {
+                            $subquery->where('country_id', $request->country);
+                        });
+                    })
+                    ->when(!empty($request->university_id), function ($query) use ($request) {
+                        $query->where('school_id', $request->university_id);
+                    })
+                    ->when(!empty($request->program_id), function ($query) use ($request) {
+                        $query->where('id', $request->program_id);
+                    })
+                    ->latest()
+                    ->paginate(12);
+            }else{
+             $programs =  Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')->latest()->paginate(12);
+            }
+            return response()->json(['data' => $programs]);
+        }
+        return view('frontend.programs',compact('programs','country','universities'));
+    }
+
+
+    public function about_oel(){
+        return view('frontend.about_oel');
     }
 }

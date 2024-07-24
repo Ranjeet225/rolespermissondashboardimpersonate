@@ -428,7 +428,7 @@
         {
             "url": "/admin/scholarship",
             "name": "Scholorship ",
-            "icon": "menu-icon tf-icons la la-user",
+            "icon": "menu-icon tf-icons las la-donate",
             "slug": "scholarship ",
             "permission":"scholorship.view"
         },

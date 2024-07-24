@@ -13,4 +13,9 @@ class Payment extends Model
     protected $table ='payments';
 
     protected $guarded =[];
+
+    public function PaymentLink()
+    {
+        return $this->belongsTo(PaymentsLink::class,'fallowp_unique_id','fallowp_unique_id');
+    }
 }

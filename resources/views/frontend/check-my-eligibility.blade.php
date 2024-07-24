@@ -1,4 +1,5 @@
 @extends('frontend.layouts.main')
+@section('title', 'Check Eligibility')
 @section('content')
 <style>
     .img-btn img{

@@ -760,7 +760,7 @@ class LeadsManageCotroller extends Controller
             Session::put('error', 'User ID Not Found');
             return redirect()->back();
         }
-        $student =Student::where('id',$paymentLink->user_id)->select('first_name','email')->first();
+        $student =Student::where('user_id',$paymentLink->user_id)->select('first_name','email')->first();
         $data=[
             'fallowp_unique_id'=>$paymentLink->fallowp_unique_id,
             'user_id'=>$paymentLink->user_id,
@@ -895,6 +895,25 @@ class LeadsManageCotroller extends Controller
         $student_course_exit = PaymentsLink::where('user_id', $studentDetails->user_id)->pluck('program_id')->toArray();
         $student_course_exit = $student_course_exit ?? [];
         $student_university = Program::whereIn('id', $student_course_exit)->pluck('school_id')->toArray();
+
+        $uniqueId = PaymentsLink::where('user_id', $studentDetails->user_id)
+            ->whereNotNull('fallowp_unique_id')
+            ->pluck('fallowp_unique_id')
+            ->toArray();
+        if ($uniqueId) {
+            $about_payment = Payment::with('PaymentLink:id,user_id,fallowp_unique_id,program_id,master_service')
+                ->whereIn('fallowp_unique_id', $uniqueId)
+                ->where('payment_status', 'success')
+                ->get();
+            $programIds = [];
+            foreach ($about_payment as $payment) {
+                $programIds[] = $payment->PaymentLink->program_id;
+            }
+            $selected_university = Program::whereIn('id', $programIds)->pluck('school_id')->toArray();
+        } else {
+            $programIds = [];
+            $selected_university =[];
+        }
         $visa_document=VisaDocument::get();
         $visa_sub_document_three=VisaSubDocument::where('id',$threesixtee->visa_sub_document_type ?? null)->first();
         if ($threesixtee) {
@@ -902,24 +921,24 @@ class LeadsManageCotroller extends Controller
             $university_id = explode(',', $threesixtee->college);
             $three_course_id = explode(',', $threesixtee->courses);
             $student_course_id = explode(',', $studentDetails->pref_subjects);
-            $course_id = array_unique(array_merge($three_course_id, $student_course_id,$student_course_exit ?? null));
-            $university_in_three_sixtee = University::wherein('id', array_merge($university_id, $student_university ?? null))->get();
+            $course_id = array_unique(array_merge($three_course_id, $programIds ?? null));
+            $university_in_three_sixtee = University::wherein('id', array_merge($university_id, $selected_university ?? null))->get();
             $course_in_three_sixtee = DB::table('program')->wherein('id', $course_id)->get();
             $table_three_sixtee_image = DB::table('tbl_three_sixtee_image')->where('image_type', 'offer')->where('sba_id', $id)->get();
         } else {
             $agent = DB::table('agents')->get();
             $university_id = null;
             $course_id = null;
-            $university_in_three_sixtee =University::wherein('id', $student_university ?? [] )->get() ?? null;
+            $university_in_three_sixtee =University::wherein('id', $selected_university ?? [] )->get() ?? null;
             $course_in_three_sixtee = DB::table('program')->wherein('id', $student_course_exit ?? [] )->get() ?? null;
             $table_three_sixtee_image = null;
         }
         $paymentStatuses = ['2' => 'application_fees', '3' => 'tution_fees', '4' => 'visa_fess'];
         $paymentStatusDone = [];
         foreach ($paymentStatuses as $masterService => $paymentStatus) {
-            $checkPayment = PaymentsLink::where('user_id', $id)->where('master_service', $masterService)->select('fallowp_unique_id')->first();
+            $checkPayment = PaymentsLink::where('user_id', $studentDetails->user_id)->where('master_service', $masterService)->select('fallowp_unique_id')->first();
             if ($checkPayment) {
-                $paymentDone = Payment::where('user_id', $id)->select('payment_status')->where('fallowp_unique_id', $checkPayment->fallowp_unique_id)->first();
+                $paymentDone = Payment::where('user_id', $studentDetails->user_id)->select('payment_status')->where('fallowp_unique_id', $checkPayment->fallowp_unique_id)->first();
                 $paymentStatusDone[$paymentStatus] = $paymentDone && $paymentDone->payment_status == 'success' ? 'Done' : 'Fail';
             }
         }

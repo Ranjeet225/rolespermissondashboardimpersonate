@@ -42,9 +42,11 @@ Route::get('view-program-data/{id?}',[FrontendController::class,'view_program_da
 Route::get('apply-program-payment/{student_id}/{program_id}',[FrontendController::class,'apply_program_payment'])->name('apply-program-payment');
 Route::get('pay-later/{student_id}/{program_id}/{amount?}',[FrontendController::class,'pay_later'])->name('pay-later');
 Route::get('check-eligibility',[FrontendController::class,'check_eligibility'])->name('check-eligibility');
+Route::get('universities/{page?}',[FrontendController::class,'universities'])->name('universities');
 Route::get("university-details/{id}",[UniversityController::class,'view_university'])->name('view-university');
 Route::get('continue-course/{student_id}/{program_id}/{amount?}',[FrontendController::class,'continue_course'])->name('continue-course');
-
+Route::get('programs/{page?}',[FrontendController::class,'programs'])->name('programs');
+Route::get('about-oel',[FrontendController::class,'about_oel'])->name('about-oel');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -462,7 +464,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store-scholarship',[StudentController::class,'scholarship_store'])->name('store-scholarship');
         Route::get('check-education-attended',[StudentController::class,'check_student_attended'])->name('check-education-attended');
         Route::get('fetch-documents',[StudentController::class,'fetch_documents'])->name('fetch-documents');
-
+        Route::get('fetch-payment-details',[StudentController::class,'fetch_payment_details'])->name('fetch-payment-details');
              // Blogs
         Route::get('blogs/{id?}',[CmsController::class,'blogs'])->name('blogs');
         Route::get('blogs-filter',[CmsController::class,'blogs'])->name('blogs-filter');

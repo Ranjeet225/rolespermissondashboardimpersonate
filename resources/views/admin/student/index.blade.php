@@ -1,4 +1,7 @@
 @extends('admin.include.app')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
     <div class="row">
         <div class="card card-buttons">
@@ -138,7 +141,7 @@
                             @endif
                             @if(!empty($item->email))
                             <td scope="col">
-                                <a href="" class="btn btn-primary btn-sm mx-1 payment_model" data-toggle="tooltip" title="Payment" id="score"  student-id="{{$item->id}}" data-tour="search"
+                                <a href="javascript:void(0)" class="btn btn-primary btn-sm mx-1 payment_model" data-toggle="tooltip" title="Payment" id="score"  student-id="{{$item->id}}" data-tour="search"
                                 data-bs-toggle="offcanvas" data-bs-target="#gmat"
                                 aria-controls="gmat">
                                 <i class="fa fa-credit-card" aria-hidden="true"></i></a>
@@ -159,79 +162,115 @@
             </div>
         </div>
     </div>
-         {{-- gmat score  --}}
-         <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="gmat">
-            <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">
-                <div class="sidebar-headersets">
-                    <h5>Payments</h5>
-                </div>
-                <div class="sidebar-headerclose">
-                    <a data-bs-dismiss="offcanvas" aria-label="Close">
-                        <img src="{{ url('assets/img/close.png') }}" alt="Close Icon">
-                    </a>
-                </div>
+        {{-- payment  --}}
+    <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="gmat">
+        <div class="sidebar-headerset" style="  box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);">
+            <div class="sidebar-headersets">
+                <h5>Payments</h5>
             </div>
-            <div class="offcanvas-body">
-                <div class="responseMessage"></div>
-                <div class="row">
-                    <div class="card-stretch-full">
-                        <div class="row g-4">
-                            <form class="row g-4" id="score-data">
-                                <div class="col-12">
-                                   <div class="form-floating">
-                                      <select class="form-control " name="master_service" id="usr-fees_type" placeholder="Type" required>
-                                        <option value="">--Select Master Service--</option>
-                                        @foreach ($master_service as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
-                                      </select>
-                                      <label for="usr-fees_type" class="form-label">Master Service</label>
-                                      <span class="text-danger error-master-service"></span>
-                                   </div>
+            <div class="sidebar-headerclose">
+                <a data-bs-dismiss="offcanvas" aria-label="Close">
+                    <img src="{{ url('assets/img/close.png') }}" alt="Close Icon">
+                </a>
+            </div>
+        </div>
+        <div class="offcanvas-body">
+            <div class="responseMessage"></div>
+            <div class="row">
+                <div class="card-stretch-full">
+                    <div class="row g-4">
+                        <form class="row g-4" id="score-data">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-control " name="selected_program" id="selected_program" placeholder="Type" required>
+                                        <option value="">--Select Program -</option>
+                                    </select>
+                                    <label for="selected_program" class="form-label">Select Program</label>
+                                    <span class="text-danger error-selected-program"></span>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                     <input id="usr-amount" name="amount" type="number"   class="form-control" placeholder="Number" autocomplete="amount" required>
-                                     <label for="usr-amount" class="form-label">Amount</label>
-                                     <span class="text-danger error-amount"></span>
-                                    </div>
-                                 </div>
-                                <div class="col-12">
-                                   <div class="form-floating">
-                                    <input id="usr-listening_score" name="remarks"  type="text" class="form-control" placeholder="Remarks"  required>
-                                    <input id="usr-listening_score remark_student" type="hidden" name="student_id">
-                                    <label for="usr-listening_score" class="form-label">Remark</label>
-                                    <span class="text-danger error-remark"></span>
-                                   </div>
                                 </div>
-
-                             </form>
-                            <div class="col-md-12"><button type="button"
-                                class="btn btn-info  py-6 score">Payment</button></div>
-                        </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-control " name="master_service" id="usr-fees_type" placeholder="Type" required>
+                                    <option value="">--Select Master Service--</option>
+                                    @foreach ($master_service as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                    </select>
+                                    <label for="usr-fees_type" class="form-label">Master Service</label>
+                                    <span class="text-danger error-master-service"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input id="usr-amount" name="amount" type="number"   class="form-control" placeholder="Number" autocomplete="amount" required>
+                                    <label for="usr-amount" class="form-label">Amount</label>
+                                    <span class="text-danger error-amount"></span>
+                                </div>
+                                </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                <input id="usr-listening_score" name="remarks"  type="text" class="form-control" placeholder="Remarks"  required>
+                                <input id="usr-listening_score remark_student" type="hidden" name="student_id">
+                                <label for="usr-listening_score" class="form-label">Remark</label>
+                                <span class="text-danger error-remark"></span>
+                                </div>
+                            </div>
+                            </form>
+                        <div class="col-md-12"><button type="button"
+                            class="btn btn-info  py-6 payment"><span class="spinner-grow spinner-grow-sm d-none"
+                            role="status" aria-hidden="true"></span>Payment</button></div>
                     </div>
                 </div>
-                <div class="row">
-                    <table class="table">
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>Master Service</th>
+                            <th>Amount</th>
+                            <th>Remarks</th>
+                            <th>View</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="score-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Payment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>S.N</th>
                                 <th>Master Service</th>
+                                <th>Program Name</th>
                                 <th>Amount</th>
-                                <th>Remarks</th>
-                                <th>Delete</th>
+                                <th>Payment Status</th>
                             </tr>
                         </thead>
-                        <tbody class="score-table">
+                        <tbody id="payment_table">
 
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </div>
          {{-- test Score --}}
 @endsection
 @section('scripts')
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
     <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -242,8 +281,10 @@
                     }
                 });
             }
-            $('.score').on('click', function(event) {
-                $('.score').addClass('disabled');
+            $('.payment').on('click', function(event) {
+                $('.payment').addClass('disabled');
+                var spinner = this.querySelector('.spinner-grow');
+                spinner.classList.remove('d-none');
                 var formData = $('#score-data').serialize();
                 setupCSRF();
                 $.ajax({
@@ -251,33 +292,32 @@
                     type: 'post',
                     data: formData,
                     success: function(response) {
+                        spinner.classList.add('d-none');
                         if (response.status) {
                             fetchscore(response.student_id);
-                            $('.responseMessage').html('<span class="alert alert-success">Data Inserted Successfully</span>');
+                            Swal.fire(
+                                'Success!',
+                                'Payment link sent successfully',
+                                'success'
+                            );
                             setTimeout(() => {
                                 // location.reload();
                             }, 1000);
                         }
-                        $('.score').removeClass('disabled');
+                        $('.payment').removeClass('disabled');
                         $('#score-data')[0].reset();
                     },
                     error: function(xhr) {
-                        $('.score').removeClass('disabled');
+                        $('.payment').removeClass('disabled');
+                        spinner.classList.add('d-none');
                         var response = JSON.parse(xhr.responseText);
-                        if(response.errors && response.errors.master_service){
-                            $('.error-master-service').html(response.errors.master_service);
-                        }else{
-                            $('.error-master-service').html('');
-                        }
-                        if(response.errors && response.errors.amount){
-                            $('.error-amount').html(response.errors.amount);
-                        }else{
-                            $('.error-amount').html('');
-                        }
-                        if(response.errors && response.errors.remarks){
-                            $('.error-remark').html(response.errors.remarks);
-                        }else{
-                            $('.error-remark').html('');
+                        console.log(response);
+                        if(!(response.status)){
+                            Swal.fire(
+                                'Error!',
+                                response.message,
+                                'error'
+                            );
                         }
                     }
                 });
@@ -298,7 +338,6 @@
                     },
                     success: function(response) {
                         var score =response.payment_data;
-                        console.log(score);
                         if ($.isEmptyObject(response)) {
                             $('.score-table').append('<option value="">No records found</option>');
                         } else {
@@ -308,7 +347,14 @@
                                     key + '</td><td>' +
                                     (value.master_service ? value.master_service.name : '') + '</td><td>' +
                                     value.amount + '</td><td>' +
-                                    value.remarks + '</td><td><a href="#" class="btn btn-sm btn-danger delete-score" data-id="'+value.id+'"><i class="la la-trash"></i></a></td></tr>');
+                                    value.remarks + '</td><td class="text-center  view-payment"  data-id="'+value.id+'" user-id="'+value.user_id+'"><i class="la la-eye btn btn-secondary"></i> </td> <td><a href="#" class="btn btn-sm btn-danger delete-score" data-id="'+value.id+'"><i class="la la-trash"></i></a></td></tr>');
+                            });
+                        }
+                        if(response.program_applied != null){
+                            $('#selected_program').empty();
+                            $('#selected_program').append(`<option value="">--Select Program -</option>`);
+                            $.each(response.program_applied, function(index, item) {
+                                $('#selected_program').append(`<option value="${item.program?.id}">${item.program?.name}</option>`);
                             });
                         }
                     }
@@ -316,23 +362,68 @@
                     $('.delete-score').on('click', function(e){
                         e.preventDefault();
                         var score_id = $(this).data('id');
-                        setupCSRF();
-                        $.ajax({
-                            url: "{{ route('delete-payment-link') }}",
-                            method: 'get',
-                            data: {
-                                score_id: score_id
-                            },
-                            success: function(response){
-                                alert('Payment Deleted Successfully');
-                                setTimeout(function(){
-                                    location.reload();
-                                }, 100);
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                setupCSRF();
+                                $.ajax({
+                                    url: "{{ route('delete-payment-link') }}",
+                                    method: 'get',
+                                    data: {
+                                        score_id: score_id
+                                    },
+                                    success: function(response){
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Payment Deleted Successfully',
+                                            showConfirmButton: false,
+                                            timer: 1000
+                                        });
+                                        setTimeout(function(){
+                                            location.reload();
+                                        }, 1100);
+                                    }
+                                });
                             }
                         });
                     });
                 });
             }
-        });
+
+            $(document).on('click', '.view-payment', function() {
+                var student_id = $(this).attr('user-id');
+                var payment_id = $(this).attr('data-id');
+                console.log(student_id);
+                console.log(payment_id);
+                $('#paymentModal').modal('show');
+                $.ajax({
+                    url: "{{ route('fetch-payment-details') }}",
+                    method: 'get',
+                    data: {
+                        student_id: student_id,
+                        payment_id: payment_id
+                    },
+                    success: function(response) {
+                        $('#payment_table').empty();
+                        $.each(response.about_payment, function(index, value) {
+                            var table = `<tr>
+                                            <td>${value.payment_link.master_service.name}</td>
+                                            <td>${value.payment_link.program.name}</td>
+                                            <td>${value.payment_link.currency} ${value.payment_link.amount}</td>
+                                            <td>${value.payment_status}</td>
+                                          </tr>`;
+                            $('#payment_table').append(table);
+                        });
+                    }
+                });
+            });
+    });
     </script>
 @endsection

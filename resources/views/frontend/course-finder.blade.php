@@ -1,4 +1,5 @@
 @extends('frontend.layouts.main')
+@section('title', 'Course Finder')
 @section('frontend-css')
     <style>
         /*mycss*/

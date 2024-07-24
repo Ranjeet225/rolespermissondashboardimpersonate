@@ -5,6 +5,7 @@
     width: 35vw !important;
   }
 </style>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
 @endsection
 @section('main-content')
     <div class="row">
@@ -94,6 +95,7 @@
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
  <script>
      $('#summernote1').summernote({
         placeholder: ' Write Here',
@@ -119,43 +121,58 @@
                 })
             });
             $('.delete-message').on('click', function(e) {
-                if (!confirm("Are you sure you want to delete permanently this message?")) {
-                    return false;
-                }
-                $('.error-message').html('');
-                $('.delete-message').addClass('disabled');
-                var selectedLeads = [];
-                $('.lead-id:checked').each(function() {
-                    selectedLeads.push($(this).attr('leads-user-id'));
-                });
-                setupCSRF();
-                $.ajax({
-                    url: "{{route('delete-sms-permanent')}}",
-                    method: 'Post',
-                    data: {
-                        leadIds:selectedLeads,
-                    },
-                    success: function(response){
-                      if(response.status == false){
-                        var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${response.message}
-                                </div>`;
-                        $('.error-message').html(error_message);
-                      }else{
-                        var success_message = `<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    ${response.message}
-                                </div>`;
-                        $('.error-message').html(success_message);
-                      }
-                      location.reload();
-                      $('.delete-message').removeClass('disabled');
-                    },
-                    error: function(response){
-                        var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${response.responseJSON.message}
-                                </div>`;
-                        $('.error-message').html(error_message);
-                        $('.delete-message').removeClass('disabled');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Are you sure you want to delete permanently this message?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('.error-message').html('');
+                        $('.delete-message').addClass('disabled');
+                        var selectedLeads = [];
+                        $('.lead-id:checked').each(function() {
+                            selectedLeads.push($(this).attr('leads-user-id'));
+                        });
+                        setupCSRF();
+                        $.ajax({
+                            url: "{{route('delete-sms-permanent')}}",
+                            method: 'Post',
+                            data: {
+                                leadIds:selectedLeads,
+                            },
+                            success: function(response){
+                              if(response.status == false){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: response.message,
+                                });
+                              }else{
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success...',
+                                    text: response.message,
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    location.reload();
+                                  }
+                                });
+                              }
+                              $('.delete-message').removeClass('disabled');
+                            },
+                            error: function(response){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: response.responseJSON.message,
+                                });
+                                $('.delete-message').removeClass('disabled');
+                            }
+                        });
                     }
                 });
             });

@@ -11,6 +11,7 @@ use App\Models\Program;
 use App\Models\SchoolAttended;
 use App\Models\Scholarship;
 use App\Models\Student;
+use App\Models\Payment;
 use App\Models\StudentApplyQuestions;
 use App\Models\StudentAssistance;
 use App\Models\StudentAttendence;
@@ -718,16 +719,18 @@ class StudentController extends Controller
 
     public function update_test_score(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'exam_date'=>'required',
-            'type'=>'required',
-            'listening_score'=>'required',
-            'reading_score'=>'required',
-            'writing_score'=>'required',
-            'speaking_score'=>'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+        if($request->eng_prof_level_result == 1){
+            $validator = Validator::make($request->all(), [
+                'exam_date'=>'required',
+                'type'=>'required',
+                'listening_score'=>'required',
+                'reading_score'=>'required',
+                'writing_score'=>'required',
+                'speaking_score'=>'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+            }
         }
         $student = Student::where('user_id', auth()->user()->id)->first();
         $student->update([
@@ -1185,21 +1188,28 @@ class StudentController extends Controller
 
     public function payment_link(Request $request)
     {
+        if(empty($request->selected_program)){
+            return response()->json(['status'=>false,'message'=>'Program is required'], 422);
+        }
+        if(empty($request->master_service)){
+            return response()->json(['status'=>false,'message'=>'Master service is required'], 422);
+        }
         $amount = $request->amount;
         if(empty($amount)){
-            return response()->json(['status'=>false,'message'=>'Amount is required']);
+            return response()->json(['status'=>false,'message'=>'Amount is required'], 422);
         }
         $student_id = $request->student_id;
         if(empty($student_id)){
-            return response()->json(['status'=>false,'message'=>'Student id is required']);
+            return response()->json(['status'=>false,'message'=>'Student id is required'], 422);
         }
         $controller = new LeadsManageCotroller();
         $uniqueId 	= $controller->uniqidgenrate();
         $token 		= $controller->generateToken();
-        $student=Student::where('id',$request->student_id)->first();
+        $student    = Student::where('id',$request->student_id)->first();
         $paymentLinkData = [
             'token' => $token,
-            'user_id' => $request->student_id,
+            'user_id' => $student->user_id,
+            'program_id'=>$request->selected_program,
             'master_service' => $request->master_service,
             'email' => $student->email,
             'remarks' => $request->remarks,
@@ -1208,7 +1218,7 @@ class StudentController extends Controller
             'fallowp_unique_id' => $uniqueId,
         ];
         $attributes = [
-            'master_service' => $request->master_service,
+            'program_id' => $request->selected_program,
             'user_id' => $request->student_id,
         ];
         $data=PaymentsLink::updateOrCreate($attributes, $paymentLinkData);
@@ -1227,8 +1237,18 @@ class StudentController extends Controller
 
     public function payment_link_details(Request $request)
     {
-      $paymentData = PaymentsLink::with('master_service')->select('amount','email','remarks','master_service','id')->where('user_id', $request->student_id)->get();
-      return response()->json(['payment_data' => $paymentData]);
+      $user_id = Student::where('id', $request->student_id)->pluck('user_id')->first();
+      $paymentData = PaymentsLink::with('master_service')->where('user_id',$user_id)->whereNotIn('payment_type_remarks', ['applied_program_pay_later', 'applied_program'])
+                    ->select('amount','email','payment_type_remarks','remarks','master_service','id','user_id')->orWhereNull('payment_type_remarks')->get();
+      $student_course_exit = PaymentsLink::where('user_id', $user_id)->pluck('program_id')->toArray();
+      $program_applied = PaymentsLink::with('program:name,id')->select('id','user_id','email','program_id')->orwhere('payment_type_remarks','applied_program_pay_later')
+                        ->orwhere('payment_type_remarks','applied_program')->where('user_id', $user_id)->get();
+      if($program_applied){
+          $program_applied = $program_applied;
+      }else{
+          $program_applied = NULL;
+      }
+      return response()->json(['payment_data' => $paymentData,'program_applied' => $program_applied]);
     }
 
     public function delete_payment_link(Request $request)
@@ -1330,5 +1350,12 @@ class StudentController extends Controller
        return response()->json(['success'=>true,'test_score'=>$test_score]);
     }
 
+    public function fetch_payment_details(Request $request)
+    {
+      $uniqueId = PaymentsLink::where('user_id', $request->student_id)->where('id',$request->payment_id)->pluck('fallowp_unique_id')->first();
+      $about_payment =Payment::with('PaymentLink','PaymentLink.program:name,id','PaymentLink.master_service')->where('fallowp_unique_id',$uniqueId)->with('PaymentLink')->select('payment_status','user_id','amount','customer_email','fallowp_unique_id')->get();
+
+      return response()->json(['success'=>true,'about_payment'=>$about_payment]);
+    }
 
 }

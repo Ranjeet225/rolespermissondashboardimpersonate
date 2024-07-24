@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Program;
 use App\Models\SchoolReview;
 use App\Models\SchoolType;
 use App\Models\University;
@@ -624,13 +625,20 @@ class UniversityController extends Controller
         }
     }
 
-    public function view_university($id)
+    public function view_university(Request $request,$id)
     {
         $about_university = University::with(['program','program.programLevel',
             'country:id,name',
             'province:id,name',
             'university_type:id,name'
         ])->where('id', $id)->first();
-        return view('frontend.university-details',compact('about_university'));
+        $program =Program::with('university_name:id,logo,website,university_name','programSubLevel:program_id,name,id','educationLevelprogram:name,id,program_level_id,program_sublevel_id','educationLevel','currency_data:id,currency')
+                  ->where('school_id', $id)
+                  ->where(function($query) use ($request) {
+                    if($request->program_name) {
+                      $query->where('name', 'like', '%'.$request->program_name.'%');
+                    }
+                  })->get();
+        return view('frontend.university-details',compact('about_university','program'));
     }
 }

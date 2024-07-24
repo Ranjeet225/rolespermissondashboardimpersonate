@@ -5,6 +5,7 @@
     width: 50vw !important;
   }
 </style>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
 @endsection
 @section('main-content')
     <div class="row">
@@ -362,6 +363,7 @@
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
  <script>
      $('#summernote1').summernote({
         placeholder: ' Write Here',
@@ -445,24 +447,27 @@
                     success: function(response){
                       $('#send_sms_spinner').addClass('d-none');
                       if(response.status == false){
-                        var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${response.message}
-                                </div>`;
-                        $('.error-message').html(error_message);
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: response.message,
+                        });
                       }else{
-                        var success_message = `<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    ${response.message}
-                                </div>`;
-                        $('.error-message').html(success_message);
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Success...',
+                          text: response.message,
+                        });
                       }
                       $('.send_sms').removeClass('disabled');
                     },
                     error: function(response){
                         $('#send_sms_spinner').addClass('d-none');
-                        var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${response.responseJSON.message}
-                                </div>`;
-                        $('.error-message').html(error_message);
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: response.responseJSON.message,
+                        });
                         $('.send_sms').removeClass('disabled');
                     }
                 });
@@ -485,26 +490,28 @@
                     contentType: false,
                     success: function(response) {
                         $('#send_email_spinner').addClass('d-none');
-                        var message = response.message;
-                        var alertType = response.status ? 'success' : 'danger';
-                        var alertMessage = `<div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
-                                            ${message}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>`;
-                        $('.error-message').html(alertMessage);
-                        if (!response.status) {
-                            $('.send_email').removeClass('disabled');
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success...',
+                                text: response.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message,
+                            });
                         }
                         $('.send_email').removeClass('disabled');
                     },
                     error: function(response) {
                         $('#send_email_spinner').addClass('d-none');
-                        var errorMessage = response.responseJSON.message;
-                        var errorHtml = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            ${errorMessage}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>`;
-                        $('.error-message').html(errorHtml);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.responseJSON.message,
+                        });
                         $('.send_email').removeClass('disabled');
                     }
                 });
@@ -520,10 +527,11 @@
                     data:{phone_id:phone_id,msg:msg},
                     success: function(response){
                         if(response.status == false){
-                            var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        ${response.message}
-                                    </div>`;
-                            $('.error-message').html(error_message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message,
+                            });
                         }else{
                             var sms_table = `<table class="table table-striped table-bordered">
                                     <thead>
@@ -553,10 +561,11 @@
                         $('.send_sms').removeClass('disabled');
                     },
                     error: function(response){
-                        var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${response.responseJSON.message}
-                                </div>`;
-                        $('.error-message').html(error_message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.responseJSON.message,
+                        });
                         $('.send_sms').removeClass('disabled');
                     }
                 });
@@ -572,10 +581,11 @@
                     data:{email:email,msg:msg},
                     success: function(response){
                         if(response.status == false){
-                            var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        ${response.message}
-                                    </div>`;
-                            $('.error-message').html(error_message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message,
+                            });
                         }else{
                             var sms_table = `<table class="table table-striped table-bordered">
                                     <thead>
@@ -605,10 +615,11 @@
                         $('.send_email').removeClass('disabled');
                     },
                     error: function(response){
-                        var error_message = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${response.responseJSON.message}
-                                </div>`;
-                        $('.error-message').html(error_message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.responseJSON.message,
+                        });
                         $('.send_email').removeClass('disabled');
                     }
                 });

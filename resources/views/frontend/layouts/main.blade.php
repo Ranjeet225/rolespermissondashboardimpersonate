@@ -2,7 +2,7 @@
 <html lang="zxx">
 <head>
     <meta charset="utf-8">
-    <title> Check Eligibility</title>
+    <title>@yield('title') </title>
     <meta name="description" content="Overseas Education Lane is a one-stop solution for students who want to study abroad. We have tie-ups with 400+ universities across the globe.">
     <meta name="keyword" content="Study in UK, Study in US, Study abroad, overseas education">
     <meta name="title" content="Overseas Education Lane">
@@ -136,13 +136,13 @@
                                                 <a href="{{url('/')}}">Home</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="">About OEL</a>
+                                                <a href="{{url('about-oel')}}">About OEL</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="">Universities</a>
+                                                <a href="{{url('universities')}}">Universities</a>
                                             </li>
                                             <li class="menu-item-has-children">
-                                                <a href="">Programs</a>
+                                                <a href="{{url('programs')}}">Programs</a>
                                             </li>
                                             <li class="menu-item-has-children">
                                                 <a href="">Courses Offered</a>
@@ -201,16 +201,16 @@
                                                 <a href="{{url('/')}}">Home</a>
                                             </li>
                                             <li class="">
-                                                <a href="quick_search-1.html">Quick Search</a>
+                                                <a href="">Quick Search</a>
                                             </li>
                                             <li class="">
-                                                <a href="">About OEL</a>
+                                                <a href="{{url('about-oel')}}">About OEL</a>
                                             </li>
                                             <li class="">
-                                                <a href="">Universities</a>
+                                                <a href="{{url('universities')}}">Universities</a>
                                             </li>
                                             <li class="">
-                                                <a href="">Programs</a>
+                                                <a href="{{url('programs')}}">Programs</a>
                                             </li>
                                             <li class="">
                                                 <a href="">Programs Offered</a>

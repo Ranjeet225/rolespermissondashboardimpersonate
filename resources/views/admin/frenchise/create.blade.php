@@ -1,6 +1,6 @@
 @extends('admin.include.app')
-
-@section('main-content')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
 <style>
     .octicon-light-bulb {
         position: absolute;
@@ -11,6 +11,9 @@
         left: -38%;
     }
 </style>
+@endsection
+
+@section('main-content')
     <div class="row">
         <div class="card card-buttons">
             <div class="card-body">
@@ -545,6 +548,7 @@
 @endsection
 @section('scripts')
 <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
 <script>
     $(document).ready(function() {
         function setupCSRF() {
@@ -622,11 +626,17 @@
                 processData: false,
                 success: function(response) {
                     if(response.status){
-                        $('#responseMessage').html('<span class="alert alert-success">' + response.success   + '</span>');
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.success,
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                         setTimeout(() => {
                             var originUrl = window.location.origin;
                             window.location.href = originUrl + '/franchise/franchise-list';
-                        },1000);
+                        },2000);
                     }
                     spinner.classList.add('d-none');
                     $('.next').removeClass('disabled');

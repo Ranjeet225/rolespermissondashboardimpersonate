@@ -12,4 +12,6 @@ class MasterService extends Model
     protected $table ='master_service';
 
     protected $guarded = [];
+
+    
 }
