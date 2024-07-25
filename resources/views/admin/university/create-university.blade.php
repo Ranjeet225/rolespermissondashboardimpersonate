@@ -380,7 +380,7 @@
                     <div class="col-lg-3">
                       <div class="input-block mb-3">
                         <label for="basicpill-cstno-input" class="form-label"> Year<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control " name="year" placeholder="City" >
+                        <input type="number" class="form-control " name="year" placeholder="Year" >
                         <span class="text-danger year"></span>
                       </div>
                     </div>

@@ -232,6 +232,7 @@ Route::middleware('auth')->group(function () {
         Route::post('req_score_prog_add', [ProgramController::class, 'req_score_prog_add'])->name('req-score-prog-add');
         Route::get('req_score_prog', [ProgramController::class, 'fetch_req_score_prog'])->name('fetch-req-score-prog');
         Route::post('update_program_commission', [ProgramController::class, 'update_program_commission'])->name('update-program-commission');
+        Route::Post('get-program-commission/{id?}',[ProgramController::class,'get_program_commission'])->name('get-program-commission');
         Route::get('delete-score-program',[ProgramController::class,'delete_score_program'])->name('delete-score-program');
         Route::get('program-filter',[ProgramController::class,'manage_program'])->name('program-filter');
         Route::get('approve-program',[ProgramController::class,'approve_program'])->name('approve-program');

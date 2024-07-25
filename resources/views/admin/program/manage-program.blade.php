@@ -1,4 +1,7 @@
 @extends('admin.include.app')
+@section('style')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
     <div class="row">
         <div class="card card-buttons">
@@ -106,13 +109,13 @@
                                 @endif
                             </td>
                             <td scope="col">
-                                <a href="" class="btn btn-primary btn-sm mx-1" id="score"  program-id="{{$item->id}}" data-tour="search"
+                                <a href="" class="btn btn-primary btn-sm mx-1 score_program_id"   program-id="{{$item->id}}" data-tour="search"
                                 data-bs-toggle="offcanvas" data-bs-target="#gmat"
                                 aria-controls="gmat"><i class="la la-plus"></i>Score</a>
                             </td>
                             <td scope="col">
-                                <a href="" class="btn btn-primary btn-sm mx-1"
-                                data-tour="search" program-id="{{$item->id}}"  id="commission" data-bs-toggle="offcanvas" data-bs-target="#testscrores"
+                                <a href="" class="btn btn-primary btn-sm mx-1 commission_modal"
+                                data-tour="search" program-id="{{$item->id}}"   data-bs-toggle="offcanvas" data-bs-target="#testscrores"
                                 aria-controls="testscrores"> <i class="la la-plus"></i>
                                 Commission</a>
                             </td>
@@ -137,28 +140,29 @@
                                     <div class="card-stretch-full">
                                         <div class="row g-4">
                                             <form class="row g-4" id="commission-data">
+                                             <input type="hidden"   name="program_commission_id">
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission" name="commission" value="{{$item->commission}}" type="number" class="form-control " placeholder="Program Commission (In Percentage)" autocomplete="commission" >
+                                                    <input id="usr-commission" name="commission" type="number" class="form-control commission" placeholder="Program Commission (In Percentage)" autocomplete="commission" >
                                                     <label for="usr-commission" class="form-label">Program Commission (In Percentage)</label>
                                                     <span class="text-danger error-commission"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission_for_program_payment_to_franchise" value="{{$item->commission_for_program_payment_to_franchise}}" name="commission_for_program_payment_to_franchise" type="number" class="form-control " placeholder="Commission to Franchise when student pays (In Percentage)" autocomplete="commission_for_program_payment_to_franchise" ><label for="usr-commission_for_program_payment_to_franchise" class="form-label">Commission to Franchise when student pays (In Percentage)</label>
+                                                    <input id="usr-commission_for_program_payment_to_franchise"  name="commission_for_program_payment_to_franchise" type="number" class="form-control commission_for_program_payment_to_franchise" placeholder="Commission to Franchise when student pays (In Percentage)" autocomplete="commission_for_program_payment_to_franchise" ><label for="usr-commission_for_program_payment_to_franchise" class="form-label">Commission to Franchise when student pays (In Percentage)</label>
                                                     <span class="text-danger error-commission_for_program_payment_to_franchise"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission_for_added_program_payment_to_franchise"  value="{{$item->commission_for_added_program_payment_to_franchise}}" name="commission_for_added_program_payment_to_franchise" type="number" class="form-control " placeholder="Commission to Franchise for Program/University added (In Percentage)" autocomplete="commission_for_added_program_payment_to_franchise" ><label for="usr-commission_for_added_program_payment_to_franchise" class="form-label">Commission to Franchise for Program/University added (In Percentage)</label>
+                                                    <input id="usr-commission_for_added_program_payment_to_franchise"   name="commission_for_added_program_payment_to_franchise" type="number" class="form-control commission_for_added_program_payment_to_franchise" placeholder="Commission to Franchise for Program/University added (In Percentage)" autocomplete="commission_for_added_program_payment_to_franchise" ><label for="usr-commission_for_added_program_payment_to_franchise" class="form-label">Commission to Franchise for Program/University added (In Percentage)</label>
                                                     <span class="text-danger error-commission_for_added_program_payment_to_franchise"></span>
                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                    <div class="form-floating">
-                                                    <input id="usr-commission_for_program_payment_to_counselor"  value="{{$item->commission_for_program_payment_to_counselor}}"  name="commission_for_program_payment_to_counselor" type="number" class="form-control " placeholder="Commission to Counselor for Program/University added (In Percentage)" autocomplete="commission_for_program_payment_to_counselor" ><label for="usr-commission_for_program_payment_to_counselor" class="form-label">Commission to Counselor for Program/University added (In Percentage)</label>
+                                                    <input id="usr-commission_for_program_payment_to_counselor"    name="commission_for_program_payment_to_counselor" type="number" class="form-control commission_for_program_payment_to_counselor" placeholder="Commission to Counselor for Program/University added (In Percentage)" autocomplete="commission_for_program_payment_to_counselor" ><label for="usr-commission_for_program_payment_to_counselor" class="form-label">Commission to Counselor for Program/University added (In Percentage)</label>
                                                     <span class="text-danger error-commission_for_program_payment_to_counselor"></span>
                                                    </div>
                                                 </div>
@@ -202,8 +206,9 @@
                     <div class="row g-4">
                         <form class="row g-4" id="score-data">
                             <div class="col-12">
+                                <input type="hidden"   name="program_id">
                                <div class="form-floating">
-                                  <select class="form-control " name="type" id="usr-fees_type" placeholder="Type" required>
+                                  <select class="form-control eng_prof_level" name="type" id="usr-fees_type" placeholder="Type" required>
                                      <option value="">--- Select Type ---</option>
                                      @foreach ($eng_proficiency_level as $item)
                                       <option value="{{$item->id}}">{{$item->name}}</option>
@@ -213,30 +218,31 @@
                                   <span class="text-danger error-type"></span>
                                </div>
                             </div>
+                            <input type="hidden" name="eng_prof_level_score" value="" id="eng_prof_level_score">
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-listening_score" name="listening_score"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" type="number" class="form-control " placeholder="Listening Score" autocomplete="listening_score" required>
+                                <input id="usr-listening_score" name="listening_score"  max="120"   type="number" class="form-control eng_prof_score" placeholder="Listening Score" autocomplete="listening_score" required>
                                 <label for="usr-listening_score" class="form-label">Listening Score</label>
                                 <span class="text-danger error-listening_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-writing_score" name="writing_score" type="number"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" class="form-control " placeholder="Writing Score" autocomplete="writing_score" required>
+                                <input id="usr-writing_score" name="writing_score" type="number"  max="120"   class="form-control eng_prof_score" placeholder="Writing Score" autocomplete="writing_score" required>
                                 <label for="usr-writing_score" class="form-label">Writing Score</label>
                                 <span class="text-danger error-writing_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-reading_score" name="reading_score"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" type="number" class="form-control " placeholder="Reading Score" autocomplete="reading_score" required>
+                                <input id="usr-reading_score" name="reading_score"  max="120"  type="number" class="form-control eng_prof_score" placeholder="Reading Score" autocomplete="reading_score" required>
                                 <label for="usr-reading_score" class="form-label">Reading Score</label>
                                 <span class="text-danger error-reading_score"></span>
                                </div>
                             </div>
                             <div class="col-12">
                                <div class="form-floating">
-                                <input id="usr-speaking_score" name="speaking_score" type="number"  max="120"  oninput="if(value > 120) this.setCustomValidity('Grading Number must be less than or equal to 120')" class="form-control " placeholder="Speaking Score" autocomplete="speaking_score" required>
+                                <input id="usr-speaking_score" name="speaking_score" type="number"  max="120"  class="form-control eng_prof_score" placeholder="Speaking Score" autocomplete="speaking_score" required>
                                 <label for="usr-speaking_score" class="form-label">Speaking Score</label>
                                 <span class="text-danger error-speaking_score"></span>
                                </div>
@@ -270,6 +276,7 @@
 @endsection
 @section('scripts')
     <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
     <script>
         $(document).ready(function() {
             function setupCSRF() {
@@ -279,65 +286,35 @@
                     }
                 });
             }
-            $('.score').on('click', function(event) {
-                $('.score').addClass('disabled');
-
-                var program_id = $('#score').attr('program-id');
-                var formData = $('#score-data').serialize();
-                formData += '&program_id=' + program_id;
+            $('.commission_modal').on('click', function(event) {
+                $('#commission-data')[0].reset();
+                var program_id =$(this).attr('program-id');
+                $('input[name="program_commission_id"]').val(program_id);
                 setupCSRF();
                 $.ajax({
-                    url: '{{ route('req-score-prog-add') }}',
+                    url: '{{ route('get-program-commission') }}',
                     type: 'post',
-                    data: formData,
+                    data: {program_id:program_id},
                     success: function(response) {
-                        if (response.status) {
-                            $('.responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
-                            setTimeout(() => {
-                                // location.reload();
-                            }, 1000);
-                        }
-                        fetchscore();
-                        $('.score').removeClass('disabled');
-                        $('#score-data')[0].reset();
+                        $('.commission').val(response.data.commission);
+                        $('.commission_for_program_payment_to_franchise').val(response.data.commission_for_program_payment_to_franchise);
+                        $('.commission_for_added_program_payment_to_franchise').val(response.data.commission_for_added_program_payment_to_franchise);
+                        $('.commission_for_program_payment_to_counselor').val(response.data.commission_for_program_payment_to_counselor);
                     },
-                    error: function(xhr) {
-                        $('.score').removeClass('disabled');
-                        var response = JSON.parse(xhr.responseText);
-                        if(response.errors && response.errors.type){
-                            $('.error-type').html(response.errors.type);
-                        }else{
-                            $('.error-type').html('');
-                        }
-                        if(response.errors && response.errors.listening_score){
-                            $('.error-listening_score').html(response.errors.listening_score);
-                        }else{
-                            $('.error-listening_score').html('');
-                        }
-                        if(response.errors && response.errors.writing_score){
-                            $('.error-writing_score').html(response.errors.writing_score);
-                        }else{
-                            $('.error-writing_score').html('');
-                        }
-                        if(response.errors && response.errors.reading_score){
-                            $('.error-reading_score').html(response.errors.reading_score);
-                        }else{
-                            $('.error-reading_score').html('');
-                        }
-                        if(response.errors && response.errors.reading_score){
-                            $('.error-speaking_score').html(response.errors.speaking_score);
-                        }else{
-                            $('.error-speaking_score').html('');
-                        }
-                    }
+
                 });
-            });
+            })
+            $('.score_program_id').on('click', function(event) {
+                $('#score-data')[0].reset();
+                var program_id =$(this).attr('program-id');
+                $('input[name="program_id"]').val(program_id);
+                fetchscore(program_id);
+            })
 
             $('.commission').on('click', function(event) {
                 event.preventDefault();
                 $('.commission').addClass('disabled');
-                var program_id = $('#commission').attr('program-id');
+                var program_id =  $('input[name="program_commission_id"]').val();
                 var formData = $('#commission-data').serialize();
                 formData += '&program_id=' + program_id;
                 setupCSRF();
@@ -347,11 +324,17 @@
                     data: formData,
                     success: function(response) {
                         if (response.status) {
-                            $('.responseMessage').html('<span class="alert alert-success">' +
-                                response.success + '</span>');
-                            setTimeout(() => {
-                                // location.reload();
-                            }, 1000);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success...',
+                                text: response.success,
+                            }).then((result) => {
+                                if (result.value) {
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 100);
+                                }
+                            });
                         }
                         $('.commission').removeClass('disabled');
                         $('#commission-data')[0].reset();
@@ -381,9 +364,8 @@
                     }
                 });
             });
-            function fetchscore(country_id) {
+            function fetchscore(program_id) {
                 $('.score-table').empty();
-                var program_id = $('#score').attr('program-id');
                 setupCSRF();
                 $.ajax({
                     url: "{{ route('fetch-req-score-prog') }}",
@@ -398,11 +380,11 @@
                         } else {
                             $.each(score, function(key, value) {
                                 $('.score-table').append('<tr><td>' +
-                                    key + '</td><td>' +
+                                    (key + 1) + '</td><td>' +
                                     value.listening_score + '</td><td>' +
                                     value.writing_score + '</td><td>' +
                                     value.reading_score + '</td><td>' +
-                                value.speaking_score + '</td><td><a href="#" class="btn btn-warning btn-danger delete-score" data-id="'+value.id+'"><i class="la la-trash"></i></a></td></tr>');
+                                    value.speaking_score + '</td><td><a href="#" class="btn btn-warning btn-danger delete-score" data-id="'+value.id+'"><i class="la la-trash"></i></a></td></tr>');
                             });
                         }
                     }
@@ -410,22 +392,129 @@
                     $('.delete-score').on('click', function(e){
                         e.preventDefault();
                         var score_id = $(this).data('id');
-                        setupCSRF();
-                        $.ajax({
-                            url: "{{ route('delete-score-program') }}",
-                            method: 'get',
-                            data: {
-                                score_id: score_id
-                            },
-                            success: function(response){
-                                alert('Score Deleted Successfully');
-                                fetchscore();
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                setupCSRF();
+                                $.ajax({
+                                    url: "{{ route('delete-score-program') }}",
+                                    method: 'get',
+                                    data: {
+                                        score_id: score_id
+                                    },
+                                    success: function(response){
+                                        Swal.fire(
+                                            'Deleted!',
+                                            'Score has been deleted.',
+                                            'success'
+                                        );
+                                        fetchscore();
+                                    }
+                                });
                             }
                         });
                     });
                 });
             }
-            fetchscore();
+            $('.eng_prof_level').on('change', function(){
+                var eng_prof_level =$(this).val();
+                $.ajax({
+                    url: '{{ route('fetch-eng-prof-level-score') }}',
+                    type: 'post',
+                    data: {eng_prof_level: eng_prof_level},
+                    success: function(response) {
+                        $('#eng_prof_level_score').val(response.score.number);
+                    },
+                    error: function(xhr) {
+                        var response = JSON.parse(xhr.responseText);
+                    }
+                });
+            });
+            $('.eng_prof_score').on('input', function() {
+                var eng_prof_level = $('.eng_prof_level').val();
+                if (eng_prof_level) {
+                    var eng_prof_score = parseFloat($(this).val());
+                    var eng_score = parseFloat($('#eng_prof_level_score').val());
+
+                    if (eng_prof_score < 0) {
+                        $(this).val(0);
+                    }
+                    if (eng_prof_score > eng_score) {
+                        $(this).val(eng_score);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Sorry! You cannot enter greater than ' + eng_score
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Select English Proficiency Level'
+                    });
+                    return false;
+                }
+            });
+            $('.score').on('click', function(event) {
+                event.preventDefault();
+                var program_id = $('input[name="program_id"]').val();
+                var formData = $('#score-data').serialize();
+                formData += '&program_id=' + program_id;
+                setupCSRF();
+                $.ajax({
+                    url: '{{ route('req-score-prog-add') }}',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success...',
+                                text: response.success,
+                            });
+                            fetchscore(response.program_id);
+                            $('.score').removeClass('disabled');
+                            $('#score-data')[0].reset();
+                        }
+                    },
+                    error: function(xhr) {
+                        $('.score').removeClass('disabled');
+                        var response = JSON.parse(xhr.responseText);
+                        handleErrors(response.errors);
+                    }
+                });
+            });
+
+            function handleErrors(errors) {
+                $('.error-type').html('');
+                $('.error-listening_score').html('');
+                $('.error-writing_score').html('');
+                $('.error-reading_score').html('');
+                $('.error-speaking_score').html('');
+                if (errors && errors.type) {
+                    $('.error-type').html(errors.type);
+                }
+                if (errors && errors.listening_score) {
+                    $('.error-listening_score').html(errors.listening_score);
+                }
+                if (errors && errors.writing_score) {
+                    $('.error-writing_score').html(errors.writing_score);
+                }
+                if (errors && errors.reading_score) {
+                    $('.error-reading_score').html(errors.reading_score);
+                }
+                if (errors && errors.speaking_score) {
+                    $('.error-speaking_score').html(errors.speaking_score);
+                }
+            }
         });
     </script>
 @endsection

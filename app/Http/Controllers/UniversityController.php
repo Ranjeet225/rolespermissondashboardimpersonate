@@ -47,63 +47,15 @@ class UniversityController extends Controller
         if ($request->has('country') && $request->country != '') {
             $results->where('country_id', $request->country);
         }
-        if ($request->has('approve') && $request->approve != '') {
-            $isApproved = $request->approve == 'approve' ? 1 : 0;
+        if ($request->has('account_type') && $request->account_type != '') {
+            $isApproved = $request->account_type == 'approve' ? 1 : 0;
             $results->where('is_approved', $isApproved);
         }
         if ($request->has('status') && $request->status != '') {
             $results->where('status', $request->status);
         }
-        // if ($request->ajax()) {
-        //     $search = $request->input('search');
-        //     $isApproved = null;
-        //     if (strtolower($search) == 'approve') {
-        //         $isApproved = 1;
-        //     } elseif (strtolower($search) == 'unapprove') {
-        //         $isApproved = 0;
-        //     }
-        //     if ($request->has('university_name') && $request->university_name != '') {
-        //         $results->where('university_name', 'LIKE', "%{$request->university_name}%");
-        //     }
-        //     if ($request->has('country') && $request->country != '') {
-        //         $results->where('country_id', $request->country);
-        //     }
-        //     if ($request->has('approve') && $request->approve != '') {
-        //         $isApproved = $request->approve == 'approve' ? 1 : 0;
-        //         $results->where('is_approved', $isApproved);
-        //     }
-        //     if ($request->has('status') && $request->status != '') {
-        //         $results->where('status', $request->status);
-        //     }
-        //     // $results->where(function ($query) use ($search, $isApproved) {
-        //     //         if ($isApproved == 'unapprove') {
-        //     //             $query->orWhere('is_approved', 0);
-        //     //         }
-        //     //         if($isApproved == 'approve'){
-        //     //             $query->orWhere('is_approved', 0);
-        //     //         }
-        //     //         $query->orWhereHas('country', function ($query) use ($search) {
-        //     //             $query->where('name', 'LIKE', "%{$search}%");
-        //     //         })
-        //     //         ->orWhereHas('province', function ($query) use ($search) {
-        //     //             $query->where('name', 'LIKE', "%{$search}%");
-        //     //         });
-        //     //     });
-        //     // });
-        //     $results = $results->paginate(12);
-        //     return response()->json([
-        //         'data' => $results,
-        //         'links' => $results->links()->toHtml()
-        //     ]);
-        // }
-        $results=$results->paginate(12);
-        // if($request->routeIs('manage-university')){
+        $results=$results->latest()->paginate(12);
         return view('admin.university.manage-university', compact('countries','results'));
-        // }elseif(($route == 'approved-university') || ($currentUrl == $originUrl.'/admin/approved-university')) {
-        //     return view('admin.university.approved-university', compact('countries','results'));
-        // }elseif(($route == 'unapproved-university') || ($currentUrl == $originUrl.'/admin/un-approve-university')){
-        //     return view('admin.university.unapproved-university', compact('countries','results'));
-        // }
 
     }
 
@@ -127,7 +79,7 @@ class UniversityController extends Controller
         if ($request->has('status') && $request->status != '') {
             $results->where('status', $request->status);
         }
-        $results=$results->paginate(12);
+        $results=$results->latest()->paginate(12);
         return view('admin.university.approved-university', compact('countries','results'));
     }
 
@@ -153,7 +105,7 @@ class UniversityController extends Controller
         if ($request->has('status') && $request->status != '') {
             $results->where('status', $request->status);
         }
-        $results=$results->paginate(12);
+        $results=$results->latest()->paginate(12);
         return view('admin.university.unapproved-university', compact('countries','results'));
     }
 
