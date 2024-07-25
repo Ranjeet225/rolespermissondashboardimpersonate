@@ -622,5 +622,4 @@ Route::post('landing-page/send-mail',[App\Http\Controllers\LandingPage\HomeContr
 Route::get('/fetch-states', [\App\Http\Controllers\LandingPage\DashboardController::class, 'fetchStates'])->name('fetch-states.get');
 
 
-
 require __DIR__.'/auth.php';

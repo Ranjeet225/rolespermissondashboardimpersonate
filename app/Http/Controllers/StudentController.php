@@ -1238,8 +1238,10 @@ class StudentController extends Controller
     public function payment_link_details(Request $request)
     {
       $user_id = Student::where('id', $request->student_id)->pluck('user_id')->first();
-      $paymentData = PaymentsLink::with('master_service')->where('user_id',$user_id)->whereNotIn('payment_type_remarks', ['applied_program_pay_later', 'applied_program'])
-                    ->select('amount','email','payment_type_remarks','remarks','master_service','id','user_id')->orWhereNull('payment_type_remarks')->get();
+      $paymentData = PaymentsLink::with('master_service')->where('user_id',$user_id)
+                    ->WhereNull('payment_type_remarks')
+                    ->select('amount','email','payment_type_remarks','master_service','remarks','id','user_id')
+                    ->whereNotNull('master_service')->get();
       $student_course_exit = PaymentsLink::where('user_id', $user_id)->pluck('program_id')->toArray();
       $program_applied = PaymentsLink::with('program:name,id')->select('id','user_id','email','program_id')->orwhere('payment_type_remarks','applied_program_pay_later')
                         ->orwhere('payment_type_remarks','applied_program')->where('user_id', $user_id)->get();

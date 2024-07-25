@@ -453,7 +453,7 @@ class FrontendController extends Controller
                             $subquery->where('country_id', $request->country);
                         });
                     })
-                    ->when(!empty($request->university_id), function ($query) use ($request) {
+                    ->when(!empty($request->universitXy_id), function ($query) use ($request) {
                         $query->where('school_id', $request->university_id);
                     })
                     ->when(!empty($request->program_id), function ($query) use ($request) {
