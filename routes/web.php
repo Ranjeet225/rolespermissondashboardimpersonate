@@ -23,9 +23,7 @@ URL::forceScheme('https');
 Route::fallback(function () {
     return view('errors.404');
 });
-Route::get('/', function(){
-    return view('frontend.comming-soon');
-});
+Route::get('/', [FrontendController::class,'index'])->name('index');
 Route::get('/apply-program', [FrontendController::class,'course_university'])->name('check-eligible');
 Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');
 Route::post('/get-item-details',[FrontendController::class,'get_country'])->name('get-item-details');

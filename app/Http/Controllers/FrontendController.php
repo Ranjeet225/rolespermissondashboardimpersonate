@@ -27,6 +27,11 @@ use Illuminate\Support\Facades\Validator;
 class FrontendController extends Controller
 {
 
+    public function index()
+    {
+        return view('frontend.index');
+    }
+
 
 
     public function check_eligibility()
