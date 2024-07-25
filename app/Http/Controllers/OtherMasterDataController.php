@@ -599,7 +599,7 @@ class OtherMasterDataController extends Controller
               'status' => 'required',
           ]);
           $input = $request->except('_token');
-          VisaSUB::create($input);
+          VisaSubDocument::create($input);
           return redirect()->route('visa-sub-document-type')
               ->with('success', 'Visa Sub Document Type created successfully.');
       }
