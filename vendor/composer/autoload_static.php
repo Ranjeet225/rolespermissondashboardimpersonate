@@ -756,6 +756,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'App\\Models\\SchoolAttended' => __DIR__ . '/../..' . '/app/Models/SchoolAttended.php',
         'App\\Models\\SchoolReview' => __DIR__ . '/../..' . '/app/Models/SchoolReview.php',
         'App\\Models\\SchoolType' => __DIR__ . '/../..' . '/app/Models/SchoolType.php',
+        'App\\Models\\ServiceLanding' => __DIR__ . '/../..' . '/app/Models/ServiceLanding.php',
         'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',
         'App\\Models\\SmsTemplate' => __DIR__ . '/../..' . '/app/Models/SmsTemplate.php',
         'App\\Models\\Source' => __DIR__ . '/../..' . '/app/Models/Source.php',

@@ -532,7 +532,7 @@
             "name": "CMS",
             "icon": "menu-icon tf-icons las la-tachometer-alt",
             "slug": "cms",
-            "permission":["testimonial.view","blogs.view","messages.view"],
+            "permission":["testimonial.view","blogs.view","messages.view","service_landing.view"],
             "submenu": [
                 {
                     "url": "admin/testimonial",
@@ -551,6 +551,18 @@
                     "name": "Messages",
                     "slug": "admin-message",
                     "permission":"messages.view"
+                },
+                {
+                    "url": "admin/service",
+                    "name": "Service",
+                    "slug": "admin-service",
+                    "permission":"service_landing.view"
+                },
+                {
+                    "url": "admin/instagram",
+                    "name": "Instagram",
+                    "slug": "admin-instagram",
+                    "permission":"instagram.view"
                 }
             ]
         },

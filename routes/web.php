@@ -473,6 +473,25 @@ Route::middleware('auth')->group(function () {
         Route::post('update-blogs/{id?}',[CmsController::class,'blogs_update'])->name('update-blogs');
         Route::post('store-blogs',[CmsController::class,'blogs_store'])->name('store-blogs');
 
+        // service landing page
+
+        Route::prefix('service')->group(function () {
+            Route::get('/',[CmsController::class,'service'])->name('service.index');
+            Route::get('create',[CmsController::class,'service_create'])->name('service.create');
+            Route::get('edit/{id?}',[CmsController::class,'service_edit'])->name('service.edit');
+            Route::get('delete/{id?}',[CmsController::class,'service_delete'])->name('service.delete');
+            Route::post('update/{id?}',[CmsController::class,'service_update'])->name('service.update');
+            Route::post('store',[CmsController::class,'service_store'])->name('service.store');
+        });
+        Route::prefix('instagram')->group(function () {
+            Route::get('/',[CmsController::class,'instagram'])->name('instagram.index');
+            Route::get('create',[CmsController::class,'instagram_create'])->name('instagram.create');
+            Route::get('edit/{id?}',[CmsController::class,'instagram_edit'])->name('instagram.edit');
+            Route::get('delete/{id?}',[CmsController::class,'instagram_delete'])->name('instagram.delete');
+            Route::post('update/{id?}',[CmsController::class,'instagram_update'])->name('instagram.update');
+            Route::post('store',[CmsController::class,'instagram_store'])->name('instagram.store');
+        });
+
         Route::get('master-service/{id?}',[CmsController::class,'master_service'])->name('master_service');
         Route::get('create-master-service',[CmsController::class,'master_service_create'])->name('create-master-service');
         Route::get('edit-master-service/{id?}',[CmsController::class,'master_service_edit'])->name('edit-master-service');

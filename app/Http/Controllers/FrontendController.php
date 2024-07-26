@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ads;
+use App\Models\Blog;
 use App\Models\Country;
 use App\Models\EducationLevel;
 use App\Models\EngProficiencyLevel;
 use App\Models\Fieldsofstudytype;
+use App\Models\Instagram;
 use App\Models\Payment;
 use App\Models\Program;
 use App\Models\ProgramDiscipline;
@@ -22,6 +25,8 @@ use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\PaymentsLink;
+use App\Models\ServiceLanding;
+use App\Models\Testimonials;
 use Illuminate\Support\Facades\Validator;
 
 class FrontendController extends Controller
@@ -29,7 +34,18 @@ class FrontendController extends Controller
 
     public function index()
     {
-        return view('frontend.index');
+        return view('frontend.index', [
+            'service'=>ServiceLanding::where('status',1)->take(4)->get(),
+            'instagram'=>Instagram::where('status',1)->get(),
+            'blogs'=>Blog::where('status',1)->take(3)->get(),
+            'programs'=>Program::with('university_name:id,university_name,logo,banner')->Select('id','school_id','name')->latest()->take(8)->get(),
+            'ads'=>Ads::get(),
+            'program_level'=>ProgramLevel::get(),
+            'program_sublevel'=>ProgramSubLevel::get(),
+            'testimonials'=> Testimonials::where('status',1)->orderBy('id','desc')->get(),
+            'universitiesltl' => University::select('id', 'university_name', 'logo')->take(30)->get(),
+            'universitiesrtl' => University::select('id', 'university_name', 'logo')->latest()->take(30)->get()
+        ]);
     }
 
 

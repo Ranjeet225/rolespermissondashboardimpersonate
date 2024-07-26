@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\Instagram;
 use App\Models\MasterService;
+use App\Models\ServiceLanding;
 use App\Models\Testimonials;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -209,5 +211,139 @@ class CmsController extends Controller
         $master_service->delete();
         return redirect()->route('master_service')->with('success','Data Deleted Successfully');
     }
+
+
+    public function service()
+    {
+        $services = ServiceLanding::paginate(12);
+        return view('admin.cms.service.index', compact('services'));
+
+    }
+
+    public function service_create()
+    {
+        return view('admin.cms.service.create');
+    }
+
+    public function service_store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'content' => 'required',
+            'status' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $service = new  ServiceLanding;
+        $service->name = $request->name;
+        $service->status = $request->status;
+        $service->content = $request->content;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/imagesapi/');
+            $image->move($destinationPath, $name);
+            $service['image'] = $name;
+        }
+        $service->save();
+        return redirect()->route('service.index')->with('success','Data Created Successfully');
+    }
+
+    public function service_edit($id)
+    {
+        $service = ServiceLanding::find($id);
+        return view('admin.cms.service.edit', compact('service'));
+    }
+
+    public function service_update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+            'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $service = ServiceLanding::find($id);
+        $service->name = $request->name;
+        $service->status = $request->status;
+        $service->content = $request->content;
+        if ($request->hasFile('image')) {
+            if ($service->image && file_exists(public_path('imagesapi/' . $service->image))) {
+                unlink(public_path('imagesapi/' . $service->image));
+            }
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/imagesapi/');
+            $image->move($destinationPath, $name);
+            $service->image = $name;
+        }
+        $service->save();
+        return redirect()->route('service.index')->with('success','Data Updated Successfully');
+    }
+
+    public function service_delete($id)
+    {
+        $service = ServiceLanding::find($id);
+        if ($service->image && file_exists(public_path('imagesapi/' . $service->image))) {
+            unlink(public_path('imagesapi/' . $service->image));
+        }
+        $service->delete();
+        return redirect()->route('service.index')->with('success','Data Deleted Successfully');
+    }
+
+    public function instagram()
+    {
+        $instagrams = Instagram::paginate(12);
+        return view('admin.cms.instagram.index', compact('instagrams'));
+    }
+
+    public function instagram_create()
+    {
+        return view('admin.cms.instagram.create');
+    }
+
+    public function instagram_edit($id)
+    {
+        $instagram = Instagram::find($id);
+        return view('admin.cms.instagram.edit', compact('instagram'));
+    }
+
+    public function instagram_delete($id)
+    {
+        if (Instagram::find($id)) {
+            Instagram::find($id)->delete();
+            return redirect()->route('instagram.index')->with('success','Data Deleted Successfully');
+        }
+    }
+
+    public function instagram_update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'url' => 'required',
+            'status' => 'required',
+        ]);
+
+        $instagram = Instagram::find($id);
+        $instagram->url = $request->url;
+        $instagram->status = $request->status;
+        $instagram->save();
+        return redirect()->route('instagram.index')->with('success','Data Updated Successfully');
+    }
+
+    public function instagram_store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'url' => 'required',
+            'status' => 'required',
+        ]);
+
+        $instagram = new  Instagram;
+        $instagram->url = $request->url;
+        $instagram->status = $request->status;
+        $instagram->save();
+        return redirect()->route('instagram.index')->with('success','Data Created Successfully');
+    }
+
 
 }

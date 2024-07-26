@@ -595,6 +595,18 @@ return [
             'training_student.view',
             'training_student.update',
             'training_student.delete',
-      ],
+        ],
+        'service_landing'=> [
+            'service_landing.create',
+            'service_landing.view',
+            'service_landing.update',
+            'service_landing.delete',
+        ],
+        'instagram'=> [
+            'instagram.create',
+            'instagram.view',
+            'instagram.update',
+            'instagram.delete',
+        ],
       ],
 ];

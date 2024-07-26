@@ -110,6 +110,7 @@ return array(
     'App\\Models\\SchoolAttended' => $baseDir . '/app/Models/SchoolAttended.php',
     'App\\Models\\SchoolReview' => $baseDir . '/app/Models/SchoolReview.php',
     'App\\Models\\SchoolType' => $baseDir . '/app/Models/SchoolType.php',
+    'App\\Models\\ServiceLanding' => $baseDir . '/app/Models/ServiceLanding.php',
     'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',
     'App\\Models\\SmsTemplate' => $baseDir . '/app/Models/SmsTemplate.php',
     'App\\Models\\Source' => $baseDir . '/app/Models/Source.php',
