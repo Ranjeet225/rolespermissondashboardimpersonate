@@ -586,9 +586,15 @@
           </div>
           <div class="col-lg-6 pr-70 md-pr-15">
              <div class="img-part">
-                <img class=""
-                   src="https://s3-alpha-sig.figma.com/img/bc5a/1fe5/8953d9d99a1f6584e825eb8bb21b1f6b?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AZwX6XEiqG-QaR0C30nYuWVoLkY~nYj5qMgqUFS--1s-6rwKagAjRW2zbOM880x6XV0z-QGCxTNxWakoCJpJZVaq~e4KJ9c~WJUNk3LrFaZssJy5ne7ABinl8FRuvFcEwxO9UQcgGqxba5Cf7NdmRwHK8SWm4NVHXKhH-70bCMiOJZ6AgdPdjr5HQwsTxoj1cvqiM5CVmfJtS6d266ANiWXT4VfVj3-shixIS-4LA5v-oTV~Kp6utM3Jtv47GFXEXRaF83UqFoo~kChYMqZZ2aOnhoRd0P8gxYotPgpD~nYBWvOHwJvVv8BNFNzYOTPS0TbWm946J2~uglD~8x1ItQ__"
-                   alt="About Image">
+                <img class="tree"
+                src="https://s3-alpha-sig.figma.com/img/bc5a/1fe5/8953d9d99a1f6584e825eb8bb21b1f6b?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AZwX6XEiqG-QaR0C30nYuWVoLkY~nYj5qMgqUFS--1s-6rwKagAjRW2zbOM880x6XV0z-QGCxTNxWakoCJpJZVaq~e4KJ9c~WJUNk3LrFaZssJy5ne7ABinl8FRuvFcEwxO9UQcgGqxba5Cf7NdmRwHK8SWm4NVHXKhH-70bCMiOJZ6AgdPdjr5HQwsTxoj1cvqiM5CVmfJtS6d266ANiWXT4VfVj3-shixIS-4LA5v-oTV~Kp6utM3Jtv47GFXEXRaF83UqFoo~kChYMqZZ2aOnhoRd0P8gxYotPgpD~nYBWvOHwJvVv8BNFNzYOTPS0TbWm946J2~uglD~8x1ItQ__"
+                alt="About Image" usemap="#image-map">
+                <map name="image-map">
+                <area target="_blank" alt="bonvoyage" title="bonvoyage" href="https://overseaseducationlane.com/bonvoyage" coords="719,769,752,756,777,735,775,714,764,684,744,678,725,673,698,670,677,672,654,681,633,684,613,696,588,712,575,727,567,733,634,739,643,744,674,752,609,739,592,737,695,765" shape="poly">
+                <area target="_blank" alt="predeparturebriefing" title="predeparturebriefing" href="https://overseaseducationlane.com/predeparturebriefing" coords="813,662,885,633,868,642,891,598,838,659,875,646,857,574,823,576,804,576,790,582,779,591,765,594,750,602,737,614,711,627,692,641,702,652,729,657,775,670,743,664,798,666,899,613,895,582,887,576,842,569,834,568,820,571,814,569,726,617,745,606,760,596,718,654,759,666,787,667,852,655,860,648" shape="poly">
+                <area target="_blank" alt="foreignexchange" title="foreignexchange" href="https://overseaseducationlane.com/foreignexchange" coords="822,552,844,554,861,555,890,554,911,537,919,499,900,465,884,457,869,453,847,456,824,465,811,480,794,493,785,510,777,519,774,535,768,558,770,570,787,563,802,556,812,555,902,550,921,520,909,475,919,508" shape="poly">
+                <area target="_blank" alt="travel&amp;medical" title="travel&amp;medical" href="https://overseaseducationlane.com/travel&amp;medical" coords="826,454,839,447,858,444,884,437,929,427,959,415,979,400,985,370,982,344,974,332,965,315,938,305,908,305,882,324,854,368,837,410,819,454,820,452" shape="poly">
+                </map>
              </div>
           </div>
        </div>
