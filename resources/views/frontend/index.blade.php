@@ -2,6 +2,15 @@
 @section('title', 'Home')
 @section('content')
 <style>
+    .btn-shop {
+    font-size: 15px;
+    padding: 8px 13px;
+    }
+    .rc-carousel-item {
+    margin: 0px 13px;
+    }
+ </style>
+<style>
     .instagram-media {
         max-width: 400px !important;
         min-width: 350px !important;
@@ -52,30 +61,21 @@
     background-color: rgb(7, 7, 88);
     }
 </style>
-<div class="main-content">
-    <style type="text/css">
-       .rs-slider.style1 .slider-content.slide2 {
-       background: url('public/pages/slider/h2-2.png');
-       background-size: cover;
-       background-position: center;
-       background-repeat: no-repeat;
-       }
-       .rs-slider.style1 .slider-content.slide1 {
-       background: url('public/pages/slider/h2-1.png');
-       background-size: cover;
-       background-position: center;
-       background-repeat: no-repeat;
-       }
-    </style>
-    <video id="myVideo" style="width: 100%; margin: 0px auto;display: block;" autoplay="" muted="" loop="">
-       <source src="https://hucpl.com/IELTS_landing/webinar_video.mp4" type="video/mp4">
-       <source src="mov_bbb.ogg" type="video/ogg">
-       Your browser does not support HTML video.
-    </video>
-    <div class="main-page-bottom-content"></div>
- </div>
- <!-- ankitcss -->
- <style>
+<style type="text/css">
+    .rs-slider.style1 .slider-content.slide2 {
+    background: url('public/pages/slider/h2-2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+    .rs-slider.style1 .slider-content.slide1 {
+    background: url('public/pages/slider/h2-1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+ </style>
+  <style>
     .nav-tabs {
     border-bottom: 1px solid transparent;
     }
@@ -268,20 +268,7 @@
     /* reduced motion css ends */
     /* Carousel and animation css ends */
  </style>
- <!-- Latest compiled and minified CSS -->
- <!-- https://xstore.8theme.com/demos/hosting/-->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
- <!-- Optional theme -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- <!-- Latest compiled and minified JavaScript -->
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-    crossorigin="anonymous"></script>
- <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
- <style type="text/css">
+  <style type="text/css">
     #slider-text {
     display: block;
     }
@@ -485,6 +472,31 @@
     background: #f7f9ff;
     }
  </style>
+<div class="main-content">
+
+    <video id="myVideo" style="width: 100%; margin: 0px auto;display: block;" autoplay="" muted="" loop="">
+       <source src="https://hucpl.com/IELTS_landing/webinar_video.mp4" type="video/mp4">
+       <source src="mov_bbb.ogg" type="video/ogg">
+       Your browser does not support HTML video.
+    </video>
+    <div class="main-page-bottom-content"></div>
+ </div>
+ <!-- ankitcss -->
+
+ <!-- Latest compiled and minified CSS -->
+ <!-- https://xstore.8theme.com/demos/hosting/-->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+ <!-- Optional theme -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <!-- Latest compiled and minified JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+ <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
+
  <div id="rs-about" class="rs-about style1 pb-40 mt-5  md-pb-30">
     <div class="container">
        <div class="row align-items-center">
@@ -584,17 +596,42 @@
                    alt="About Image">
              </div>
           </div>
-          <div class="col-lg-6 pr-70 md-pr-15">
+          <div class="col-lg-6 pr-70 md-pr-15" style="width: 100%">
              <div class="img-part">
-                <img class="tree"
-                src="https://s3-alpha-sig.figma.com/img/bc5a/1fe5/8953d9d99a1f6584e825eb8bb21b1f6b?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AZwX6XEiqG-QaR0C30nYuWVoLkY~nYj5qMgqUFS--1s-6rwKagAjRW2zbOM880x6XV0z-QGCxTNxWakoCJpJZVaq~e4KJ9c~WJUNk3LrFaZssJy5ne7ABinl8FRuvFcEwxO9UQcgGqxba5Cf7NdmRwHK8SWm4NVHXKhH-70bCMiOJZ6AgdPdjr5HQwsTxoj1cvqiM5CVmfJtS6d266ANiWXT4VfVj3-shixIS-4LA5v-oTV~Kp6utM3Jtv47GFXEXRaF83UqFoo~kChYMqZZ2aOnhoRd0P8gxYotPgpD~nYBWvOHwJvVv8BNFNzYOTPS0TbWm946J2~uglD~8x1ItQ__"
-                alt="About Image" usemap="#image-map">
-                <map name="image-map">
-                <area target="_blank" alt="bonvoyage" title="bonvoyage" href="https://overseaseducationlane.com/bonvoyage" coords="719,769,752,756,777,735,775,714,764,684,744,678,725,673,698,670,677,672,654,681,633,684,613,696,588,712,575,727,567,733,634,739,643,744,674,752,609,739,592,737,695,765" shape="poly">
-                <area target="_blank" alt="predeparturebriefing" title="predeparturebriefing" href="https://overseaseducationlane.com/predeparturebriefing" coords="813,662,885,633,868,642,891,598,838,659,875,646,857,574,823,576,804,576,790,582,779,591,765,594,750,602,737,614,711,627,692,641,702,652,729,657,775,670,743,664,798,666,899,613,895,582,887,576,842,569,834,568,820,571,814,569,726,617,745,606,760,596,718,654,759,666,787,667,852,655,860,648" shape="poly">
-                <area target="_blank" alt="foreignexchange" title="foreignexchange" href="https://overseaseducationlane.com/foreignexchange" coords="822,552,844,554,861,555,890,554,911,537,919,499,900,465,884,457,869,453,847,456,824,465,811,480,794,493,785,510,777,519,774,535,768,558,770,570,787,563,802,556,812,555,902,550,921,520,909,475,919,508" shape="poly">
-                <area target="_blank" alt="travel&amp;medical" title="travel&amp;medical" href="https://overseaseducationlane.com/travel&amp;medical" coords="826,454,839,447,858,444,884,437,929,427,959,415,979,400,985,370,982,344,974,332,965,315,938,305,908,305,882,324,854,368,837,410,819,454,820,452" shape="poly">
-                </map>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 918">
+                    <image width="1000" height="918" xlink:href="{{asset('frontend/tree.png')}}"></image>
+                    <a xlink:href="https://overseaseducationlane.com/bonvoyage" target="_blank">
+                      <rect x="652" y="678" fill="#fff" opacity="0" width="106" height="77"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/predeparturebriefing" target="_blank">
+                      <rect x="781" y="581" fill="#fff" opacity="0" width="110" height="53"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/resumeevaluation" target="_blank">
+                      <rect x="656" y="110" fill="#fff" opacity="0" width="100" height="100"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/financialcounselling" target="_blank">
+                      <rect x="703" y="305" fill="#fff" opacity="0" width="100" height="158"></rect>
+                    </a><a xlink:href="#">
+                      <rect x="880" y="326" fill="#fff" opacity="0" width="88" height="86"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/foreignexchange">
+                      <rect x="811" y="456" fill="#fff" opacity="0" width="100" height="100" ></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/visa&amp;interview" target="_blank">
+                      <rect x="557" y="518" fill="#fff" opacity="0" width="81" height="80" target="_blank"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/universityapplicationassistance">
+                      <rect x="534" y="368" fill="#fff" opacity="0" width="82" height="81" target="_blank"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/psychometricstest">
+                      <rect x="171" y="546" fill="#fff" opacity="0" width="86" height="86" target="_blank"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/countryprogram">
+                      <rect x="113" y="310" fill="#fff" opacity="0" width="212" height="137" target="_blank"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/admissionguidance">
+                      <rect x="209" y="120" fill="#fff" opacity="0" width="103" height="108"  target="_blank"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/testprepration">
+                      <rect x="354" y="36" fill="#fff" opacity="0" width="100" height="100" target="_blank"></rect>
+                    </a><a xlink:href="#">
+                      <rect x="0" y="0" fill="#fff" opacity="0" width="100" height="100"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/pretestprepration">
+                      <rect x="494" y="92" fill="#fff" opacity="0" width="116" height="152"></rect>
+                    </a><a xlink:href="https://overseaseducationlane.com/meetoel">
+                      <rect x="287" y="605" fill="#fff" opacity="0" width="140" height="86"></rect>
+                    </a>
+                  </svg>
              </div>
           </div>
        </div>
@@ -666,23 +703,7 @@
  </div>
 
 
- <script type="text/javascript">
-    $(document).ready(function () {
-      $('#itemslider').carousel({ interval: 3000 });
-      $('.carousel-showmanymoveone .item').each(function () {
-        var itemToClone = $(this);
-        for (var i = 1; i < 6; i++) {
-          itemToClone = itemToClone.next();
-          if (!itemToClone.length) {
-            itemToClone = $(this).siblings(':first');
-          }
-          itemToClone.children(':first-child').clone()
-            .addClass("cloneditem-" + (i))
-            .appendTo($(this));
-        }
-      });
-    });
- </script>
+
  <div id="rs-about" class="rs-about style1 pb-40 pt-100 md-pt-70 md-pb-30">
     <div class="container">
        <div class="row align-items-center">
@@ -704,7 +725,7 @@
     <div class="container">
        <div class="row align-items-center">
         @foreach ($blogs as $item)
-        <div class="col-lg-6 padding-0 md-pl-15 md-pr-15 md-mb-30">
+        <div class="col-lg-4 padding-0 md-pl-15 md-pr-15 md-mb-30">
            <div class="img-part">
               <img class=""
                  src="{{asset('imagesapi')}}/{{$item->image}}"
@@ -763,16 +784,16 @@
        <div class="row align-items-center">
           <div class="col-md-1">
           </div>
+
           <div class="col-md-10">
              <div class="img-part">
                 <h1 style="text-align: center;font-weight: 700">Most Viewed Courses</h1>
-                <p style="text-align: center;"> The STEM for Change Scholarship seeks to drive diversity and inclusion by
-                   empowering women worldwide to pursue an education in STEM. See how we surprised the 2021 recipients.
-                </p>
+                <p style="text-align: center;">The STEM for Change Scholarship empowers women worldwide to pursue STEM education.<a href="{{url('programs')}}" style="float: right;text-align:center"> View All Courses</a></p>
              </div>
              @forelse ($programs as $item)
              <div class="col-lg-3 col-md-4 col-sm-4 mb-30">
                 <div class="card" style="width: 100%;">
+
                    <img
                       src="{{asset($item->university_name->banner)}}"
                       class="card-img-top" alt="{{($item->university_name->university_name)}}">
@@ -785,7 +806,6 @@
                 </div>
              </div>
              @empty
-
              @endforelse
 
           </div>
@@ -865,51 +885,7 @@
        </div>
     </div>
  </div>
- <style>
-    .btn-shop {
-    font-size: 15px;
-    padding: 8px 13px;
-    }
-    .rc-carousel-item {
-    margin: 0px 13px;
-    }
- </style>
- {{-- <div id="rs-about" class="rs-about style1   md-pt-70 md-pb-30"
-    style="background-image: url(g.png);padding: 110px 0px">
-    <div class="container">
-       <div class="row align-items-center">
-          <div class="col-md-4">
-             <div class="img-part">
-                <h3 style="font-weight: 700; text-align: center;"> Browse programs by category</h3>
-                <div class="row">
-                   <div class="col-md-4">
-                      <div class="mt-20"> <a class="btn-shop" href="#"> Languages</a> </div>
-                   </div>
-                </div>
-             </div>
-          </div>
-          <div class="col-md-4">
-             <!--    <div class="img-part ">
-                <img src="https://s3-alpha-sig.figma.com/img/af70/088f/748f947ae97cad7f4d3cce6ea2c4cf97?Expires=1722816000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=l7-tEY2kQMWs5THKj7g-mXxFmauvwTNTNz-37dSbo9NqcOjliHGD7jcwLTFPFlCSmfLxjTJvOQnEQe02bB0Fzyrg-bAXe-A2g9M0-TlbEmfSPf8tdKRwCZtXv1y-GcBjg1qFrqQYEt5fTTw9tMHpcRy7XAi8GbFwOEMNBKoKhHX5l3P3Y7fVVpHQVQp5MgjEk3~9F5mqB4UdqIxSEW8QsXgAVJDdJQoNHS6qBZmVKGB5hEAl49x9QsEJ6ZBpkAaXYa9vgHyCBCHsgSK7byDPZzDqNwzI1-Kk-ZujfY8RTYXtM194MM9au50bJjmDWvFaSFR-n3LG~9AsKcJStHNZhA__">                          </div> -->
-          </div>
-          <div class="col-md-4">
-             <h3 style="font-weight: 700; text-align: center;x">Browse programs by level</h3>
-             <div class="row">
-                <div class="col-md-4 mr-5">
-                    @foreach ($program_level as $item)
-                    <div class="mt-20"> <a class="btn-shop" href="#"> {{ $item->name }}</a> </div>
-                    @endforeach
-                </div>
-                {{-- <div class="col-md-4">
-                    @foreach ($program_sublevel as $item)
-                    <div class="mt-20"> <a class="btn-shop" href="#"> {{ Str::limit($item->name, 20 , '...')  }}</a> </div>
-                    @endforeach
-                </div> --}}
-             </div>
-          </div>
-       </div>
-    </div>
- </div> --}}
+
  <div class="rs-cta style7">
     <div class="partition-bg-wrap">
        <div class="container">
@@ -981,9 +957,10 @@
        <div class="rc-carousel-box">
         @foreach ($universitiesltl as $item)
         <div class="rc-carousel-item" style="height: 100px">
+            <a href="{{url('/universities')}}">
            <img class="rc-carousel-item-image"
               src="{{asset($item->logo)}}"
-              alt="{{$item->name}}" />
+              alt="{{$item->name}}" /></a>
         </div>
         @endforeach
        </div>
@@ -994,9 +971,10 @@
        <div class="rc-carousel-box">
          @foreach ($universitiesrtl as $item)
          <div class="rc-carousel-item" style="height: 100px">
+            <a href="{{url('/universities')}}">
             <img class="rc-carousel-item-image"
                src="{{asset($item->logo)}}"
-               alt="{{$item->name}}" />
+               alt="{{$item->name}}" /></a>
          </div>
          @endforeach
        </div>
@@ -1025,6 +1003,22 @@
        </div>
     </div>
  </div>
-
-
+ <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+ <script type="text/javascript">
+    $(document).ready(function () {
+      $('#itemslider').carousel({ interval: 3000 });
+      $('.carousel-showmanymoveone .item').each(function () {
+        var itemToClone = $(this);
+        for (var i = 1; i < 6; i++) {
+          itemToClone = itemToClone.next();
+          if (!itemToClone.length) {
+            itemToClone = $(this).siblings(':first');
+          }
+          itemToClone.children(':first-child').clone()
+            .addClass("cloneditem-" + (i))
+            .appendTo($(this));
+        }
+      });
+    });
+ </script>
 @endsection

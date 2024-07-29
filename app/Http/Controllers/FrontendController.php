@@ -28,12 +28,14 @@ use App\Models\PaymentsLink;
 use App\Models\ServiceLanding;
 use App\Models\Testimonials;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
 
     public function index()
     {
+
         return view('frontend.index', [
             'service'=>ServiceLanding::where('status',1)->take(4)->get(),
             'instagram'=>Instagram::where('status',1)->get(),

@@ -407,9 +407,7 @@
     <script type="text/javascript" src="{{ asset('frontend/home/js/bootstrap-multiselect.js') }}"></script>
     <script src="{{ asset('frontend/home/js/popper.js') }}" crossorigin="anonymous"></script>
 </body>
-<script src="{{ asset('ajax/libs/jquery-validate/1.19.3/jquery.validate.js') }}" type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 <div class="container">
     <div class="modal mt-60" id="myModal">
         <div class="modal-dialog modal-lg">
@@ -472,6 +470,9 @@
       </div>
 </div>
 @yield('section')
+
+<script src="{{ asset('ajax/libs/jquery-validate/1.19.3/jquery.validate.js') }}" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#verify_otp').click(function(){
