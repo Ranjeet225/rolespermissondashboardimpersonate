@@ -760,7 +760,7 @@ class LeadsManageCotroller extends Controller
             Session::put('error', 'User ID Not Found');
             return redirect()->back();
         }
-        $student =Student::where('user_id',$paymentLink->user_id)->select('first_name','email')->first();
+        $student =Student::where('id',$paymentLink->user_id)->select('first_name','email')->first();
         $data=[
             'fallowp_unique_id'=>$paymentLink->fallowp_unique_id,
             'user_id'=>$paymentLink->user_id,
