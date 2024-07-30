@@ -275,8 +275,8 @@
                     <div class="col-lg-3 col-md-12 col-sm-12 footer-widget md-mb-50">
                         <h4 class="widget-title">Other Links</h4>
                         <ul class="site-map">
-                            <li><a href="">About OEL</a></li>
-                            <li><a href="">Contact Us</a></li>
+                            <li><a href="{{url('about-oel')}}">About OEL</a></li>
+                            <li><a href="{{url('contact-us')}}">Contact Us</a></li>
                             <li><a href="allblogs.html">Blogs</a></li>
                             <li><a href="testimonials.html">Testimonials</a></li>
                             <li><a href="frequently-asked-questions.html">FAQ</a></li>

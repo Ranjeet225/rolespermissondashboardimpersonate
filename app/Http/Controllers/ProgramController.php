@@ -22,6 +22,7 @@ use App\Models\Subject;
 use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PaymentsLink;
 use Illuminate\Support\Facades\DB;
 
 class ProgramController extends Controller
@@ -981,6 +982,36 @@ class ProgramController extends Controller
         return redirect()->route('documents')->with('success','Data Added Successfully');
     }
 
+    public function total_applied_program()
+    {
+        $user=Auth::user();
+        if($user->hasRole('Administrator')) {
+            $student = Student::pluck('user_id');
+        } else {
+            $student = Student::where('user_id', $user->id)->pluck('user_id');
+        }
+        if(count($student)<0) {
+            abort(404);
+        }
+        $table_three_sixtee =DB::table('tbl_three_sixtee')->whereIn('sba_id',$student)->select('application','visa_application')->first();
+        if(isset($table_three_sixtee->application) && $table_three_sixtee->application != 'null' && isset($table_three_sixtee->visa_application) && $table_three_sixtee->visa_application != 'null'){
+            $application=json_decode($table_three_sixtee->application,true);
+            $visa_application = $table_three_sixtee->visa_application;
+            $applied_application = [];
+            foreach ($application['program_ids'] as $program_id) {
+                $status_key = $program_id . '_application_status';
+                $remarks_key = 'remarks_' . $program_id;
+                if (isset($application[$status_key])) {
+                    $applied_application[$program_id] = $application[$status_key];
+                }
+            }
+        }else{
+            $applied_application=[];
+            $visa_application=null;
+        }
+        $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->whereIn('user_id', $student)->get();
+        return view('admin.applied-program',compact('program_applied','table_three_sixtee','applied_application','visa_application'));
+    }
 
 
 

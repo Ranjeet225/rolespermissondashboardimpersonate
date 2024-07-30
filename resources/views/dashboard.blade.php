@@ -169,6 +169,32 @@
             </div>
         </div>
         @endcan
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5>Total Applied Program</h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['total_program_applied'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{route('total-applied-program')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         @can('active_franchise.active_franchise_view')
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
             <div class="card dash-widget">

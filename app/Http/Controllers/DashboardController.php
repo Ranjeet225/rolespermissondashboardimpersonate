@@ -88,6 +88,7 @@ class DashboardController extends Controller
         if ($user_type == 'Administrator') {
             $total_members = User::count();
             $total_student = Student::count();
+            $total_student_id =Student::pluck('user_id');
             $total_school_manager = User::where('admin_type', 'school_manager')->count();
             $total_frenchise = Agent::count();
             $total_active_frenchise = Agent::where('is_active', 1)->count();
@@ -98,6 +99,7 @@ class DashboardController extends Controller
         } else {
             $total_members = User::where('added_by', $user_ids)->count();
             $total_student = Student::where('added_by', $user_ids)->count();
+            $total_student_id = Student::where('added_by', $user_ids)->pluck('user_id');;
             $total_school_manager = User::where('admin_type', 'school_manager')->where('added_by', $user_ids)->count();
             $total_frenchise = Agent::where('user_id', $user_ids)->count();
             $total_active_frenchise = Agent::where('is_active', 1)->where('user_id', $user_ids)->count();
@@ -150,8 +152,17 @@ class DashboardController extends Controller
         }else{
             $program_applied = null;
         }
+        if(count($total_student_id)>0){
+            $total_program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')
+                                    ->orwhere('payment_type_remarks','applied_program_pay_later')
+                                    ->orwhere('payment_type_remarks','applied_program')
+                                    ->whereIn('user_id', $total_student_id)->count();
+        }else{
+            $total_program_applied = 0;
+        }
         $data = array(
             "program_applied"=>$program_applied,
+            "total_program_applied"=>$total_program_applied,
             "total_leads" => $total_leads,
             "total_assigned_leads" => $total_assigned_leads,
             "total_non_allocated_leads" => $total_non_allocated_leads,

@@ -814,7 +814,7 @@
        </div>
     </div>
  </div>
- <div id="rs-about" class="rs-about style1 pb-40  md-pt-70 md-pb-30" style="background-image: url(bkl2.png);">
+ <div id="rs-about" class="rs-about style1 pb-40  md-pt-70 md-pb-30" style="background-image: url({{asset('frontend/bkl2.png')}});">
     <div class="container">
        <div class="row align-items-center">
           <div class="col-md-4">
@@ -827,66 +827,124 @@
           </div>
           @foreach ($testimonials as $key=>$item)
           @if($key ==0)
-          <div class="col-md-8">
-             <div class="row">
-                <div class="col-md-6">
-                </div>
-                <div class="col-md-2">
-                   <img
-                      src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
-                      style="border-radius: 100%;border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
-                </div>
-                <div class="col-md-4">
-                   <h4>{{$item->name}}</h4>
-                   <p>{{$item->location}}</p>
-                </div>
-             </div>
-          </div>
-          <div class="col-md-5">
-          </div>
-          @elseif ($key == 1)
-          <div class="col-md-7">
-             <div class="row">
-                <div class="col-md-6">
-                </div>
-                <div class="col-md-2">
-                   <img
-                       src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
-                      style="border-radius: 100%;    border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
-                </div>
-                <div class="col-md-4">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-2">
+                    <img
+                        src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
+                        style="border-radius: 100%;border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
+                    </div>
+                    <div class="col-md-4">
                     <h4>{{$item->name}}</h4>
                     <p>{{$item->location}}</p>
+                    </div>
                 </div>
-             </div>
-          </div>
-          <div class="col-md-4">
-          </div>
-          @elseif ($key == 2)
-          <div class="col-md-8">
-             <div class="row">
-                <div class="col-md-6">
+            </div>
+            <div class="col-md-5">
+            </div>
+            @elseif ($key == 1)
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-2">
+                    <img
+                        src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
+                        style="border-radius: 100%;    border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
+                    </div>
+                    <div class="col-md-4">
+                        <h4>{{$item->name}}</h4>
+                        <p>{{$item->location}}</p>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                   <br>
-                   <img
-                      src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
-                      style="border-radius: 100%;    border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
+            </div>
+            <div class="col-md-4">
+            </div>
+            @elseif ($key == 2)
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-2">
+                    <br>
+                    <img
+                        src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
+                        style="border-radius: 100%;    border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
+                    </div>
+                    <div class="col-md-4">
+                    <br>
+                    <h4>{{$item->name}}</h4>
+                    <p>{{$item->location}}</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                   <br>
-                   <h4>{{$item->name}}</h4>
-                   <p>{{$item->location}}</p>
-                </div>
-             </div>
-          </div>
-          @endif
+            </div>
+            @endif
           @endforeach
        </div>
     </div>
  </div>
 
- <div class="rs-cta style7">
+{{-- <section class="testimonial">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-none d-lg-block">
+                <ol class="carousel-indicators tabs">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                        <figure>
+                            <img src="https://livedemo00.template-help.com/wt_62267_v8/prod-20823-one-service/images/testimonials-01-179x179.png" class="img-fluid" alt="">
+                        </figure>
+                    </li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1">
+                        <figure>
+                            <img src="https://livedemo00.template-help.com/wt_62267_v8/prod-20823-one-service/images/testimonials-02-306x306.png" class="img-fluid" alt="">
+                        </figure>
+                    </li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2">
+                        <figure>
+                            <img src="https://livedemo00.template-help.com/wt_62267_v8/prod-20823-one-service/images/testimonials-03-179x179.png" class="img-fluid" alt="">
+                        </figure>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                <div id="carouselExampleIndicators" data-interval="false" class="carousel slide" data-ride="carousel">
+                    <h3>WHAT OUR CLIENTS SAY</h3>
+                    <h1>TESTIMONIALS</h1>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="quote-wrapper">
+                                <p>I have tried a lot of food delivery services but Plate is something out of this world! Their food is really healthy and it tastes great, which is why I recommend this company to all my friends!</p>
+                                <h3>peter lee</h3>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="quote-wrapper">
+                                <p>I have tried a lot of food delivery services but Plate is something out of this world! Their food is really healthy and it tastes great, which is why I recommend this company to all my friends!</p>
+                                <h3>peter lee</h3>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="quote-wrapper">
+                                <p>I have tried a lot of food delivery services but Plate is something out of this world! Their food is really healthy and it tastes great, which is why I recommend this company to all my friends!</p>
+                                <h3>peter lee</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <ol class="carousel-indicators indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> --}}
+
+
+ {{-- <div class="rs-cta style7">
     <div class="partition-bg-wrap">
        <div class="container">
           <div class="row pt-40 md-pt-70 pb-40 md-pb-70">
@@ -937,7 +995,54 @@
           </div>
        </div>
     </div>
- </div>
+ </div> --}}
+<div id="rs-about" class="rs-about style1   md-pt-70 md-pb-30" style="background-image: url({{asset('frontend/Group.png')}});">
+    <div class="container">
+             <div class="row align-items-center">
+              <div class="col-md-4">
+                <div class="img-part">
+                <h3 style="font-weight: 700; text-align: center;"> Browse programs by category</h3>
+                <div class="row">
+                <div class="col-md-4">
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap">Art & Design</a> </div>
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}} ">  Humanities</a> </div>
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">  Languages</a> </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">  Law</a> </div>
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">  Media</a> </div>
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">  Science</a> </div>
+                </div>
+                  <div class="col-md-4">
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">  Teaching</a> </div>
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap">General Studies</a> </div>
+                  <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Medicine & Health</a> </div>
+                </div>
+              </div>
+           </div>
+         </div>
+        <div class="col-md-4">
+        <div class="img-part ">
+                <img src="{{asset('frontend/girl.png')}}"> </div>
+        </div>
+        <div class="col-md-4">
+                <h3 style="font-weight: 700; text-align: center;x">Browse programs by level</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Bachelor's degree</a> </div>
+                        <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Master's degree</a> </div>
+                        <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Doctorate / PhD</a> </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Graduate diploma</a> </div>
+                        <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Diploma/certificate</a> </div>
+                        <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}" style="text-wrap:nowrap"> Summer/Short course</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
  <div id="rs-about" class="rs-about style1   md-pt-70 md-pb-30">
     <div class="container">
        <div class="row align-items-center">

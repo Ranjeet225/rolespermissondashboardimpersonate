@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::prefix('admin-management')->group(function () {
+        Route::get('/total-applied-program', [ProgramController::class, 'total_applied_program'])->name('total-applied-program');
         Route::get('/revert-to-admin', [UserController::class, 'revertToAdmin'])->name('revert_to_admin');
         Route::get('/impersonate/{user}', [UserController::class, 'impersonate'])->name('impersonate');
         // Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -192,7 +193,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('edit-university/{id?}', [UniversityController::class, 'edit_university'])->name('edit-university');
         Route::get('delete-university/{id?}', [UniversityController::class, 'delete_university'])->name('delete-university');
-
         Route::post("approve-university",[UniversityController::class,'approve_university'])->name('approve-university');
 
         Route::get("approved-university",[UniversityController::class,'view_approve_university'])->name('view-approved-university');
@@ -499,6 +499,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update-master-service/{id?}',[CmsController::class,'master_service_update'])->name('update-master-service');
         Route::post('store-master-service',[CmsController::class,'master_service_store'])->name('store-master-service');
         // testimonial
+
         Route::get('testimonial/{id?}',[CmsController::class,'testimonial'])->name('testimonial');
         Route::get('testimonial-filter',[CmsController::class,'testimonial'])->name('testimonial-filter');
         Route::get('create-testimonial',[CmsController::class,'testimonial_create'])->name('create-testimonial');

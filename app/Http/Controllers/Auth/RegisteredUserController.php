@@ -18,6 +18,7 @@ use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistrationSuccess;
 
 class RegisteredUserController extends Controller
 {
@@ -108,6 +109,7 @@ class RegisteredUserController extends Controller
         }
        $student->user_id = $user->id;
        $student->save();
+       Mail::to($request->email,)->send(new RegistrationSuccess($student));
        Auth::login($user);
        return redirect()->route('dashboard');
        return redirect()->route('user-login')->with('success', 'You have successfully registered. Please login to continue.');
@@ -173,10 +175,7 @@ class RegisteredUserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
             ];
-            Mail::raw('Registration Successfull', function($message) use ($data) {
-                $message->to($data['email'], $data['name'])
-                        ->subject('Registration Successfull');
-            });
+            Mail::to($data['email'])->send(new RegistrationSuccess($data));
             Auth::login($user);
             return response()->json(['message' => 'OTP verified successfully.','success'=>true,'frenchise_id'=>$agent->id]);
         } else {
