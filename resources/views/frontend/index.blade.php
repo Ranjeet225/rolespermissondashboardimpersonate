@@ -503,7 +503,7 @@
           <div class="col-md-4  padding-0 md-pl-15 md-pr-15 md-mb-30">
              <div class="img-part">
                 <img
-                   src="https://s3-alpha-sig.figma.com/img/aebc/66f7/3e890379b582bfe5644043b75a4a1062?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=BWuU5h-4RLcbfvkoD4H45cZ26iI5iB8bjw88Y49natCke1phpZsDWYmYPqV1LgBiuvGxgqr2y1Luz6HJa7-nMS4AgOTl84r9kXHNTDkxe88uqLEbWCp-8vfpJvsfyC5hW~vZIQ-FWaYD8JcMrZgolBklliOHaNWtxPg36J9UaMhVqb6qmD9lO-iYhSVQP3AJOQGKm2RnddhLBmz6kx9XsB2fAX4TbOzZ5pnN0J3XQyukBkbKN3nrtdjZKHrf37Xtz50eBjrysS2EmuUDyNxGrXOvn-o8NLkKVSTrDUP90zht6Sv1-wGJz8V8xBUXCxlcLWLXaN7i-vhizClwvBZ~Gg__"
+                   src="{{asset('frontend/NZcVu27oUa 1.png')}}"
                    style="width:100%">
              </div>
           </div>
@@ -555,7 +555,7 @@
                 <div class="col-lg-3 col-md-6 mb-30 aboutus_pill">
                    <div class="" style="  text-align: center;">
                       <img
-                         src="https://s3-alpha-sig.figma.com/img/bc25/45d4/4246376ec13eeb1b1bd8c1560e1236f5?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=W8KgnjD6VJvPsIGzUiXLXFlArGsbKm5sAFfgLU6s2h6n-GFfTFa3lHCwhUhm0da1ZnHiVl9nW~0miURfZw5M8hz-gZSgbJSO8ywjo20nUDJL0WIJ5Ky-5J6rhLHOIrHcSwtirUD5jNxaaWqI4zms47JbmsicENVN3VjHVBM3kh1mlrYrhy0aDY8awHqutdE6E66W1mOpwgw-V1bsdVbnhgTJ52VEPfY9ULrTPey~sbLze4pgnMQNxIu~b4nhl6nBZ6AFSQaTpWDRB6eCgROx6v4nMOWA4FS8ROzmDoRRiwudgrBlaNWDQERFfQO26W5Lbeil2wa6WStwCCRpaYd4Hw__"
+                         src="{{asset('frontend/program.png')}}"
                          alt="" style="height:50px;text-align: center">
                       <h4 class="title"><a href="{{url('programs')}}">Find Programs Faster</a></h4>
                       <span class="course-qnty"></span>
@@ -564,7 +564,7 @@
                 <div class="col-lg-3 col-md-6 mb-30 aboutus_pill">
                    <div class="" style="  text-align: center;">
                       <img
-                         src="https://s3-alpha-sig.figma.com/img/2c66/5687/4d03b932e923575ec126da8d65e71367?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RLyeuXyG7-Af3w4qSWAiTD8Gh7sXFumMMYxkS1XBkdjbIEvaYbu4W~ROyY8ZfJ3GKjr5dOxyr1TbDWg13utdK2VqwQqbM9mAT5PmXmX1yjMDpMorl9yyMLFrAPYJ04vlPoJB9SnJIy7OP5olo3-iWfNTsnPp9ytxao7gQ-n0mfLEbOjUxPXhtAnA0oMMm9bgN~b3abCJpJze~68ke0HppNQrgYGD~e~ZizE76-m8vNga1uj1yr~Lw39yJJh6mXEVGDNQN-N64mUtXhFaVGbXpstlVlnn~x49waD7CghkhGKC0Qecf0olJajzhg5SB0VzDkB1QA8KUayQAHqz5yKpIg__"
+                         src="{{asset('frontend/head.png')}}"
                          alt="" style="height:50px;text-align: center">
                       <h4 class="title"><a> Helpful and Dedicated Support Team </a></h4>
                       <span class="course-qnty"></span>
@@ -573,7 +573,7 @@
                 <div class="col-lg-3 col-md-6 mb-30 aboutus_pill">
                    <div class="" style="  text-align: center;">
                       <img
-                         src="https://s3-alpha-sig.figma.com/img/ef8f/5b4d/fcdaf96762f9d5f4e3f910dfe43a4127?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=F60zTl5uLXuZ2K-4ce3IZ-MOE0AdIBYD5kGT~-kXVyJZVVs60DqcW5O08wXh22aC2tqNEhoOD3K0k1AKeSTG9UTCzXfur0AR3BwXra-5sApndgvkUj14ZCXa5Ww1-95Nxl4mQ0GKWYokInQhybLAr~F8r372BkIaHqKj2p~1m~uQhD0qzcHdnnnJ7npZKrDYqYJGmpSGvpLrLMMMYKu8YeGhE3A4fk0KUkRHLfV7SkahDw78gl0U4MaV0AImErpGI0fCURYfRCUMe-cJfysX7bheKpUTiyjViXMya2d2D6Eon8PgDTyLsTR0FADxADL~SsYScUlWwz69ui1qr3ToVQ__"
+                         src="{{asset('frontend/scholar.png')}}"
                          alt="" style="height:50px;text-align: center">
                       <h4 class="title"><a>Access to Exclusive Scholarships</a></h4>
                       <span class="course-qnty"></span>
@@ -592,7 +592,7 @@
           <div class="col-lg-6 padding-0 md-pl-15 md-pr-15 md-mb-30">
              <div class="img-part">
                 <img class=""
-                   src="https://s3-alpha-sig.figma.com/img/e00d/8949/63fc60f2cf9842ea47c43289aa5e5c7e?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fbpCg3QUNvFIJyeDeKISBmpADGDB6YR4b4D4af09kqO8KLo~blL5ybXWEg-dId1eHj9OexrQ34AxPiRgjFzFMVp61XFq0lNnQY8R8e3h0vxe89JipVhkaP5KqAr18qawQ-xqkvLcbpnGQZGSZSh5UV8hkujwGzFtzHdJkZgJN0RXd3e7YAQowG3bz8jEPI5pMbm9cDEHdgAPn2idA4Nd-REvjR~HTwazAIz-T~kFOcAirlxItuE9~WyAuaoctxPWLnwmQv0AgGxCtSDtgkRgT1Q9EZWT7oVyW1wyVHyfRQEB8nWeCngRym4hw7UOwpDV7ruFiORou68qBwZE4hdg8g__"
+                   src="{{asset('frontend/world.png')}}"
                    alt="About Image">
              </div>
           </div>
