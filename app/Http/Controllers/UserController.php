@@ -204,7 +204,14 @@ $user = User::orderBy('id', 'desc');
             $adminUser = Auth::user();
             Auth::login($user);
             Session::put('admin_user', $adminUser);
-            return redirect()->route('dashboard');
+            $frenchise = DB::table('agents')->where('email',$user->email)->first();
+            if ($user->admin_type == 'agent' || $user->admin_type == 'sub_agent') {
+                if ($user->admin_type == 'agent' && !empty($frenchise) && $frenchise->is_active == 1 && $frenchise->is_approve == 1 && $frenchise->profile_completed == 1) {
+                    return redirect()->route('dashboard');
+                } else {
+                    return redirect()->route('frenchise-edit', $frenchise->id);
+                }
+            }
         }
         return redirect()->back()->with('error', 'You are not authorized to impersonate users.');
     }

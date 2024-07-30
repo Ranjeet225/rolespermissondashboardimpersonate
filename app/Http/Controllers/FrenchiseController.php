@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rule;
 
 class FrenchiseController extends Controller
 {
@@ -208,11 +209,15 @@ class FrenchiseController extends Controller
     }
     public function edit($id = null)
     {
-        $countries =Country::get();
-        $currency = $this->currency();
-
-        $frenchise = Agent::find($id);
-        return view('admin.frenchise.edit',compact('countries','currency','id','frenchise'));
+        if($id){
+            $frenchise = Agent::find($id);
+            if($frenchise){
+                $countries =Country::get();
+                $currency = $this->currency();
+                return view('admin.frenchise.edit',compact('countries','currency','id','frenchise'));
+            }
+        }
+        abort(404);
     }
 
     /**
@@ -224,8 +229,8 @@ class FrenchiseController extends Controller
     public function store(Request $request)
     {
         if($request->tab1){
-            if($request->franchise_id){
-                $user = User::where('email',$request->email)->first();
+            if ($request->franchise_id) {
+                $user = User::where('email', $request->email)->first();
                 $validator = Validator::make($request->all(), [
                     'company_name'=>'required|max:200',
                     'website'=>'required|max:300',
@@ -234,16 +239,21 @@ class FrenchiseController extends Controller
                     'business_certificate'=>'mimes:pdf|max:2048',
                     'email' => 'required|unique:users,email,'.$user->id,
                 ]);
-            }else{
+            } else {
                 $validator = Validator::make($request->all(), [
-                    'company_name'=>'required|max:200',
-                    'email'=>'required|unique:users,email',
-                    'website'=>'required|max:300',
-                    'facebook'=>'required|url|max:300',
-                    'company_logo'=>'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'business_certificate'=>'mimes:pdf|max:2048',
+                    'company_name' => 'required|max:200',
+                    'email' => [
+                        'required',
+                        'unique:users,email',
+                        'unique:agents,email'
+                    ],
+                    'website' => 'required|max:300',
+                    'facebook' => 'required|url|max:300',
+                    'company_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'business_certificate' => 'mimes:pdf|max:2048',
                 ]);
             }
+
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
             }
@@ -379,7 +389,8 @@ class FrenchiseController extends Controller
             ->update([
                 'offer_letter'=>$offer_letter_path ?? '',
                 "profile_approved" => $request->is_approve,
-                "is_active" => $request->is_active
+                "is_active" => $request->is_active,
+                'profile_complete'=>$request->is_complete,
             ]);
             $frenchise = DB::table('agents')->where('id',$request->franchise_id)->first();
             $password = User::where('email', $frenchise->email)->first();
@@ -389,7 +400,7 @@ class FrenchiseController extends Controller
             $input['password'] = Hash::make($frenchise->password);
             $input['zip'] = $frenchise->zip;
             $user =Auth::user();
-            if($user->hasRole('Administrator')){
+            if($user->hasRole('Administrator') || $user->email == $frenchise->email){
                 $input['admin_type'] = 'agent';
             }else{
                 $input['admin_type'] = 'sub_agent';
@@ -397,15 +408,15 @@ class FrenchiseController extends Controller
             $input['email'] = $frenchise->email;
             $input['phone_number'] = $frenchise->phone;
             $input['added_by'] = Auth::user()->id;
-            $userInserted = DB::table('users')->insert($input);
-            if ($userInserted) {
-                $user = User::where('email', $frenchise->email)->first();
-                $role = Role::where('name','agent')->first();
-                if ($role) {
-                    $user->assignRole([$role->id]);
-                }
+            $userInserted = User::updateOrCreate(
+                ['email' => $frenchise->email],
+                $input
+            );
+            if($user->hasRole('Administrator')){
+                return response()->json(['success'=>'Frenchise Created Successfully','status'=>true]);
+            }elseif($user->hasRole('agent')){
+                return response()->json(['success'=>'Frenchise Created Successfully','status'=>true,'frenchise_id'=>$request->franchise_id]);
             }
-            return response()->json(['success'=>'Frenchise Created Successfully','status'=>true]);
         }
         return response()->json(['success'=>'Frenchise Created Successfully','status'=>true]);
     }

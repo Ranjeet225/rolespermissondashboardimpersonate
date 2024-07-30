@@ -1,6 +1,7 @@
 @extends('admin.include.app')
 @section('style')
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+@endsection
 @section('main-content')
 <style>
     .octicon-light-bulb {
@@ -12,7 +13,6 @@
         left: -38%;
     }
 </style>
-@endsection
     <div class="row">
         <div class="card card-buttons">
             <div class="card-body">
@@ -29,8 +29,20 @@
             </div>
         </div>
     </div>
+    @php
+        $user=Auth::user();
+    @endphp
     <div class="card-body">
         <div class="wizard">
+                @if (($user->hasRole('agent'))  && ($frenchise->profile_complete == 0))
+                    <div class="alert alert-primary text-center" role="alert">
+                        Please Complete Your Profile
+                    </div>
+                @elseif(($user->hasRole('agent')) && ($frenchise->profile_approved == 0) && ($frenchise->is_active == 0))
+                    <div class="alert alert-primary text-center" role="alert">
+                        Please Wait For Admin Approval
+                    </div>
+                @endif
                 <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Company Information">
@@ -285,33 +297,35 @@
                     <div id="responseMessage"></div>
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label>Approve Profile: </label>
-                                <input type="hidden" name="franchise_id" class="franchise_id" value="{{ $id ?? null }}">
-                                <select class="form-control" name="is_approve">
-                                <option value="1" {{ ($frenchise->is_approve ?? old('is_approve')) == 1 ? 'selected' : '' }}>Yes</option>
-                                <option value="0"  {{ ($frenchise->is_approve ?? old('is_approve')) == 0 ? 'selected' : '' }}>NO</option>
-                                </select>
-                                @error('is_approve')
-                                <span class="text-danger"></span>
-                                @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <label>Active Profile: </label>
-                                <input type="hidden" name="tab4" value="tab4" >
-                                <input type="file" class="form-control" name="comm" id="comm" style="display: none" >
-                                <select class="form-control" name="is_active">
-                                <option value="1" {{ ($frenchise->is_active ?? old('is_active')) == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ ($frenchise->is_active ?? old('is_active')) == 0 ? 'selected' : '' }}>Inactive</option>
-                                </select>
-                                @error('is_active')
-                                <span class="text-danger"></span>
-                                @enderror
-                            </div>
-
+                           @if($user->hasRole('Administrator'))
+                                <div class="col-md-6">
+                                    <label>Approve Profile: </label>
+                                    <select class="form-control" name="is_approve">
+                                    <option value="1" {{ ($frenchise->is_approve ?? old('is_approve')) == 1 ? 'selected' : '' }}>Yes</option>
+                                    <option value="0"  {{ ($frenchise->is_approve ?? old('is_approve')) == 0 ? 'selected' : '' }}>NO</option>
+                                    </select>
+                                    @error('is_approve')
+                                    <span class="text-danger"></span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Active Profile: </label>
+                                    <input type="file" class="form-control" name="comm" id="comm" style="display: none" >
+                                    <select class="form-control" name="is_active">
+                                    <option value="1" {{ ($frenchise->is_active ?? old('is_active')) == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ ($frenchise->is_active ?? old('is_active')) == 0 ? 'selected' : '' }}>Inactive</option>
+                                    </select>
+                                    @error('is_active')
+                                    <span class="text-danger"></span>
+                                    @enderror
+                                </div>
+                            @endif
+                            <input type="hidden" name="is_complete" value="1">
+                            <input type="hidden" name="franchise_id" class="franchise_id" value="{{ $id ?? null }}">
                             <div class="col-md-6">
                                 <label class="control-label">Offer Letter:</label><br>
                                 <input type="file" name="offer_letter" class="form-control">
+                                <input type="hidden" name="tab4" value="tab4" >
                                 <span class="text-danger offer_letter"></span>
                             </div>
                             <!-- Commission -->
@@ -641,10 +655,17 @@
                             timer: 2000,
                             showConfirmButton: false
                         });
-                        setTimeout(() => {
-                            var originUrl = window.location.origin;
-                            window.location.href = originUrl + '/franchise/franchise-list';
-                        },2000);
+                        if(response.frenchise_id){
+                            setTimeout(() => {
+                                var originUrl = window.location.origin;
+                                window.location.href = originUrl + "/franchise/edit-franchise/"+response.frenchise_id;
+                            },2000);
+                        }else{
+                            setTimeout(() => {
+                                var originUrl = window.location.origin;
+                                window.location.href = originUrl + '/franchise/franchise-list';
+                            },2000);
+                        }
                     }
                     spinner.classList.add('d-none');
                     $('.next').removeClass('disabled');

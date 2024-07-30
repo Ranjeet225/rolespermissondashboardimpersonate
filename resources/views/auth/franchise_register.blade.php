@@ -1,5 +1,6 @@
 @extends('frontend.layouts.main')
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
 <div class="main-content">
     <style type="text/css">
        .url_link{
@@ -47,8 +48,18 @@
                 <h2 class="title mb-10">Franchise Registration</h2>
              </div>
              <!-- Login Form -->
+             @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
              <div class="styled-form">
-                <form id="contact-form" method="POST" action="{{route('franchise-user-store')}}" aria-label="Register">
+                {{-- <form id="contact-form" method="POST" action="{{route('franchise-user-store')}}" aria-label="Register"> --}}
+                <form id="frenchise-contact-form" method="POST"  aria-label="Register">
                    <div class="row clearfix">
                     @csrf
                       <!-- Name -->
@@ -94,7 +105,7 @@
                       <div class="col-md-12">
                          <div class="form-group">
                             <label for="phone_number_input">Mobile No. <span class="required">*</span></label>
-                            <input type="text" maxlength="10" name="phone" value="{{old('phone')}}" class="form-control  phone" id="phone" placeholder="Phone Number">
+                            <input type="text" maxlength="10" id="mobile_number" name="phone" value="{{old('phone')}}" class="form-control  phone" id="phone" placeholder="Phone Number">
                             @error('phone')
                                     <span class="text-danger invalid-feedback">{{$message}}</span>
                             @enderror
@@ -221,33 +232,36 @@
                       <div class="col-md-12">
                          <div class="form-group" style="display :none;" id="otpDiv">
                             <label for="VerifyOtp">Enter OTP</label>
-                            <input type="text"  class="form-control " id="VerifyOtp" placeholder="OTP">
+                            <input type="text"  class="form-control" name="otp" id="VerifyOtp" placeholder="OTP">
                          </div>
                       </div>
+                      <span class="text-danger error-phone"></span>
                       <div class="col-md-12">
                          <div class="otp_success">
                             <p class="success_messages">One Time Password Sent To Your Email  &amp; Phone No.</p>
                             <p>
                                <a type="button" class="loading_button" id="resend_otp">
                                <span style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                               <span>Resend OTP</span>
                                </a>
                             </p>
                             <p id="resendOTPText"></p>
                          </div>
                       </div>
-                      <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center">
-                         <button type="submit" class="readon submit-btn" id="send_otp">Register</button>
+                      <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center verify_otp">
+                         <button type="button" class="readon " id="send_otp">
+                            <span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Verify Otp</button>
                       </div>
+                      <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center register">
+                        <button type="button" class="readon ">
+                            <span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>
+                            Register</button>
+                     </div>
                       <div class="form-group col-lg-12 col-md-12 col-sm-12">
                          <div class="users">Already have an account? <a href="{{route('user-login')}}">Login</a></div>
                          <hr>
                          <div>
                             <a href="{{route('franchise-register')}}" class="url_link current">Register as a Franchise</a>
                          </div>
-                         {{-- <div>
-                            <a href="{{route('counselor_register')}}" class="url_link">Register as a Counselor</a>
-                         </div> --}}
                          <hr>
                          <div class="users">
                             By joining OEL, you agree to OEL's <a href="https://overseaseducationlane.com/privacy-policy">Privacy Policy</a>
@@ -260,9 +274,11 @@
        </div>
     </section>
  </div>
- <script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-3.7.1.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
 <script>
-     $(document).ready(function() {
+    $('.register').hide();
+    $(document).ready(function() {
          function setupCSRF() {
              $.ajaxSetup({
                  headers: {
@@ -297,6 +313,101 @@
              var country_id = $(this).val();
              fetchStates(country_id);
             });
+    });
+    $(document).on('click', '#send_otp', function(e){
+        $('.error-phone').html('');
+        e.preventDefault();
+        let mobile_number = $('#mobile_number').val();
+        if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter valid mobile number',
+            });
+            return false;
+        }
+        var spinner = this.querySelector('.spinner-grow');
+        spinner.classList.remove('d-none');
+        $.ajax({
+            url: '{{route("send-otp")}}',
+            type: 'POST',
+            data: {
+                phone_number: mobile_number,
+                _token: '{{csrf_token()}}'
+            },
+            success: function(data){
+                spinner.classList.add('d-none');
+                if(data.success){
+                    $('#otpDiv').show();
+                    $('.verify_otp').hide();
+                    $('.register').show();
+                }else{
+                    $('.error-phone').html(data.message);
+                }
+            }
+        })
+    })
+    $('.register').on('click', function(e){
+        e.preventDefault();
+        var data = $('#frenchise-contact-form').serialize();
+        var spinner = this.querySelector('.spinner-grow');
+        spinner.classList.remove('d-none');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
+        $.ajax({
+            url: '{{route("franchise-user-store")}}',
+            type: 'POST',
+            data: data,
+            success: function(data){
+                spinner.classList.add('d-none');
+                if(data.success){
+                    window.location.href = '{{route("frenchise-edit")}}' + '/' + data.frenchise_id;
+                }else if(data.errors){
+                    let error_message = '';
+                    $.each(data.errors, function(key, value){
+                        error_message += value.join("<br>") + "<br>";
+                    });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: error_message,
+                    });
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                    });
+                }
+            },
+            error: function(xhr,status,error){
+                var response = JSON.parse(xhr.responseText);
+                spinner.classList.add('d-none');
+                if(xhr.status == 401){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+                }
+                if(xhr.status == 422){
+                    if(response.errors){
+                        let error_message = '';
+                        $.each(response.errors, function(key, value){
+                            error_message += value.join("<br>") + "<br>";
+                        });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: error_message,
+                        });
+                    }
+                }
+            }
+        })
+    })
 </script>
 @endsection

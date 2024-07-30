@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -117,7 +119,7 @@ class RegisteredUserController extends Controller
 
     public function franchise_user_store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['nullable', 'string', 'max:255'],
@@ -131,39 +133,56 @@ class RegisteredUserController extends Controller
             'address' => ['nullable', 'string', 'max:255'],
             'address2' => ['nullable', 'string', 'max:255'],
            'password'=>'required|confirmed',
+           'otp' => 'required|numeric',
         ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'admin_type' => 'agent',
-            'phone_number' => $request->phone,
-            'status' => 1,
-            'is_active' => 1,
-            'password' => Hash::make($request->password),
-        ]);
-        $role = Role::where('name','agent')->first();
-        if ($role) {
-            $user->assignRole([$role->id]);
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
         }
-        $agent = new Agent();
-        $agent->user_id = $user->id;
-        $agent->legal_first_name = $request->name;
-        $agent->email = $request->email;
-        $agent->phone = $request->phone;
-        $agent->country_id = $request->country_id;
-        $agent->state_id = $request->state_id;
-        $agent->city = $request->city;
-        $agent->business_name = $request->business_name;
-        $agent->zip = $request->zip;
-        $agent->profession = $request->profession;
-        $agent->expertise = $request->expertise;
-        $agent->address = $request->address;
-        $agent->address2 = $request->address2;
-        $agent->save();
-        Auth::login($user);
+        $storedOtp = session('otp');
+        if ($request->otp == $storedOtp) {
+            session()->forget('otp');
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'admin_type' => 'agent',
+                'phone_number' => $request->phone,
+                'status' => 1,
+                'is_active' => 1,
+                'password' => Hash::make($request->password),
+            ]);
+            $role = Role::where('name','agent')->first();
+            if ($role) {
+                $user->assignRole([$role->id]);
+            }
+            $agent = new Agent();
+            $agent->user_id = $user->id;
+            $agent->legal_first_name = $request->name;
+            $agent->email = $request->email;
+            $agent->phone = $request->phone;
+            $agent->country_id = $request->country_id;
+            $agent->state_id = $request->state_id;
+            $agent->city = $request->city;
+            $agent->business_name = $request->business_name;
+            $agent->zip = $request->zip;
+            $agent->profession = $request->profession;
+            $agent->expertise = $request->expertise;
+            $agent->address = $request->address;
+            $agent->address2 = $request->address2;
+            $agent->save();
+            $data = [
+                'name' => $request->name,
+                'email' => $request->email,
+            ];
+            Mail::raw('Registration Successfull', function($message) use ($data) {
+                $message->to($data['email'], $data['name'])
+                        ->subject('Registration Successfull');
+            });
+            Auth::login($user);
+            return response()->json(['message' => 'OTP verified successfully.','success'=>true,'frenchise_id'=>$agent->id]);
+        } else {
+            return response()->json(['message' => 'Invalid OTP.','success'=>false], 401);
+        }
         return redirect()->route('dashboard');
-        // return redirect()->route('user-login')->with('success', 'You have successfully registered. Please login to continue.');
     }
 
     public function counselor_register_store(Request $request)

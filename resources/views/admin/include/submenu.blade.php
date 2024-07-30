@@ -1,3 +1,20 @@
+@php
+$user = Auth::user();
+$frenchise = DB::table('agents')->where('email',$user->email)->first();
+@endphp
+@if($user->hasRole('agent') && $user->is_approve == 0 && $user->is_active == 0 && $frenchise->profile_completed == 0)
+    @php
+        $make_link_unclickable = 'disabled_link';
+    @endphp
+    <style>
+        .disabled_link {
+        pointer-events: none; /* Prevents clicks */
+        color: gray; /* Change text color to indicate disabled state */
+        cursor: not-allowed; /* Change cursor to indicate the link is not clickable */
+        text-decoration: none; /* Remove underline */
+    }
+    </style>
+@endif
 <ul class="menu-sub ">
     @if (isset($menu))
         @foreach ($menu as $submenu)
@@ -219,7 +236,8 @@
                             $learning_agent= $submenu->name === 'Agent';
 
                         @endphp
-                        <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }} {{ ($isApply360Submenu && $apply_360) ||
+
+                        <a href="{{ isset($submenu->url) ? url($submenu->url) : '#' }}" class=" {{$make_link_unclickable ?? null}} {{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link ' }} {{ ($isApply360Submenu && $apply_360) ||
                             (($frenchise_submenu && ($frenchise_filter || $frenchise_route || $frenchise_edit || $frenchise_pincode)) ||
                                 (($approve_program_filter || $add_program || $edit_program || $program_filter || $view_program) && $program_menu) ||
                                 (($student_registration_filter || $student_create) && $student_submenu) ||
@@ -274,9 +292,7 @@
                             @if (isset($submenu->icon))
                                 <i class="{{ $submenu->icon }}"></i>
                             @endif
-                            @php
-                                $user = Auth::user();
-                            @endphp
+
                             <div>{{ isset($submenu->name) ? __($submenu->name) : '' }}</div>
                         </a>
                         {{-- submenu --}}

@@ -407,7 +407,11 @@ class LeadsManageCotroller extends Controller
             }else{
                 $validator = Validator::make($request->all(), [
                     'first_name' => 'required',
-                    'email' => 'required|unique:student_by_agent,email|max:223',
+                    'email' => [
+                        'required',
+                        'unique:users,email',
+                        'unique:student_by_agent,email'
+                    ],
                     'phone_number' => 'required',
                     'source'=>'required',
                 ]);

@@ -460,7 +460,8 @@
                          </div>
                          <span class="text-danger otp-error"></span>
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg booking_enquiry" disabled> <span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Submit Now</button>
+                           <button type="button" id="booking_enquiry" class="btn btn-primary btn-lg booking_enquiry" disabled>
+                            <span class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span>Submit Now</button>
                         </div>
                      </form>
                     </div>
@@ -509,7 +510,6 @@
         })
     })
     $('.booking_enquiry').on('click', function(e){
-
         e.preventDefault();
         let mobile_number = $('#mobile_number').val();
         if(!mobile_number || mobile_number.length != 10 || !/^\d+$/.test(mobile_number)) {
