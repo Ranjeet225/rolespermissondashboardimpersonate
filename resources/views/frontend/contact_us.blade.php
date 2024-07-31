@@ -48,6 +48,14 @@
           <h1 class="page-title">Contact Us</h1>
        </div>
     </div>
+    @if (session('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="contact-page-section orange-color pt-20 pb-20 md-pt-20 md-pb-20">
        <div class="container">
           <div class="row align-items-center pb-50">

@@ -48,6 +48,7 @@ Route::get('programs/{page?}',[FrontendController::class,'programs'])->name('pro
 Route::get('about-oel',[FrontendController::class,'about_oel'])->name('about-oel');
 Route::get('contact-us',[FrontendController::class,'contact_us'])->name('contact_us');
 Route::post('contact-us',[FrontendController::class,'storeContactus'])->name('contact_us.store');
+Route::get('all-blogs-',[FrontendController::class,'blogs'])->name('all-blogs');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

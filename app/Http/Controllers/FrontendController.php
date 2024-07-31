@@ -536,4 +536,11 @@ class FrontendController extends Controller
         }
         return redirect()->back();
 	}
+
+
+    Public  function blogs()
+    {
+        $blogs = Blog::get();
+        return view('frontend.blogs',compact('blogs'));
+    }
 }

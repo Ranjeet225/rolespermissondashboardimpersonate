@@ -277,7 +277,7 @@
                         <ul class="site-map">
                             <li><a href="{{url('about-oel')}}">About OEL</a></li>
                             <li><a href="{{url('contact-us')}}">Contact Us</a></li>
-                            <li><a href="allblogs.html">Blogs</a></li>
+                            <li><a href="{{route('all-blogs')}}">Blogs</a></li>
                             <li><a href="testimonials.html">Testimonials</a></li>
                             <li><a href="frequently-asked-questions.html">FAQ</a></li>
                             <li><a href="privacy-policy.html">Privacy Policy</a></li>
