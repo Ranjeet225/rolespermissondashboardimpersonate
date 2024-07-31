@@ -512,7 +512,7 @@ class FrontendController extends Controller
             'phone' => 'required|numeric',
             'subject' => 'required|string|max:191|min:5',
             'message' => 'required|string|max:255|min:20',
-            // 'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required|captcha',
 
         ],[
             'name.required' => 'Your Name is required',
