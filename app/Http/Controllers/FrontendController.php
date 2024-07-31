@@ -496,4 +496,8 @@ class FrontendController extends Controller
     public function about_oel(){
         return view('frontend.about_oel');
     }
+
+    public function contact_us(){
+        return view('frontend.contact_us');
+    }
 }

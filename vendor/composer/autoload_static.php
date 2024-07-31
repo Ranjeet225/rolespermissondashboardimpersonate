@@ -109,6 +109,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         ),
         'R' => 
         array (
+            'ReCaptcha\\' => 10,
             'Razorpay\\Tests\\' => 15,
             'Razorpay\\Api\\' => 13,
             'Ramsey\\Uuid\\' => 12,
@@ -200,6 +201,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         ),
         'B' => 
         array (
+            'Buzz\\LaravelGoogleCaptcha\\' => 26,
             'Brick\\Math\\' => 11,
         ),
         'A' => 
@@ -404,6 +406,10 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'SendGrid\\' => 
         array (
             0 => __DIR__ . '/..' . '/sendgrid/php-http-client/lib',
+        ),
+        'ReCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
         'Razorpay\\Tests\\' => 
         array (
@@ -630,6 +636,10 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
         ),
+        'Buzz\\LaravelGoogleCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/buzz/laravel-google-captcha/src',
+        ),
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
@@ -709,6 +719,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'App\\Imports\\LeadsExcelSheetImport' => __DIR__ . '/../..' . '/app/Imports/LeadsExcelSheetImport.php',
         'App\\Mail\\ApplyOel360Email' => __DIR__ . '/../..' . '/app/Mail/ApplyOel360Email.php',
         'App\\Mail\\PaymentLinkEmail' => __DIR__ . '/../..' . '/app/Mail/PaymentLinkEmail.php',
+        'App\\Mail\\RegistrationSuccess' => __DIR__ . '/../..' . '/app/Mail/RegistrationSuccess.php',
         'App\\Mail\\SendGridEmail' => __DIR__ . '/../..' . '/app/Mail/SendGridEmail.php',
         'App\\Mail\\UserNotification' => __DIR__ . '/../..' . '/app/Mail/UserNotification.php',
         'App\\Mail\\WelcomeMail' => __DIR__ . '/../..' . '/app/Mail/WelcomeMail.php',
@@ -734,6 +745,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'App\\Models\\GradingScheme' => __DIR__ . '/../..' . '/app/Models/GradingScheme.php',
         'App\\Models\\HomeProgramLevel' => __DIR__ . '/../..' . '/app/Models/HomeProgramLevel.php',
         'App\\Models\\Image' => __DIR__ . '/../..' . '/app/Models/Image.php',
+        'App\\Models\\Instagram' => __DIR__ . '/../..' . '/app/Models/Instagram.php',
         'App\\Models\\Intrested' => __DIR__ . '/../..' . '/app/Models/Intrested.php',
         'App\\Models\\LearningFAS' => __DIR__ . '/../..' . '/app/Models/LearningFAS.php',
         'App\\Models\\MasterLeadStatus' => __DIR__ . '/../..' . '/app/Models/MasterLeadStatus.php',
@@ -803,6 +815,9 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'Brick\\Math\\Internal\\Calculator\\GmpCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/GmpCalculator.php',
         'Brick\\Math\\Internal\\Calculator\\NativeCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/NativeCalculator.php',
         'Brick\\Math\\RoundingMode' => __DIR__ . '/..' . '/brick/math/src/RoundingMode.php',
+        'Buzz\\LaravelGoogleCaptcha\\Captcha' => __DIR__ . '/..' . '/buzz/laravel-google-captcha/src/Captcha.php',
+        'Buzz\\LaravelGoogleCaptcha\\CaptchaFacade' => __DIR__ . '/..' . '/buzz/laravel-google-captcha/src/CaptchaFacade.php',
+        'Buzz\\LaravelGoogleCaptcha\\CaptchaServiceProvider' => __DIR__ . '/..' . '/buzz/laravel-google-captcha/src/CaptchaServiceProvider.php',
         'Carbon\\AbstractTranslator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/AbstractTranslator.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonConverterInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonConverterInterface.php',
@@ -5748,6 +5763,15 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'Razorpay\\Tests\\TransferTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/TransferTest.php',
         'Razorpay\\Tests\\UpiTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/UpiTest.php',
         'Razorpay\\Tests\\VirtualAccountTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/VirtualAccountTest.php',
+        'ReCaptcha\\ReCaptcha' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/ReCaptcha.php',
+        'ReCaptcha\\RequestMethod' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod.php',
+        'ReCaptcha\\RequestMethod\\Curl' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/Curl.php',
+        'ReCaptcha\\RequestMethod\\CurlPost' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/CurlPost.php',
+        'ReCaptcha\\RequestMethod\\Post' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/Post.php',
+        'ReCaptcha\\RequestMethod\\Socket' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/Socket.php',
+        'ReCaptcha\\RequestMethod\\SocketPost' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/SocketPost.php',
+        'ReCaptcha\\RequestParameters' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestParameters.php',
+        'ReCaptcha\\Response' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/Response.php',
         'Requests' => __DIR__ . '/..' . '/rmccue/requests/library/Requests.php',
         'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',

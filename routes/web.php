@@ -23,6 +23,7 @@ URL::forceScheme('https');
 Route::fallback(function () {
     return view('errors.404');
 });
+
 Route::get('/', [FrontendController::class,'index'])->name('index');
 Route::get('/apply-program', [FrontendController::class,'course_university'])->name('check-eligible');
 Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');
@@ -45,6 +46,8 @@ Route::get("university-details/{id}",[UniversityController::class,'view_universi
 Route::get('continue-course/{student_id}/{program_id}/{amount?}',[FrontendController::class,'continue_course'])->name('continue-course');
 Route::get('programs/{page?}',[FrontendController::class,'programs'])->name('programs');
 Route::get('about-oel',[FrontendController::class,'about_oel'])->name('about-oel');
+Route::get('contact-us',[FrontendController::class,'contact_us'])->name('contact_us');
+Route::post('contact-us',[FrontendController::class,'contact_us'])->name('contact_us.store');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
