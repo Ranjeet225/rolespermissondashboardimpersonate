@@ -74,6 +74,7 @@ return array(
     'App\\Models\\ApplicationsApplied' => $baseDir . '/app/Models/ApplicationsApplied.php',
     'App\\Models\\Blog' => $baseDir . '/app/Models/Blog.php',
     'App\\Models\\Caste' => $baseDir . '/app/Models/Caste.php',
+    'App\\Models\\Contactus' => $baseDir . '/app/Models/Contactus.php',
     'App\\Models\\Country' => $baseDir . '/app/Models/Country.php',
     'App\\Models\\CountryUniversity' => $baseDir . '/app/Models/CountryUniversity.php',
     'App\\Models\\Currency' => $baseDir . '/app/Models/Currency.php',

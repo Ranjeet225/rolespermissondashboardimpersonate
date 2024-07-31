@@ -47,7 +47,7 @@ Route::get('continue-course/{student_id}/{program_id}/{amount?}',[FrontendContro
 Route::get('programs/{page?}',[FrontendController::class,'programs'])->name('programs');
 Route::get('about-oel',[FrontendController::class,'about_oel'])->name('about-oel');
 Route::get('contact-us',[FrontendController::class,'contact_us'])->name('contact_us');
-Route::post('contact-us',[FrontendController::class,'contact_us'])->name('contact_us.store');
+Route::post('contact-us',[FrontendController::class,'storeContactus'])->name('contact_us.store');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

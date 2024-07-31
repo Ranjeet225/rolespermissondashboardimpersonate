@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Models\Ads;
 use App\Models\Blog;
+use App\Models\Contactus;
 use App\Models\Country;
 use App\Models\EducationLevel;
 use App\Models\EngProficiencyLevel;
@@ -29,6 +31,7 @@ use App\Models\ServiceLanding;
 use App\Models\Testimonials;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class FrontendController extends Controller
 {
@@ -500,4 +503,37 @@ class FrontendController extends Controller
     public function contact_us(){
         return view('frontend.contact_us');
     }
+
+    public function storeContactus(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|min:5',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|numeric',
+            'subject' => 'required|string|max:191|min:5',
+            'message' => 'required|string|max:255|min:20',
+            // 'g-recaptcha-response' => 'required|captcha',
+
+        ],[
+            'name.required' => 'Your Name is required',
+            'g-recaptcha-response.required' => 'Approve captcha validation',
+            'g-recaptcha-response.captcha' => 'Captcha is invalid'
+        ]);
+        try {
+            $contactus = Contactus::create($validatedData);
+            $mail_details = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'subject' => $request->subject,
+                'message' => $request->message
+            ];
+            // Mail::to('ranjeetmaurya2033@gmail.com')->send(new ContactMail($mail_details));
+            Mail::to(env('MAIL_FROM_ADDRESS'))->send(new ContactMail($mail_details));
+            session()->flash('message', 'We have successfully received your message, We are working hard to get in touch with you as soon as possible. Thank you for your patience.');
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('error', $exception->getMessage());
+        }
+        return redirect()->back();
+	}
 }

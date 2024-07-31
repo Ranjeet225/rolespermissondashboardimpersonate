@@ -99,7 +99,7 @@
                             {{csrf_field()}}
                             <div class="row">
                                     <div class="col-lg-6 mb-15 col-md-12">
-                                        <input class="from-control" type="text" id="name" name="name" placeholder="Name" value="{{ old('name') }}">
+                                        <input class="from-control" type="text" id="name" name="name" required placeholder="Name" value="{{ old('name') }}">
                                         @if ($errors->has('name'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('name') }}</strong>
@@ -107,7 +107,7 @@
                                         @endif
                                     </div>
                                     <div class="col-lg-6 mb-15 col-md-12">
-                                        <input class="from-control" type="text" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                                        <input class="from-control" type="text" id="email" name="email" required placeholder="Email" value="{{ old('email') }}">
                                         @if ($errors->has('email'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('email') }}</strong>
@@ -115,7 +115,7 @@
                                         @endif
                                     </div>
                                     <div class="col-lg-6 mb-15 col-md-12">
-                                        <input class="from-control" type="text" id="phone" name="phone" placeholder="Phone" value="{{ old('phone') }}">
+                                        <input class="from-control" type="text" id="phone" name="phone" required placeholder="Phone" value="{{ old('phone') }}">
                                         @if ($errors->has('phone'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('phone') }}</strong>
@@ -123,7 +123,7 @@
                                         @endif
                                     </div>
                                     <div class="col-lg-6 mb-15 col-md-12">
-                                        <input class="from-control" type="text" id="subject" name="subject" placeholder="Subject" value="{{ old('subject') }}">
+                                        <input class="from-control" type="text" id="subject" name="subject" required placeholder="Subject" value="{{ old('subject') }}">
                                         @if ($errors->has('subject'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('subject') }}</strong>
@@ -132,7 +132,7 @@
                                     </div>
 
                                     <div class="col-lg-12 mb-15">
-                                        <textarea row="10" class="from-control" id="message" name="message" placeholder=" Message" >{{ old('message') }}</textarea>
+                                        <textarea row="10" class="from-control" id="message" name="message" required placeholder=" Message" >{{ old('message') }}</textarea>
                                         @if ($errors->has('message'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('message') }}</strong>

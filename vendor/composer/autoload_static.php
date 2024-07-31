@@ -730,6 +730,7 @@ class ComposerStaticInitc778110a45bcce7ae7f812f534ba2026
         'App\\Models\\ApplicationsApplied' => __DIR__ . '/../..' . '/app/Models/ApplicationsApplied.php',
         'App\\Models\\Blog' => __DIR__ . '/../..' . '/app/Models/Blog.php',
         'App\\Models\\Caste' => __DIR__ . '/../..' . '/app/Models/Caste.php',
+        'App\\Models\\Contactus' => __DIR__ . '/../..' . '/app/Models/Contactus.php',
         'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
         'App\\Models\\CountryUniversity' => __DIR__ . '/../..' . '/app/Models/CountryUniversity.php',
         'App\\Models\\Currency' => __DIR__ . '/../..' . '/app/Models/Currency.php',
