@@ -54,12 +54,6 @@ class DashboardController extends Controller
 
     public function index( Request $request)
     {
-        $userEmail = 'ranjeetmaurya2033@gmail.com';
-        Mail::raw('Welcome to our application!', function ($message) use ($userEmail) {
-            $message->to($userEmail)
-                    ->subject('Welcome!');
-        });
-        dd('send');
         $id = Auth::user()->id;
         $users = User::WHERE('id', $id)->first();
         $user_type = $users->admin_type;
