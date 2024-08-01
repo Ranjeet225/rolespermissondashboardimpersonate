@@ -191,14 +191,14 @@
                             @if (($users->hasRole('agent')) || ($users->hasRole('Administrator')))
                             <th><input type="checkbox" class="checked_all_lead"> R.F</th>
                             @endif
-                            <th>S.N</th>
+                            {{-- <th>S.N</th> --}}
                             <th>Date</th>
                             <th> Source </th>
                             <th> Name </th>
                             <th> PinCode</th>
                             <th> Phone</th>
                             <th> Email</th>
-                            <th> Comment </th>
+                            {{-- <th> Comment </th> --}}
                             <th> Intereset</th>
                             <th> Course </th>
                             <th> Intake </th>
@@ -236,21 +236,21 @@
                                         @endif
                                     </td>
                                 @endif
-                                <td>
+                                {{-- <td>
                                     <a href="#">{{ $i }}</a>
                                 </td>
                                 @php
                                     $i++;
-                                @endphp
+                                @endphp --}}
                                 <td>
                                     <a href="#">{{ $data->created_at }}</a>
                                 </td>
-                                <td> {{ $data->source }}</td>
-                                <td>{{ $data->name }}</td>
+                                <td>{{ Str::limit($data->source, 12, '...')  }}</td>
+                                <td>{{ Str::limit($data->name, 12, '...')  }}</td>
                                 <td>{{ $data->zip }}</td>
                                 <td>{{ $data->phone_number }}</td>
                                 <td>{{ $data->email }}</td>
-                                <td class="text-wrap">{{ $data->student_comment }}</td>
+                                {{-- <td class="text-wrap">{{ $data->student_comment }}</td> --}}
                                 @php
                                     $interest = App\Models\Intrested::where('is_deleted', '0')->where('id', $data->interested)->first();
                                 @endphp

@@ -1573,11 +1573,11 @@ class LeadsManageCotroller extends Controller
     {
         $users = Auth::user();
         if(!empty($request->leadIds)){
-            $std_by_id = DB::table('student_by_agent')->whereIn('id', $request->leadIds)->whereNotNull('zip')->get();
-            if ($std_by_id->isEmpty()) {
-                $data = ['status' => false, 'message' => "You can not assign without Pincode ! "];
-                return response()->json($data);
-            }else{
+            // $std_by_id = DB::table('student_by_agent')->whereIn('id', $request->leadIds)->whereNotNull('zip')->get();
+            // if ($std_by_id->isEmpty()) {
+            //     $data = ['status' => false, 'message' => "You can not assign without Pincode ! "];
+            //     return response()->json($data);
+            // }else{
                 $user= User::where('id',$request->agentId)->select('id','added_by')->first();
                 if($users->hasRole('Administrator')){
                     StudentByAgent::whereIn('id', $request->leadIds)->update([
@@ -1609,7 +1609,7 @@ class LeadsManageCotroller extends Controller
                 } else {
                     $data = ['status' => false, 'message' => "Something Went Wrong !"];
                 }
-            }
+            // }
         } else {
             $data = ['status' => false, 'message' => "Please Select leads"];
         }
