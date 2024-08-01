@@ -119,13 +119,12 @@
                             @endphp
                             <td class="txt-oflo">
                                 @if ($user && $user->email !== null && $user->password !== null)
-                                    @if ($users->hasRole('Administrator'))
-                                        {{-- <a class="btn btn-primary btn-sm" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
-                                            Login To Student {{ $user->name }}
-                                        </a> --}}
-                                        <a class="btn btn-info" data-toggle="tooltip" title="Login as Student" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
-                                            <i class="fa fa-sign-in-alt"></i>
-                                        </a>
+                                   @if(!(Session::has('admin_user')))
+                                        @if ($users->hasRole('Administrator') || $users->hasRole('visa') || $users->hasRole('Application Punching'))
+                                            <a class="btn btn-info" data-toggle="tooltip" title="Login as Student" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
+                                                <i class="fa fa-sign-in-alt"></i>
+                                            </a>
+                                        @endif
                                     @endif
                                 @endif
                             </td>
