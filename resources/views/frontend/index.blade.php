@@ -731,9 +731,13 @@
                  src="{{asset('imagesapi')}}/{{$item->image}}"
                  alt="About Image">
               <br> <br>
-              <p style="text-align: center;">
-                     {!! $item->text !!}
-              </p>
+              @php
+              $text = strip_tags($item->text);
+              $words = explode(" ", $text);
+              $newwords = array_splice($words, 0, 50);
+              $trimmedText = implode(" ", $newwords) . "...";
+              @endphp
+            {{ $trimmedText }} <a href="{{url('blog-details')}}/{{$item->id}}">Read More</a>
            </div>
         </div>
         @endforeach

@@ -13,7 +13,6 @@
        <img src="{{asset('frontend/courses.jpg')}}" alt="Breadcrumbs Image">
     </div>
     <form class="breadcrumbs-text white-color" id="filter_form" action="{{url('universities')}}" method="get" novalidate="novalidate">
-        @csrf
        <h1 class="page-title">OEL / Universities</h1>
        <div class="container">
           <div class="row form_input_wrapper">

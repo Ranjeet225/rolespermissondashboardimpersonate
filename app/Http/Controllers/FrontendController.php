@@ -32,6 +32,7 @@ use App\Models\Testimonials;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use App\Models\Faq;
 
 class FrontendController extends Controller
 {
@@ -447,10 +448,14 @@ class FrontendController extends Controller
         $country =Country::select('name','id')->get();
         $universities =University::select('id','university_name')->get();
         if($request->ajax()) {
-            if($request->has('university_name') || $request->has('country')){
+            if($request->has('university_name') || $request->has('country') || $request->has('country_name')){
+                $country_id = $country->where('name', 'like', '%' . $request->country_name . '%')->pluck('id')->first();
                 $universities = University::select('universities.*')->with('country', 'province','university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram');
                 if(!empty($request->university_name)){
                     $universities = $universities->where('id',$request->university_name);
+                }
+                if(!empty($country_id)){
+                    $universities = $universities->where('country_id',$country_id);
                 }
                 if(!empty($request->country)){
                     $universities = $universities->where('country_id',$request->country);
@@ -472,15 +477,18 @@ class FrontendController extends Controller
         $country =Country::select('name','id')->get();
         $universities =University::select('id','university_name')->get();
         if($request->ajax()) {
-            if($request->has('university_id') || $request->has('country') || $request->has('program_id')){
-                $programs = Program::with(['university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name'])
+            if($request->has('university_id') || $request->has('country') || $request->has('program_id') || $request->has('course')){
+            $programs = Program::with(['university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name'])
                     ->when(!empty($request->country), function ($query) use ($request) {
                         $query->whereHas('university_name', function ($subquery) use ($request) {
                             $subquery->where('country_id', $request->country);
                         });
                     })
-                    ->when(!empty($request->universitXy_id), function ($query) use ($request) {
+                    ->when(!empty($request->university_id), function ($query) use ($request) {
                         $query->where('school_id', $request->university_id);
+                    })
+                    ->when(!empty($request->course), function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->course . '%');
                     })
                     ->when(!empty($request->program_id), function ($query) use ($request) {
                         $query->where('id', $request->program_id);
@@ -540,7 +548,31 @@ class FrontendController extends Controller
 
     Public  function blogs()
     {
-        $blogs = Blog::get();
+        $blogs = Blog::where('status',1)->get();
         return view('frontend.blogs',compact('blogs'));
+    }
+
+    public function blog_details($title)
+    {
+        $blog = Blog::where('title', $title)->where('status', 1)->first();
+        if (!$blog) {
+            abort(404);
+        }
+        return view('frontend.blog_details',compact('blog'));
+    }
+
+    public function testimonials()
+    {
+        $testimonials = Testimonials::where('status',1)->get();
+        return view('frontend.testimonials',compact('testimonials'));
+    }
+
+    public function frequently_asked_questions(){
+        $faqs = Faq::where('status',1)->get();
+        return view('frontend.faq',compact('faqs'));
+    }
+
+    public function privacy_policy(){
+        return view('frontend.privacy_policy');
     }
 }

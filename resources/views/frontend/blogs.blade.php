@@ -1,5 +1,5 @@
 @extends('frontend.layouts.main')
-@section('title', 'About Oel')
+@section('title', 'Blogs')
 @section('content')
 <style type="text/css">
     .contact-bg{
@@ -72,15 +72,16 @@
                        </li>
                     </ul>
                  </div>
-                 <section class="blog-desc loaded">
-                    <?php
-                        $text = strip_tags($item->text);
-                        $words = explode(" ", $text);
-                        $newwords = array_splice($words, 0, 50);
-                        echo implode(" ", $newwords)."...";
-                    ?>
+                 <section class="loaded">
+                    @php
+                    $text = strip_tags($item->text);
+                    $words = explode(" ", $text);
+                    $newwords = array_splice($words, 0, 20);
+                    $trimmedText = implode(" ", $newwords) . "...";
+                    @endphp
+                    {{ $trimmedText }}
                     <div class="blog-button">
-                       <a class="blog-btn" href="{{url('blog-details')}}/{{$item->id}}">Continue Reading</a>
+                       <a class="blog-btn" href="{{url('blog-details')}}/{{$item->title}}">Continue Reading</a>
                     </div>
                  </section>
               </div>

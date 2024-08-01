@@ -48,7 +48,12 @@ Route::get('programs/{page?}',[FrontendController::class,'programs'])->name('pro
 Route::get('about-oel',[FrontendController::class,'about_oel'])->name('about-oel');
 Route::get('contact-us',[FrontendController::class,'contact_us'])->name('contact_us');
 Route::post('contact-us',[FrontendController::class,'storeContactus'])->name('contact_us.store');
-Route::get('all-blogs-',[FrontendController::class,'blogs'])->name('all-blogs');
+Route::get('all-blogs',[FrontendController::class,'blogs'])->name('all-blogs');
+Route::get('blog-details/{title?}',[FrontendController::class,'blog_details'])->name('blog-details');
+Route::get('testimonials',[FrontendController::class,'testimonials'])->name('testimonials');
+Route::get('frequently-asked-questions',[FrontendController::class,'frequently_asked_questions'])->name('frequently-asked-questions');
+Route::get('privacy-policy',[FrontendController::class,'privacy_policy'])->name('privacy-policy');
+
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -638,7 +643,7 @@ Route::middleware(['auth'])->prefix('landing-page')->group(function () {
 
 });
 
-Route::get('/landing-page', [App\Http\Controllers\LandingPage\HomeController::class, 'index'])->name('index');
+Route::get('/landing-page', [App\Http\Controllers\LandingPage\HomeController::class, 'index'])->name('landing-page');
 Route::post('landing-page/get-country-data', [App\Http\Controllers\LandingPage\HomeController::class, 'getCountryData'])->name('get-country-data');
 // Route::get('country/{id}',[App\Http\Controllers\LandingPage\HomeController::class,'getIndexPageData'])->name('country');
 Route::post('landing-page/send-mail',[App\Http\Controllers\LandingPage\HomeController::class,'sendMail'])->name('send-mail');

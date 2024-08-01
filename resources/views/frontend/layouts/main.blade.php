@@ -278,9 +278,9 @@
                             <li><a href="{{url('about-oel')}}">About OEL</a></li>
                             <li><a href="{{url('contact-us')}}">Contact Us</a></li>
                             <li><a href="{{route('all-blogs')}}">Blogs</a></li>
-                            <li><a href="testimonials.html">Testimonials</a></li>
-                            <li><a href="frequently-asked-questions.html">FAQ</a></li>
-                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="{{route('testimonials')}}">Testimonials</a></li>
+                            <li><a href="{{route('frequently-asked-questions')}}">FAQ</a></li>
+                            <li><a href="{{url('privacy-policy')}}">Privacy Policy</a></li>
                             <li>
                                 <a href="{{route('user-login')}}">Franchise Login</a>
                             </li>
@@ -292,21 +292,21 @@
                     <div class="col-lg-3 col-md-12 col-sm-12 footer-widget md-mb-50">
                         <h4 class="widget-title">Hot Courses</h4>
                         <ul class="site-map">
-                            <li><a href="courses-1.html?program_name=MASTER BUSINESS ADMINISTRATION">MBA</a></li>
-                            <li><a href="courses-2.html?program_name=Hospitality">Hospitality</a></li>
-                            <li><a href="courses-3.html?program_name=Nursing">Nursing</a></li>
-                            <li><a href="courses-4.html?program_name=Design/Media">Design/Media</a></li>
-                            <li><a href="courses-5.html?program_name=Engineering">Engineering</a></li>
+                            <li><a href="{{url('programs')}}?course=MASTER BUSINESS ADMINISTRATION">MBA</a></li>
+                            <li><a href="{{url('programs')}}?course=Hospitality">Hospitality</a></li>
+                            <li><a href="{{url('programs')}}?course=Nursing">Nursing</a></li>
+                            <li><a href="{{url('programs')}}?course=Design/Media">Design/Media</a></li>
+                            <li><a href="{{url('programs')}}?course=Engineering">Engineering</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 footer-widget md-mb-50">
                         <h4 class="widget-title">Top Destination</h4>
                         <ul class="site-map">
-                            <li><a href="universities-1.html?country=38&amp;u_name=">Canada</a></li>
-                            <li><a href="universities-2.html?country=231&amp;u_name=">USA</a></li>
-                            <li><a href="universities-3.html?country=13&amp;u_name=">Australia</a></li>
-                            <li><a href="universities-4.html?country=230&amp;u_name=">UK</a></li>
-                            <li><a href="universities-5.html?country=157&amp;u_name=">New Zealand</a></li>
+                            <li><a href="{{url('universities')}}?country_name=Canada">Canada</a></li>
+                            <li><a href="{{url('universities')}}?country_name=USA">USA</a></li>
+                            <li><a href="{{url('universities')}}?country_name=Australia">Australia</a></li>
+                            <li><a href="{{url('universities')}}?country_name=UK">UK</a></li>
+                            <li><a href="{{url('universities')}}?country_name=New Zealand">New Zealand</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-3 col-md-12 col-sm-12 footer-widget">
