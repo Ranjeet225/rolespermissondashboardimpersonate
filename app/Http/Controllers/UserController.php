@@ -9,6 +9,7 @@ use App\Models\Agent;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use App\Models\Student;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
@@ -152,6 +153,24 @@ $user = User::orderBy('id', 'desc');
                 'phone' => $user->phone ?? '',
                 'password' => $user->password ?? '',
             ]);
+            $student = Student::where('email', $user->email)->first();
+            if($student){
+                $student->delete();
+            }
+        }
+        if($role->name == 'student'){
+            Student::updateOrCreate([
+                'user_id' => $user->id
+            ], [
+                'first_name' => $user->name ?? '',
+                'zip' => $user->zip ?? '',
+                'email' => $user->email ?? '',
+                'phone_number' => $user->phone ?? '',
+            ]);
+            $agent = Agent::where('email', $user->email)->first();
+            if($agent){
+                $agent->delete();
+            }
         }
         if($role->name);
         $user->update($input);
