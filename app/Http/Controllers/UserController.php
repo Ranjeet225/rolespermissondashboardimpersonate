@@ -234,7 +234,7 @@ class UserController extends Controller
 
     public function impersonate(User $user)
     {
-        if (Auth::user()->hasRole('Administrator') || Auth::user()->hasRole('agent') || Auth::user()->hasRole('visa') || Auth::user()->hasRole('Application Punching')) {
+        if (Auth::user()->hasRole('Administrator') || Auth::user()->hasRole('agent') || Auth::user()->hasRole('sub_agent') || Auth::user()->hasRole('visa') || Auth::user()->hasRole('Application Punching')) {
             $adminUser = Auth::user();
             Auth::login($user);
             Session::put('admin_user', $adminUser);

@@ -120,7 +120,7 @@
                             <td class="txt-oflo">
                                 @if ($user && $user->email !== null && $user->password !== null)
                                    @if(!(Session::has('admin_user')))
-                                        @if ($users->hasRole('Administrator') || $users->hasRole('visa') || $users->hasRole('Application Punching'))
+                                        @if ($users->hasRole('Administrator') || $users->hasRole('visa') || $users->hasRole('agent') || $users->hasRole('sub_agent') || $users->hasRole('Application Punching'))
                                             <a class="btn btn-info" data-toggle="tooltip" title="Login as Student" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
                                                 <i class="fa fa-sign-in-alt"></i>
                                             </a>
