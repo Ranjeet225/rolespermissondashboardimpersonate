@@ -34,40 +34,41 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-$user = User::orderBy('id', 'desc');
-        if($request->status == 'Active'){
-            $active_Status = 1;
-        }else{
-            $active_Status = 0;
-        }
-        if($request->approvestatus == 'Approve'){
-            $approvestatus = 1;
-        }else{
-            $approvestatus = 0;
-        }
+      $user = User::whereNotIn('admin_type',['student'])->orderBy('id', 'desc');
+            if($request->status == 'Active'){
+                $active_Status = 1;
+            }else{
+                $active_Status = 0;
+            }
+            if($request->approvestatus == 'Approve'){
+                $approvestatus = 1;
+            }else{
+                $approvestatus = 0;
+            }
         // die;
-        $authuser = Auth::user();
-        if (!($authuser->hasRole('Administrator'))) {
-            $userid = Auth::user()->id;
-            $user->where('added_by',$userid);
-        }
-        if ($request->name) {
-            $user->where('name', 'LIKE', '%' . $request->name . '%');
-        }
-        if ($request->email) {
-            $user->where('email', 'LIKE', '%' . $request->email . '%');
-        }
-        if ($request->roles) {
-            $user->where('admin_type', 'LIKE', $request->roles . '%');
-        }
-        if ($request->status) {
-            $user->where('is_active',$active_Status);
-        }
-        if ($request->approvestatus) {
-            $user->where('status', $approvestatus);
-        }
-        $roles = Role::select('name','id')->get();
-        $users = $user->paginate(15);
+            $authuser = Auth::user();
+            if (!($authuser->hasRole('Administrator'))) {
+                $userid = Auth::user()->id;
+                $user->where('added_by',$userid);
+            }
+            if ($request->name) {
+                $user->where('name', 'LIKE', '%' . $request->name . '%');
+            }
+            if ($request->email) {
+                $user->where('email', 'LIKE', '%' . $request->email . '%');
+            }
+            if ($request->roles) {
+                $user->where('admin_type', 'LIKE', $request->roles . '%');
+            }
+            if ($request->status) {
+                $user->where('is_active',$active_Status);
+            }
+            if ($request->approvestatus) {
+                $user->where('status', $approvestatus);
+            }
+
+            $roles = Role::select('name','id')->get();
+            $users = $user->paginate(15);
         return view('user.index')->with(compact('roles','users'));
     }
 

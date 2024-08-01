@@ -375,7 +375,7 @@ class LeadsManageCotroller extends Controller
 
         $user = auth()->user();
         $castes = Caste::where("status", 1)->get();
-        $subjects = Program::get();
+        $subjects = Program::where('is_approved', 1)->get();
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
@@ -592,7 +592,7 @@ class LeadsManageCotroller extends Controller
     {
         $user = auth()->user();
         $castes = Caste::where("status", 1)->get();
-        $subjects = Program::get();
+        $subjects = Program::where('is_approved', 1)->get();
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
@@ -893,12 +893,12 @@ class LeadsManageCotroller extends Controller
         if(!$leadDetails || !$studentDetails){
             return view('errors.404');
         }
-        $university = University::get();
-        $course = DB::table('program')->get();
+        $university = University::where('is_approved', 1)->get();
+        $course = DB::table('program')->where('is_approved', 1)->get();
         $threesixtee = DB::table('tbl_three_sixtee')->Where('sba_id', $id)->first();
         $student_course_exit = PaymentsLink::where('user_id', $studentDetails->user_id)->pluck('program_id')->toArray();
         $student_course_exit = $student_course_exit ?? [];
-        $student_university = Program::whereIn('id', $student_course_exit)->pluck('school_id')->toArray();
+        $student_university = Program::whereIn('id', $student_course_exit)->where('is_approved', 1)->pluck('school_id')->toArray();
 
         $uniqueId = PaymentsLink::where('user_id', $studentDetails->user_id)
             ->whereNotNull('fallowp_unique_id')
@@ -913,7 +913,7 @@ class LeadsManageCotroller extends Controller
             foreach ($about_payment as $payment) {
                 $programIds[] = $payment->PaymentLink->program_id;
             }
-            $selected_university = Program::whereIn('id', $programIds)->pluck('school_id')->toArray();
+            $selected_university = Program::whereIn('id', $programIds)->where('is_approved', 1)->pluck('school_id')->toArray();
         } else {
             $programIds = [];
             $selected_university =[];
@@ -926,14 +926,14 @@ class LeadsManageCotroller extends Controller
             $three_course_id = explode(',', $threesixtee->courses);
             $student_course_id = explode(',', $studentDetails->pref_subjects);
             $course_id = array_unique(array_merge($three_course_id, $programIds ?? null));
-            $university_in_three_sixtee = University::wherein('id', array_merge($university_id, $selected_university ?? null))->get();
+            $university_in_three_sixtee = University::wherein('id', array_merge($university_id, $selected_university ?? null))->where('is_approved', 1)->get();
             $course_in_three_sixtee = DB::table('program')->wherein('id', $course_id)->get();
             $table_three_sixtee_image = DB::table('tbl_three_sixtee_image')->where('image_type', 'offer')->where('sba_id', $id)->get();
         } else {
             $agent = DB::table('agents')->get();
             $university_id = null;
             $course_id = null;
-            $university_in_three_sixtee =University::wherein('id', $selected_university ?? [] )->get() ?? null;
+            $university_in_three_sixtee =University::wherein('id', $selected_university ?? [] )->where('is_approved', 1)->get() ?? null;
             $course_in_three_sixtee = DB::table('program')->wherein('id', $student_course_exit ?? [] )->get() ?? null;
             $table_three_sixtee_image = null;
         }
@@ -980,7 +980,7 @@ class LeadsManageCotroller extends Controller
                         'college' => $college
                     ]);
             }
-            $university=University::whereIn('id',$request->collegeValues)->select('id','university_name')->get();
+            $university=University::whereIn('id',$request->collegeValues)->where('is_approved', 1)->select('id','university_name')->get();
             $data = [
                 'success' => true,
                 'status' => true,
@@ -1020,7 +1020,7 @@ class LeadsManageCotroller extends Controller
                         'selected_program'=>$course
                     ]);
             }
-            $program=Program::whereIn('id',explode(',',$table_three_sixtee->courses))->select('id','name')->get();
+            $program=Program::whereIn('id',explode(',',$table_three_sixtee->courses))->where('is_approved', 1)->select('id','name')->get();
             $response = true;
             $data = [
                 'success' => true,
@@ -1056,7 +1056,7 @@ class LeadsManageCotroller extends Controller
             $threesixetee = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
             $collegeValues = explode(',', $threesixetee->college);
             $courseValues = explode(',', $threesixetee->courses);
-            $universities = University::whereIn('id', $collegeValues)->pluck('university_name')->implode(', ');
+            $universities = University::whereIn('id', $collegeValues)->pluck('university_name')->where('is_approved', 1)->implode(', ');
             $course_in_three_sixtee = DB::table('course_tags')->wherein('id', $courseValues)->pluck('tag_name')->implode(', ');
             $data = [
                 'university' => $universities,
@@ -1082,7 +1082,7 @@ class LeadsManageCotroller extends Controller
                     $acceptedProgramIds[] = $programId;
                 }
             }
-            $program=Program::whereIn('id',$acceptedProgramIds)->select('id','name')->get();
+            $program=Program::whereIn('id',$acceptedProgramIds)->where('is_approved', 1)->select('id','name')->get();
             $data = [
                 'success' => true,
                 'status' => $response,
@@ -1667,7 +1667,7 @@ class LeadsManageCotroller extends Controller
     {
         $user = auth()->user();
         $castes = Caste::where("status", 1)->get();
-        $subjects = Program::get();
+        $subjects = Program::where('is_approved', 1)->get();
         $countries = Country::all();
         $lead_status = MasterLeadStatus::where("status", 1)->orderBy('name', 'ASC')->get();
         $source = Source::where("status", 1)->orderBy('name', 'ASC')->get();
@@ -1682,7 +1682,7 @@ class LeadsManageCotroller extends Controller
 
     public function university_course(Request $request)
     {
-        $program = Program::where('school_id', $request->university_id)->get();
+        $program = Program::where('school_id', $request->university_id)->where('is_approved', 1)->get();
         $data = [
             'success' => true,
             'status' => true,

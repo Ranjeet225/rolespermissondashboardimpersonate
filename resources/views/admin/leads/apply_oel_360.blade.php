@@ -241,7 +241,7 @@
                             @can('universities.create')
                                 <li class="nav-item flex-fill " role="presentation" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Universities">
-                                    <a class="nav-link @if ($user->hasRole('Administrator')) active @endif rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                    <a class="nav-link @can('universities.create') active @endcan rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                         href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1"
                                         aria-selected="true">1</a>
                                     <br>
@@ -379,7 +379,7 @@
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             @can('universities.create')
-                                <div class="tab-pane fade @if ($user->hasRole('Administrator')) show active @endif"
+                                <div class="tab-pane fade @can('universities.create') show active @endcan"
                                     role="tabpanel" id="step1" aria-labelledby="step1-tab">
                                     <h4>Payment Status</h4>
                                     <div class="form-check form-switch">

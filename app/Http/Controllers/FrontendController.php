@@ -44,13 +44,13 @@ class FrontendController extends Controller
             'service'=>ServiceLanding::where('status',1)->take(4)->get(),
             'instagram'=>Instagram::where('status',1)->get(),
             'blogs'=>Blog::where('status',1)->take(3)->get(),
-            'programs'=>Program::with('university_name:id,university_name,logo,banner')->Select('id','school_id','name')->latest()->take(8)->get(),
+            'programs'=>Program::with('university_name:id,university_name,logo,banner')->Select('id','school_id','name')->where('is_approved',1)->latest()->take(8)->get(),
             'ads'=>Ads::get(),
             'program_level'=>ProgramLevel::get(),
             'program_sublevel'=>ProgramSubLevel::get(),
             'testimonials'=> Testimonials::where('status',1)->orderBy('id','desc')->get(),
-            'universitiesltl' => University::select('id', 'university_name', 'logo')->take(30)->get(),
-            'universitiesrtl' => University::select('id', 'university_name', 'logo')->latest()->take(30)->get()
+            'universitiesltl' => University::select('id', 'university_name', 'logo')->where('is_approved',1)->take(30)->get(),
+            'universitiesrtl' => University::select('id', 'university_name', 'logo')->where('is_approved',1)->latest()->take(30)->get()
         ]);
     }
 
@@ -79,7 +79,7 @@ class FrontendController extends Controller
 
     public function course_university(Request $request)
     {
-        $course = Program::paginate(1);
+        $course = Program::where('is_approved',1)->paginate(1);
         $country =Country::select('name','id')->get();
         $program_level =ProgramLevel::select('name','id')->get();
         $sub_program_level =ProgramSubLevel::select('name','id','program_id')->get();
@@ -87,7 +87,7 @@ class FrontendController extends Controller
         $eng_proficiency_level=EngProficiencyLevel::select('name','id')->get();
         if($request->ajax()){
             if($request->has('country') || $request->has('intake') || $request->has('other_exam') || $request->has('program_level') ||  $request->has('program_sub_level') ||  $request->has('education_level') ||  $request->has('program_displine') ||  $request->has('program_subdispline') ||  $request->has('eng_proficiency_level') ||  $request->has('eng_pro_input') ||  $request->has('other_exam')){
-                $course = Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')
+                $course = Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')->where('is_approved',1)
                             ->when($request->has('program_level'), function ($query) use ($request) {
                                 return $query->whereIn('program_level_id', explode(',', $request->program_level));
                             })
@@ -174,7 +174,7 @@ class FrontendController extends Controller
                         $program_ids = DB::table('student_by_agent')->select('program_label')->where('student_user_id', $student_data->id ?? null)->pluck('program_label')->toArray();
                         $education_ids = DB::table('education_history')->select('education_level_id')->where('student_id', $student_data->id  ?? null)->pluck('education_level_id')->toArray();
                         if (!empty($program_ids) || !empty($education_ids) || !empty($student_data)) {
-                            $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')
+                            $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->where('is_approved',1)
                                     ->when(!empty($program_ids), function ($query) use ($program_ids) {
                                         $query->whereIn('program_level_id', $program_ids);
                                     })
@@ -215,17 +215,17 @@ class FrontendController extends Controller
                                         })
                                         ->paginate(12);
                         } else {
-                            $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->paginate(12);
+                            $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->where('is_approved',1)->paginate(12);
                             $universities = University::withCount('program')->with('country', 'province','university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')
                                 ->where('country_id', $student_data->country_id ?? null)
                                 ->paginate(12);
                         }
                     }else{
-                        $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->paginate(12);
+                        $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->where('is_approved',1)->paginate(12);
                         $universities = University::withCount('program')->with('country', 'university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')->paginate(12);
                     }
                 } else {
-                    $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->paginate(12);
+                    $course = Program::with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->where('is_approved',1)->paginate(12);
                     $universities = University::withCount('program')->with('country', 'university_type', 'program.programLevel', 'program.programSubLevel', 'program.educationLevelprogram')->paginate(12);
                     return response()->json(['data' => $universities,'course_data'=>$course]);
                 }
@@ -288,7 +288,7 @@ class FrontendController extends Controller
 
     public function view_program_data(Request $request ,$id)
     {
-        $program_data = Program::where('school_id',$id)->with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')
+        $program_data = Program::where('school_id',$id)->with('university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->where('is_approved',1)
                         ->when($request->has('program_level'), function ($query) use ($request) {
                             return $query->whereIn('program_level_id', explode(',', $request->program_level));
                         })
@@ -327,7 +327,7 @@ class FrontendController extends Controller
 
     public function course_details($id = null)
     {
-        $program_data = Program::where('id', $id)->with('university_name','educationLevelprogram', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->first();
+        $program_data = Program::where('id', $id)->with('university_name','educationLevelprogram', 'programLevel', 'university_name.country_name', 'university_name.university_type_name')->where('is_approved',1)->first();
         $exam_text =DB::table('program_english_required')->where('program_id',$id)->first();
         if (!$program_data) {
             abort(404);
@@ -337,7 +337,7 @@ class FrontendController extends Controller
 
     public function apply_program_payment($student_id,$program_id){
         $student_details=Student::where('id',$student_id)->first();
-        $program_data=Program::with('university_name')->where('id',$program_id)->first();
+        $program_data=Program::with('university_name')->where('id',$program_id)->where('is_approved',1)->first();
         if (!$student_details) {
             abort(404);
         }
@@ -352,7 +352,7 @@ class FrontendController extends Controller
         $fee = Crypt::decrypt($amount);
         // CONVERT CURRENCY
         $student_details=Student::where('id',$student_id)->first();
-        $program_data=Program::with('university_name')->select('id','currency')->where('id',$program_id)->first();
+        $program_data=Program::with('university_name')->where('is_approved',1)->select('id','currency')->where('id',$program_id)->first();
         $freecurrencyapi = new \FreeCurrencyApi\FreeCurrencyApi\FreeCurrencyApiClient('fca_live_mt9NJ25AtC6V2SEojGBNmlM01WMMdmOUyJOctMzI');
         $rates = $freecurrencyapi->latest([
             'base_currency' => $program_data->currency,
@@ -386,7 +386,7 @@ class FrontendController extends Controller
     {
         $fee = Crypt::decrypt($amount);
         $student_details=Student::where('id',$student_id)->first();
-        $program_data=Program::with('university_name')->select('id')->where('id',$program_id)->first();
+        $program_data=Program::with('university_name')->where('is_approved',1)->select('id')->where('id',$program_id)->first();
         $controller = new LeadsManageCotroller();
         $token 		= $controller->generateToken();
         $uniqueId 		= $controller->uniqidgenrate();
@@ -412,7 +412,7 @@ class FrontendController extends Controller
     {
         $fee = Crypt::decrypt($amount);
         $student_details=Student::where('id',$student_id)->first();
-        $program_data=Program::with('university_name')->select('id')->where('id',$program_id)->first();
+        $program_data=Program::with('university_name')->where('is_approved',1)->select('id')->where('id',$program_id)->first();
         PaymentsLink::updateOrCreate(
             ['program_id' => $program_data->id],
             [
@@ -473,12 +473,12 @@ class FrontendController extends Controller
 
     public function programs(Request $request)
     {
-        $programs=Program::get();
+        $programs=Program::where('is_approved',1)->get();
         $country =Country::select('name','id')->get();
         $universities =University::select('id','university_name')->get();
         if($request->ajax()) {
             if($request->has('university_id') || $request->has('country') || $request->has('program_id') || $request->has('course')){
-            $programs = Program::with(['university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name'])
+            $programs = Program::with(['university_name', 'programLevel', 'university_name.country_name', 'university_name.university_type_name'])->where('is_approved',1)
                     ->when(!empty($request->country), function ($query) use ($request) {
                         $query->whereHas('university_name', function ($subquery) use ($request) {
                             $subquery->where('country_id', $request->country);
@@ -496,7 +496,7 @@ class FrontendController extends Controller
                     ->latest()
                     ->paginate(12);
             }else{
-             $programs =  Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')->latest()->paginate(12);
+             $programs =  Program::with('university_name','programLevel','university_name.country_name','university_name.university_type_name')->where('is_approved',1)->latest()->paginate(12);
             }
             return response()->json(['data' => $programs]);
         }
