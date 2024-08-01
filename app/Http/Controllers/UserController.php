@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\DataTables\UserDatatable;
 use App\Models\User;
+use App\Models\Agent;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
@@ -140,6 +141,19 @@ $user = User::orderBy('id', 'desc');
             $role = Role::find($request->get('role'));
             $input['admin_type'] = $role->name;
         }
+        if($role->name == 'agent' || $role->name == 'sub_agent'){
+            Agent::updateOrCreate([
+                'user_id' => $user->id
+            ], [
+                'legal_first_name' => $user->name ?? '',
+                'zip' => $user->zip ?? '',
+                'is_active' => $user->is_active ?? '',
+                'email' => $user->email ?? '',
+                'phone' => $user->phone ?? '',
+                'password' => $user->password ?? '',
+            ]);
+        }
+        if($role->name);
         $user->update($input);
         $user->roles()->detach();
         if($request->filled('role')){
@@ -204,21 +218,21 @@ $user = User::orderBy('id', 'desc');
             $adminUser = Auth::user();
             Auth::login($user);
             Session::put('admin_user', $adminUser);
-            if($user->admin_type == 'agent' || $user->admin_type == 'sub_agent'){
-                $frenchise = DB::table('agents')->where('email',$user->email)->first();
-                if ($user->admin_type == 'agent' || $user->admin_type == 'sub_agent') {
-                    if ($user->admin_type == 'agent' && !empty($frenchise) && $frenchise->is_active == 1 && $frenchise->is_approve == 1 && $frenchise->profile_completed == 1) {
+            if ($user->admin_type == 'agent' || $user->admin_type == 'sub_agent') {
+                $frenchise = DB::table('agents')->where('email', $user->email)->first();
+                if (!empty($frenchise)) {
+                    if ($user->admin_type == 'agent' && $frenchise->is_active == 1 && $frenchise->is_approve == 1 && $frenchise->profile_completed == 1) {
                         return redirect()->route('dashboard');
                     } else {
                         return redirect()->route('frenchise-edit', $frenchise->id);
                     }
                 }
-            }else{
-                return redirect()->route('dashboard');
             }
+            return redirect()->route('dashboard');
         }
         return redirect()->back()->with('error', 'You are not authorized to impersonate users.');
     }
+
     public function revertToAdmin()
     {
         $adminUser = Session::get('admin_user');
