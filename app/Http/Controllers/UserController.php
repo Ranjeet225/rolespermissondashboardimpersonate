@@ -144,14 +144,14 @@ class UserController extends Controller
             $input['admin_type'] = $role->name;
         }
         if($role->name == 'agent' || $role->name == 'sub_agent'){
-            Agent::updateOrCreate([
+            $data=Agent::updateOrCreate([
                 'user_id' => $user->id
             ], [
-                'legal_first_name' => $user->name ?? '',
+                'legal_first_name' => $request->name ?? '',
                 'zip' => $user->zip ?? '',
-                'is_active' => $user->is_active ?? '',
-                'email' => $user->email ?? '',
-                'phone' => $user->phone ?? '',
+                'is_active' => $input['is_active'] ?? '',
+                'email' => $request->email ?? '',
+                'phone' => $request->phone ?? '',
                 'password' => $user->password ?? '',
             ]);
             $student = Student::where('email', $user->email)->first();
