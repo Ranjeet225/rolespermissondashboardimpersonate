@@ -610,9 +610,8 @@
         });
     });
 </script>
- <script>
+ {{-- <script>
         var currentUrl = window.location.href;
-         console.log(currentUrl)
         document.write("Current URL: " + currentUrl);
-    </script>
+    </script> --}}
 @endsection

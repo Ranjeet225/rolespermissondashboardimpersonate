@@ -92,7 +92,7 @@
                 @endforeach
               </tbody>
             </table>
-            {{$reviews->links()}}
+            {{$reviews->withQueryString()->links()}}
           </div>
         </div>
 

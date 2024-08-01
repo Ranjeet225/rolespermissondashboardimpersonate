@@ -29,7 +29,6 @@
             <div class="card">
                 <div class="card-body myform">
                     <form action="{{ route('leads-filter') }}" method="GET">
-
                         <div class="row">
                             <div class="col-md-4">
                                 <input type="text" class="form-control  formmrgin" name="name"
@@ -168,7 +167,6 @@
                                     name="submit">Filter </button>
                             </div>
                         </div>
-                        @csrf
                     </form>
                 </div>
             </div>
@@ -308,7 +306,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            {{ $lead_list->links() }}
+                            {{ $lead_list->withQueryString()->links() }}
                         </div>
                     </div>
                 </div>

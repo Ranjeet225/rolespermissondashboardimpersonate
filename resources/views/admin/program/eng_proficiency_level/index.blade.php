@@ -91,7 +91,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                        {{$eng_proficiency_level->links()}}
+                        {{$eng_proficiency_level->withQueryString()->links()}}
                     </div>
                 </div>
             </div>

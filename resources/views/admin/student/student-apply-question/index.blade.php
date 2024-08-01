@@ -64,10 +64,14 @@
                         <th>S.N</th>
                         <th>Question</th>
                         @can('student_apply_question.update')
+                        <th>
                             Edit
+                        </th>
                         @endcan
                         @can('student_apply_question.delete')
+                        <th>
                             Delete
+                        </th>
                         @endcan
                     </tr>
                 </thead>
@@ -89,7 +93,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_paginate paging_simple_numbers" id="pagination">
-                        {{$student_question->links()}}
+                        {{$student_question->withQueryString()->links()}}
                     </div>
                 </div>
             </div>
