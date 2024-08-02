@@ -220,49 +220,49 @@ class LeadsManageCotroller extends Controller
         $lead_status_id = $lead_status ? $lead_status->id : null;
         $total_cold_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_cold_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_cold_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'agent') {
-            $total_cold_leads = StudentByAgent::where(function ($q) use ($user_ids) {
+            $total_cold_leads = StudentByAgent::whereNull("assigned_to")->where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_cold_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_cold_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
         }
         // Hot Lead
         // $lead_status_id = MasterLeadStatus::where("name", "Hot")->first()->id;
-            $lead_status = MasterLeadStatus::where("name", "Hot")->first();
-        $lead_status_id = $lead_status ? $lead_status->id : null;
+        $lead_status = MasterLeadStatus::where("name", "Hot")->first();
+        $lead_status_hot_id = $lead_status ? $lead_status->id : null;
         $total_hot_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_hot_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_hot_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_hot_id)->count();
         } else if ($user_type == 'agent') {
-            $total_hot_leads = StudentByAgent::where(function ($q) use ($user_ids) {
+            $total_hot_leads = StudentByAgent::whereNull("assigned_to")->where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere("assigned_to", $user_ids);
-            })->where('lead_status', $lead_status_id)->count();
+            })->where('lead_status', $lead_status_hot_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_hot_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_hot_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_hot_id)->count();
         }
         // Future Lead
           $lead_status = MasterLeadStatus::where("name", "Future Lead")->first();
-        $lead_status_id = $lead_status ? $lead_status->id : null;
-        // $lead_status_id = MasterLeadStatus::where("name", "Future Lead")->first()->id;
+        $lead_status_future_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_future_id = MasterLeadStatus::where("name", "Future Lead")->first()->id;
         $total_future_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_future_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_future_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_future_id)->count();
         } else if ($user_type == 'agent') {
-            $total_future_leads = StudentByAgent::where(function ($q) use ($user_ids) {
+            $total_future_leads = StudentByAgent::whereNull("assigned_to")->where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
-            })->where('lead_status', $lead_status_id)->count();
+            })->where('lead_status', $lead_status_future_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_future_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_future_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_future_id)->count();
         }
         // New Lead
             $lead_status = MasterLeadStatus::where("name", "New")->first();
-        $lead_status_id = $lead_status ? $lead_status->id : null;
-        // $lead_status_id = MasterLeadStatus::where("name", "New")->first()->id;
+        $lead_status_new_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_new_id = MasterLeadStatus::where("name", "New")->first()->id;
         $total_new_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_new_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_new_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_new_id)->count();
         } else if ($user_type == 'agent') {
             $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user_ids");
             $commaList = null;
@@ -270,62 +270,55 @@ class LeadsManageCotroller extends Controller
                 $commaList .= $agent->id . ',';
             }
             $user = $commaList . $user_ids;
-            /*
-            $query = StudentByAgent::whereRaw("assigned_to IN($user)");
-            $query->where('lead_status', $lead_status_id);
-            $query->where('added_by_agent_id', $user_ids);
-            $query->get();
-             $total_new_leads = $query;
-             */
-            $total_new_leads = StudentByAgent::where('lead_status', $lead_status_id)
+            $total_new_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_new_id)
                 ->whereRaw("assigned_to IN($user)")->orwhere('user_id',$user_ids)
                 ->where('added_by_agent_id', $user_ids)
                 ->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_new_leads = StudentByAgent::where("assigned_to", $user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_new_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->where('lead_status', $lead_status_new_id)->count();
         }
-              $lead_status = MasterLeadStatus::where("name", "Not Useful")->first();
-        $lead_status_id = $lead_status ? $lead_status->id : null;
+        $lead_status = MasterLeadStatus::where("name", "Not Useful")->first();
+        $lead_status_not_userful_id = $lead_status ? $lead_status->id : null;
         // Not Useful Lead
-        // $lead_status_id = MasterLeadStatus::where("name", "Not Useful")->first()->id;
+        // $lead_status_not_userful_id = MasterLeadStatus::where("name", "Not Useful")->first()->id;
         $total_not_useful_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_not_useful_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_not_useful_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_not_userful_id)->count();
         } else if ($user_type == 'agent') {
-            $total_not_useful_leads = StudentByAgent::where(function ($q) use ($user_ids) {
+            $total_not_useful_leads = StudentByAgent::whereNull("assigned_to")->where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orWhere('assigned_to', $user_ids);
-            })->where('lead_status', $lead_status_id)->count();
+            })->where('lead_status', $lead_status_not_userful_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_not_useful_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_not_useful_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_not_userful_id)->count();
         }
         // Warm Lead
         $lead_status = MasterLeadStatus::where("name", "Warm")->first();
-        $lead_status_id = $lead_status ? $lead_status->id : null;
-        // $lead_status_id = MasterLeadStatus::where("name", "Warm")->first()->id;
+        $lead_status_warm_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_warm_id = MasterLeadStatus::where("name", "Warm")->first()->id;
         $total_warm_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_warm_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_warm_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_warm_id)->count();
         } else if ($user_type == 'agent') {
-            $total_warm_leads = StudentByAgent::where(function ($q) use ($user_ids) {
+            $total_warm_leads = StudentByAgent::whereNull("assigned_to")->where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })
-                ->where('lead_status', $lead_status_id)->count();
+                ->where('lead_status', $lead_status_warm_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_warm_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_warm_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_warm_id)->count();
         }
         // Closed Leads
          $lead_status = MasterLeadStatus::where("name", "Closed")->first();
-        $lead_status_id = $lead_status ? $lead_status->id : null;
-        // $lead_status_id = MasterLeadStatus::where("name", "Closed")->first()->id;
+        $lead_status_closed_id = $lead_status ? $lead_status->id : null;
+        // $lead_status_closed_id = MasterLeadStatus::where("name", "Closed")->first()->id;
         $total_closed_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_closed_leads = StudentByAgent::where('lead_status', $lead_status_id)->count();
+            $total_closed_leads = StudentByAgent::whereNull("assigned_to")->where('lead_status', $lead_status_closed_id)->count();
         } else if ($user_type == 'agent') {
-            $total_closed_leads = StudentByAgent::where(function ($q) use ($user_ids) {
+            $total_closed_leads = StudentByAgent::whereNull("assigned_to")->where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
-            })->where('lead_status', $lead_status_id)->count();
+            })->where('lead_status', $lead_status_closed_id)->count();
         } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_closed_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_id)->count();
+            $total_closed_leads = StudentByAgent::whereNull("assigned_to")->where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->where('lead_status', $lead_status_closed_id)->count();
         }
 
         // Total Assigned Leads --
@@ -635,7 +628,7 @@ class LeadsManageCotroller extends Controller
             $lead_list->where('province_id', $request->province_id);
         }
         if ($request->lead_status) {
-            $lead_list->where('lead_status', $request->lead_status);
+            $lead_list->where('lead_status', $request->lead_status)->whereNull('assigned_to');
         }
         if ($request->assigned_status) {
             // if (!($user->hasRole('Administrator'))) {

@@ -17,12 +17,51 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\LearningTrainingController;
 use Maatwebsite\Excel\Row;
 
-// URL::forceScheme('https');
+URL::forceScheme('https');
 
 Route::fallback(function () {
     return view('errors.404');
 });
-
+Route::get('meetoel',function(){
+    return view('frontend.global.meetoel');
+});
+Route::get('psychometricstest',function(){
+    return view('frontend.global.psychometricstest');
+});
+Route::get('countryprogram',function(){
+    return view('frontend.global.countryprogram');
+});
+Route::get('admissionguidance',function(){
+    return view('frontend.global.admissionguidance');
+});
+Route::get('testprepration',function(){
+    return view('frontend.global.testprepration');
+});Route::get('pretestprepration',function(){
+    return view('frontend.global.pretestprepration');
+});
+Route::get('resumeevaluation',function(){
+    return view('frontend.global.resumeevaluation');
+});
+Route::get('universityapplicationassistance',function(){
+    return view('frontend.global.universityapplicationassistance');
+});
+Route::get('financialcounselling',function(){
+    return view('frontend.global.financialcounselling');
+});Route::get('visa&interview',function(){
+    return view('frontend.global.visa&interview');
+});
+Route::get('foreignexchange',function(){
+    return view('frontend.global.foreignexchange');
+});
+Route::get('predeparturebriefing',function(){
+    return view('frontend.global.predeparturebriefing');
+});
+Route::get('bonvoyage',function(){
+    return view('frontend.global.bonvoyage');
+});
+Route::get('travel&medical',function(){
+    return view('frontend.global.travel&medical');
+});
 Route::get('/', [FrontendController::class,'index'])->name('index');
 Route::get('/apply-program', [FrontendController::class,'course_university'])->name('check-eligible');
 Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');

@@ -131,7 +131,7 @@
              </div>
              <div class="col-lg-4 col-md-6 mb-30 aboutus_pill">
                 <div class="subject-wrap bgc3">
-                   <img src="{{asset('frontend/taking_ownership.png')}}" alt="">
+                   <img src="{{asset('frontend/pages/about_us/taking_ownership.png')}}" alt="">
                    <h4 class="title"><a>Quality</a></h4>
                    <span class="course-qnty"></span>
                 </div>

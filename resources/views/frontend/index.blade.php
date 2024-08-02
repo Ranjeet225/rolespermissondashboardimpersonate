@@ -586,35 +586,35 @@
              <div class="img-part">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 918">
                     <image width="1000" height="918" xlink:href="{{asset('frontend/tree.png')}}"></image>
-                    <a xlink:href="https://overseaseducationlane.com/bonvoyage" target="_blank">
+                    <a xlink:href="{{url('bonvoyage')}}" target="_blank">
                       <rect x="652" y="678" fill="#fff" opacity="0" width="106" height="77"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/predeparturebriefing" target="_blank">
+                    </a><a xlink:href="{{url('predeparturebriefing')}}" target="_blank">
                       <rect x="781" y="581" fill="#fff" opacity="0" width="110" height="53"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/resumeevaluation" target="_blank">
+                    </a><a xlink:href="{{url('resumeevaluation')}}" target="_blank">
                       <rect x="656" y="110" fill="#fff" opacity="0" width="100" height="100"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/financialcounselling" target="_blank">
+                    </a><a xlink:href="{{url('financialcounselling')}}" target="_blank">
                       <rect x="703" y="305" fill="#fff" opacity="0" width="100" height="158"></rect>
                     </a><a xlink:href="#">
                       <rect x="880" y="326" fill="#fff" opacity="0" width="88" height="86"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/foreignexchange">
+                    </a><a xlink:href="{{url('foreignexchange')}}" target="_blank">
                       <rect x="811" y="456" fill="#fff" opacity="0" width="100" height="100" ></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/visa&amp;interview" target="_blank">
+                    </a><a xlink:href="{{url('visa&interview')}}" target="_blank">
                       <rect x="557" y="518" fill="#fff" opacity="0" width="81" height="80" target="_blank"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/universityapplicationassistance">
+                    </a><a xlink:href="{{url('universityapplicationassistance')}}" target="_blank">
                       <rect x="534" y="368" fill="#fff" opacity="0" width="82" height="81" target="_blank"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/psychometricstest">
+                    </a><a xlink:href="{{url('psychometricstest')}}" target="_blank">
                       <rect x="171" y="546" fill="#fff" opacity="0" width="86" height="86" target="_blank"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/countryprogram">
+                    </a><a xlink:href="{{url('countryprogram')}}" target="_blank">
                       <rect x="113" y="310" fill="#fff" opacity="0" width="212" height="137" target="_blank"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/admissionguidance">
+                    </a><a xlink:href="{{url('admissionguidance')}}" target="_blank">
                       <rect x="209" y="120" fill="#fff" opacity="0" width="103" height="108"  target="_blank"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/testprepration">
+                    </a><a xlink:href="{{url('testprepration')}}" target="_blank">
                       <rect x="354" y="36" fill="#fff" opacity="0" width="100" height="100" target="_blank"></rect>
-                    </a><a xlink:href="#">
+                    </a><a xlink:href="{{url('travel&medical')}}">
                       <rect x="0" y="0" fill="#fff" opacity="0" width="100" height="100"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/pretestprepration">
+                    </a><a xlink:href="{{url('pretestprepration')}}" target="_blank">
                       <rect x="494" y="92" fill="#fff" opacity="0" width="116" height="152"></rect>
-                    </a><a xlink:href="https://overseaseducationlane.com/meetoel">
+                    </a><a xlink:href="{{url('meetoel')}}" target="_blank">
                       <rect x="287" y="605" fill="#fff" opacity="0" width="140" height="86"></rect>
                     </a>
                   </svg>
