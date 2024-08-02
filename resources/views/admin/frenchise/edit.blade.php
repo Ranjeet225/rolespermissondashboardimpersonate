@@ -34,11 +34,11 @@
     @endphp
     <div class="card-body">
         <div class="wizard">
-                @if (($user->hasRole('agent'))  && ($frenchise->profile_complete == 0))
+                @if (($user->hasRole('agent'))  && ($frenchise->profile_complete == 0 || $frenchise->profile_complete == null))
                     <div class="alert alert-primary text-center" role="alert">
                         Please Complete Your Profile
                     </div>
-                @elseif(($user->hasRole('agent')) && ($frenchise->profile_approved == 0) && ($frenchise->is_active == 0))
+                @elseif(($user->hasRole('agent')) && ($frenchise->profile_approved == 0 || $frenchise->profile_approved == null) && ($frenchise->is_active == 0 || $frenchise->is_active == null))
                     <div class="alert alert-primary text-center" role="alert">
                         Please Wait For Admin Approval
                     </div>

@@ -2,7 +2,7 @@
 $user = Auth::user();
 $frenchise = DB::table('agents')->where('email',$user->email)->first();
 @endphp
-@if($user->hasRole('agent') && $user->is_approve == 0 && $user->is_active == 0 && $frenchise->profile_completed == 0)
+@if(($user->hasRole('agent') || $user->hasRole('sub_agent')) && ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null) || (!empty($frenchise) && ($frenchise->profile_completed == 0 || $frenchise->profile_completed == null)))
     @php
         $make_link_unclickable = 'disabled_link';
     @endphp

@@ -1,4 +1,16 @@
 <!-- Sidebar -->
+<style>
+    .disabled_link {
+    pointer-events: none;
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+</style>
+@php
+$user = Auth::user();
+$frenchise = DB::table('agents')->where('email',$user->email)->first();
+@endphp
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -26,7 +38,13 @@
                     <ul class="sidebar-vertical ">
                         @if (empty($menu->submenu))
                         <li>
-                            <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}">
+
+                            <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
+                                class = "@if(($user->hasRole('agent') || $user->hasRole('sub_agent')) &&
+                                 ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null) || (!empty($frenchise) && ($frenchise->profile_completed == 0 || $frenchise->profile_completed == null)))
+                                {{'disabled_link'}}
+                                @endif"
+                                >
                                 <i class="{{ $menu->icon }}"></i>
                                 <span > {{ isset($menu->name) ? __($menu->name) : '' }}</span>
                                 @if(!isset($menu->url))
