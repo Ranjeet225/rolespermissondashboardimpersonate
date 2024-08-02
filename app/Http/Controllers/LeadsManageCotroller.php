@@ -547,6 +547,67 @@ class LeadsManageCotroller extends Controller
         }
     }
 
+    public function filterLeads($request)
+    {
+        $lead_list = StudentByAgent::query();
+        $user = Auth::user();
+        $user_id = $user->id;
+        if (($user->hasRole('agent'))) {
+            $lead_list->where(function($query) use ($user_id) {
+                $query->where('assigned_to', $user_id)
+                    ->orWhere('user_id', $user_id)
+                    ->orWhere('added_by_agent_id', $user_id);
+            });
+        }
+        if (($user->hasRole('sub_agent'))) {
+            $lead_list->where(function($query) use ($user_id) {
+                $query->where('assigned_to', $user_id)
+                    ->orWhere('user_id', $user_id);
+            });
+        }
+        if ($request->name) {
+            $lead_list->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+        if ($request->email) {
+            $lead_list->where('email', 'LIKE', '%' . $request->email . '%');
+        }
+        if ($request->phone_number) {
+            $lead_list->where('phone_number', 'LIKE', '%' . $request->phone_number . '%');
+        }
+        if ($request->zip) {
+            $lead_list->where('zip', 'LIKE', '%' . $request->zip . '%');
+        }
+        if ($request->country_id) {
+            $lead_list->where('country_id',$request->country_id);
+        }
+        if ($request->province_id) {
+            $lead_list->where('province_id', $request->province_id);
+        }
+        if ($request->lead_status) {
+            $lead_list->where('lead_status', $request->lead_status)->whereNull('assigned_to');
+        }
+        if ($request->assigned_status) {
+            // if (!($user->hasRole('Administrator'))) {
+                if($request->assigned_status == 'allocated'){
+                    $lead_list->whereNotNull('assigned_to');
+                }elseif($request->assigned_status == 'notallocated'){
+                    $lead_list->whereNull('assigned_to');
+                }
+            // }
+        }
+        if ($request->intakeMonth) {
+            $lead_list->where('intake', $request->intakeMonth);
+        }
+        if ($request->intake_year) {
+            $lead_list->where('intake_year', $request->intake_year);
+        }
+        if ($request->from_date && $request->to_date) {
+            $lead_list->whereBetween('created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59']);
+        }
+
+        return $lead_list;
+    }
+
     public function lead_list(Request $request, $export = null)
     {
         $lead_list = $this->filterLeads($request);
@@ -598,59 +659,7 @@ class LeadsManageCotroller extends Controller
     }
 
 
-    public function filterLeads($request)
-    {
-        $lead_list = StudentByAgent::latest('created_at');
-        $user = Auth::user();
-        $user_id = $user->id;
-        if (($user->hasRole('agent'))) {
-            $lead_list->where('assigned_to',$user->id)->orwhere('user_id',$user->id)->orwhere('added_by_agent_id',$user->id);
-        }
-        if (($user->hasRole('sub_agent'))) {
-            $lead_list->where('assigned_to',$user->id)->orwhere('user_id',$user->id);
-        }
-        if ($request->name) {
-            $lead_list->where('name', 'LIKE', '%' . $request->name . '%');
-        }
-        if ($request->email) {
-            $lead_list->where('email', 'LIKE', '%' . $request->email . '%');
-        }
-        if ($request->phone_number) {
-            $lead_list->where('phone_number', 'LIKE', '%' . $request->phone_number . '%');
-        }
-        if ($request->zip) {
-            $lead_list->where('zip', 'LIKE', '%' . $request->zip . '%');
-        }
-        if ($request->country_id) {
-            $lead_list->where('country_id',$request->country_id);
-        }
-        if ($request->province_id) {
-            $lead_list->where('province_id', $request->province_id);
-        }
-        if ($request->lead_status) {
-            $lead_list->where('lead_status', $request->lead_status)->whereNull('assigned_to');
-        }
-        if ($request->assigned_status) {
-            // if (!($user->hasRole('Administrator'))) {
-                if($request->assigned_status == 'allocated'){
-                    $lead_list->whereNotNull('assigned_to');
-                }elseif($request->assigned_status == 'notallocated'){
-                    $lead_list->whereNull('assigned_to');
-                }
-            // }
-        }
-        if ($request->intakeMonth) {
-            $lead_list->where('intake', $request->intakeMonth);
-        }
-        if ($request->intake_year) {
-            $lead_list->where('intake_year', $request->intake_year);
-        }
-        if ($request->from_date && $request->to_date) {
-            $lead_list->whereBetween('created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59']);
-        }
 
-        return $lead_list;
-    }
 
     public function manage_lead(Request $request, $id)
     {

@@ -40,8 +40,9 @@ $frenchise = DB::table('agents')->where('email',$user->email)->first();
                         <li>
 
                             <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
-                                class = "@if(($user->hasRole('agent') || $user->hasRole('sub_agent')) &&
-                                 ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null) || (!empty($frenchise) && ($frenchise->profile_completed == 0 || $frenchise->profile_completed == null)))
+                                class = "
+                                @if(($user->hasRole('agent') || $user->hasRole('sub_agent')) &&
+                                 ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null) && (!empty($frenchise) && ($frenchise->profile_complete == 0 || $frenchise->profile_complete == null)))
                                 {{'disabled_link'}}
                                 @endif"
                                 >

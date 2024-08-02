@@ -36,6 +36,9 @@ class FrenchiseController extends Controller
         if (($user->hasRole('agent'))) {
             $frenchise->where('user_id',$user->id);
         }
+        if (($user->hasRole('sub_agent'))) {
+            $frenchise->where('user_id',$user->id);
+        }
         if ($request->name) {
             $frenchise->where('legal_first_name', 'LIKE', '%' . $request->name . '%');
         }
@@ -370,7 +373,7 @@ class FrenchiseController extends Controller
                 return response()->json(['frenchise_errors' => 'Frenchise user not found'], 422);
             }
             $validate = Validator::make($request->all(), [
-                'offer_letter'=>'image|mimes:jpeg,png,jpg,gif|max:2048'
+                'offer_letter'=>'mimetypes:image/jpeg,image/png,image/jpg,image/gif,application/pdf|max:2048'
             ]);
             if ($validate->fails()) {
                 return response()->json(['status' => false, 'errors' => $validate->errors()], 422);

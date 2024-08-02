@@ -38,7 +38,7 @@
                     <div class="alert alert-primary text-center" role="alert">
                         Please Complete Your Profile
                     </div>
-                @elseif(($user->hasRole('agent')) && ($frenchise->profile_approved == 0 || $frenchise->profile_approved == null) && ($frenchise->is_active == 0 || $frenchise->is_active == null))
+                @elseif(($user->hasRole('agent')) && ($user->is_approve == 0 || $user->is_approve == null) && ($user->is_active == 0 || $user->is_active == null))
                     <div class="alert alert-primary text-center" role="alert">
                         Please Wait For Admin Approval
                     </div>

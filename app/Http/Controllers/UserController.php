@@ -282,7 +282,8 @@ class UserController extends Controller
         if($userrole->admin_type == 'agent' || $userrole->admin_type == 'sub_agent'){
             DB::table('agents')->where('email', $userrole->email)->update(['is_approve' => $request->selectedValue]);
         }
-        DB::table('users')->where('id', $Id)->update(['status' => $request->selectedValue]);
+        $daTA=User::where('id', $Id)->update(['is_approve' => $request->selectedValue]);
+        // DD($daTA);
         return response()->json(['message' => 'Status updated successfully']);
     }
 

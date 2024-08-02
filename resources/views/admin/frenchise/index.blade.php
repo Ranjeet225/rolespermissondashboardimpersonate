@@ -153,8 +153,8 @@
                                @if ($user && $user->email !== null && $user->password !== null)
                                 <select class="form-control approve" name="approvevalue" data-id="{{$user->id}}">
                                     <option value="">--Select--</option>
-                                    <option value="1" {{$user->status == 1 ? 'selected' : ''}}>Approve</option>
-                                    <option value="0" {{$user->status == 0 ? 'selected' : ''}}>Unapprove</option>
+                                    <option value="1" {{$user->is_approve == 1 ? 'selected' : ''}}>Approve</option>
+                                    <option value="0" {{$user->is_approve == 0 ? 'selected' : ''}}>Unapprove</option>
                                 </select>
                                 @else
 
