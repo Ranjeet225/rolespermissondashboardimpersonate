@@ -680,7 +680,7 @@
                    src="https://cdn0.iconfinder.com/data/icons/website-kit-2/512/icon_402-512.png" alt="Left"
                    class="img-responsive"></a>
                 <a class="right carousel-control" href="#itemslider" data-slide="next"><img
-                   src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="Right"
+                   src="https://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="Right"
                    class="img-responsive"></a>
              </div>
           </div>
