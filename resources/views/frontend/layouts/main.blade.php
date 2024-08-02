@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html>
 <head>
     <meta charset="utf-8">
     <title>@yield('title') </title>
@@ -399,7 +399,7 @@
     <!-- Search Modal End -->
     <!-- Search Modal End -->
     <!-- owl.carousel js -->
-    <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    {{-- <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --}}
     <script src="{{ asset('frontend/home/js/owl.carousel.min.js') }}"></script>
     <!-- main js -->
     <script src="{{ asset('frontend/home/js/main.js') }}"></script>

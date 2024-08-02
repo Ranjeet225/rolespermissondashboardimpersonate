@@ -41,14 +41,14 @@ class FrontendController extends Controller
     {
 
         return view('frontend.index', [
-            'service'=>ServiceLanding::where('status',1)->take(4)->get(),
-            'instagram'=>Instagram::where('status',1)->get(),
-            'blogs'=>Blog::where('status',1)->take(3)->get(),
+            'service'=>ServiceLanding::where('status',1)->select('name','image','id','content')->take(4)->get(),
+            'instagram'=>Instagram::where('status',1)->select('id','url')->get(),
+            'blogs'=>Blog::where('status',1)->select('image','text','id')->take(3)->get(),
             'programs'=>Program::with('university_name:id,university_name,logo,banner')->Select('id','school_id','name')->where('is_approved',1)->latest()->take(8)->get(),
-            'ads'=>Ads::get(),
-            'program_level'=>ProgramLevel::get(),
-            'program_sublevel'=>ProgramSubLevel::get(),
-            'testimonials'=> Testimonials::where('status',1)->orderBy('id','desc')->get(),
+            'ads'=>Ads::select('image','title')->get(),
+            // 'program_level'=>ProgramLevel::select()->get(),
+            // 'program_sublevel'=>ProgramSubLevel::get(),
+            'testimonials'=> Testimonials::where('status',1)->Select('profile_picture','name','location')->orderBy('id','desc')->get(),
             'universitiesltl' => University::select('id', 'university_name', 'logo')->where('is_approved',1)->take(30)->get(),
             'universitiesrtl' => University::select('id', 'university_name', 'logo')->where('is_approved',1)->latest()->take(30)->get()
         ]);

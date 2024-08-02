@@ -9,8 +9,6 @@
     .rc-carousel-item {
     margin: 0px 13px;
     }
- </style>
-<style>
     .instagram-media {
         max-width: 400px !important;
         min-width: 350px !important;
@@ -60,8 +58,6 @@
     background: #070758;
     background-color: rgb(7, 7, 88);
     }
-</style>
-<style type="text/css">
     .rs-slider.style1 .slider-content.slide2 {
     background: url('public/pages/slider/h2-2.png');
     background-size: cover;
@@ -265,10 +261,6 @@
     animation: none;
     }
     }
-    /* reduced motion css ends */
-    /* Carousel and animation css ends */
- </style>
-  <style type="text/css">
     #slider-text {
     display: block;
     }
@@ -438,32 +430,29 @@
     .adimg {
     border-radius: 20px;
     }
- </style>
- <!-- Newsletter section start -->
- <style type="text/css">
     .newsletter_success {
-    height: 54px;
-    width: 100%;
-    background: #4caf50;
-    color: #fff;
-    padding: 10px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
+        height: 54px;
+        width: 100%;
+        background: #4caf50;
+        color: #fff;
+        padding: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
     }
     .newsletter_error {
-    height: 54px;
-    width: 100%;
-    background: #ff6434;
-    color: #fff;
-    padding: 10px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
+        height: 54px;
+        width: 100%;
+        background: #ff6434;
+        color: #fff;
+        padding: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
     }
     .newsletter_button {
-    display: flex;
-    align-items: center;
+        display: flex;
+        align-items: center;
     }
     #newsletter_subs_show_loading {
     margin-right: 10px;
@@ -473,7 +462,6 @@
     }
  </style>
 <div class="main-content">
-
     <video id="myVideo" style="width: 100%; margin: 0px auto;display: block;" autoplay="" muted="" loop="">
        <source src="https://hucpl.com/IELTS_landing/webinar_video.mp4" type="video/mp4">
        <source src="mov_bbb.ogg" type="video/ogg">
@@ -481,8 +469,6 @@
     </video>
     <div class="main-page-bottom-content"></div>
  </div>
- <!-- ankitcss -->
-
  <!-- Latest compiled and minified CSS -->
  <!-- https://xstore.8theme.com/demos/hosting/-->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -772,7 +758,8 @@
                        src="{{asset($item->image)}}"
                        style="height: 250px"
                        alt="{{$item->title}}"
-                       class="crim" /></li>
+                       class="crim" />
+                    </li>
                     @empty
 
                     @endforelse
@@ -788,30 +775,30 @@
        <div class="row align-items-center">
           <div class="col-md-1">
           </div>
-
           <div class="col-md-10">
              <div class="img-part">
                 <h1 style="text-align: center;font-weight: 700">Most Viewed Courses</h1>
                 <p style="text-align: center;">The STEM for Change Scholarship empowers women worldwide to pursue STEM education.<a href="{{url('programs')}}" style="float: right;text-align:center"> View All Courses</a></p>
              </div>
+             <div class="row">
              @forelse ($programs as $item)
-             <div class="col-lg-3 col-md-4 col-sm-4 mb-30">
+             <div class="col-3 mb-30">
                 <div class="card" style="width: 100%;">
-
                    <img
                       src="{{asset($item->university_name->banner)}}"
                       class="card-img-top" alt="{{($item->university_name->university_name)}}">
                    <div class="card-body">
                       <h5 class="card-title">{{($item->name)}}</h5>
-                      <p class="card-text">
-                      </p>
                       <a href="{{'course-details/'}}{{$item->id}}" class="btn btn-primary w-100">View Course</a>
                    </div>
                 </div>
              </div>
              @empty
+             <div class="col-md-12">
+                <h3>No course found</h3>
+             </div>
              @endforelse
-
+             </div>
           </div>
           <div class="col-md-1">
           </div>
@@ -889,117 +876,6 @@
        </div>
     </div>
  </div>
-
-{{-- <section class="testimonial">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 d-none d-lg-block">
-                <ol class="carousel-indicators tabs">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
-                        <figure>
-                            <img src="https://livedemo00.template-help.com/wt_62267_v8/prod-20823-one-service/images/testimonials-01-179x179.png" class="img-fluid" alt="">
-                        </figure>
-                    </li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1">
-                        <figure>
-                            <img src="https://livedemo00.template-help.com/wt_62267_v8/prod-20823-one-service/images/testimonials-02-306x306.png" class="img-fluid" alt="">
-                        </figure>
-                    </li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2">
-                        <figure>
-                            <img src="https://livedemo00.template-help.com/wt_62267_v8/prod-20823-one-service/images/testimonials-03-179x179.png" class="img-fluid" alt="">
-                        </figure>
-                    </li>
-                </ol>
-            </div>
-            <div class="col-lg-6 d-flex justify-content-center align-items-center">
-                <div id="carouselExampleIndicators" data-interval="false" class="carousel slide" data-ride="carousel">
-                    <h3>WHAT OUR CLIENTS SAY</h3>
-                    <h1>TESTIMONIALS</h1>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="quote-wrapper">
-                                <p>I have tried a lot of food delivery services but Plate is something out of this world! Their food is really healthy and it tastes great, which is why I recommend this company to all my friends!</p>
-                                <h3>peter lee</h3>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="quote-wrapper">
-                                <p>I have tried a lot of food delivery services but Plate is something out of this world! Their food is really healthy and it tastes great, which is why I recommend this company to all my friends!</p>
-                                <h3>peter lee</h3>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="quote-wrapper">
-                                <p>I have tried a lot of food delivery services but Plate is something out of this world! Their food is really healthy and it tastes great, which is why I recommend this company to all my friends!</p>
-                                <h3>peter lee</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <ol class="carousel-indicators indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> --}}
-
-
- {{-- <div class="rs-cta style7">
-    <div class="partition-bg-wrap">
-       <div class="container">
-          <div class="row pt-40 md-pt-70 pb-40 md-pb-70">
-             <div class="col-lg-6 md-pl-15 sm-pb-70 col-md-12 md-pb-70">
-                <div class="sec-title2 mb-40">
-                   <h2 class="white-color mb-16">Browse programs by category</h2>
-                   <div class="row">
-                      <div class="col-md-6">
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Art &amp; Design</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Business</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Computer Science</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Engineering</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> General Studies</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Medicine &amp; Health</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Tourism &amp; Hospitality</a> </div>
-                      </div>
-                      <div class="col-md-6">
-                         <div class="mt-20"> <a class="btn-shop" href="/{{url('programs')}}"> Humanities</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Languages</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Law</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Media</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Science</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}"> Teaching</a> </div>
-                      </div>
-                   </div>
-                </div>
-             </div>
-             <div class="col-lg-6 pl-62 md-pl-15 col-md-12">
-                <div class="sec-title2 mb-20">
-                   <h2 class="white-color mb-16">Browse programs by level</h2>
-                   <div class="row">
-                      <div class="col-md-6">
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Bachelor's degree</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Master's degree</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Doctorate / PhD</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">MBA</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">MCA</a> </div>
-                      </div>
-                      <div class="col-md-6">
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Graduate diploma</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Diploma/certificate</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Summer/Short course</a> </div>
-                         <div class="mt-20"> <a class="btn-shop" href="{{url('programs')}}">Associate's degree</a> </div>
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </div>
-       </div>
-    </div>
- </div> --}}
 <div id="rs-about" class="rs-about style1   md-pt-70 md-pb-30" style="background-image: url({{asset('frontend/Group.png')}});">
     <div class="container">
              <div class="row align-items-center">
