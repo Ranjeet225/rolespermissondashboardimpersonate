@@ -737,7 +737,7 @@
               $newwords = array_splice($words, 0, 50);
               $trimmedText = implode(" ", $newwords) . "...";
               @endphp
-            {{ $trimmedText }} <a href="{{url('blog-details')}}/{{$item->id}}">Read More</a>
+            {{ $trimmedText }} <a href="{{url('blog-details')}}/{{$item->title}}">Read More</a>
            </div>
         </div>
         @endforeach
