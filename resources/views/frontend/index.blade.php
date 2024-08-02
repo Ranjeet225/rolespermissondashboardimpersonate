@@ -461,14 +461,14 @@
     background: #f7f9ff;
     }
  </style>
-<div class="main-content">
+{{-- <div class="main-content">
     <video id="myVideo" style="width: 100%; margin: 0px auto;display: block;" autoplay="" muted="" loop="">
        <source src="https://hucpl.com/IELTS_landing/webinar_video.mp4" type="video/mp4">
        <source src="mov_bbb.ogg" type="video/ogg">
        Your browser does not support HTML video.
     </video>
     <div class="main-page-bottom-content"></div>
- </div>
+ </div> --}}
  <!-- Latest compiled and minified CSS -->
  <!-- https://xstore.8theme.com/demos/hosting/-->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
