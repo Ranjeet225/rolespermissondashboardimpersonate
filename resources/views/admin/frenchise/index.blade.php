@@ -162,10 +162,12 @@
                             </td>
                             <td class="txt-oflo">
                                 @if ($user && $user->email !== null && $user->password !== null)
-                                    @if ($users->hasRole('Administrator'))
-                                        <a class="btn btn-info" data-toggle="tooltip" title="Login as Frenchise" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
-                                            <i class="fa fa-sign-in-alt"></i>
-                                        </a>
+                                    @if(!(Session::has('admin_user')))
+                                        @if ($users->hasRole('Administrator'))
+                                            <a class="btn btn-info" data-toggle="tooltip" title="Login as Frenchise" href="{{ route('impersonate', $user) }}" style="margin-top: 5px;">
+                                                <i class="fa fa-sign-in-alt"></i>
+                                            </a>
+                                        @endif
                                     @endif
                                 @else
 
