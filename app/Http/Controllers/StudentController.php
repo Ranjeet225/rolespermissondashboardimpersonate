@@ -66,7 +66,18 @@ class StudentController extends Controller
         if ($user->hasRole('Administrator') || $user->hasRole('visa') || $user->hasRole('Application Punching')) {
             $student_profile = $query->paginate(20);
         } else {
-            $student_profile = $query->where('added_by', $user->id)->paginate(20);
+            $authuser = Auth::user();
+            if (($authuser->hasRole('agent'))) {
+                $userId = Auth::id();
+                $usersId=User::where('added_by',$userId)->whereNotIn('admin_type',['student'])->where('is_active','1')->where('is_approve','1')->pluck('id')->toArray();
+                if (!empty($usersId)) {
+                    array_push($usersId, $user->id);
+                }
+            }else{
+                $usersId = [$user->id];
+            }
+            $student_profile = $query->whereIn('added_by', $usersId)
+                              ->paginate(12);
         }
         $master_service =MasterService::select('name','id')->get();
         return view('admin.student.index', compact('student_profile','master_service'));

@@ -64,7 +64,7 @@ class UserController extends Controller
                 $user->where('is_active',$active_Status);
             }
             if ($request->approvestatus) {
-                $user->where('status', $approvestatus);
+                $user->where('is_approve', $approvestatus);
             }
 
             $roles = Role::select('name','id')->get();
@@ -281,6 +281,7 @@ class UserController extends Controller
         $userrole =User::where('id',$Id)->first();
         if($userrole->admin_type == 'agent' || $userrole->admin_type == 'sub_agent'){
             DB::table('agents')->where('email', $userrole->email)->update(['is_approve' => $request->selectedValue]);
+            User::where('id',$Id)->update(['is_approve' => $request->selectedValue]);
         }
         $daTA=User::where('id', $Id)->update(['is_approve' => $request->selectedValue]);
         // DD($daTA);
