@@ -1578,7 +1578,7 @@ class LeadsManageCotroller extends Controller
         $agent = User::query();
         $user = Auth::user();
         if ($user->hasRole('Administrator')) {
-            $agent->where('admin_type','agent')->where('is_active',1)->where('status',1);
+            $agent->where('admin_type','agent')->where('is_active',1)->where('is_approve',1);
         }elseif($user->hasRole('agent')){
             $agent->where('added_by',$user->id)->where('admin_type','sub_agent')->where('is_active',1)->where('status',1);
         }
