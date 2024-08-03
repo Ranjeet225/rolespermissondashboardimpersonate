@@ -221,19 +221,22 @@
                                     <td>
                                         <input type="checkbox" class="assigned_lead" id = "{{$data->id}}">
                                         <a class="frenchise-details" href="#" data-bs-toggle="offcanvas"  lead-id="{{$data->id}}" data-bs-target="#viewlead" aria-controls="viewlead">
-                                            <span class="badge bg-inverse-success">
-                                            <i class="las la-hands-helping"></i>
-                                        </a><br>
-                                        @if(!empty($data->assigned_to))
-                                            @if(($users->hasRole('Administrator')) || ($users->hasRole('agent')))
-                                                    @if($data->assigned_to == $data->added_by_agent_id)
-                                                       {{$frenchise ?? ''}} <br>
-                                                    @else
-                                                        Frenchise: {{$frenchise ?? ''}} <br>
-                                                        Sub Agent : {{$user ?? ''}}
+                                            <span class="badge bg-inverse-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+                                                title="
+                                                @if(!empty($data->assigned_to))
+                                                    @if(($users->hasRole('Administrator')) || ($users->hasRole('agent')))
+                                                            @if($data->assigned_to == $data->added_by_agent_id)
+                                                            {{$frenchise ?? ''}} <br>
+                                                            @else
+                                                                Frenchise: {{$frenchise ?? ''}} <br>
+                                                                Sub Agent : {{$user ?? ''}}
+                                                            @endif
                                                     @endif
-                                            @endif
-                                        @endif
+                                                @endif
+                                                ">
+                                                <i class="las la-hands-helping"></i>
+                                            </span>
+                                        </a>
                                     </td>
                                 @endif
                                 {{-- <td>
