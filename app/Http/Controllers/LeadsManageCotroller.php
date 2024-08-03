@@ -765,6 +765,13 @@ class LeadsManageCotroller extends Controller
             'fallowp_unique_id'=> $uniqueId,
             'created_at' => now(),
         ];
+        StudentByAgent::where('id', $request->student_id)->update([
+            'next_calling_date' => $request->next_calling_date,
+            'lead_status' => $request->lead_status,
+            'intake' => $request->intake,
+            'intake_year' => $request->intake_year,
+            'student_comment' => $request->comment,
+        ]);
         DB::table('user_follow_up')->insert($data);
         return response()->json(['message' => 'Data inserted Successfulyy']);
     }
