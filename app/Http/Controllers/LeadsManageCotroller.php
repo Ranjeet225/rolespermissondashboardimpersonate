@@ -349,7 +349,7 @@ class LeadsManageCotroller extends Controller
         // Total non-allocated Leads --
         $total_non_allocated_leads = 0;
         if ($user_type == 'Administrator') {
-            $total_non_allocated_leads = StudentByAgent::count();
+            $total_non_allocated_leads = StudentByAgent::whereNull('assigned_to')->count();
         } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
             $total_non_allocated_leads = StudentByAgent::where('user_id',$user_ids)->whereNull('assigned_to')->count();
         }
@@ -601,16 +601,14 @@ class LeadsManageCotroller extends Controller
             $lead_list->where('province_id', $request->province_id);
         }
         if ($request->lead_status) {
-            $lead_list->where('lead_status', $request->lead_status)->whereNull('assigned_to');
+            $lead_list->where('lead_status', $request->lead_status);
         }
         if ($request->assigned_status) {
-            // if (!($user->hasRole('Administrator'))) {
                 if($request->assigned_status == 'allocated'){
                     $lead_list->whereNotNull('assigned_to');
                 }elseif($request->assigned_status == 'notallocated'){
                     $lead_list->whereNull('assigned_to');
                 }
-            // }
         }
         if ($request->intakeMonth) {
             $lead_list->where('intake', $request->intakeMonth);
@@ -643,7 +641,7 @@ class LeadsManageCotroller extends Controller
     public function assigned_leads(Request $request)
     {
         $lead_list = $this->filterLeads($request);
-        $lead_list = $lead_list->whereNotNULL('assigned_to')->paginate(12);
+        $lead_list = $lead_list->paginate(12);
         $countries = Country::all();
         $lead_status = MasterLeadStatus::get();
         return view('admin.leads.assigend-leads', compact('lead_list', 'countries', 'lead_status'));
@@ -1565,7 +1563,6 @@ class LeadsManageCotroller extends Controller
             }
             $leads_name = 'Total Non-Allocated Leads';
         }
-
         $leads_data = $leads->orwhere('user_id',$user_id)->paginate(12);
         $leads_data = [
             'leads' => $leads_data,
