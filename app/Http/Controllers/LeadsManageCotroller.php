@@ -685,6 +685,7 @@ class LeadsManageCotroller extends Controller
                         ->join('student_by_agent', 'user_follow_up.student_id', '=', 'student_by_agent.id')
                         ->where('student_id', $id)
                         ->select('user_follow_up.*','student_by_agent.name','student_by_agent.email')
+                        ->latest()
                         ->get();
         return view('admin.leads.manage-leads', compact('studentAgentData', 'student_id', 'masterLeadStatus', 'follow_up_list'));
     }

@@ -195,11 +195,11 @@
                             <th>Date</th>
                             <th> Source </th>
                             <th> Name </th>
-                            <th> PinCode</th>
+                            {{-- <th> PinCode</th> --}}
                             <th> Phone</th>
                             <th> Email</th>
                             {{-- <th> Comment </th> --}}
-                            <th> Intereset</th>
+                            <th>Lead Status</th>
                             <th> Course </th>
                             <th> Intake </th>
                             <th> IntakeYear </th>
@@ -247,19 +247,28 @@
                                 </td>
                                 <td>{{ Str::limit($data->source, 12, '...')  }}</td>
                                 <td>{{ Str::limit($data->name, 12, '...')  }}</td>
-                                <td>{{ $data->zip }}</td>
+                                {{-- <td>{{ $data->zip }}</td> --}}
                                 <td>{{ $data->phone_number }}</td>
                                 <td>{{ $data->email }}</td>
+                                @php
+                                    $lead_status =App\Models\MasterLeadStatus::where('id',$data->lead_status)->Select('id','name')->first();
+                                @endphp
+                                <td>{{ $lead_status->name }}</td>
                                 {{-- <td class="text-wrap">{{ $data->student_comment }}</td> --}}
                                 @php
                                     $interest = App\Models\Intrested::where('is_deleted', '0')->where('id', $data->interested)->first();
                                 @endphp
-                                <td>{{ $interest->name ?? '' }}</td>
+                                {{-- <td>{{ $interest->name ?? '' }}</td> --}}
                                 <td>{{ $data->course }}</td>
                                 <td>
                                     @php
-                                        $dateTime = DateTime::createFromFormat('m', $data->intake);
-                                        $formattedDate = $dateTime ? $dateTime->format('F') : '';
+                                        $intake = $data->intake;
+                                        if (is_numeric($intake)) {
+                                            $dateTime = DateTime::createFromFormat('!m', $intake);
+                                            $formattedDate = $dateTime ? $dateTime->format('F') : '';
+                                        } else {
+                                            $formattedDate = $intake;
+                                        }
                                     @endphp
                                     {{ $formattedDate }}
                                 </td>
