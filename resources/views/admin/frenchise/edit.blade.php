@@ -34,15 +34,15 @@
     @endphp
     <div class="card-body">
         <div class="wizard">
-                @if (($user->hasRole('agent'))  && ($frenchise->profile_complete == 0 || $frenchise->profile_complete == null))
-                    <div class="alert alert-primary text-center" role="alert">
-                        Please Complete Your Profile
-                    </div>
-                @elseif(($user->hasRole('agent')) && ($user->is_approve == 0 || $user->is_approve == null) && ($user->is_active == 0 || $user->is_active == null))
-                    <div class="alert alert-primary text-center" role="alert">
-                        Please Wait For Admin Approval
-                    </div>
-                @endif
+            @if ($user->hasRole('agent') && ($frenchise->profile_complete == 0 || $frenchise->profile_complete == null))
+                <div class="alert alert-primary text-center" role="alert">
+                    Please Complete Your Profile
+                </div>
+            @elseif ($user->hasRole('agent') && ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null))
+                <div class="alert alert-primary text-center" role="alert">
+                    Please Wait For Admin Approval
+                </div>
+            @endif
                 <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Company Information">

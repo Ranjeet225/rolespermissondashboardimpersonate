@@ -1,20 +1,33 @@
 @php
-$user = Auth::user();
-$frenchise = DB::table('agents')->where('email',$user->email)->first();
-@endphp
-@if(($user->hasRole('agent') || $user->hasRole('sub_agent')) && ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null) && (!empty($frenchise) && ($frenchise->profile_complete == 0 || $frenchise->profile_complete == null)))
-     @php
+    $user = Auth::user();
+    $frenchise = DB::table('agents')->where('email', $user->email)->first();
+    $make_link_unclickable = '';
+
+    if (
+        $user->hasRole('agent') &&
+        (
+            $user->is_approve == 0 ||
+            $user->is_approve == null ||
+            $user->is_active == 0 ||
+            $user->is_active == null ||
+            (empty($frenchise) || $frenchise->profile_complete == 0 || $frenchise->profile_complete == null)
+        )
+    ) {
         $make_link_unclickable = 'disabled_links';
-    @endphp
-    <style>
-        .disabled_linkss {
-        pointer-events: none; /* Prevents clicks */
-        color: gray; /* Change text color to indicate disabled state */
-        cursor: not-allowed; /* Change cursor to indicate the link is not clickable */
-        text-decoration: none; /* Remove underline */
     }
+@endphp
+
+@if($make_link_unclickable)
+    <style>
+        .disabled_links {
+            pointer-events: none;
+            color: gray;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
     </style>
 @endif
+
 <ul class="menu-sub ">
     @if (isset($menu))
         @foreach ($menu as $submenu)

@@ -1,16 +1,32 @@
-<!-- Sidebar -->
-<style>
-    .disabled_link {
-    pointer-events: none;
-    color: gray;
-    cursor: not-allowed;
-    text-decoration: none;
-}
-</style>
 @php
-$user = Auth::user();
-$frenchise = DB::table('agents')->where('email',$user->email)->first();
+    $user = Auth::user();
+    $frenchise = DB::table('agents')->where('email', $user->email)->first();
+    $make_link_unclickable = '';
+
+    if (
+        $user->hasRole('agent') &&
+        (
+            $user->is_approve == 0 ||
+            $user->is_approve == null ||
+            $user->is_active == 0 ||
+            $user->is_active == null ||
+            (empty($frenchise) || $frenchise->profile_complete == 0 || $frenchise->profile_complete == null)
+        )
+    ) {
+        $make_link_unclickable = 'disabled_links';
+    }
 @endphp
+
+@if($make_link_unclickable)
+    <style>
+        .disabled_links {
+            pointer-events: none;
+            color: gray;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+    </style>
+@endif
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -40,11 +56,7 @@ $frenchise = DB::table('agents')->where('email',$user->email)->first();
                         <li>
 
                             <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
-                                class = "
-                                @if(($user->hasRole('agent') || $user->hasRole('sub_agent')) &&
-                                 ($user->is_approve == 0 || $user->is_approve == null) || ($user->is_active == 0 || $user->is_active == null) && (!empty($frenchise) && ($frenchise->profile_complete == 0 || $frenchise->profile_complete == null)))
-                                {{'disabled_link'}}
-                                @endif"
+                                class = "{{$make_link_unclickable ?? null}} "
                                 >
                                 <i class="{{ $menu->icon }}"></i>
                                 <span > {{ isset($menu->name) ? __($menu->name) : '' }}</span>
