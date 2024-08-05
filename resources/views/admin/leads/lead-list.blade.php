@@ -256,7 +256,7 @@
                                 @php
                                     $lead_status =App\Models\MasterLeadStatus::where('id',$data->lead_status)->Select('id','name')->first();
                                 @endphp
-                                <td>{{ $lead_status->name }}</td>
+                                <td>{{ $lead_status->name ?? '' }}</td>
                                 {{-- <td class="text-wrap">{{ $data->student_comment }}</td> --}}
                                 @php
                                     $interest = App\Models\Intrested::where('is_deleted', '0')->where('id', $data->interested)->first();

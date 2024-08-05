@@ -62,6 +62,31 @@ Route::get('bonvoyage',function(){
 Route::get('travel&medical',function(){
     return view('frontend.global.travel&medical');
 });
+
+Route::get('ielts',function(){
+    return view('frontend.global.ielts');
+});
+Route::get('act',function(){
+    return view('frontend.global.act');
+});
+Route::get('gmat',function(){
+    return view('frontend.global.gmat');
+});
+Route::get('gre',function(){
+    return view('frontend.global.gre');
+});
+Route::get('toefl',function(){
+    return view('frontend.global.toefl');
+});
+Route::get('sat',function(){
+    return view('frontend.global.sat');
+});
+Route::get('pet',function(){
+    return view('frontend.global.pet');
+});
+Route::get('tem',function(){
+    return view('frontend.global.tem');
+});
 Route::get('/', [FrontendController::class,'index'])->name('index');
 Route::get('/apply-program', [FrontendController::class,'course_university'])->name('check-eligible');
 Route::post('/get-country-flags',[FrontendController::class,'get_country'])->name('get-country-flags');

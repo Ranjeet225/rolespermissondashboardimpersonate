@@ -371,12 +371,12 @@ class LeadsManageCotroller extends Controller
         $total_upcoming_leads = $next_leads_query->count();
         // miss leads
         if (Auth::user()->hasRole('Administrator')) {
-            $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->orderBy('next_calling_date', 'asc');
+            $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->where('lead_status', '<>', '5')->orderBy('next_calling_date', 'asc');
         } else {
             $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))
                                                 ->where(function ($sub_query) {
                                                     $sub_query->Where('assigned_to', Auth::user()->id);
-                                                })->orderBy('next_calling_date', 'asc');
+                                                })->orderBy('next_calling_date', 'asc')->where('lead_status', '<>', '5')    ;
         }
         $count_next_leads_miss= $next_leads_missed->count();
         $data = array(
@@ -638,12 +638,12 @@ class LeadsManageCotroller extends Controller
         }
         if($request->missed_leads){
             if (Auth::user()->hasRole('Administrator')) {
-                $lead_list->where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->orderBy('next_calling_date', 'asc');
+                $lead_list->where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->where('lead_status', '<>', '5')->orderBy('next_calling_date', 'asc');
             } else {
                 $lead_list->where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))
                                                     ->where(function ($sub_query) {
                                                         $sub_query->Where('assigned_to', Auth::user()->id);
-                                                    })->orderBy('next_calling_date', 'asc');
+                                                    })->orderBy('next_calling_date', 'asc')->where('lead_status', '<>', '5');
             }
         }
         if($request->uppcoming_leads){

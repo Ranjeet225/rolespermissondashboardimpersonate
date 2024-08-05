@@ -603,7 +603,7 @@ textarea {
 <p><span id="docs-internal-guid-31c98b5e-8945-8dc0-bbdb-0621d68acaf3">There are no particular <a href="#">eligibility criteria for SAT</a>. You need to be an enrolled high school student, with the intent of applying to foreign undergraduate universities.</span></p>
 <p><strong>How to register for SAT&nbsp;online?</strong></p>
 <p>Step 1: Visit College Board's official website: <a href="#">www.collegeboard.org</a>&nbsp;and create your account.</p>
-<p><img loading="lazy" src="{{asset('public/mediadata/images/articles/SAT1.PNG" alt="How to Register for SAT" width="664" height="556"></p>
+<p><img loading="lazy" src="{{asset('public/mediadata/images/articles/SAT1.PNG')}}" alt="How to Register for SAT" width="664" height="556"></p>
 <p>Step 2: After successfully creating your College Board account, give your personal details.</p>
 <p><img class="content-img" loading="lazy" data-original="/mediadata/images/articles/SAT_Step2.png" alt="How to Register for SAT" src="https://images.shiksha.ws/mediadata/images/articles/SAT_Step2.png" width="804" height="487"></p>
 <p>&nbsp;</p>
