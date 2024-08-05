@@ -277,6 +277,56 @@
             </div>
         </div>
       </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+        <div class="card dash-widget">
+            <div class="row">
+                <div clas="col-md-12">
+                    <div class="totalno">
+                        <h5>Upcoming  Leads</h5>
+                    </div>
+                </div>
+                <div clas="col-md-12">
+                    <div class="blclr">
+                        <h5>
+                        <i class="la la-user clruser"></i> {{$data['total_upcoming_leads']}}
+                        </h5>
+                    </div>
+                </div>
+                <div clas="col-md-12">
+                    <div class="submit-section btnpr">
+                        <a href="{{ url('admin/leads-lists?uppcoming_leads=upcoming-leads')}}">
+                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+        <div class="card dash-widget">
+            <div class="row">
+                <div clas="col-md-12">
+                    <div class="totalno">
+                        <h5>Missed Leads</h5>
+                    </div>
+                </div>
+                <div clas="col-md-12">
+                    <div class="blclr">
+                        <h5>
+                        <i class="la la-user clruser"></i> {{$data['count_next_leads_miss']}}
+                        </h5>
+                    </div>
+                </div>
+                <div clas="col-md-12">
+                    <div class="submit-section btnpr">
+                        <a href="{{ url('admin/leads-lists?missed_leads=missed-leads')}}">
+                            <button type="button" class="btn btn-outline-primary">Read More</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
     <div class="table_heading">
        <h4 class="up"> Upcoming Call List</h4>
@@ -289,7 +339,7 @@
                    <tr>
                       <th>S.N</th>
                       <th>Date</th>
-                      <th> Pincode</th>
+                      {{-- <th> Pincode</th> --}}
                       <th> Name</th>
                       <th> Phone</th>
                       <th> Email</th>
@@ -314,7 +364,7 @@
                         <td>
                             <a href="#">{{$item->next_calling_date}} </a>
                         </td>
-                        <td> {{$item->zip}} </td>
+                        {{-- <td> {{$item->zip}} </td> --}}
                         <td> {{$item->name}}</td>
                         <td> {{$item->phone_number}}</td>
                         <td>  {{$item->email}} </td>

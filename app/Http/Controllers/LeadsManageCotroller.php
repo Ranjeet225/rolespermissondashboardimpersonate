@@ -354,18 +354,35 @@ class LeadsManageCotroller extends Controller
             $total_non_allocated_leads = StudentByAgent::where('user_id',$user_ids)->whereNull('assigned_to')->count();
         }
 
-        // Leads by next calling date --
         $next_leads = [];
         if ($user_type == 'Administrator') {
-            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))->orwhere('user_id',$user_ids)->orderBy('next_calling_date', 'asc')->paginate(10, ['*'], 'upcoming_lead_page');
-        } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
-            $next_leads = StudentByAgent::where('next_calling_date', '>', DB::raw('DATE_ADD(now(),interval -1 day)'))->orwhere('user_id',$user_ids)->where(function ($sub_query) use ($user_ids) {
-                return $sub_query->where('added_by', $user_ids)->orWhere("assigned_to", $user_ids);
-            })->orderBy('next_calling_date', 'asc')->paginate(10, ['*'], 'upcoming_lead_page');
+            $next_leads_query = StudentByAgent::where('next_calling_date', '>', DB::raw('NOW()'))
+                              ->orderBy('next_calling_date', 'asc');
+        } else if ($user_type == 'agent' || $user_type == 'sub_agent' || $user_type == 'visa') {
+            $next_leads_query = StudentByAgent::where('next_calling_date', '>', DB::raw('NOW()'))
+                ->orWhere('user_id', $user_ids)
+                ->where(function ($sub_query) use ($user_ids) {
+                    $sub_query->where('added_by', $user_ids)
+                            ->orWhere('assigned_to', $user_ids);
+                })
+                ->orderBy('next_calling_date', 'asc');
         }
-        $next_leads = $this->lead_dashboard_data($request);
+        $next_leads = $next_leads_query->paginate(10, ['*'], 'upcoming_lead_page');
+        $total_upcoming_leads = $next_leads_query->count();
+        // miss leads
+        if (Auth::user()->hasRole('Administrator')) {
+            $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->orderBy('next_calling_date', 'asc');
+        } else {
+            $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))
+                                                ->where(function ($sub_query) {
+                                                    $sub_query->Where('assigned_to', Auth::user()->id);
+                                                })->orderBy('next_calling_date', 'asc');
+        }
+        $count_next_leads_miss= $next_leads_missed->count();
         $data = array(
             "total_leads" => $total_leads,
+            'total_upcoming_leads' => $total_upcoming_leads,
+            'count_next_leads_miss'=>$count_next_leads_miss,
             "total_cold_leads" => $total_cold_leads,
             "total_hot_leads" => $total_hot_leads,
             "total_future_leads" => $total_future_leads,
@@ -619,7 +636,33 @@ class LeadsManageCotroller extends Controller
         if ($request->from_date && $request->to_date) {
             $lead_list->whereBetween('created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59']);
         }
-
+        if($request->missed_leads){
+            if (Auth::user()->hasRole('Administrator')) {
+                $lead_list->where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->orderBy('next_calling_date', 'asc');
+            } else {
+                $lead_list->where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))
+                                                    ->where(function ($sub_query) {
+                                                        $sub_query->Where('assigned_to', Auth::user()->id);
+                                                    })->orderBy('next_calling_date', 'asc');
+            }
+        }
+        if($request->uppcoming_leads){
+            if($request->uppcoming_leads){
+                $next_leads = [];
+            if (Auth::user()->hasRole('Administrator')) {
+                $next_leads_query = $lead_list->where('next_calling_date', '>', DB::raw('NOW()'))
+                                  ->orderBy('next_calling_date', 'asc');
+                } else if (Auth::user()->hasRole('agent') || Auth::user()->hasRole('sub_agent') || Auth::user()->hasRole('visa')) {
+                    $next_leads_query =  $lead_list->where('next_calling_date', '>', DB::raw('NOW()'))
+                        ->orWhere('user_id', $user_id)
+                        ->where(function ($sub_query) use ($user_id) {
+                            $sub_query->where('added_by', $user_id)
+                                    ->orWhere('assigned_to', $user_id);
+                        })
+                        ->orderBy('next_calling_date', 'asc');
+                }
+            }
+        }
         return $lead_list;
     }
 
@@ -771,6 +814,7 @@ class LeadsManageCotroller extends Controller
             'intake' => $request->intake,
             'intake_year' => $request->intake_year,
             'student_comment' => $request->comment,
+            'updated_at' => now(),
         ]);
         DB::table('user_follow_up')->insert($data);
         return response()->json(['message' => 'Data inserted Successfulyy']);
@@ -1750,5 +1794,4 @@ class LeadsManageCotroller extends Controller
             return response()->json(['success' => true, 'status' => true]);
         }
     }
-
 }

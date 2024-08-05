@@ -789,6 +789,9 @@
                       class="card-img-top" alt="{{($item->university_name->university_name)}}">
                    <div class="card-body">
                       <h5 class="card-title">{{($item->name)}}</h5>
+                      <p>
+                        {!! html_entity_decode(Str::limit($item->description,500)) !!}
+                      </p>
                       <a href="{{'course-details/'}}{{$item->id}}" class="btn btn-primary w-100">View Course</a>
                    </div>
                 </div>
@@ -805,77 +808,265 @@
        </div>
     </div>
  </div>
- <div id="rs-about" class="rs-about style1 pb-40  md-pt-70 md-pb-30" style="background-image: url({{asset('frontend/bkl2.png')}});">
+
+ <style>
+
+    .testimonial{
+        padding: 10px 0;
+        .row{
+            .tabs{
+                all: unset;
+                margin-right: 50px;
+                display: flex;
+                flex-direction: column;
+                li{
+                    all:unset;
+                    display: block;
+                    position: relative;
+                    &.active{
+                        &::before{
+                            position: absolute;
+                            content: "";
+                            width: 50px;
+                            height: 50px;
+                            background-color: #080858;
+                            border-radius: 50%;
+                        }
+                    }
+                    &.active{
+                        &::after{
+                            position: absolute;
+                            content: "";
+                            width: 30px;
+                            height: 30px;
+                            background-color: #080858;
+                            border-radius: 50%;
+                        }
+                    }
+                    &:nth-child(1){
+                       align-self: flex-end;
+                       &::before{
+                            left: 64%;
+                            bottom: -50px;
+                       }
+                       &::after{
+                            left: 97%;
+                            bottom: -81px;
+                       }
+                       figure{
+                            img{
+                                margin-left:auto;
+                            }
+                       }
+                    }
+                    &:nth-child(2){
+                        align-self: flex-start;
+                        &::before{
+                            right: -65px;
+                            top: 50%;
+                        }
+                        &::after{
+                            bottom: 101px;
+                            border-radius: 50%;
+                            right: -120px;
+                        }
+                        figure{
+                            img{
+                                margin-right:auto;
+                                max-width: 300px;
+                                width: 100%;
+                                margin-top: -50px;
+                            }
+                        }
+                    }
+                    &:nth-child(3){
+                        align-self: flex-end;
+                        &::before{
+                            right: -10px;
+                            top: -66%;
+                        }
+                        &::after{
+                            top: -130px;
+                            border-radius: 50%;
+                            right: -46px;
+                        }
+                        figure{
+                            img{
+                                margin-left:auto;
+                                margin-top: -50px;
+                            }
+                        }
+                        &:focus{
+                            border: 10px solid red;
+                        }
+                    }
+                    figure{
+                        position: relative;
+                        img{
+                            display: block;
+                        }
+                        &::after{
+                            content: "";
+                            position: absolute;
+                            top:0;
+                            z-index: -1;
+                            width: 100%;
+                            height: 100%;
+                            border: 4px solid #0707585e;
+                            border-radius: 50%;
+                            -webkit-transform: scale(1);
+                            -ms-transform: scale(1);
+                            transform: scale(1);
+                            -webkit-transition: 0.3s;
+                            -o-transition: 0.3s;
+                            transition: 0.3s;
+                        }
+                        &:hover{
+                            &::after{
+                                -webkit-transform: scale(1.1);
+                                -ms-transform: scale(1.1);
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+                }
+                &.carousel-indicators{
+                    li.active{
+                        figure{
+                            &::after{
+                                -webkit-transform: scale(1.1);
+                                -ms-transform: scale(1.1);
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+                }
+            }
+            .carousel{
+                > h3{
+                    font-size: 20px;
+                    line-height: 1.45;
+                    color: rgba(0,0,0,.5);
+                    font-weight: 600;
+                    margin-bottom: 0;
+                }
+                h1{
+                    font-size: 40px;
+                    line-height: 1.225;
+                    margin-top: 23px;
+                    font-weight: 700;
+                    margin-bottom: 0;
+                }
+                .carousel-indicators{
+                    all: unset;
+                    padding-top: 43px;
+                    display: flex;
+                    list-style: none;
+                    li{
+                        background: #000;
+                        background-clip: padding-box;
+                        height: 2px;
+                    }
+                }
+                .carousel-inner{
+                   .carousel-item{
+                        .quote-wrapper{
+                            margin-top: 42px;
+                            p{
+                                font-size: 18px;
+                                line-height: 1.72222;
+                                font-weight: 500;
+                                color: rgba(0,0,0,.7);
+                            }
+                            h3{
+                                color: #000;
+                                font-weight: 700;
+                                margin-top: 37px;
+                                font-size: 20px;
+                                line-height: 1.45;
+                                text-transform: uppercase;
+                            }
+                        }
+                   }
+                }
+            }
+        }
+    }
+    }
+    @media only screen and (max-width: 1200px) {
+        body{
+            .testimonial{
+                .row{
+                    .tabs{
+                        margin-right: 25px;
+                    }
+                }
+            }
+        }
+    }
+@media only screen and (max-width: 567px) {
+
+}
+ </style>
+<section class="testimonial">
     <div class="container">
-       <div class="row align-items-center">
-          <div class="col-md-4">
-             <div class="img-part" style="position: relative; top: 120px;">
-                <h1 style="font-weight: 700"> Students feedback</h1>
-                <h1 style="color:#21a7d0;font-weight: 700"> worth ₹7,00,00,000*</h1>
-                <p> Win up to ₹ 3,00,000* to study in the UK, Canada & US. </p>
-                <br>
-             </div>
-          </div>
-          @foreach ($testimonials as $key=>$item)
-          @if($key ==0)
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6">
+        <div class="row">
+            <div class="col-lg-6 d-none d-lg-block">
+                <ol class="carousel-indicators tabs">
+                    @foreach ($testimonials as $key=>$item)
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$key}}" class="{{$key == 0 ? 'active' : ''}}">
+                        <figure>
+                            <img src="{{asset('imagesapi/')}}/{{$item->profile_picture}}" class="img-fluid" alt="">
+                        </figure>
+                    </li>
+                    @endforeach
+                </ol>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                <div id="carouselExampleIndicators" data-interval="false" class="carousel slide" data-ride="carousel">
+                    <h3>WHAT OUR CLIENTS SAY</h3>
+                    <h1>TESTIMONIALS</h1>
+                    <div class="carousel-inner">
+                        @foreach ($testimonials as $key=>$item)
+                            <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
+                                <div class="quote-wrapper">
+                                    <p>{!! Str::limit($item->testimonial_desc, 200, '...')  !!}</p>
+                                    <h3>{{$item->name}}</h3>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="col-md-2">
-                    <img
-                        src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
-                        style="border-radius: 100%;border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
-                    </div>
-                    <div class="col-md-4">
-                    <h4>{{$item->name}}</h4>
-                    <p>{{$item->location}}</p>
-                    </div>
+                    <ol class="carousel-indicators indicators">
+                        @foreach ($testimonials as $key=>$item)
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{$key}}" class="{{$key == 0 ? 'active' : ''}}"></li>
+                        @endforeach
+                    </ol>
                 </div>
             </div>
-            <div class="col-md-5">
-            </div>
-            @elseif ($key == 1)
-            <div class="col-md-7">
-                <div class="row">
-                    <div class="col-md-6">
-                    </div>
-                    <div class="col-md-2">
-                    <img
-                        src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
-                        style="border-radius: 100%;    border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
-                    </div>
-                    <div class="col-md-4">
-                        <h4>{{$item->name}}</h4>
-                        <p>{{$item->location}}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-            </div>
-            @elseif ($key == 2)
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6">
-                    </div>
-                    <div class="col-md-2">
-                    <br>
-                    <img
-                        src="{{asset('imagesapi')}}/{{$item->profile_picture}}"
-                        style="border-radius: 100%;    border: 5px solid #d0cdcd;    padding: 2px;    background: white;">
-                    </div>
-                    <div class="col-md-4">
-                    <br>
-                    <h4>{{$item->name}}</h4>
-                    <p>{{$item->location}}</p>
-                    </div>
-                </div>
-            </div>
-            @endif
-          @endforeach
-       </div>
+        </div>
     </div>
- </div>
+</section>
+<script>
+$(document).ready(function(){
+    $(".testimonial .indicators li").click(function(){
+        var i = $(this).index();
+        var targetElement = $(".testimonial .tabs li");
+        targetElement.eq(i).addClass('active');
+        targetElement.not(targetElement[i]).removeClass('active');
+                });
+                $(".testimonial .tabs li").click(function(){
+                    var targetElement = $(".testimonial .tabs li");
+                    targetElement.addClass('active');
+                    targetElement.not($(this)).removeClass('active');
+            });
+    });
+    $(document).ready(function(){
+    $(".slider .swiper-pagination span").each(function(i){
+        $(this).text(i+1).prepend("0");
+    });
+});
+</script>
+
 <div id="rs-about" class="rs-about style1   md-pt-70 md-pb-30" style="background-image: url({{asset('frontend/Group.png')}});">
     <div class="container">
              <div class="row align-items-center">

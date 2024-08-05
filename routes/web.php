@@ -17,7 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\LearningTrainingController;
 use Maatwebsite\Excel\Row;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 Route::fallback(function () {
     return view('errors.404');
@@ -174,6 +174,7 @@ Route::middleware('auth')->group(function () {
         Route::post("approve-user-status",[UserController::class,'approveUserStatus'])->name('approveStatusUpdate');
         Route::get("relocate-frenchise",[LeadsManageCotroller::class,'relocated_frenchise'])->name('relocated-frenchise');
         Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise'])->name('assign-leads');
+        Route::get('missed-leads',[LeadsManageCotroller::class,'missed_leads_data'])->name('missed-leads');
         // Route::post('assign-leads',[LeadsManageCotroller::class,'allocate_franchise']);
         Route::get("student-list",[StudentController::class,'student_list'])->name('student-list');
         // Route::get('cehckout/{say}',[LeadsManageCotroller::class,'with_parameter'])->name('parameter');
