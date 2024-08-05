@@ -38,9 +38,9 @@ class UniversityController extends Controller
         $originUrl = url('');
         $currentUrl = URL::current();
         $user =Auth::user();
-        if(!($user->hasRole('Administrator'))){
-            $results->where('user_id', $user->id);
-        }
+        // if(!($user->hasRole('Administrator'))){
+        //     $results->where('user_id', $user->id);
+        // }
         if ($request->has('university_name') && $request->university_name != '') {
             $results->where('university_name', 'LIKE', "%{$request->university_name}%");
         }

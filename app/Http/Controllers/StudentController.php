@@ -69,7 +69,8 @@ class StudentController extends Controller
             $authuser = Auth::user();
             if (($authuser->hasRole('agent'))) {
                 $userId = Auth::id();
-                $usersId=User::where('added_by',$userId)->whereNotIn('admin_type',['student'])->where('is_active','1')->where('is_approve','1')->pluck('id')->toArray();
+                $usersId=User::where('added_by',$userId)->whereNotIn('admin_type',['student'])
+                          ->pluck('id')->toArray();
                 if (!empty($usersId)) {
                     array_push($usersId, $user->id);
                 }

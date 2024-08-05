@@ -246,7 +246,7 @@
                         <select class="form-control " name="expense_currencies">
                             <option value="">--Expense Currencies</option>
                             @foreach ($currency as $item)
-                                <option value="{{$item->id}}" {{isset($university->yearly_hostel_expense_currencies) == $item->id ? 'selected' : '' }}>{{$item->currency}}</option>
+                                <option value="{{$item->id}}" {{isset($university) && $university->yearly_hostel_expense_currencies == $item->id ? 'selected' : '' }}>{{$item->currency}}</option>
                             @endforeach
                         </select>
                         <span class="text-danger expense_currencies"></span>
@@ -297,7 +297,7 @@
                           <select class="form-control " name="application_cost_currencies">
                               <option value="">--Application Cost Currencies --</option>
                               @foreach ($currency as $item)
-                                  <option value="{{$item->id}}" {{isset($university->application_cost_currencies) == $item->id ? 'selected' : '' }}>{{$item->currency}}</option>
+                                  <option value="{{ $item->id }}" {{ (isset($university->application_cost_currencies) && $university->application_cost_currencies == $item->id) ? 'selected' : '' }}>{{ $item->currency }}</option>
                               @endforeach
                           </select>
                           <span class="text-danger application_cost_currencies"></span>

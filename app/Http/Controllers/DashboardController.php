@@ -99,7 +99,18 @@ class DashboardController extends Controller
         } else {
             $total_members = User::where('added_by', $user_ids)->count();
             $total_student = Student::where('added_by', $user_ids)->count();
-            $total_student_id = Student::where('added_by', $user_ids)->pluck('user_id');;
+            $authuser = Auth::user();
+            if (($authuser->hasRole('agent'))) {
+                $userId = Auth::id();
+                $usersId=User::where('added_by',$userId)->whereNotIn('admin_type',['student'])
+                          ->pluck('id')->toArray();
+                if (!empty($usersId)) {
+                    array_push($usersId, $authuser->id);
+                }
+            }else{
+                $usersId = [$authuser->id];
+            }
+            $total_student_id = Student::whereIn('added_by', $usersId)->pluck('user_id');
             $total_school_manager = User::where('admin_type', 'school_manager')->where('added_by', $user_ids)->count();
             $total_frenchise = Agent::where('user_id', $user_ids)->count();
             $total_active_frenchise = Agent::where('is_active', 1)->where('user_id', $user_ids)->count();
@@ -148,7 +159,10 @@ class DashboardController extends Controller
             if(empty($student_id)) {
                 abort(404);
             }
-            $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')->orwhere('payment_type_remarks','applied_program_pay_later')->orwhere('payment_type_remarks','applied_program')->where('user_id', $student_id->user_id)->count();
+            $program_applied = PaymentsLink::with('program:name,id,school_id','program.university_name:university_name,id','payments')
+                                ->orwhere('payment_type_remarks','applied_program_pay_later')
+                                ->orwhere('payment_type_remarks','applied_program')
+                                ->where('user_id', $student_id->user_id)->count();
         }else{
             $program_applied = null;
         }

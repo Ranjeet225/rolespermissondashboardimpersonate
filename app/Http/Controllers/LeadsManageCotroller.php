@@ -29,6 +29,7 @@ use App\Models\Intrested;
 use App\Models\Fieldsofstudytype;
 use App\Models\University;
 use App\Models\Program;
+use App\Mail\StudentRegistraionMail;
 use App\Models\ApplicationsApplied;
 use Validator;
 use App\Models\StudentScholorship;
@@ -583,7 +584,7 @@ class LeadsManageCotroller extends Controller
 
     public function filterLeads($request)
     {
-        $lead_list = StudentByAgent::query();
+        $lead_list = StudentByAgent::latest();
         $user = Auth::user();
         $user_id = $user->id;
         if (($user->hasRole('agent'))) {
@@ -833,13 +834,13 @@ class LeadsManageCotroller extends Controller
             Session::put('error', 'User ID Not Found');
             return redirect()->back();
         }
-        $student =Student::where('id',$paymentLink->user_id)->select('first_name','email')->first();
+        $student_name=StudentbyAgent::where('email',$paymentLink->email)->select('name')->first();
         $data=[
             'fallowp_unique_id'=>$paymentLink->fallowp_unique_id,
             'user_id'=>$paymentLink->user_id,
             'email'=>$paymentLink->email,
             'amount'=>$paymentLink->amount,
-            'name'=>$student->first_name
+            'name'=>$student_name->name
         ];
         return view('admin.leads.payment-view',compact('data'));
     }
@@ -1121,7 +1122,7 @@ class LeadsManageCotroller extends Controller
                         'selected_program' =>implode(',', $request->program_ids)
                     ]);
             }
-            $student = StudentByAgent::where('id', $request->sba_id)->select('email', 'name')->first();
+            $student = StudentByAgent::where('student_user_id', $request->sba_id)->select('email', 'name')->first();
             $threesixetee = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
             $collegeValues = explode(',', $threesixetee->college);
             $courseValues = explode(',', $threesixetee->courses);
@@ -1727,6 +1728,7 @@ class LeadsManageCotroller extends Controller
             if ($role) {
                 $user->assignRole([$role->id]);
             }
+            Mail::to($student_agent->email)->send(new StudentRegistraionMail($student_data));
         }
         return redirect()->route('leads-filter')->with('success', 'User Profile Created Successfully');
     }

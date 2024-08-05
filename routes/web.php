@@ -189,7 +189,7 @@ Route::middleware('auth')->group(function () {
         Route::get('get-lead-360-images', [LeadsManageCotroller::class, 'get_lead_360_images'])->name('get-lead-360-images');
         Route::get('delete-lead-360-image', [LeadsManageCotroller::class, 'delete_lead_360_image'])->name('delete-lead-360-image');
         Route::get('apply-oel-360', [LeadsManageCotroller::class, 'aply_360'])->name('apply-oel-360');
-        Route::post('aply-lead-360/', [LeadsManageCotroller::class, 'store_lead_360'])->name('store-lead-360');
+        Route::post('aply-lead-360', [LeadsManageCotroller::class, 'store_lead_360'])->name('store-lead-360');
         Route::get('leads/{key}', [LeadsManageCotroller::class, 'fetch_leads'])->name('fetch-leads');
         Route::get('bulk-upload/', [LeadsManageCotroller::class, 'bulk_upload'])->name('bulk-upload');
         Route::post('excel-sheet-uplod-lead',[LeadsManageCotroller::class,'excel_sheet_leads'])->name('excel-sheet-leads');
