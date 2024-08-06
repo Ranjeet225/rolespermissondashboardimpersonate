@@ -75,11 +75,11 @@ class ProgramController extends Controller
     public function add_program(Request $request)
     {
         $user = Auth::user();
-        if ($user->hasRole('Administrator')) {
+        // if ($user->hasRole('Administrator')) {
             $universities = University::get();
-        } else {
-            $universities = University::where('user_id', $user->id)->get();
-        }
+        // } else {
+        //     $universities = University::where('user_id', $user->id)->get();
+        // }
         // $program_category=DB::table('tbl_program_category')->get();
         $program_discipline =ProgramDiscipline::select('name','id')->where('status', '1')->get();
         $all_subject = Subject::where('status', '1')->get();
@@ -156,12 +156,12 @@ class ProgramController extends Controller
 
     public function edit_program($id){
         $program = Program::with('currency_data')->find($id);
-        $user = Auth::user();
-        if ($user->hasRole('Administrator')) {
+        // $user = Auth::user();
+        // if ($user->hasRole('Administrator')) {
             $universities = University::get();
-        } else {
-            $universities = University::where('user_id', $user->id)->get();
-        }
+        // } else {
+        //     $universities = University::where('user_id', $user->id)->get();
+        // }
         $program_discipline =ProgramDiscipline::select('name','id')->where('status', '1')->get();
         $program_subdiscipline =ProgramSubdiscipline::select('name','id')->where('id',$program->program_subdiscipline)->where('status', '1')->get();
         $country_id=University::where('id',$program->school_id)->value('country_id');

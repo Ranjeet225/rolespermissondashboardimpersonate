@@ -62,6 +62,13 @@ class LeadsManageCotroller extends Controller
      public function __construct()
     {
         $this->middleware('role_or_permission:dashboard.view', ['only' => ['index']]);
+        $this->middleware('role_or_permission:leads_lists.view', ['only' => ['lead_list']]);
+        $this->middleware('role_or_permission:leads_dashboard.view', ['only' => ['leadsDashboard']]);
+        $this->middleware('role_or_permission:add_leads.view', ['only' => ['create_new_lead']]);
+        $this->middleware('role_or_permission:assigned_lead.view', ['only' => ['assigned_leads']]);
+        $this->middleware('role_or_permission:pending_lead.view', ['only' => ['pending_leads']]);
+        $this->middleware('role_or_permission:oel_360.view', ['only' => ['oel_360']]);
+        $this->middleware('role_or_permission:oel_apply.view', ['only' => ['aply_360']]);
         view()->share('page_title', 'Dashboard');
     }
     public function lead_dashboard_data(Request $request)
@@ -81,122 +88,6 @@ class LeadsManageCotroller extends Controller
         }
         return $next_leads;
     }
-    // public function dashboard_lead_report(Request $request)
-    // {
-    //     $id = Auth::user()->id;
-    //     $users = DB::table('users')->WHERE('id', $id)->first();
-    //     $user = Auth::user();
-    //     $roles = $user->roles;
-    //     $keywords = $request->get('keywords');
-
-    //     $page = $request->get('page');
-    //     if ($page == 1) {
-    //         $offset = 0;
-    //     } else {
-    //         $offset = ((($page - 1) * 12));
-    //     }
-
-    //     if ($user->hasRole('Administrator')) {
-    //         $lead_reports = StudentByAgent::select(
-    //             'student_by_agent.id',
-    //             'student_by_agent.name',
-    //             'student_by_agent.email',
-    //             'student_by_agent.phone_number',
-    //             'student_by_agent.next_calling_date',
-    //             'student_by_agent.created_at',
-    //             'student_by_agent.zip',
-    //             'student_by_agent.course',
-    //             'student_by_agent.intake',
-    //             'student_by_agent.intake_year',
-    //             'master_lead_status.name as status_name',
-    //             'A.email as assign_email',
-    //             'A.account_type',
-    //             'A.parent_id',
-    //             'B.email as parent_email'
-    //         )
-    //         ->skip($offset)
-    //         ->take(12)
-    //         ->orderBy('id', 'DESC')
-    //         ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-    //         ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-    //         ->LeftJoin('users as B', 'B.id', 'A.parent_id');
-    //         if (!empty($keywords)) {
-    //             $lead_reports = $lead_reports->where(function ($query) use ($keywords) {
-    //                 $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-    //             });
-    //         }
-    //         $lead_reports = $lead_reports->paginate(10);
-    //         $lead_reports_count = StudentByAgent::select('student_by_agent.id')
-    //             ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-    //             ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-    //             ->LeftJoin('users as B', 'B.id', 'A.parent_id');
-    //         if (!empty($keywords)) {
-    //             $lead_reports_count = $lead_reports_count->where(function ($query) use ($keywords) {
-    //                 $query->WHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-    //             });
-    //         }
-    //         $lead_reports_count = $lead_reports_count->count();
-    //     } else if ($user->hasRole('agent') || $user->hasRole('sub_agent') || $user->hasRole('visa')) {
-    //         $agents = DB::select("SELECT id FROM `users` WHERE `parent_id` = $user->id");
-    //         $commaList = null;
-    //         foreach ($agents as $agent) {
-    //             $commaList .= $agent->id . ',';
-    //         }
-    //         $user = $commaList . $user->id;
-    //         $lead_reports = StudentByAgent::select(
-    //             'student_by_agent.id',
-    //             'student_by_agent.name',
-    //             'student_by_agent.email',
-    //             'student_by_agent.phone_number',
-    //             'student_by_agent.next_calling_date',
-    //             'student_by_agent.created_at',
-    //             'student_by_agent.zip',
-    //             'student_by_agent.course',
-    //             'student_by_agent.intake',
-    //             'student_by_agent.intake_year',
-    //             'master_lead_status.name as status_name',
-    //             'A.email as assign_email',
-    //             'A.account_type',
-    //             'A.parent_id',
-    //             'B.email as parent_email'
-    //         )
-    //         ->skip($offset)
-    //         ->take(12)
-    //         ->orderBy('id', 'DESC')
-    //         ->LeftJoin('master_lead_status', 'master_lead_status.id', 'student_by_agent.lead_status')
-    //         ->LeftJoin('users as A', 'A.id', 'student_by_agent.assigned_to')
-    //         ->LeftJoin('users as B', 'B.id', 'A.parent_id');
-    //         // $lead_reports = $lead_reports->where(function ($query) use ($user) {
-    //         //     $query->where('student_by_agent.added_by', $user->id);
-    //         // });
-    //         $lead_reports = $lead_reports->where(function ($query) use ($user) {
-    //             $query->orWhereRaw("student_by_agent.assigned_to IN($user)");
-    //         });
-    //         if (!empty($keywords)) {
-    //             $lead_reports = $lead_reports->where(function ($query) use ($keywords) {
-    //                 $query->orWHERE('student_by_agent.name', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.zip', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.phone_number', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.email', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('student_by_agent.course', 'like', '%' . $keywords . '%')
-    //                     ->orWHERE('master_lead_status.name', 'like', '%' . $keywords . '%');
-    //             });
-    //         }
-    //         $lead_reports = $lead_reports->paginate(10);
-    //     }
-    //     return $lead_reports;
-    //     // return view('admin.leads.dashboard',compact('lead_reports'));
-    // }
     public function leadsDashboard(Request $request)
     {
 
@@ -396,7 +287,6 @@ class LeadsManageCotroller extends Controller
         );
         return view('admin.leads.dashboard', compact('data', 'next_leads'));
     }
-
 
     public function create_new_lead()
     {
@@ -1039,7 +929,8 @@ class LeadsManageCotroller extends Controller
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
                     'user_id' => $user_id,
-                    'college' => $college
+                    'college' => $college,
+                    'added_by' => Auth::user()->id,
                 ]);
             } else {
                 DB::table('tbl_three_sixtee')
@@ -1047,7 +938,8 @@ class LeadsManageCotroller extends Controller
                     ->update([
                         'sba_id' => $request->sba_id,
                         'user_id' => $user_id,
-                        'college' => $college
+                        'college' => $college,
+                        'added_by' => Auth::user()->id,
                     ]);
             }
             $university=University::whereIn('id',$request->collegeValues)->where('is_approved', 1)->select('id','university_name')->get();
@@ -1172,7 +1064,7 @@ class LeadsManageCotroller extends Controller
                     'sba_id' =>  $request->sba_id,
                     'user_id' => $user_id,
                     'joining_date' => $request->joining_date ?? null,
-                    'offer_amount' => $request->fee_amount ?? null,
+                    'offer_amount' => $request->offer_amount ?? null,
                     'cource_details' => $request->course_details ?? null,
                 ]);
             } else {
@@ -1182,7 +1074,7 @@ class LeadsManageCotroller extends Controller
                         'sba_id' => $request->sba_id ?? null,
                         'user_id' =>  $user_id ?? null,
                         'joining_date' => $request->joining_date ?? null,
-                        'offer_amount' => $request->fee_amount  ?? null,
+                        'offer_amount' => $request->offer_amount  ?? null,
                         'cource_details' => $request->course_details  ?? null,
                     ]);
             }
@@ -1212,7 +1104,7 @@ class LeadsManageCotroller extends Controller
                     'table_three_sixtee_image'=>$table_three_sixtee_image
                 ];
             return response()->json($data);
-        } elseif ($request->tab5 == 'tab5') {
+        } elseif ($request->tab5 =='tab5') {
             $three_sixtee = DB::table('tbl_three_sixtee')->where('sba_id', $request->sba_id)->first();
             if ($three_sixtee == NULL) {
                 DB::table('tbl_three_sixtee')->insert([
@@ -1313,7 +1205,7 @@ class LeadsManageCotroller extends Controller
                 'remarks' => $threesixetee->remarks,
                 'student' => $student->name,
                 'joining_date' => $threesixetee->joining_date,
-                'offer_amount' => $threesixetee->fee_amount,
+                'fee_amount' => $threesixetee->fee_amount,
                 'cource_details' => $threesixetee->cource_details,
                 'student' => $student->name,
                 'visa_document' => $threesixetee->visa_document ?? null,
@@ -1340,8 +1232,8 @@ class LeadsManageCotroller extends Controller
             $response = true;;
         } elseif ($request->tab == 'tab7') {
             $status = DB::table('tbl_three_sixtee')
-                ->where('sba_id', $request->sba_id)
-                ->first();
+                        ->where('sba_id', $request->sba_id)
+                        ->first();
             if ($status == NULL) {
                 DB::table('tbl_three_sixtee')->insert([
                     'sba_id' => $request->sba_id,
@@ -1351,7 +1243,8 @@ class LeadsManageCotroller extends Controller
                     'fee_payment_by' => $request->fee_payment_by ?? null,
                     'fee_agent' => $request->fee_agent ?? null,
                     'fee_remarks' => $request->fee_remarks ?? null,
-                    'fees_details'=>$request->fees_details ?? null
+                    'fees_details'=>$request->fees_details ?? null,
+                    'application_punching'=>$request->application_punching ?? null,
                 ]);
             } else {
                 DB::table('tbl_three_sixtee')
@@ -1364,10 +1257,18 @@ class LeadsManageCotroller extends Controller
                         'fee_payment_by' => $request->fee_payment_by ?? null,
                         'fee_agent' => $request->fee_agent ?? null,
                         'fee_remarks' => $request->fee_remarks ?? null,
-                        'fees_details'=>$request->fees_details ?? null
+                        'fees_details'=>$request->fees_details ?? null,
+                        'application_punching'=>$request->application_punching ?? null,
                     ]);
             }
-            $response = true;;
+            $response = true;
+            $application_punching = true;
+            $data = [
+                'success' => true,
+                'status' => $response,
+                'application_punching' => $application_punching
+            ];
+            return response()->json($data);
         } elseif ($request->tab == 'tab8') {
             $status = DB::table('tbl_three_sixtee')
                 ->where('sba_id', $request->sba_id)

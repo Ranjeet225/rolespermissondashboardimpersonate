@@ -550,7 +550,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-block mb-3">
-                                                    <label for="basicpill-namecard-input" class="form-label">Fee Amount
+                                                    <label for="basicpill-namecard-input" class="form-label">Offer Amount
                                                     </label>
                                                     <input type="number" class="form-control" name="offer_amount"
                                                         id="offer_amount" value="{{ $threesixtee->offer_amount ?? '' }}"
@@ -646,6 +646,10 @@
                                                 <div class="input-block mb-3">
                                                     <input type="hidden" class="form-control" name="tab" id="tab7"
                                                         value="tab7">
+                                                    @if($user->hasRole('Application Punching'))
+                                                    <input type="hidden" name="application_punching" value="1"
+                                                    value="{{$leadDetails->application_punching ?? null  }}">
+                                                    @endif
                                                     <input type="hidden" name="sba_id" class="sba_id"
                                                         value="{{$leadDetails->student_user_id ?? null  }}">
                                                     <label for="basicpill-namecard-input" class="form-label">Payment
@@ -1252,12 +1256,12 @@
                 } else if ('tab4DataForm' == activeFormId) {
                     var tab = 'tab4';
                     var joining_date = $('#joining_date').val();
-                    var fee_amount = $('#fee_amount').val();
+                    var offer_amount = $('#offer_amount').val();
                     var course_details = $('#course_details').val();
                     var formData = {
                         sba_id: sba_id,
                         joining_date: joining_date,
-                        fee_amount: fee_amount,
+                        offer_amount: offer_amount,
                         course_details: course_details,
                         tab: tab
                     };
@@ -1382,6 +1386,18 @@
                     type: 'post',
                     data: formData,
                     success: function(response) {
+                        if (response.application_punching) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Data Inserted Successfully',
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value) {
+                                    window.location.href = "{{ route('oel_360') }}";
+                                }
+                            });
+                        }
                         spinner.classList.add('d-none');
                         $('.next').removeClass('disabled');
                         if (response.program && response.table_three_sixtee ) {

@@ -36,6 +36,9 @@
       </div>
     </div>
   </div>
+  @php
+      $users=Auth::user();
+  @endphp
   <div class="row">
     <div class="col-md-12">
       <div class="table-responsive">
@@ -46,11 +49,14 @@
               <th>Pincode</th>
               <th>Name</th>
               <th>Phone</th>
-              <th> Email</th>
-              <th> Intake</th>
-              <th> IntakeYear </th>
-              <th> AllocatedFranchise </th>
-              <th> Status</th>
+              <th>Email</th>
+              <th>Intake</th>
+              <th>IntakeYear</th>
+              {{-- <th>AllocatedFranchise</th> --}}
+              <th>Apply Oel 360</th>
+              @if($users->hasRole('Application Punching'))
+              <th>Status</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -64,7 +70,7 @@
                 <td>
                     <a class="lead-details" href="#" data-bs-toggle="offcanvas"  lead-id="{{$item->id}}" data-bs-target="#viewlead" aria-controls="viewlead">
                     <span class="badge bg-inverse-success">
-                    <i class="la la-money"></i> {{$item->name}} </span>
+                    <i class="la la-money"></i> {{$item->first_name}} </span>
                     </a>
                 </td>
                 <td>
@@ -77,17 +83,29 @@
                 <td>{{$item->email}}</td>
                 <td>{{$item->intake}}</td>
                 <td>{{$item->intake_year}}</td>
-                <td></td>
+                {{-- <td></td>
                 @php
                     $master_data = App\Models\MasterLeadStatus::where('id',$item->lead_status)->first();
                 @endphp
-                <td>{{$master_data->name ?? ''}}</td>
+                <td>{{$master_data->name ?? ''}}</td> --}}
                 <td>
                     <a href="{{url('admin/apply-360')}}/{{$item->id}}">
                         <span class="badge bg-inverse-success">
                         <i class="la la-money"></i> Apply for 360 </span>
                     </a>
                 </td>
+                @php
+                    $punching_Status = DB::table('tbl_three_sixtee')->Select('application_punching')->where('sba_id',$item->id)->first();
+                @endphp
+                @if($users->hasRole('Application Punching'))
+                <td>
+                    @if($punching_Status && $punching_Status->application_punching == '1')
+                    <span class="badge bg-inverse-success">Completed</span>
+                    @else
+                    <span class="badge bg-inverse-warning">Not Completed</span>
+                    @endif
+                </td>
+                @endif
             </tr>
             @php
                 $i++;

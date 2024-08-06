@@ -46,7 +46,7 @@ class StudentController extends Controller
         $user = Auth::user();
         $query = Student::with('country','province');
         if ($request->name) {
-            $query->where('name', 'like', '%' . $request->name . '%');
+            $query->where('first_name', 'like', '%' . $request->name . '%');
         }
         if ($request->email) {
             $query->where('email', 'like', '%' . $request->email . '%');
@@ -64,7 +64,7 @@ class StudentController extends Controller
             $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
         }
         if ($user->hasRole('Administrator') || $user->hasRole('visa') || $user->hasRole('Application Punching')) {
-            $student_profile = $query->paginate(20);
+            $query;
         } else {
             $authuser = Auth::user();
             if (($authuser->hasRole('agent'))) {
@@ -77,9 +77,13 @@ class StudentController extends Controller
             }else{
                 $usersId = [$user->id];
             }
-            $student_profile = $query->whereIn('added_by', $usersId)
+            $query->whereIn('added_by', $usersId)
                               ->paginate(12);
         }
+        if($user->hasRole('Application Punching')) {
+              $query->where('profile_complete', '1');
+        }
+        $student_profile = $query->paginate(12);
         $master_service =MasterService::select('name','id')->get();
         return view('admin.student.index', compact('student_profile','master_service'));
     }
@@ -1200,6 +1204,9 @@ class StudentController extends Controller
 
     public function payment_link(Request $request)
     {
+        if(empty($request->selected_university)){
+            return response()->json(['status'=>false,'message'=>'University is required'], 422);
+        }
         if(empty($request->selected_program)){
             return response()->json(['status'=>false,'message'=>'Program is required'], 422);
         }
@@ -1258,11 +1265,14 @@ class StudentController extends Controller
       $program_applied = PaymentsLink::with('program:name,id')->select('id','user_id','email','program_id')->orwhere('payment_type_remarks','applied_program_pay_later')
                         ->orwhere('payment_type_remarks','applied_program')->where('user_id', $user_id)->get();
       if($program_applied){
-          $program_applied = $program_applied;
+            $program_applied = $program_applied;
+            $program_ids = $program_applied->pluck('program.id')->toArray();
+            $university = University::whereIn('id',$program_ids)->select('id','university_name')->get();
       }else{
           $program_applied = NULL;
+          $university = NULL;
       }
-      return response()->json(['payment_data' => $paymentData,'program_applied' => $program_applied]);
+      return response()->json(['payment_data' => $paymentData,'program_applied' => $program_applied,'university' => $university]);
     }
 
     public function delete_payment_link(Request $request)

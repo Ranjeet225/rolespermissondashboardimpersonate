@@ -203,7 +203,7 @@
                                                 <span class="text-danger passport_status"></span>
                                             </div>
                                         </div>
-                                        <div class="col-4 mt-3" style="display: none" id="passport_number">
+                                        <div class="col-4 mt-3" style="display:none" id="passport_number">
                                             <div class="form-floating">
                                                 <input  name="passport_number"
                                                     value="{{ $about_student->passport_number ?? old('passport_number') }}"
@@ -214,7 +214,7 @@
                                                 <span class="text-danger passport_number"></span>
                                             </div>
                                         </div>
-                                        <div class="col-4 mt-3" style="display: none" id="passport_document">
+                                        <div class="col-4 mt-3" style="display:none" id="passport_document">
                                             <div class="form-floating">
                                                 <input  name="passport_document"
                                                     value="{{ $about_student->passport_document ?? old('passport_document') }}"
@@ -1307,6 +1307,7 @@
         } else {
             $('#passport_number').hide();
             $('#passport_expiry').hide();
+            $('#passport_document').hide();
         }
     });
 </script>

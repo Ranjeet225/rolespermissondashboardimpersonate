@@ -181,13 +181,22 @@
                         <form class="row g-4" id="score-data">
                             <div class="col-12">
                                 <div class="form-floating">
+                                    <select class="form-control " name="selected_university" id="selected_university" placeholder="Type" required>
+                                        <option value="">--Select University -</option>
+                                    </select>
+                                    <label for="selected_university" class="form-label">Select University</label>
+                                    <span class="text-danger error-selected-program"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
                                     <select class="form-control " name="selected_program" id="selected_program" placeholder="Type" required>
                                         <option value="">--Select Program -</option>
                                     </select>
                                     <label for="selected_program" class="form-label">Select Program</label>
                                     <span class="text-danger error-selected-program"></span>
                                 </div>
-                                </div>
+                            </div>
                             <div class="col-12">
                                 <div class="form-floating">
                                     <select class="form-control " name="master_service" id="usr-fees_type" placeholder="Type" required>
@@ -215,7 +224,7 @@
                                 <span class="text-danger error-remark"></span>
                                 </div>
                             </div>
-                            </form>
+                        </form>
                         <div class="col-md-12"><button type="button"
                             class="btn btn-info  py-6 payment"><span class="spinner-grow spinner-grow-sm d-none"
                             role="status" aria-hidden="true"></span>Payment</button></div>
@@ -354,6 +363,13 @@
                             $('#selected_program').append(`<option value="">--Select Program -</option>`);
                             $.each(response.program_applied, function(index, item) {
                                 $('#selected_program').append(`<option value="${item.program?.id}">${item.program?.name}</option>`);
+                            });
+                        }
+                        if(response.university != null){
+                            $('#selected_university').empty();
+                            $('#selected_university').append(`<option value="">--Select Program -</option>`);
+                            $.each(response.university, function(index, item) {
+                                $('#selected_university').append(`<option value="${item?.id}">${item?.university_name}</option>`);
                             });
                         }
                     }

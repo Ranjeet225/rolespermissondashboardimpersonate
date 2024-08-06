@@ -670,6 +670,36 @@
             </div>
         </div>
         @endcan
+        @if($user->hasRole('Application Punching'))
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5>Application Punching</h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            @php
+                                $total_application_punching =  DB::table('tbl_three_sixtee')->where('application_punching',1)->where('added_by', $user->id)->count();
+                            @endphp
+                            <h5>
+                                <i class="la la-user clruser"></i>{{$total_application_punching}}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                            <a href="{{route('oel_360')}}">
+                                <button type="button" class="btn btn-outline-primary">Read More</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
     </div>
 @endsection
