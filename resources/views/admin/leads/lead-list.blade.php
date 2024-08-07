@@ -154,10 +154,12 @@
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
+                            @if(Auth::user()->hasRole('Administrator'))
                             <div class="col-md-2 ">
                                 <button type="submit" class="btn btn-info d-lg-block formmrgin" name="export"
                                     value="export">Export to Excel</button>
                             </div>
+                            @endif
                             <div class="col-md-2 ">
                                 <a href="{{ route('leads-filter') }}" class="btn btn-info d-lg-block  formmrgin">Reset
                                 </a>

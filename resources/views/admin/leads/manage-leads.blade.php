@@ -71,11 +71,14 @@
                                     <label>Payment Type <span class="text-danger">*</span></label>
                                     <select name="paymentType" id="paymentType" class="form-control ">
                                         <option value="">Select Payment Type</option>
-                                        <option value="Registeraion Fee">Registeraion Fee</option>
+                                        {{-- <option value="Registeraion Fee">Registeraion Fee</option>
                                         <option value="Visa Fee">Visa Fee</option>
                                         <option value="Application Fee">Application Fee</option>
                                         <option value="Counseling Fee">Counseling Fee</option>
-                                        <option value="Course Fee">Course Fee</option>
+                                        <option value="Course Fee">Course Fee</option> --}}
+                                        @foreach ($master_service as $data)
+                                            <option value="{{$data->name}}">{{$data->name}}</option>
+                                        @endforeach
                                     </select>
                                     <span class="text-danger payment_type_error"></span>
                                     <br>

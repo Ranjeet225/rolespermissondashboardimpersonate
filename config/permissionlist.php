@@ -608,5 +608,11 @@ return [
             'instagram.update',
             'instagram.delete',
         ],
+        'accounting'=> [
+            'accounting.create',
+            'accounting.view',
+            'accounting.update',
+            'accounting.delete',
+        ],
       ],
 ];

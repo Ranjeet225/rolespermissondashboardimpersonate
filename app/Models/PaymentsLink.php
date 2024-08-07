@@ -25,6 +25,7 @@ class PaymentsLink extends Model
     }
 
     public function payments()
-{
-    return $this->hasOne(Payment::class,'fallowp_unique_id','fallowp_unique_id');
-}}
+    {
+        return $this->hasOne(Payment::class,'fallowp_unique_id','fallowp_unique_id');
+    }
+}

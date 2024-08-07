@@ -54,6 +54,7 @@
 <body>
     <div class="container" style="display: flex; justify-content: center; max-width: 600px;">
         <div style="width: 100%;">
+            <p style="font-size: 20px;text-align: center">Please do not refresh the page until payment is done</p>
             <div class="card text-center" style="max-width: 600px; margin: auto;">
                 <div class="card-body">
                     <h1>Dear {{ $data['name'] }},</h1>
@@ -124,10 +125,9 @@
         };
 
         var rzp = new Razorpay(options);
-        document.getElementById('payBtn').onclick = function(e) {
+        setTimeout(function() {
             rzp.open();
-            e.preventDefault();
-        }
+        }, 100);
         rzp.on('payment.failed', function(response) {
             event.preventDefault();
             if (response.reason = "payment_failed") {

@@ -6,6 +6,7 @@ use App\Exports\LeadExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Imports\LeadsExcelSheetImport;
+use App\Models\MasterService;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use App\Models\User;
@@ -103,7 +104,7 @@ class LeadsManageCotroller extends Controller
             $total_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->count();
-        } else if ($user_type == 'sub_agent' || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent' || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_leads = StudentByAgent::where("assigned_to", $user_ids)->orwhere('user_id',$user_ids)->count();
         }
         // Cold Lead
@@ -116,7 +117,7 @@ class LeadsManageCotroller extends Controller
             $total_cold_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_cold_leads = StudentByAgent::
                                 where(function ($q) use ($user_ids) {
                                     return $q->where("assigned_to", $user_ids)
@@ -133,7 +134,7 @@ class LeadsManageCotroller extends Controller
             $total_hot_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_hot_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_hot_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("assigned_to", $user_ids)
                          ->orWhere('user_id', $user_ids);
@@ -149,7 +150,7 @@ class LeadsManageCotroller extends Controller
             $total_future_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_future_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_future_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("assigned_to", $user_ids)
                         ->orWhere('user_id', $user_ids);
@@ -174,7 +175,7 @@ class LeadsManageCotroller extends Controller
                                         ->orWhere('user_id', $user_ids)
                                         ->where("added_by_agent_id", $user_ids);
                                })->where('lead_status', $lead_status_new_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_new_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("assigned_to", $user_ids)
                         ->orWhere('user_id', $user_ids);
@@ -191,7 +192,7 @@ class LeadsManageCotroller extends Controller
             $total_not_useful_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_not_userful_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_not_useful_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("assigned_to", $user_ids)
                         ->orWhere('user_id', $user_ids);
@@ -208,7 +209,7 @@ class LeadsManageCotroller extends Controller
             $total_warm_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_warm_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_warm_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("assigned_to", $user_ids)
                         ->orWhere('user_id', $user_ids);
@@ -224,7 +225,7 @@ class LeadsManageCotroller extends Controller
             $total_closed_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("added_by_agent_id", $user_ids)->orwhere('user_id',$user_ids)->orWhere('assigned_to', $user_ids);
             })->where('lead_status', $lead_status_closed_id)->count();
-        } else if ($user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_closed_leads = StudentByAgent::where(function ($q) use ($user_ids) {
                 return $q->where("assigned_to", $user_ids)
                         ->orWhere('user_id', $user_ids);
@@ -235,26 +236,27 @@ class LeadsManageCotroller extends Controller
         $total_assigned_leads = 0;
         if ($user_type == 'Administrator') {
             $total_assigned_leads = StudentByAgent::whereNotNull("assigned_to")->count();
-        } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
+        } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $total_assigned_leads = StudentByAgent::where("assigned_to", $user_ids)->count();
         }
         // Total non-allocated Leads --
         $total_non_allocated_leads = 0;
         if ($user_type == 'Administrator') {
             $total_non_allocated_leads = StudentByAgent::whereNull('assigned_to')->count();
-        } else if ($user_type == 'agent' || $user_type == 'sub_agent'  || $user_type == 'visa') {
-            $total_non_allocated_leads = StudentByAgent::where('user_id',$user_ids)->whereNull('assigned_to')->count();
+        } else if ($user_type == 'agent' || $user_type == 'sub_agent' || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
+            $total_non_allocated_leads = StudentByAgent::where('user_id'    ,$user_ids)->whereNull('assigned_to')->count();
         }
 
         $next_leads = [];
         if ($user_type == 'Administrator') {
             $next_leads_query = StudentByAgent::where('next_calling_date', '>', DB::raw('NOW()'))
                               ->orderBy('next_calling_date', 'asc');
-        } else if ($user_type == 'agent' || $user_type == 'sub_agent' || $user_type == 'visa') {
+        } else if ($user_type == 'agent' || $user_type == 'visa' || $user_type == 'Digital Marketing' || $user_type == 'Data oprator') {
             $next_leads_query = StudentByAgent::where('next_calling_date', '>', DB::raw('NOW()'))
-                ->orWhere('user_id', $user_ids)
+                // ->Where('user_id', $user_ids)
                 ->where(function ($sub_query) use ($user_ids) {
                     $sub_query->where('added_by', $user_ids)
+                             ->orWhere('user_id', $user_ids)
                             ->orWhere('assigned_to', $user_ids);
                 })
                 ->orderBy('next_calling_date', 'asc');
@@ -262,13 +264,18 @@ class LeadsManageCotroller extends Controller
         $next_leads = $next_leads_query->paginate(10, ['*'], 'upcoming_lead_page');
         $total_upcoming_leads = $next_leads_query->count();
         // miss leads
+        $currentDateTime = now()->toDateTimeString();
         if (Auth::user()->hasRole('Administrator')) {
-            $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))->where('lead_status', '<>', '5')->orderBy('next_calling_date', 'asc');
+            $next_leads_missed = StudentByAgent::where(DB::raw('next_calling_date'), '<', $currentDateTime)
+                                ->where('lead_status', '<>', '5')
+                                ->orderBy('next_calling_date', 'asc')
+                                ->get();
         } else {
-            $next_leads_missed = StudentByAgent::where('next_calling_date', '<', DB::raw('DATE_ADD(now(),interval -1 day)'))
-                                                ->where(function ($sub_query) {
-                                                    $sub_query->Where('assigned_to', Auth::user()->id);
-                                                })->orderBy('next_calling_date', 'asc')->where('lead_status', '<>', '5')    ;
+            $next_leads_missed = StudentByAgent::where(DB::raw('next_calling_date'), '<', $currentDateTime)
+                               ->where('lead_status', '<>', '5')
+                               ->Where('assigned_to', Auth::user()->id)
+                               ->orderBy('next_calling_date', 'asc')
+                               ->get();
         }
         $count_next_leads_miss= $next_leads_missed->count();
         $data = array(
@@ -484,6 +491,24 @@ class LeadsManageCotroller extends Controller
                     ->orWhere('added_by_agent_id', $user_id);
             });
         }
+        if (($user->hasRole('visa'))) {
+            $lead_list->where(function($query) use ($user_id) {
+                $query->where('assigned_to', $user_id)
+                    ->orWhere('user_id', $user_id);
+            });
+        }
+        if (($user->hasRole('Digital Marketing'))) {
+            $lead_list->where(function($query) use ($user_id) {
+                $query->where('assigned_to', $user_id)
+                    ->orWhere('user_id', $user_id);
+            });
+        }
+        if (($user->hasRole('Application Punching'))) {
+            $lead_list->where(function($query) use ($user_id) {
+                $query->where('assigned_to', $user_id)
+                    ->orWhere('user_id', $user_id);
+            });
+        }
         if (($user->hasRole('sub_agent'))) {
             $lead_list->where(function($query) use ($user_id) {
                 $query->where('assigned_to', $user_id)
@@ -543,7 +568,7 @@ class LeadsManageCotroller extends Controller
             if (Auth::user()->hasRole('Administrator')) {
                 $next_leads_query = $lead_list->where('next_calling_date', '>', DB::raw('NOW()'))
                                   ->orderBy('next_calling_date', 'asc');
-                } else if (Auth::user()->hasRole('agent') || Auth::user()->hasRole('sub_agent') || Auth::user()->hasRole('visa')) {
+                } else if (Auth::user()->hasRole('agent') || Auth::user()->hasRole('sub_agent') || Auth::user()->hasRole('visa') || Auth::user()->hasRole('Digital Marketing') || Auth::user()->hasRole('Application Punching')) {
                     $next_leads_query =  $lead_list->where('next_calling_date', '>', DB::raw('NOW()'))
                         ->orWhere('user_id', $user_id)
                         ->where(function ($sub_query) use ($user_id) {
@@ -614,6 +639,7 @@ class LeadsManageCotroller extends Controller
     {
         $studentAgentData = StudentByAgent::with('country')->findOrFail($id);
         $student_id = $id;
+        $master_service =MasterService::select('name','id')->get();
         $masterLeadStatus = MasterLeadStatus::get();
         $follow_up_list = DB::table('user_follow_up')
                         ->join('student_by_agent', 'user_follow_up.student_id', '=', 'student_by_agent.id')
@@ -621,7 +647,7 @@ class LeadsManageCotroller extends Controller
                         ->select('user_follow_up.*','student_by_agent.name','student_by_agent.email')
                         ->latest()
                         ->get();
-        return view('admin.leads.manage-leads', compact('studentAgentData', 'student_id', 'masterLeadStatus', 'follow_up_list'));
+        return view('admin.leads.manage-leads', compact('studentAgentData', 'master_service','student_id', 'masterLeadStatus', 'follow_up_list'));
     }
 
 

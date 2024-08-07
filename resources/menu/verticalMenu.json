@@ -433,6 +433,20 @@
             "permission":"scholorship.view"
         },
         {
+            "name": "Accounting",
+            "icon": "menu-icon tf-icons las la-briefcase",
+            "slug": "accounting",
+            "permission":["accounting.view"],
+            "submenu": [
+                {
+                    "url": "/accounting",
+                    "name": "Accounting",
+                    "slug": "accounting",
+                    "permission": "accounting.view"
+                }
+            ]
+        },
+        {
             "name": "Other Master Data",
             "icon": "menu-icon tf-icons las la-tachometer-alt",
             "slug": "other-master-data",
@@ -511,9 +525,8 @@
                     "slug": "admin-master-service",
                     "permission":"master_service.view"
                 }
-            ]
+             ]
             },
-
         {
             "url": "/student/my-profile",
             "name": "My Profile",

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\LearningTrainingController;
+use App\Http\Controllers\AccountingController;
 use Maatwebsite\Excel\Row;
 
 // URL::forceScheme('https');
@@ -674,6 +675,9 @@ Route::middleware('auth')->group(function () {
         Route::POST('get-student-test-score/{id?}', [StudentController::class, 'get_student_test_score'])->name('get-student-test-score');
         Route::get('get-student-document',[StudentController::class,'get_student_document'])->name('get-student-document');
         Route::post('fetch-eng-prof-level-score',[StudentController::class,'fetch_eng_prof_level_score'])->name('fetch-eng-prof-level-score');
+    });
+    Route::prefix('accounting')->controller(AccountingController::class)->group(function () {
+        Route::get('/', 'index')->name('applied-program');
     });
     Route::get('/fetch-state', [LeadsManageCotroller::class, 'fetchStates'])->name('state.get');
 });
