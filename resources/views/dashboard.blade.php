@@ -158,7 +158,7 @@
                     </div>
                     <div clas="col-md-12">
                         <div class="submit-section btnpr">
-                            <a href="{{route('frenchise.index')}}">
+                            <a href="{{url('admin-management/users?roles=agent')}}">
                                 <button type="button" class="btn btn-outline-primary">Read More</button>
                             </a>
                             {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
@@ -166,6 +166,43 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+        @endcan
+        @can('total_agent.total_agent_view')
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="card dash-widget">
+                <div class="row">
+                    <div clas="col-md-12">
+                        <div class="totalno">
+                            <h5>Total Sub Agents</h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="blclr">
+                            <h5>
+                                <i class="la la-user clruser"></i> {{ $data['total_sub_agent'] }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div clas="col-md-12">
+                        <div class="submit-section btnpr">
+                             @php
+                                 $user=Auth::user();
+                             @endphp
+                             {{-- @if($user->hasRole('Administrator')) --}}
+                                <a href="{{url('admin-management/users?roles=sub_agent')}}">
+                                    <button type="button" class="btn btn-outline-primary">Read More</button>
+                                </a>
+                            {{-- @else
+                                <a href="{{url('admin-management/users?roles=sub_agent')}}">
+                                    <button type="button" class="btn btn-outline-primary">Read More</button>
+                                </a>
+                            @endif --}}
+                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         @endcan
@@ -309,43 +346,7 @@
             </div>
         </div>
         @endcan
-        @can('total_agent.total_agent_view')
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-            <div class="card dash-widget">
-                <div class="row">
-                    <div clas="col-md-12">
-                        <div class="totalno">
-                            <h5>Total  Agents</h5>
-                        </div>
-                    </div>
-                    <div clas="col-md-12">
-                        <div class="blclr">
-                            <h5>
-                                <i class="la la-user clruser"></i> {{ $data['total_agent'] }}
-                            </h5>
-                        </div>
-                    </div>
-                    <div clas="col-md-12">
-                        <div class="submit-section btnpr">
-                             @php
-                                 $user=Auth::user();
-                             @endphp
-                             @if($user->hasRole('Administrator'))
-                                <a href="{{url('admin-management/users?roles=agent')}}">
-                                    <button type="button" class="btn btn-outline-primary">Read More</button>
-                                </a>
-                            @else
-                                <a href="{{url('admin-management/users?roles=sub_agent')}}">
-                                    <button type="button" class="btn btn-outline-primary">Read More</button>
-                                </a>
-                            @endif
-                            {{-- <button type="button" class="btn btn-outline-primary">Read More</button> --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endcan
+
         @can('total_university.total_university_view')
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
             <div class="card dash-widget">

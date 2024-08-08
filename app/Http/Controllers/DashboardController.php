@@ -90,12 +90,12 @@ class DashboardController extends Controller
             $total_student = Student::count();
             $total_student_id =Student::pluck('user_id');
             $total_school_manager = User::where('admin_type', 'school_manager')->count();
-            $total_frenchise = Agent::count();
+            $total_frenchise =  User::where('admin_type', 'agent')->count();
             $total_active_frenchise = Agent::where('is_active', 1)->count();
             $total_inactive_frenchise = Agent::whereNull('is_active')->orwhere('is_active', 0)->count();
             $total_approve_frenchise = Agent::where('is_approve', 1)->count();
             $total_unapprove_frnchise = Agent::where('is_approve', 0)->count();
-            $total_agent = User::where('admin_type', 'agent')->count();
+            $total_sub_agent = User::where('admin_type', 'sub_agent')->count();
         } else {
             $total_members = User::where('added_by', $user_ids)->count();
             $total_student = Student::where('added_by', $user_ids)->count();
@@ -111,9 +111,9 @@ class DashboardController extends Controller
                 $usersId = [$authuser->id];
             }
             $total_student_id = Student::whereIn('added_by', $usersId)->pluck('user_id');
-            $total_school_manager = User::where('admin_type', 'school_manager')->where('added_by', $user_ids)->count();
-            $total_frenchise = Agent::where('user_id', $user_ids)->count();
-            $total_active_frenchise = Agent::where('is_active', 1)->where('user_id', $user_ids)->count();
+            $total_school_manager = User::where('admin_type', 'school_manager')->where('added_by', $usersId)->count();
+            $total_frenchise =  User::where('admin_type', 'agent')->where('id', $usersId)->count();
+            $total_active_frenchise = Agent::where('is_active', 1)->where('id', $usersId)->count();
             $total_inactive_frenchise = Agent::where('user_id', $user_ids)->where(function ($query) {
                                             $query->whereNull('is_active')
                                                 ->orWhere('is_active', 0);
@@ -121,7 +121,7 @@ class DashboardController extends Controller
                                         ->count();
             $total_approve_frenchise = Agent::where('is_approve', 1)->where('user_id', $user_ids)->count();
             $total_unapprove_frnchise = Agent::where('is_approve', 0)->where('user_id', $user_ids)->count();
-            $total_agent = User::where('admin_type', 'sub_agent')->where('added_by', $user_ids)->count();
+            $total_sub_agent = User::where('admin_type', 'sub_agent')->where('added_by', $user_ids)->count();
         }
 
         if ($user_type == 'Administrator') {
@@ -189,7 +189,7 @@ class DashboardController extends Controller
             "total_approve_frenchise" => $total_approve_frenchise,
             "total_approve_universties"=>$total_approve_universties,
             "total_unapprove_frnchise" => $total_unapprove_frnchise,
-            "total_agent" => $total_agent,
+            "total_sub_agent" => $total_sub_agent,
             "total_university" => $total_university,
             "total_program" => $total_program,
             "total_application" => $total_application,
